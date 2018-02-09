@@ -1,0 +1,163 @@
+body{
+  background: #333F48;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  color:  #7d7d7d;
+  font-size: 15px;
+  line-height: 1.6em;
+}
+
+h1, h2, h3{
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1{
+  color: #BF5700;
+  font-size: 22px;
+}
+
+h2{
+  font-size: 18px;
+  font-weight: 300;
+}
+
+h3{
+  font-size: 16px;
+  font-weight: 300;
+}
+
+p{
+  text-align:  justify;
+}
+
+a{
+  color: #005F86;
+  text-decoration: none;
+}
+
+a:hover{
+  color: #000000;
+  text-decoration: none;
+}
+
+table{
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6em;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.container {
+	width: 500px;
+	margin: 30px auto;
+}
+
+.card {
+	background: white;
+	padding: 20px;
+	margin-bottom: 20px;
+	border-radius: 4px;
+	box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.card:last-child {
+  margin-bottom: 0px;
+}
+
+.img-circle {
+	border-radius: 50%;
+}
+
+.button-link {
+	background: #BF5700;
+	color: white;
+	padding: 10px;
+	margin-bottom: 5px;
+	border-radius: 4px;
+}
+
+.button-link:hover{
+  background-color: #C61414;
+  color: white;
+}
+
+.list-inline {
+	padding-top: 15px;
+	padding-left: 0;
+}
+
+.list-inline li {
+	display: inline-block;
+	padding: 20px;
+}
+
+.list-inline li i{
+	font-size: 25px;
+}
+
+.clear {
+	clear: both;
+}
+
+#img-profile{
+  width: 124px;
+  height: 100px;
+  border: 3px solid #005F86;
+}
+
+#movies{
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6em;
+}
+
+#movies img{
+  width: 80px;
+}
+
+#movies td{
+  padding: 10px;
+}
+
+#wrapper {
+	padding: 20px;
+	width: 1000px;
+	margin: 20px auto;
+	border-radius: 2px;
+	background: rgba(175, 175, 175, 0.1);
+}
+
+#left {
+	width: 35%;
+	float: left;
+	min-height: 600px;
+}
+
+#left .card:first-child {
+  min-height: 350px;
+}
+
+#left .card:last-child {
+  min-height: 120px;
+}
+
+#right {
+  width: 60%;
+  float: right;
+  min-height: 600px;
+}
+#right .card {
+  min-height: 530px;
+}
+
+#footer {}
