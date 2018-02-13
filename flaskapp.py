@@ -12,13 +12,7 @@ def resorts_page():
 
 @app.route('/resorts/<resort>/')
 def resort_page(resort):
-	if resort == '1':
-		return render_template('./Steamboat.html')
-	if resort == '2':
-		return render_template('./Vail.html')
-	if resort == '3':
-		return render_template('./Breckenridge.html')
-	return 'nothing found'
+	return "you found resort " + str(resort) + "!"
 
 @app.route('/trails/')
 def trails_page():
@@ -26,13 +20,7 @@ def trails_page():
 
 @app.route('/trails/<trail>/')
 def trail_page(trail):
-	if trail == '1':
-		return render_template('./flash_of_gold.html')
-	if trail == '2':
-		return render_template('./strawberry_lane.html')
-	if trail == '3':
-		return render_template('./aspen_alley_trail.html')
-	return 'nothing found'
+	return "you found trail " + str(trail) + "!"
 
 @app.route('/photos/')
 def photos_page():
