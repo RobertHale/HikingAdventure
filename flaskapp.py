@@ -16,7 +16,7 @@ def resort_page(resort):
 
 @app.route('/trails/')
 def trails_page():
-	return render_template('./mainpage.html')
+	return render_template('./mainpage_trails.html')
 
 @app.route('/trails/<trail>/')
 def trail_page(trail):
