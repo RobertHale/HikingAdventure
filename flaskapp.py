@@ -12,11 +12,11 @@ def resorts_page():
 
 @app.route('/resorts/<resort>/')
 def resort_page(resort):
-	if resort is 1:
+	if resort is '1':
 		return render_template('./Steamboat.html')
-	if resort is 2:
+	if resort is '2':
 		return render_template('./Vail.html')
-	if resort is 3:
+	if resort is '3':
 		return render_template('./Breckenridge.html')
 
 @app.route('/trails/')
@@ -25,11 +25,11 @@ def trails_page():
 
 @app.route('/trails/<trail>/')
 def trail_page(trail):
-	if trail is 1:
+	if trail is '1':
 		return render_template('./flash_of_gold.html')
-	if trail is 2:
+	if trail is '2':
 		return render_template('./strawberry_lane.html')
-	if trail is 3:
+	if trail is '3':
 		return render_template('./aspen_alley_trail.html')
 
 @app.route('/photos/')
