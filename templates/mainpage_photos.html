@@ -3,25 +3,15 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mainpage.css') }}">
   <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-  <style>
-    .m5 { margin-top:5px; }
-    .m7 { margin-top:7px; }
-    .m10 { margin-top:10px; }
-    .w-search { width: 300px; }
-	.col-centered {
-		float: none;
-		margin-right: auto;
-		margin-left: auto;
-	}
-  </style>
 </head>
 <body>
-  <div class="container-fluid" style="background-color: #f9fbe7;">
+  <div class="container-fluid" style="background-color: #473c8b;">
 	<div class="container">
-		<nav class="navbar navbar-toggleable-md sticky-top navbar-light" style="background-color: #dce775;">
+		<nav class="navbar navbar-toggleable-md sticky-top navbar-inverse" style="background-color: #212121;">
 		  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		  </button>
@@ -43,21 +33,21 @@
 		</nav>
 		<div class="row">
 			<div class="col-sm-12 col-lg-6 col-centered">
-			  <div class="card h-100 mt-4">
+			  <div class="card h-100 mt-4 cardbg">
 			  <img class="card-img-top" src="https://cdn-files.apstatic.com/hike/7038293_medium_1507316439.jpg" height="316px">
 			  <div class="card-block">
 				<h4 class="card-title" align="center">Flash of Gold</h4>
 				<p class="card-text"></p>
 				<ul>
 					<li>Location: Steamboat Springs, Colorado</li>
-					<li>Distance: 11.8 miles</li> 
+					<li>Distance: 11.8 miles</li>
 					<li>Summary: A scenic high country route connecting to Steamboat Ski Area</li>
 				</ul>
 			  </div>
 			</div>
 			</div>
 			<div class="col-sm-12 col-lg-6 col-centered">
-			  <div class="card h-100 mt-4">
+			  <div class="card h-100 mt-4 cardbg">
 			  <img class="card-img-top" src="https://i.imgur.com/M8hkf2Z.png" height="316px">
 				<div class="card-block">
 				  <h4 class="card-title" align="center">Adolfo</h4>
@@ -68,7 +58,7 @@
 		</div>
 		<div class="row m10">
 			<div class="col-sm-12 col-lg-6 col-centered">
-			  <div class="card h-100 mt-4">
+			  <div class="card h-100 mt-4 cardbg">
 			  <img class="card-img-top" src="https://i.imgur.com/M8hkf2Z.png" height="316px">
 				<div class="card-block">
 				  <h4 class="card-title" align="center">Adolfo</h4>
@@ -77,7 +67,7 @@
 			  </div>
 			</div>
 			<div class="col-sm-12 col-lg-6 col-centered">
-			  <div class="card h-100 mt-4">
+			  <div class="card h-100 mt-4 cardbg">
 			  <img class="card-img-top" src="https://i.imgur.com/M8hkf2Z.png"height="316px">
 				<div class="card-block">
 				  <h4 class="card-title" align="center">Adolfo</h4>
@@ -88,7 +78,7 @@
 		</div>
 		<div class="row m10">
 			<div class="col-sm-12 col-lg-6 col-centered">
-			  <div class="card h-100 mt-4">
+			  <div class="card h-100 mt-4 cardbg">
 			  <img class="card-img-top" src="https://i.imgur.com/M8hkf2Z.png"height="316px">
 				<div class="card-block">
 				<h4 class="card-title" align="center">Adolfo</h4>
@@ -104,7 +94,7 @@
 	<!--Footer-->
 	<div class="container">
 		<footer class="page-footer center-on-small-only blue-grey lighten-5 pt-0">
-			<div style="background-color: #dce775;">
+			<div style="background-color: #212121;">
 				<div class="container">
 					<!--Grid row-->
 					<div class="row py-4 d-flex align-items-center">
@@ -198,7 +188,7 @@
 	xmlhttp=new XMLHttpRequest();
 	}
 	else
-	{// code for IE6, IE5 
+	{// code for IE6, IE5
 	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 	}
 	xmlhttp.onreadystatechange=cfunc;
@@ -219,7 +209,7 @@
 			document.getElementById("tempcommits").innerHTML=commits;
 			document.getElementById("tempissues").innerHTML=issues;
 		}
-		}); 
+		});
   </script>
 </body>
 </html>
