@@ -42,11 +42,11 @@ def photos_page():
 @app.route('/photos/<photo>/')
 def photo_page(photo):
 	if photo == '1':
-		return render_template('./flash_of_gold.html')
+		return render_template('./flash_of_gold_pic.html')
 	if photo == '2':
-		return render_template('./strawberry_lane.html')
+		return render_template('./strawberry_lane_pic.html')
 	if photo == '3':
-		return render_template('./aspen_alley_trail.html')
+		return render_template('./aspen_alley_trail_pic.html')
 	return 'nothing found'
 
 @app.route('/about/')
