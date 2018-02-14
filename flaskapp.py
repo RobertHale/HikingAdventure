@@ -42,11 +42,11 @@ def photos_page():
 @app.route('/photos/<photo>/')
 def photo_page(photo):
 	if trail == '1':
-		return render_template('./flash_of_gold.html')
+		return render_template('./flash_of_gold_pic.html')
 	if trail == '2':
-		return render_template('./strawberry_lane.html')
+		return render_template('./strawberry_lane_pic.html')
 	if trail == '3':
-		return render_template('./aspen_alley_trail.html')
+		return render_template('./aspen_alley_trail_pic.html')
 	return 'nothing found'
 
 @app.route('/about/')
@@ -69,17 +69,17 @@ def githubstats():
 	commits = 0
 	for person in commit_array:
 		commits = commits + person['total']
-	
+
 	# Grab Total issues
 	response_i = requests.get(github_issues)
 	issue_array = response_i.json()
 	latest_issue = issue_array[0]
 	issues = latest_issue['number']
-	
+
 	# Return data in a string
 	data = str(commits) + " " + str(issues)
 	return data
-	
+
 
 if __name__ == "__main__":
 	app.run()
