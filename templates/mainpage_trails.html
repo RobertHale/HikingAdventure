@@ -3,27 +3,10 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mainpage.css') }}">
   <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-  <style>
-    .m5 { margin-top:5px; }
-    .m7 { margin-top:7px; }
-    .m10 { margin-top:10px; }
-    .w-search { width: 300px; }
-	.col-centered {
-		float: none;
-		margin-right: auto;
-		margin-left: auto;
-	}
-	.cardbg {
-		background-color: #2E2E2E;
-	}
-	h4	{ color: white;}
-	h6	{ color: white;}
-	li	{ color: white;}
-	p	{ color: white;}
-  </style>
 </head>
 <body>
   <div class="container-fluid" style="background-color: #473c8b;">
@@ -57,7 +40,7 @@
 				<p class="card-text"></p>
 				<ul>
 					<li>Location: Steamboat Springs, Colorado</li>
-					<li>Distance: 11.8 miles</li> 
+					<li>Distance: 11.8 miles</li>
 					<li>Summary: A scenic high country route connecting to Steamboat Ski Area</li>
 				</ul>
 			  </div>
@@ -205,7 +188,7 @@
 	xmlhttp=new XMLHttpRequest();
 	}
 	else
-	{// code for IE6, IE5 
+	{// code for IE6, IE5
 	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 	}
 	xmlhttp.onreadystatechange=cfunc;
@@ -226,7 +209,7 @@
 			document.getElementById("tempcommits").innerHTML=commits;
 			document.getElementById("tempissues").innerHTML=issues;
 		}
-		}); 
+		});
   </script>
 </body>
 </html>
