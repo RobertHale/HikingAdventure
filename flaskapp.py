@@ -1,5 +1,6 @@
-from flask import Flask, request, render_template
+from flask import Flask, render_template
 import requests
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -40,11 +41,17 @@ def photos_page():
 
 @app.route('/photos/<photo>/')
 def photo_page(photo):
-	return "you found photo " + str(photo) + "!"
+	if trail == '1':
+		return render_template('./flash_of_gold.html')
+	if trail == '2':
+		return render_template('./strawberry_lane.html')
+	if trail == '3':
+		return render_template('./aspen_alley_trail.html')
+	return 'nothing found'
 
 @app.route('/about/')
 def about_page():
-	return "welcome to the about page"
+	return render_template('./about.html')
 
 @app.route('/carousel/')
 def cmove():
@@ -62,17 +69,17 @@ def githubstats():
 	commits = 0
 	for person in commit_array:
 		commits = commits + person['total']
-
+	
 	# Grab Total issues
 	response_i = requests.get(github_issues)
 	issue_array = response_i.json()
 	latest_issue = issue_array[0]
 	issues = latest_issue['number']
-
+	
 	# Return data in a string
 	data = str(commits) + " " + str(issues)
 	return data
-
+	
 
 if __name__ == "__main__":
 	app.run()
