@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mainpage.css') }}">
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container-fluid" style="background-color: #473c8b;">
+	<div class="container">
+		<nav class="navbar navbar-toggleable-md sticky-top navbar-inverse" style="background-color: #212121;">
+		  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+		  <a class="navbar-brand" href="#">Home</a>
+		  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+			  <a class="nav-item nav-link disabled" href="#">Ski Resorts<span class="sr-only">(current)</span></a>
+			  <a class="nav-item nav-link disabled" href="#">Hiking Trails</a>
+			  <a class="nav-item nav-link disabled" href="#">Photography</a>
+			  <a class="nav-item nav-link disabled" href="#">About</a>
+			</div>
+		  </div>
+		  <form class="form-inline my-2 my-sm-0 w-50">
+			<div class="input-group">
+			  <input class="form-control mr-sm-0" type="text" placeholder="">
+			  <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+			</div>
+		  </form>
+		</nav>
+		<div class="row">
+			<div class="col-sm-12 col-lg-6 col-centered">
+			  <div class="card h-100 mt-4 cardbg">
+			  <img class="card-img-top" src="https://cdn-files.apstatic.com/hike/7038293_medium_1507316439.jpg" height="316px">
+			  <div class="card-block" >
+				<h4 class="card-title" align="center"><a href="http://hikingadventures.me/trails/1">Flash of Gold</a></h4>
+				<p class="card-text"></p>
+				<ul>
+					<li>Location: Steamboat Springs, Colorado</li>
+					<li>Distance: 11.8 miles</li>
+					<li>Summary: A scenic high country route connecting to Steamboat Ski Area</li>
+				</ul>
+			  </div>
+			</div>
+			</div>
+			<div class="col-sm-12 col-lg-6 col-centered">
+			  <div class="card h-100 mt-4 cardbg">
+			  <img class="card-img-top" src="https://cdn-files.apstatic.com/hike/7000193_large_1417836855.jpg" height="316px">
+				<div class="card-block">
+				  <h4 class="card-title" align="center"><a href="http://hikingadventures.me/trails/2">Strawberry Lane</a></h4>
+				  <p class="card-text"></p>
+          <ul>
+  					<li>Location: Vail, Colorado</li>
+  					<li>Distance: 1.3 miles</li>
+  					<li>Summary: Alternate way from Vail Village to access Berry Picker with aspens, streams, and wildflowers</li>
+  				</ul>
+				</div>
+			  </div>
+			</div>
+		</div>
+		<div class="row m10">
+			<div class="col-sm-12 col-lg-6 col-centered">
+			  <div class="card h-100 mt-4 cardbg">
+			  <img class="card-img-top" src="https://cdn-files.apstatic.com/hike/7038471_large_1507580932.jpg" height="316px">
+				<div class="card-block">
+				  <h4 class="card-title" align="center"><a href="http://hikingadventures.me/trails/3">Aspen Alley Trail</a></h4>
+				  <p class="card-text"></p>
+          <ul>
+            <li>Location: Breckenridge, Colorado</li>
+            <li>Distance: 1.3 miles</li>
+            <li>Summary: One of the Breckenridge originals (aka Aspen Tunnel), feat. recent realignment, great aspen views</li>
+          </ul>
+				</div>
+			  </div>
+			</div>
+			<div class="col-sm-12 col-lg-6 col-centered">
+			  <div class="card h-100 mt-4 cardbg">
+			  <img class="card-img-top" src="https://i.imgur.com/M8hkf2Z.png"height="316px">
+				<div class="card-block">
+				  <h4 class="card-title" align="center">Adolfo</h4>
+				  <p class="card-text">vn</p>
+				</div>
+			  </div>
+			</div>
+		</div>
+		<div class="row m10">
+			<div class="col-sm-12 col-lg-6 col-centered">
+			  <div class="card h-100 mt-4 cardbg">
+			  <img class="card-img-top" src="https://i.imgur.com/M8hkf2Z.png"height="316px">
+				<div class="card-block">
+				<h4 class="card-title" align="center">Adolfo</h4>
+				<p class="card-text" align="center">This sentence is not very long and serves no real purpose. I'm still writing because I'm actually testing something.</p>
+				</div>
+			  </div>
+			</div>
+		</div>
+		<div class="row m10">
+			<br>
+		</div>
+	</div>
+	<!--Footer-->
+	<div class="container">
+		<footer class="page-footer center-on-small-only blue-grey lighten-5 pt-0">
+			<div style="background-color: #212121;">
+				<div class="container">
+					<!--Grid row-->
+					<div class="row py-4 d-flex align-items-center">
+						<!--Grid column-->
+						<div class="col-12 col-md-5 text-left mb-4 mb-md-0">
+							<h6 class="mb-0 white-text text-center text-md-left"><strong>Get connected with us on social networks!</strong></h6>
+						</div>
+						<!--Grid column-->
+
+						<!--Grid column-->
+						<div class="col-12 col-md-7 text-center text-md-right">
+							<!--Facebook-->
+							<a class="icons-sm fb-ic ml-0"><i class="fa fa-facebook white-text mr-lg-4"> </i></a>
+							<!--Twitter-->
+							<a class="icons-sm tw-ic"><i class="fa fa-twitter white-text mr-lg-4"> </i></a>
+							<!--Google +-->
+							<a class="icons-sm gplus-ic"><i class="fa fa-google-plus white-text mr-lg-4"> </i></a>
+							<!--Linkedin-->
+							<a class="icons-sm li-ic"><i class="fa fa-linkedin white-text mr-lg-4"> </i></a>
+							<!--Instagram-->
+							<a class="icons-sm ins-ic"><i class="fa fa-instagram white-text mr-lg-4"> </i></a>
+						</div>
+						<!--Grid column-->
+					</div>
+					<!--Grid row-->
+				</div>
+			</div>
+			<!--Footer Links-->
+			<div class="container mt-5 mb-4 text-center text-md-left">
+				<div class="row mt-3">
+					<!--First column-->
+					<div class="col-md-3 col-lg-4 col-xl-3 mb-r dark-grey-text">
+						<h6 class="title font-bold"><strong>Company name</strong></h6>
+						<hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+						<p id="tempcommits"></p>
+						<p id="tempissues"></p>
+					</div>
+					<!--/.First column-->
+
+					<!--Second column-->
+					<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-r dark-grey-text">
+						<h6 class="title font-bold"><strong>Products</strong></h6>
+						<hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+						<p><a href="#!" class="dark-grey-text">MDBootstrap</a></p>
+						<p><a href="#!" class="dark-grey-text">MDWordPress</a></p>
+						<p><a href="#!" class="dark-grey-text">BrandFlow</a></p>
+						<p><a href="#!" class="dark-grey-text">Bootstrap Angular</a></p>
+					</div>
+					<!--/.Second column-->
+
+					<!--Third column-->
+					<div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-r dark-grey-text">
+						<h6 class="title font-bold"><strong>Useful links</strong></h6>
+						<hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+						<p><a href="#!" class="dark-grey-text">Your Account</a></p>
+						<p><a href="#!" class="dark-grey-text">Become an Affiliate</a></p>
+						<p><a href="#!" class="dark-grey-text">Shipping Rates</a></p>
+						<p><a href="#!" class="dark-grey-text">Help</a></p>
+					</div>
+					<!--/.Third column-->
+
+					<!--Fourth column-->
+					<div class="col-md-4 col-lg-3 col-xl-3 dark-grey-text">
+						<h6 class="title font-bold"><strong>Contact</strong></h6>
+						<hr class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+						<p><i class="fa fa-home mr-3"></i> New York, NY 10012, US</p>
+						<p><i class="fa fa-envelope mr-3"></i> info@example.com</p>
+						<p><i class="fa fa-phone mr-3"></i> + 01 234 567 88</p>
+						<p><i class="fa fa-print mr-3"></i> + 01 234 567 89</p>
+					</div>
+					<!--/.Fourth column-->
+				</div>
+			</div>
+			<!--/.Footer Links-->
+			<!-- Copyright-->
+			<div class="footer-copyright">
+				<div class="container-fluid">
+					<a href="https://www.MDBootstrap.com"><strong> MDBootstrap.com</strong></a>
+				</div>
+			</div>
+			<!--/.Copyright -->
+		</footer>
+	</div>
+  </div>
+  <script>
+	var xmlhttp;
+	function loadXMLDoc(url,cfunc)
+	{
+	if (window.XMLHttpRequest)
+	{// code for IE7+, Firefox, Chrome, Opera, Safari
+	xmlhttp=new XMLHttpRequest();
+	}
+	else
+	{// code for IE6, IE5
+	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=cfunc;
+	xmlhttp.open("GET",url,true);
+	xmlhttp.send();
+	}
+	loadXMLDoc("/githubstats",function()
+		{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			//call function 3 times, with different years! Create table, profit
+			//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+			var result = xmlhttp.responseText;
+			result_array = result.split(" ");
+			commits = "<p>Total Commits: " + result_array[0] + "</p>"
+			issues  = "<p>Total Issues: " + result_array[1] + "</p>"
+
+			document.getElementById("tempcommits").innerHTML=commits;
+			document.getElementById("tempissues").innerHTML=issues;
+		}
+		});
+  </script>
+</body>
+</html>
