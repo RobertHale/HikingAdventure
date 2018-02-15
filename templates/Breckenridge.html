@@ -3,47 +3,107 @@
 <head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Breckenridge</title>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<title>Steamboat</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  	<link rel="stylesheet" href="{{ url_for('static', filename='css/resort.css') }}">
+  	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 </head>
-<body class="container">
-	<div id="title" class="row align-items-center">
-		<div class="col-3">
-			<h1 id="name">Breckenridge</h1><br>
+<body class="container-fluid" style="background-color: #473c8b;">
+	<!-- Navbar start -->
+  	<nav class="navbar navbar-toggleable-md sticky-top navbar-inverse" style="background-color: #212121;">
+	  	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  	</button>
+		<a class="navbar-brand" href="http://hikingadventures.me">Home</a>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link" href="http://hikingadventures.me/resorts">Resorts</a>
+			  	<a class="nav-item nav-link" href="http://hikingadventures.me/trails">Trails</a>
+			  	<a class="nav-item nav-link" href="http://hikingadventures.me/photos">Photos</a>
+			  	<a class="nav-item nav-link" href="http://hikingadventures.me/about">About</a>
+			</div>
 		</div>
-		
-	</div>
-	<div class="row">
-		<div id="main" class="col-auto media border">
-			<img src="https://assets.vailresorts.com/-/media/breckenridge/test-images/breck_trail_map_17-18_f-2_resized.jpg" width="700" height="500">
+		<form class="form-inline my-2 my-sm-0 w-40">
+			<div class="input-group">
+			  	<input class="form-control mr-sm-0" type="text" placeholder="">
+			  	<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+			</div>
+		</form>
+	</nav>
+  	<!-- Navbar end -->
+	
+		<div id="title" class="row align-items-center">
+			<div class="col-12">
+				<h1 id="name">Breckenridge</h1><br>
+			</div>
 		</div>
-		<div class="col-3">
-			<h2>Coordinates:</h2>
-			<var id="latitude">39.480339 N</var>
-			<var id="longitude">106.067072 W</var>
-			<h2>total ski runs:</h2>
-			<var id="runs">187</var>
-			<br><br>
-			<form id="web_link" action="https://www.breckenridge.com">
-	    		<input type="submit" value="Website" />
-			</form>
-			<br>
-			<h2>Reviews:</h2>
-			<p>4 stars from 261 reviews</p>
+		<div class="row">
+			<div id="main" class="col-lg-6">
+				<div class="card cardbg">
+					<img class="card-img-top" src="https://skimap.org/data/510/2589/1510674068jpg_render.jpg" height="500">
+					<div class="card-block">
+						<ul>
+							<li>
+								<h2 id="coord" class="card-title">
+									Coordinates: 39.472250035504 -106.06571187716
+								</h2>
+							</li>
+							<li>
+								<h2 id="elev" class="card-title">
+									Elevation at Peak (meters): 3962
+								</h2>
+							</li>
+							<li>
+								<h2 id="runs" class="card-title">
+									total ski runs: 155
+								</h2>
+							</li>
+							<li>
+								<h2 id="lifts" class="card-title">
+									total lifts: 18
+								</h2>
+							</li>
+							<li>
+								<h2 id="review" class="card-title">
+									Reviews: 4 stars from 261 reviews
+								</h2>
+							</li>
+						</ul>
+						<form id="web_link" action="https://www.breckenridge.com">
+				    		<input type="submit" class="btn btn-primary" value="Website" />
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="card cardbg h-10">
+					<div class="card-block">
+						<h2 class="card-title">Nearby Trails:</h2>
+						<a id="trail" class="btn btn-primary" href="http://www.hikingadventures.me/trails/3">Aspen Alley Trail</a>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-3"></div> -->
+			<div class="col-lg-3">
+				<div class="card cardbg h-10">
+					<div class="card-block">
+						<h2 class="card-title">Photos:</h2>
+						<a id="photo" class="btn btn-primary" 
+							href="http://www.hikingadventures.me/photos/3">Aspen Alley Trail photos</a>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div id="links" class="row justify-content-start">
-		<div class="col-3">
-			<h2>Nearby Trails:</h2>
-			<a id="trail" href="http://www.hikingadventures.me/trails/3">Aspen Alley Trail</a>
-		</div>
-		<div class="col-3"></div>
-		<div class="col-3">
-			<h2>Photos:</h2>
-			<a id="photo" href="http://www.hikingadventures.me/photos/1">Aspen Alley Trail</a>
-		</div>
-	</div>
+		<br>
+		<footer class="page-footer center-on-small-only blue-grey lighten-5 pt-0" style="background-color: #473c8b;">
+			<div style="background-color: #212121;">
+				<div class="container">
+					<div class="row py-4 d-flex align-items-center">
+					</div>
+				</div>
+			</div>
+		</footer>
 </body>
 </html>

@@ -1,0 +1,15 @@
+﻿	.cardbg {
+		background-color: #2E2E2E;
+	}
+	h4	{ color: white;}
+	h6	{ color: white;}
+	li	{ color: white;}
+	p	{ color: white;}
+	.m5 { margin-top:5px; }
+	.m7 { margin-top:7px; }
+	.m10 { margin-top:10px; }
+	.col-centered {
+		float: none;
+		margin-right: auto;
+		margin-left: auto;
+	}
