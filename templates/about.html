@@ -183,9 +183,9 @@
 		<div class="row text-left">
 			<div id="stats" class="col-12">
 				<h3>Total Stats:</h3>
-				<p id="tempcommits"><b># of Commits:</b></p>
-				<p id="tempissues"><b># of Issues:</b></p>
-				<p><b># of Unit Tests:</b> 0</p>
+				<p id="tempcommits"><b>Total Commits:</b></p>
+				<p id="tempissues"><b>Total Issues:</b></p>
+				<p><b>Total of Unit Tests:</b> 0</p>
 			</div>
 		</div>
 		<br>
@@ -235,8 +235,8 @@
 				//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
 				var result = xmlhttp.responseText;
 				result_array = result.split(" ");
-				commits = "<p>Total Commits: " + result_array[0] + "</p>"
-				issues  = "<p>Total Issues: " + result_array[1] + "</p>"
+				commits = "<p><b>Total Commits:</b> " + result_array[0] + "</p>"
+				issues  = "<p><b>Total Issues:</b> " + result_array[1] + "</p>"
 
 				document.getElementById("tempcommits").innerHTML=commits;
 				document.getElementById("tempissues").innerHTML=issues;
