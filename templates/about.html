@@ -70,10 +70,10 @@
 					<div class="figure-caption text-center font-weight-bold text-white"><h3>Alexander Dai</h3></div>
 					<div class="figure-caption text-left text-white">
 						<p>
-							<b>Bio:</b> Hi! My name is Alex and I'm a Junior at the University of Texas at Austin, majoring in Computer Science. Some of my interests within Computer Science include Data Science and Machine Learning. In my free time, I enjoy fishing, playing basketball, playing poker, and hiking. 
+							<b>Bio:</b> Hi! My name is Alex and I'm a Junior at the University of Texas at Austin, majoring in Computer Science. Some of my interests within Computer Science include Data Science and Machine Learning. In my free time, I enjoy fishing, playing basketball, playing poker, and hiking.
 						</p>
 						<p>
-							<b>Responsibilities:</b> TBD 
+							<b>Responsibilities:</b> TBD
 						</p>
 						<p id = "commits_ad">
 							<b># of Commits:</b>
@@ -81,7 +81,7 @@
 						<p>
 							<b># of Issues:</b> 4
 						</p>
-						<p> 
+						<p>
 							<b># of Unit Tests:</b> 0
 						</p>
 					</div>
@@ -263,14 +263,14 @@
 				//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
 				var result = xmlhttp.responseText;
 				result_array = result.split(" ");
-				
-				
+
+
 				commits = "<p><b>Total Commits:</b> " + result_array[0] + "</p>"
 				issues  = "<p><b>Total Issues:</b> " + result_array[1] + "</p>"
 
-				document.getElementById("tempcommits").innerHTML=commits;		
+				document.getElementById("tempcommits").innerHTML=commits;
 				//document.getElementById("tempissues").innerHTML=issues;
-				
+
 				document.getElementById("commits_vy").innerHTML="<p><b># of Commits:</b> " + result_array[2] + "</p>";
 				document.getElementById("commits_al").innerHTML="<p><b># of Commits:</b> " + result_array[3] + "</p>";
 				document.getElementById("commits_ad").innerHTML="<p><b># of Commits:</b> " + result_array[4] + "</p>";
