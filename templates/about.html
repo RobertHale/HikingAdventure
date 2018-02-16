@@ -6,9 +6,11 @@
 	<title>About</title>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
-<body class="container w-100">
+<body class="container w-100 text-white" style="background-color: #473c8b">
 	<div id="title" class="row justify-content-center">
 			<h1 id="name">About</h1><br>
 	</div>
@@ -19,69 +21,69 @@
 		<div id="photos" class="row justify-content-center w-100">
 			<div id="photo" class="col-4">
 				<figure class = "text-center">
-					<img src="https://i.imgur.com/dZFVdNw.jpg" class = "img-thumbnail" width="300" height="300">
-					<div class="figure-caption text-center font-weight-bold"><h3>David Castila</h3></div>
-					<div class="figure-caption text-left">
+					<img src="https://i.imgur.com/ZHPGrSu.jpg" class = "img-thumbnail" width="300" height="300">
+					<div class="figure-caption text-center font-weight-bold text-white"><h3>David Castila</h3></div>
+					<div class="figure-caption text-left text-white">
 						<p>
-							<b>Bio:</b> Insert Bio here 
+							<b>Bio:</b> I'm a 4th year Computer Science major at the University of Texas at Austin. In my free time I enjoy playing video games and meeting up with friends.
 						</p>
 						<p>
-							<b>Responsibilities:</b> Insert responsibilities here 
+							<b>Responsibilities:</b> TBD
 						</p>
-						<p>
+						<p id = "commits_dc">
 							<b># of Commits:</b>
 						</p>
 						<p>
 							<b># of Issues:</b>
 						</p>
 						<p>
-							<b># of Unit Tests:</b>
+							<b># of Unit Tests:</b> 0
 						</p>
 					</div>
 				</figure>
 			</div>
 			<div id="photo" class="col-4">
 				<figure class = "text-center">
-					<img src="https://i.imgur.com/dZFVdNw.jpg" class = "img-thumbnail" width="300" height="300">
-					<div class="figure-caption text-center font-weight-bold"><h3>Alexander Dai</h3></div>
-					<div class="figure-caption text-left">
+					<img src="https://i.imgur.com/4jHX00q.jpg" class = "img-thumbnail" width="300" height="300">
+					<div class="figure-caption text-center font-weight-bold text-white"><h3>Alexander Dai</h3></div>
+					<div class="figure-caption text-left text-white">
 						<p>
-							<b>Bio:</b> Insert Bio here 
+							<b>Bio:</b> Hi! My name is Alex and I'm a Junior at the University of Texas at Austin, majoring in Computer Science. Some of my interests within Computer Science include Data Science and Machine Learning. In my free time, I enjoy fishing, playing basketball, playing poker, and hiking. 
 						</p>
 						<p>
-							<b>Responsibilities:</b> Insert responsibilities here 
+							<b>Responsibilities:</b> TBD 
 						</p>
-						<p>
+						<p id = "commits_ad">
 							<b># of Commits:</b>
 						</p>
 						<p>
 							<b># of Issues:</b>
 						</p>
-						<p>
-							<b># of Unit Tests:</b>
+						<p> 
+							<b># of Unit Tests:</b> 0
 						</p>
 					</div>
 				</figure>
 			</div>
 			<div id="photo" class="col-4">
 				<figure class = "text-center">
-					<img src="https://i.imgur.com/dZFVdNw.jpg" class = "img-thumbnail" width="300" height="300">
-					<div class="figure-caption text-center font-weight-bold"><h3>Robert Hale</h3></div>
-					<div class="figure-caption text-left">
+					<img src="https://i.imgur.com/mf7JSRj.jpg" class = "img-thumbnail" width="300" height="300">
+					<div class="figure-caption text-center font-weight-bold text-white"><h3>Robert Hale</h3></div>
+					<div class="figure-caption text-left text-white">
 						<p>
-							<b>Bio:</b> Insert Bio here 
+							<b>Bio:</b> Hello, my name is Robert Hale and I'm a Junior at the University of Texas at Austin. I'm majoring in Computer Science with a minor in business. Some of my interests are in backend development and mobile applications. Outside of computer science, I compete in gymnastics and wakeboarding.
 						</p>
 						<p>
-							<b>Responsibilities:</b> Insert responsibilities here 
+							<b>Responsibilities:</b> TBD
 						</p>
-						<p>
+						<p id = "commits_rh">
 							<b># of Commits:</b>
 						</p>
 						<p>
 							<b># of Issues:</b>
 						</p>
 						<p>
-							<b># of Unit Tests:</b>
+							<b># of Unit Tests:</b> 0
 						</p>
 					</div>
 				</figure>
@@ -107,101 +109,154 @@
 		<div id="photos" class="row justify-content-center w-100">
 			<div id="photo" class="col-4">
 				<figure class = "text-center">
-					<img src="https://i.imgur.com/dZFVdNw.jpg" class = "img-thumbnail" width="300" height="300">
-					<div class="figure-caption text-center font-weight-bold"><h3>Adolfo Lopez</h3></div>
-					<div class="figure-caption text-left">
+					<img src="https://i.imgur.com/F5Y7b3M.jpg" class = "img-thumbnail" width="310" height="310">
+					<div class="figure-caption text-center font-weight-bold text-white"><h3>Adolfo Lopez</h3></div>
+					<div class="figure-caption text-left text-white">
 						<p>
-							<b>Bio:</b> Insert Bio here 
+							<b>Bio:</b> I'm a third year Computer Science student. I'm a fan of beautiful design and simplicity in programming and products. Outside of CS, I'm an amateur aquarist with experience breeding invertebrates.
 						</p>
 						<p>
-							<b>Responsibilities:</b> Insert responsibilities here 
+							<b>Responsibilities:</b> TBD
 						</p>
-						<p>
+						<p id = "commits_al">
 							<b># of Commits:</b>
 						</p>
 						<p>
 							<b># of Issues:</b>
 						</p>
 						<p>
-							<b># of Unit Tests:</b>
+							<b># of Unit Tests:</b> 0
 						</p>
 					</div>
 				</figure>
 			</div>
 			<div id="photo" class="col-4">
 				<figure class = "text-center">
-					<img src="https://i.imgur.com/dZFVdNw.jpg" class = "img-thumbnail" width="300" height="300">
-					<div class="figure-caption text-center font-weight-bold"><h3>Vamsi Ponakala</h3></div>
-					<div class="figure-caption text-left">
+					<img src="https://i.imgur.com/00OjoLZ.jpg" class = "img-thumbnail" width="300" height="300">
+					<div class="figure-caption text-center font-weight-bold text-white"><h3>Vamsi Ponakala</h3></div>
+					<div class="figure-caption text-left text-white">
 						<p>
-							<b>Bio:</b> Insert Bio here 
+							<b>Bio:</b> My name is Vamsi Ponakala, and I'm a junior at UT who is majoring in Computer Science. Some of my interests include learning about history, playing tennis and playing video games in my spare time.
 						</p>
 						<p>
-							<b>Responsibilities:</b> Insert responsibilities here 
+							<b>Responsibilities:</b> TBD
 						</p>
-						<p>
+						<p id = "commits_vp">
 							<b># of Commits:</b>
 						</p>
 						<p>
 							<b># of Issues:</b>
 						</p>
 						<p>
-							<b># of Unit Tests:</b>
+							<b># of Unit Tests:</b> 0
 						</p>
 					</div>
 				</figure>
 			</div>
 			<div id="photo" class="col-4">
 				<figure class = "text-center">
-					<img src="https://i.imgur.com/dZFVdNw.jpg" class = "img-thumbnail" width="300" height="300">
-					<div class="figure-caption text-center font-weight-bold"><h3>Victor Yang</h3></div>
-					<div class="figure-caption text-left">
+					<img src="https://i.imgur.com/zkxl05U.jpg" class = "img-thumbnail" width="300" height="300">
+					<div class="figure-caption text-center font-weight-bold text-white"><h3>Victor Yang</h3></div>
+					<div class="figure-caption text-left text-white">
 						<p>
-							<b>Bio:</b> Insert Bio here 
+							<b>Bio:</b> I'm a senior at UT majoring in Computer Science expecting to graduate at the end of this semester. My hobbies include video games and board games, and I also enjoy traveling.
 						</p>
 						<p>
-							<b>Responsibilities:</b> Insert responsibilities here 
+							<b>Responsibilities:</b> TBD
 						</p>
-						<p>
+						<p id = "commits_vy">
 							<b># of Commits:</b>
 						</p>
 						<p>
 							<b># of Issues:</b>
 						</p>
 						<p>
-							<b># of Unit Tests:</b>
+							<b># of Unit Tests:</b> 0
 						</p>
 					</div>
 				</figure>
 			</div>
 		</div>
 	</div>
-	<div class="row text-left">
-		<div id="stats" class="col-12">
-			<h3>Total Stats:</h3>
-		</div>
-	</div>
 	<br>
-	<div class="row text-left">
-		<div id="sources" class="col-12">
-			<h3>Sources:</h3>
+	<div>
+		<div class="row text-left">
+			<div id="stats" class="col-12">
+				<h3>Total Stats:</h3>
+				<p id="tempcommits"><b>Total Commits:</b></p>
+				<p id="tempissues"><b>Total Issues:</b></p>
+				<p><b>Total of Unit Tests:</b> 0</p>
+			</div>
+		</div>
+		<br>
+		<div class="row text-left">
+			<div id="sources" class="col-12">
+				<h3>Sources:</h3>
+				<p><b>www.hikingproject.com/data</b> - provides API for trail info and photos</p>
+				<p><b>www.skimap.org</b> - provide API for ski resorts and their information</p>
+				<p><b>www.youtube.com</b> - providing API for displaying related youtube videos</p>
+			</div>
+		</div>
+		<br>
+		<div class="row text-left">
+			<div id="tools" class="col-12">
+				<h3>Tools:</h3>
+				<p><b>Bootstrap 4</b> - for beautifying and organizing HTML pages.</p>
+				<p><b>Flask</b> - for the backend of the website</p>
+				<p><b>Github</b> - for maintaining our report and project organization</p>
+				<p><b>Slack</b> - for team communication and organization</p>
+				<p><b>Postman</b> - for organizing API calls</p>
+				<p><b>Amazon AWS</b> - for hosting website</p>
+			</div>
+		</div>
+		<br>
+		<div class="row text-left">
+			<div id="URLs" class="col-12">
+				<p><b>Github: </b> <a href = "https://github.com/RobertHale/HikingAdventure">https://github.com/RobertHale/HikingAdventure</a></p>
+				<p><b>Gitbook: </b> <a href = "https://roberthale.gitbooks.io/api/">https://roberthale.gitbooks.io/api/</a></p>
+			</div>
 		</div>
 	</div>
-	<br>
-	<div class="row text-left">
-		<div id="tools" class="col-12">
-			<h3>Tools:</h3>
-			<p><b>Bootstrap</b> - used for CSS formatting</p>
-			<p><b>Flask</b> - used for our web framework</p>
-			<p><b>Github</b> - used for our version control</p>
-		</div>
-	</div>
-	<br>
-	<div class="row text-left">
-		<div id="URLs" class="col-12">
-			<p><b>Github: </b> <a href = "https://github.com/RobertHale/HikingAdventure">https://github.com/RobertHale/HikingAdventure</a></p>
-			<p><b>Gitbook: </b> </p>
-		</div>
-	</div>
+	<script>
+		var xmlhttp;
+		function loadXMLDoc(url,cfunc)
+		{
+		if (window.XMLHttpRequest)
+		{// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+		}
+		else
+		{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=cfunc;
+		xmlhttp.open("GET",url,true);
+		xmlhttp.send();
+		}
+		loadXMLDoc("/githubstats",function()
+			{
+			if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+				//call function 3 times, with different years! Create table, profit
+				//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+				var result = xmlhttp.responseText;
+				result_array = result.split(" ");
+				
+				
+				commits = "<p><b>Total Commits:</b> " + result_array[0] + "</p>"
+				issues  = "<p><b>Total Issues:</b> " + result_array[1] + "</p>"
+
+				document.getElementById("tempcommits").innerHTML=commits;
+				document.getElementById("tempissues").innerHTML=issues;
+				
+				document.getElementById("commits_vy").innerHTML="<p><b># of Commits:</b> " + result_array[2] + "</p>";
+				document.getElementById("commits_al").innerHTML="<p><b># of Commits:</b> " + result_array[3] + "</p>";
+				document.getElementById("commits_ad").innerHTML="<p><b># of Commits:</b> " + result_array[4] + "</p>";
+				document.getElementById("commits_rh").innerHTML="<p><b># of Commits:</b> " + result_array[5] + "</p>";
+				document.getElementById("commits_vp").innerHTML="<p><b># of Commits:</b> " + result_array[6] + "</p>";
+				document.getElementById("commits_dc").innerHTML="<p><b># of Commits:</b> " + result_array[7] + "</p>";
+			}
+			});
+	</script>
 </body>
 </html>
