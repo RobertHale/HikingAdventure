@@ -3,58 +3,96 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<br>
 	<title>Aspen Alley Trail</title>
-	<link rel="stylesheet" href=".../static/css/style.css">
-	<link rel="stylesheet" href=".../static/css/animate.css">
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  	<link rel="stylesheet" href="{{ url_for('static', filename='css/resort.css') }}">
+  	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 </head>
-<body class="container">
-	<div id="title" class="rown align-items-center">
-		<h1 id="name">Aspen Alley Trail</h1><br>
-	</div>
-
-	<div class="row">
-		<div class="col-auto media border">
-			<img src="https://cdn-files.apstatic.com/hike/7038471_large_1507580932.jpg", width=700, height=400>
+<body>
+<nav class="navbar navbar-toggleable-md sticky-top navbar-inverse" style="background-color: #212121;">
+	  	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  	</button>
+		<a class="navbar-brand" href="http://hikingadventures.me">Home</a>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<a class="nav-item nav-link" href="http://hikingadventures.me/resorts">Resorts</a>
+			  	<a class="nav-item nav-link" href="http://hikingadventures.me/trails">Trails</a>
+			  	<a class="nav-item nav-link" href="http://hikingadventures.me/photos">Photos</a>
+			  	<a class="nav-item nav-link" href="http://hikingadventures.me/about">About</a>
+			</div>
 		</div>
-		<div class="col-3">
-			<h2 id="difficultyheader">Trail Difficulty</h2>
+		<form class="form-inline my-2 my-sm-0 w-40">
+			<div class="input-group">
+			  	<input class="form-control mr-sm-0" type="text" placeholder="">
+			  	<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+			</div>
+		</form>
+	</nav>
+  	<!-- Navbar end -->
+</body>
+<body class="container-fluid" style="background-color: #473c8b;">
+	<p style='text-align:center'>
+	</p>
+	  <div class="card h-100 cardbg">
+		<img class="card-img-top" src="https://cdn-files.apstatic.com/hike/7038471_large_1507580932.jpg" height=700px>
+			<div class="card-block">
+				<h1 class="card-title" align="center"><a href="http://hikingadventures.me/resorts/3">Aspen Alley</a></h1>
+			</div>
+	</div>
+	<br><br>
+
+	<div class="row justify-content-center">
+		<div class="col col-lg-1">
+			<h2 id="difficultyheader">Difficulty</h2>
 			<var id="difficulty"> Intermediate</var>
-			<br><br><br><br>
+		</div>
+		<div class="col col-lg-1">
 			<h2 id="lengthheader">Length</h2>
 			<var id="length">1.3 miles</var>
-			<br><br><br><br>
-			<h2 id="elevationheader">Elevation Change</h2>
+		</div>
+		<div class="col col-lg-1">
+			<h2 id="elevationheader">Elevation</h2>
 			<var id="ascent">15 foot ascent</var>
 			<br>
 			<var id="descent">-519 foot descent</var>
 		</div>	
 	</div>
+	<br><br>
 
-	<br>
-
-	<div class="row">
-		<h2 id="description">Description</h2>
+	<div class="card h-100 cardbg">
+		<div class="card-title">
+			<br>
+			<h2 style="text-align:center" id="description">Description</h2>
+		</div>	
+		<br>
+		<p class="card-text">
 			<div>
 			From the Boreas Pass winter trailhead, go south past the gate and look for a singletrack on the west side of the road. The trail has been recently (2014) realigned and features numerous switchbacks through a beautiful aspen grove.
 			<br><br>
 			The trail terminates at a gravel driveway on the lower section of Boreas Pass Road (paved). Take a right on the driveway back to Boreas Pass Road and climb back to the trailhead. Utilize Illinois Gulch Road to short-cut the climb back to the trailhead.
-			</div>
+			</p>
+		</p>
 	</div>
-	<br>
-	<div id="links" class="row justify-content-start">
-		<div class="col-3">
+	<br><br>
+	<div id="links" class="row justify-content-center">
+		<div class="col-lg-2">
 			<h2>Nearby Resorts:</h2>
-				<a id="trail" href="/resorts/3">Breckenridge</a>
+				<a id="resort" class="btn btn-primary" href="/resorts/2">Breckenridge</a>
 		</div>
-		<div class="col-3"></div>
-		<div class="col-3">
+		<div class="col-lg-2">
 			<h2>Photos:</h2>
-			<a id="photo" href="/photos/3">Aspen Alley Trail</a>
+			<a id="photo" class="btn btn-primary href="/photos/3">Photos</a>
 		</div>
 	</div>
-<br><br>
+	<br><br><br>
+	<div class="row justify-content-center">
+		<h2> Related Video Content </h2>
+	</div>
+	<div class="row justify-content-center">
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/sFQ098bh-ds" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+	</div>
+<br><br><br>
 </body>
