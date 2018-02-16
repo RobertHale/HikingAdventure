@@ -71,14 +71,14 @@ def githubstats():
 	for person in commit_array:
 		commits = commits + person['total']
 		commits_each[person['author']['login']] = person['total']
-			
+
 
 	# Grab Total issues
 	response_i = requests.get(github_issues)
 	issue_array = response_i.json()
 	latest_issue = issue_array[0]
 	issues = latest_issue['number']
-	
+
 
 	# Return data in a string
 	data = str(commits) + " " + str(issues) + " " + str(commits_each.get("victor40", 0)) + " " + str(commits_each.get("duoALopez", 0)) + " " + str(commits_each.get("alexdai186", 0)) + " " + str(commits_each.get("RobertHale", 0)) + " " + str(commits_each.get("vponakala", 0)) + " " + str(commits_each.get("davepcast", 0))
