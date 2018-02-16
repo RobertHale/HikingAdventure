@@ -70,14 +70,18 @@ def githubstats():
 	commits_each = {};
 	for person in commit_array:
 		commits = commits + person['total']
+		# Stores each person's commit count separately
 		commits_each[person['author']['login']] = person['total']
 			
 
 	# Grab Total issues
 	response_i = requests.get(github_issues)
 	issue_array = response_i.json()
-	latest_issue = issue_array[0]
-	issues = latest_issue['number']
+	if len(issue_array) > 0:
+		latest_issue = issue_array[0]
+		issues = latest_issue['number']
+	else:
+		issues = 0
 	
 
 	# Return data in a string
