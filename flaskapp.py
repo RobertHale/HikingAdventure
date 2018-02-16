@@ -60,7 +60,7 @@ def cmove():
 @app.route('/githubstats/')
 def githubstats():
 	github_commits = "https://api.github.com/repos/RobertHale/HikingAdventure/stats/contributors"
-	github_issues  = "https://api.github.com/repos/RobertHale/HikingAdventure/issues"
+	github_issues  = "https://api.github.com/repos/RobertHale/HikingAdventure/issues?state=all"
 
 	# Grab Total Commits
 	response_c = requests.get(github_commits)
@@ -72,17 +72,14 @@ def githubstats():
 		commits = commits + person['total']
 		# Stores each person's commit count separately
 		commits_each[person['author']['login']] = person['total']
-			
+
 
 	# Grab Total issues
 	response_i = requests.get(github_issues)
 	issue_array = response_i.json()
-	if len(issue_array) > 0:
-		latest_issue = issue_array[0]
-		issues = latest_issue['number']
-	else:
-		issues = 0
-	
+	latest_issue = issue_array[0]
+	issues = latest_issue['number']
+
 
 	# Return data in a string
 	data = str(commits) + " " + str(issues) + " " + str(commits_each.get("victor40", 0)) + " " + str(commits_each.get("duoALopez", 0)) + " " + str(commits_each.get("alexdai186", 0)) + " " + str(commits_each.get("RobertHale", 0)) + " " + str(commits_each.get("vponakala", 0)) + " " + str(commits_each.get("davepcast", 0))
