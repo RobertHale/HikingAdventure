@@ -10,7 +10,29 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
-<body class="container w-100 text-white" style="background-color: #473c8b">
+<body class="container text-white" style="background-color: #473c8b">
+ <!-- Navbar start -->
+   	  <nav class="navbar navbar-toggleable-md sticky-top navbar-inverse" style="background-color: #212121;">
+		  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+		  <a class="navbar-brand" href="http://hikingadventures.me">Home</a>
+		  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+			  <a class="nav-item nav-link" href="http://hikingadventures.me/resorts">Resorts</a>
+			  <a class="nav-item nav-link" href="http://hikingadventures.me/trails">Trails</a>
+			  <a class="nav-item nav-link" href="http://hikingadventures.me/photos">Photos</a>
+			  <a class="nav-item nav-link" href="http://hikingadventures.me/about">About<span class="sr-only">(current)</span></a>
+			</div>
+		  </div>
+		  <form class="form-inline my-2 my-sm-0 w-40">
+			<div class="input-group">
+			  <input class="form-control mr-sm-0" type="text" placeholder="">
+			  <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+			</div>
+		  </form>
+	  </nav>
+  <!-- Navbar end -->
 	<div id="title" class="row justify-content-center">
 			<h1 id="name">About</h1><br>
 	</div>
@@ -34,7 +56,7 @@
 							<b># of Commits:</b>
 						</p>
 						<p>
-							<b># of Issues:</b>
+							<b># of Issues:</b> 1
 						</p>
 						<p>
 							<b># of Unit Tests:</b> 0
@@ -57,7 +79,7 @@
 							<b># of Commits:</b>
 						</p>
 						<p>
-							<b># of Issues:</b>
+							<b># of Issues:</b> 4
 						</p>
 						<p> 
 							<b># of Unit Tests:</b> 0
@@ -80,7 +102,7 @@
 							<b># of Commits:</b>
 						</p>
 						<p>
-							<b># of Issues:</b>
+							<b># of Issues:</b> 5
 						</p>
 						<p>
 							<b># of Unit Tests:</b> 0
@@ -122,7 +144,7 @@
 							<b># of Commits:</b>
 						</p>
 						<p>
-							<b># of Issues:</b>
+							<b># of Issues:</b> 2
 						</p>
 						<p>
 							<b># of Unit Tests:</b> 0
@@ -145,7 +167,7 @@
 							<b># of Commits:</b>
 						</p>
 						<p>
-							<b># of Issues:</b>
+							<b># of Issues:</b> 3
 						</p>
 						<p>
 							<b># of Unit Tests:</b> 0
@@ -168,7 +190,7 @@
 							<b># of Commits:</b>
 						</p>
 						<p>
-							<b># of Issues:</b>
+							<b># of Issues: 1</b>
 						</p>
 						<p>
 							<b># of Unit Tests:</b> 0
@@ -184,7 +206,7 @@
 			<div id="stats" class="col-12">
 				<h3>Total Stats:</h3>
 				<p id="tempcommits"><b>Total Commits:</b></p>
-				<p id="tempissues"><b>Total Issues:</b></p>
+				<p><b>Total Issues:</b> 13</p>
 				<p><b>Total of Unit Tests:</b> 0</p>
 			</div>
 		</div>
@@ -246,8 +268,8 @@
 				commits = "<p><b>Total Commits:</b> " + result_array[0] + "</p>"
 				issues  = "<p><b>Total Issues:</b> " + result_array[1] + "</p>"
 
-				document.getElementById("tempcommits").innerHTML=commits;
-				document.getElementById("tempissues").innerHTML=issues;
+				document.getElementById("tempcommits").innerHTML=commits;		
+				//document.getElementById("tempissues").innerHTML=issues;
 				
 				document.getElementById("commits_vy").innerHTML="<p><b># of Commits:</b> " + result_array[2] + "</p>";
 				document.getElementById("commits_al").innerHTML="<p><b># of Commits:</b> " + result_array[3] + "</p>";
