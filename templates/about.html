@@ -30,7 +30,7 @@
 						<p>
 							<b>Responsibilities:</b> TBD
 						</p>
-						<p>
+						<p id = "commits_dc">
 							<b># of Commits:</b>
 						</p>
 						<p>
@@ -53,7 +53,7 @@
 						<p>
 							<b>Responsibilities:</b> TBD 
 						</p>
-						<p>
+						<p id = "commits_ad">
 							<b># of Commits:</b>
 						</p>
 						<p>
@@ -76,7 +76,7 @@
 						<p>
 							<b>Responsibilities:</b> TBD
 						</p>
-						<p>
+						<p id = "commits_rh">
 							<b># of Commits:</b>
 						</p>
 						<p>
@@ -118,7 +118,7 @@
 						<p>
 							<b>Responsibilities:</b> TBD
 						</p>
-						<p>
+						<p id = "commits_al">
 							<b># of Commits:</b>
 						</p>
 						<p>
@@ -141,7 +141,7 @@
 						<p>
 							<b>Responsibilities:</b> TBD
 						</p>
-						<p>
+						<p id = "commits_vp">
 							<b># of Commits:</b>
 						</p>
 						<p>
@@ -164,7 +164,7 @@
 						<p>
 							<b>Responsibilities:</b> TBD
 						</p>
-						<p>
+						<p id = "commits_vy">
 							<b># of Commits:</b>
 						</p>
 						<p>
@@ -192,15 +192,21 @@
 		<div class="row text-left">
 			<div id="sources" class="col-12">
 				<h3>Sources:</h3>
+				<p><b>www.hikingproject.com/data</b> - provides API for trail info and photos</p>
+				<p><b>www.skimap.org</b> - provide API for ski resorts and their information</p>
+				<p><b>www.youtube.com</b> - providing API for displaying related youtube videos</p>
 			</div>
 		</div>
 		<br>
 		<div class="row text-left">
 			<div id="tools" class="col-12">
 				<h3>Tools:</h3>
-				<p><b>Bootstrap</b> - used for CSS formatting</p>
-				<p><b>Flask</b> - used for our web framework</p>
-				<p><b>Github</b> - used for our version control</p>
+				<p><b>Bootstrap 4</b> - for beautifying and organizing HTML pages.</p>
+				<p><b>Flask</b> - for the backend of the website</p>
+				<p><b>Github</b> - for maintaining our report and project organization</p>
+				<p><b>Slack</b> - for team communication and organization</p>
+				<p><b>Postman</b> - for organizing API calls</p>
+				<p><b>Amazon AWS</b> - for hosting website</p>
 			</div>
 		</div>
 		<br>
@@ -235,11 +241,20 @@
 				//document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
 				var result = xmlhttp.responseText;
 				result_array = result.split(" ");
+				
+				
 				commits = "<p><b>Total Commits:</b> " + result_array[0] + "</p>"
 				issues  = "<p><b>Total Issues:</b> " + result_array[1] + "</p>"
 
 				document.getElementById("tempcommits").innerHTML=commits;
 				document.getElementById("tempissues").innerHTML=issues;
+				
+				document.getElementById("commits_vy").innerHTML="<p><b># of Commits:</b> " + result_array[2] + "</p>";
+				document.getElementById("commits_al").innerHTML="<p><b># of Commits:</b> " + result_array[3] + "</p>";
+				document.getElementById("commits_ad").innerHTML="<p><b># of Commits:</b> " + result_array[4] + "</p>";
+				document.getElementById("commits_rh").innerHTML="<p><b># of Commits:</b> " + result_array[5] + "</p>";
+				document.getElementById("commits_vp").innerHTML="<p><b># of Commits:</b> " + result_array[6] + "</p>";
+				document.getElementById("commits_dc").innerHTML="<p><b># of Commits:</b> " + result_array[7] + "</p>";
 			}
 			});
 	</script>
