@@ -1,5 +1,6 @@
 from fetch import fetchJSON, fetchXML
 from resort import Resort
+from trail import Trail
 
 ##
 #service class for the scraper.
@@ -29,5 +30,26 @@ def getResort(id):
 	res.long    = data['longitude']         if 'longitude'        in data else -1
 	res.elev    = data['top_elevation']     if 'top_elevation'    in data else -1
 	res.mapid   = data['ski_maps'][0]['id'] if len(data['ski_maps']) > 0  else -1
+	return res
+
+def getTrails(long, lat, resortid):
+	res = []
+	data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(lat) + '&lon=' + str(long) + '&maxDistance=10&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+	for t in data['trails']:
+		trail = Trail(t['name'], t['id'])
+		trail.difficulty = t['difficulty'] if 'difficulty' in t else "unknown"
+		trail.summary    = t['summary']    if 'summary'    in t else "unknown"
+		trail.stars      = t['stars']      if 'stars'      in t else 0
+		trail.starVotes  = t['starVotes']  if 'starVotes'  in t else 0
+		trail.lat        = t['latitude']   if 'latitude'   in t else 0
+		trail.long       = t['longitude']  if 'longitude'  in t else 0
+		trail.length     = t['length']     if 'length'     in t else 0
+		trail.ascent     = t['ascent']     if 'ascent'     in t else 0
+		trail.descent    = t['descent']    if 'descent'    in t else 0
+		trail.condition  = t['condition']  if 'condition'  in t else "unknown"
+		trail.img        = t['imgMedium']  if 'imgMedium'  in t else "unknown"
+		trail.resort     = resortid
+		trail.photos     = [0, 1, 2]
+		res.append(trail)
 	return res
 

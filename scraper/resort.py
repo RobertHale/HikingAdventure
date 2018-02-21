@@ -22,3 +22,6 @@ class Resort:
 
     def __repr__(self):
         return self.__str__()
+
+    def jsonable(self):
+        return self.__dict__

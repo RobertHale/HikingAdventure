@@ -1,11 +1,24 @@
 from flask import Flask, render_template
+import sys
+sys.path.insert(0, './scraper/')
+import service
+from resort import Resort
+from complexhandler import ComplexHandler
 import requests
+import json
+
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
 	return render_template('./home.html')
+
+@app.route('/test/')
+def return_html():
+	resort = service.getResort(510)
+	return json.dumps(service.getTrails(resort.long, resort.lat, resort.id), indent=4, 
+		default=ComplexHandler)
 
 @app.route('/resorts/')
 def resorts_page():

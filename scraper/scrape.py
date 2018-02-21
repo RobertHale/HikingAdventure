@@ -35,10 +35,14 @@
 #         print("\t", resy.website)
 #         print("\t", resy.lat, resy.long)
 #         print("\t", resy.lifts, resy.runs, resy.elev)
-from service import getResorts
+import service
+import json
+from complexhandler import ComplexHandler
 
 def main():
-    print(getResorts())
+    resort = service.getResort(510)
+    print(json.dumps(service.getTrails(resort.long, resort.lat, resort.id), indent=4, 
+    	default=ComplexHandler))
 
 if __name__ == "__main__":
     main()
