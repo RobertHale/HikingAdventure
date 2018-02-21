@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 import sys
 sys.path.insert(0, './scraper/')
 import service
@@ -17,8 +17,13 @@ def hello_world():
 @app.route('/test/')
 def return_html():
 	resort = service.getResort(510)
-	return json.dumps(service.getTrails(resort.long, resort.lat, resort.id), indent=4, 
-		default=ComplexHandler)
+	response = app.response_class(
+        response=json.dumps(service.getTrails(resort.long, resort.lat, resort.id), 
+		indent=4, default=ComplexHandler),
+        status=200,
+        mimetype='application/json'
+    )
+	return response
 
 @app.route('/resorts/')
 def resorts_page():

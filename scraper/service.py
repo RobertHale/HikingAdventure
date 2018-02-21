@@ -34,7 +34,7 @@ def getResort(id):
 
 def getTrails(long, lat, resortid):
 	res = []
-	data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(lat) + '&lon=' + str(long) + '&maxDistance=10&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+	data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(lat) + '&lon=' + str(long) + '&maxDistance=10&maxResults=500sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
 	for t in data['trails']:
 		trail = Trail(t['name'], t['id'])
 		trail.difficulty = t['difficulty'] if 'difficulty' in t else "unknown"
