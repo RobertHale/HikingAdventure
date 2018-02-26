@@ -14,9 +14,21 @@ class Trail:
 		self.descent = 0
 		self.condition = ""
 		self.img = ""
-		self.resort = 0
-		self.photos = []
+		self.resortid = 0
+		self.photoids = []
 
 	def jsonable(self):
 		return self.__dict__
+
+	def getResort(self):
+		return self.resort
+
+	def setResort(self, resortid):
+		self.resortid = resortid
+
+	def getphotos(self):
+		self.photoids
+
+	def setphotos(self, photoids):
+		self.photoids = photoids
 		

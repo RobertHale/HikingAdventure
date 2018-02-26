@@ -11,5 +11,6 @@ def fetchJSON(url):
 #XML response from URL
 def fetchXML(url):
 	r = requests.get(url)
-	assert(r.status_code is 200)
+	if r.status_code is not 200:
+		raise NotFoundError()
 	return ElementTree.fromstring(r.content)

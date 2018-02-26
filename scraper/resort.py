@@ -2,13 +2,14 @@ class Resort:
     def __init__(self, name, id):
         self.name    = name
         self.id      = id
-        self.lifts   = ""
-        self.runs    = ""
-        self.website = ""
-        self.lat     = ""
-        self.long    = ""
-        self.elev    = ""
-        self.mapid   = ""
+        self.lifts   = -1
+        self.runs    = -1
+        self.website = "unknown"
+        self.lat     = -1
+        self.long    = -1
+        self.elev    = -1
+        self.mapid   = -1
+        self.mapurl  = "unknown"
 
     #for debug purposes this prints out way more than it needs to
     #consider changing to just name later

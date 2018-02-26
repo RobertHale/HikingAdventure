@@ -30,11 +30,18 @@ def getResort(id):
 	res.long    = data['longitude']         if 'longitude'        in data else -1
 	res.elev    = data['top_elevation']     if 'top_elevation'    in data else -1
 	res.mapid   = data['ski_maps'][0]['id'] if len(data['ski_maps']) > 0  else -1
+	maptree = None
+	try:
+		maptree = fetchXML("https://skimap.org/SkiMaps/view/$" + str(mapid) + ".xml")
+		maprender = maptree.find('skiMap').find('render')
+		res.mapurl  = maprender.get('url')
+	except Exception as e:
+		res.mapurl = "unknown"
 	return res
 
-def getTrails(long, lat, resortid):
+def getTrails(lon, lat, cnt, resortid):
 	res = []
-	data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(lat) + '&lon=' + str(long) + '&maxDistance=10&maxResults=500sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+	data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(lat) + '&lon=' + str(lon) + '&maxDistance=10&maxResults=' + str(cnt) + 'sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
 	for t in data['trails']:
 		trail = Trail(t['name'], t['id'])
 		trail.difficulty = t['difficulty'] if 'difficulty' in t else "unknown"
@@ -48,8 +55,8 @@ def getTrails(long, lat, resortid):
 		trail.descent    = t['descent']    if 'descent'    in t else 0
 		trail.condition  = t['condition']  if 'condition'  in t else "unknown"
 		trail.img        = t['imgMedium']  if 'imgMedium'  in t else "unknown"
-		trail.resort     = resortid
-		trail.photos     = [0, 1, 2]
+		trail.resortid   = resortid
+		trail.photoids   = [0, 1, 2]
 		res.append(trail)
 	return res
 
