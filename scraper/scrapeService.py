@@ -1,6 +1,7 @@
 from fetch import fetchJSON, fetchXML
 from resort import Resort
 from trail import Trail
+from xml.etree import ElementTree
 
 """
 " service class for the scraper.
@@ -10,11 +11,15 @@ from trail import Trail
 
 #returns a list of all resorts scraped from skimaps.org
 #only scrapes info specified in resort object
-def getResorts():
+def getResorts(cnt):
 	result = []
 	tree = fetchXML("https://skimap.org/Regions/view/281.xml")
 	resorts = tree.find('skiAreas')
+	count = 0
 	for child in resorts:
+		if count >= cnt:
+			break
+		count += 1
 		result.append(getResort(child.attrib['id']))
 	return result
 
@@ -34,8 +39,11 @@ def getResort(id):
 	try:
 		maptree = fetchXML("https://skimap.org/SkiMaps/view/" + str(res.mapid) + ".xml")
 		maprender = maptree.find('render')
-		res.mapurl  = maprender.get('url')
+		if(maprender is not None):
+			res.mapurl  = maprender.get('url')
 	except ValueError as e:
+		res.mapurl = "unknown"
+	except ElementTree.ParseError as e:
 		res.mapurl = "unknown"
 	return res
 

@@ -12,6 +12,13 @@ import json
 
 
 app = Flask(__name__)
+#""" only for use on local servers
+app.config['SERVER_NAME'] = 'localhost:5000'
+#"""
+
+env = Environment(
+   	loader=FileSystemLoader('./templates/')
+)
 
 @app.route('/')
 def hello_world():
@@ -25,9 +32,7 @@ DO NOT allow into actual production
 @app.route('/test/')
 def return_html():
 	#load env. make global later
-	env = Environment(
-    	loader=FileSystemLoader('./templates/')
-	)
+	
 	#get template html page
 	template = env.get_template("resort_temp.html")
 	#get a filled resort object
@@ -77,13 +82,45 @@ def photo_page(photo):
 		return render_template('./aspen_alley_trail_pic.html')
 	return 'nothing found'
 
+@app.route('/resorts/', subdomain='api')
+def resorts_API():
+	response = app.response_class(
+        response=json.dumps(scrapeService.getResorts(10), 
+		indent=4, default=ComplexHandler),
+        status=200,
+        mimetype='application/json'
+    )
+	return response
+
+@app.route('/resorts/<resort>/', subdomain='api')
+def resort_API(resort):
+	response = app.response_class(
+        response=json.dumps(scrapeService.getResort(510), 
+		indent=4, default=ComplexHandler),
+        status=200,
+        mimetype='application/json'
+    )
+	return response
+
+@app.route('/trails/', subdomain='api')
+def trails_API():
+	return render_template("./mainpage_trails.html")
+
+@app.route('/trails/<trail>/', subdomain='api')
+def trail_API(trail):
+	return 'thank you for using trail api.'
+
+@app.route('/photos/', subdomain='api')
+def photos_API():
+	return 'thank you for using photos api.'
+
+@app.route('/photos/<photo>/', subdomain='api')
+def photo_API(photo):
+	return 'thank you for using photo api.'
+
 @app.route('/about/')
 def about_page():
 	return render_template('./about.html')
-
-@app.route('/carousel/')
-def cmove():
-	return render_template('./carousel.html')
 
 @app.route('/githubstats/')
 def githubstats():
