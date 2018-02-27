@@ -1,9 +1,12 @@
-from flask import Flask, render_template, Response
 import sys
 sys.path.insert(0, './scraper/')
-import service
-from resort import Resort
+sys.path.insert(0, './models/')
+from flask          import Flask, render_template, Response
+from jinja2         import Template, Environment, FileSystemLoader
+from resort         import Resort
+from trail          import Trail
 from complexhandler import ComplexHandler
+import scrapeService
 import requests
 import json
 
@@ -14,16 +17,23 @@ app = Flask(__name__)
 def hello_world():
 	return render_template('./home.html')
 
+"""
+simple test route that returns
+a rendered jinja2 template
+DO NOT allow into actual production
+"""
 @app.route('/test/')
 def return_html():
-	resort = service.getResort(510)
-	response = app.response_class(
-        response=json.dumps(service.getTrails(resort.long, resort.lat, resort.id), 
-		indent=4, default=ComplexHandler),
-        status=200,
-        mimetype='application/json'
-    )
-	return response
+	#load env. make global later
+	env = Environment(
+    	loader=FileSystemLoader('./templates/')
+	)
+	#get template html page
+	template = env.get_template("resort_temp.html")
+	#get a filled resort object
+	resort = scrapeService.getResort(510)
+	#render template with resort info
+	return template.render(resort= resort)
 
 @app.route('/resorts/')
 def resorts_page():

@@ -2,11 +2,11 @@ from fetch import fetchJSON, fetchXML
 from resort import Resort
 from trail import Trail
 
-##
-#service class for the scraper.
-#scrapes data on needed models
-#and converts them into Python objects
-##
+"""
+" service class for the scraper.
+" scrapes data on needed models
+" and converts them into Python objects
+"""
 
 #returns a list of all resorts scraped from skimaps.org
 #only scrapes info specified in resort object
@@ -32,13 +32,17 @@ def getResort(id):
 	res.mapid   = data['ski_maps'][0]['id'] if len(data['ski_maps']) > 0  else -1
 	maptree = None
 	try:
-		maptree = fetchXML("https://skimap.org/SkiMaps/view/$" + str(mapid) + ".xml")
-		maprender = maptree.find('skiMap').find('render')
+		maptree = fetchXML("https://skimap.org/SkiMaps/view/" + str(res.mapid) + ".xml")
+		maprender = maptree.find('render')
 		res.mapurl  = maprender.get('url')
-	except Exception as e:
+	except ValueError as e:
 		res.mapurl = "unknown"
 	return res
 
+"""
+gets all trails nearby given lat and long
+associates all created trails with resortid
+"""
 def getTrails(lon, lat, cnt, resortid):
 	res = []
 	data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(lat) + '&lon=' + str(lon) + '&maxDistance=10&maxResults=' + str(cnt) + 'sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
