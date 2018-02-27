@@ -1,11 +1,39 @@
-from flask import Flask, render_template
+import sys
+sys.path.insert(0, './scraper/')
+sys.path.insert(0, './models/')
+from flask          import Flask, render_template, Response
+from jinja2         import Template, Environment, FileSystemLoader
+from resort         import Resort
+from trail          import Trail
+from complexhandler import ComplexHandler
+import scrapeService
 import requests
+import json
+
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
 	return render_template('./home.html')
+
+"""
+simple test route that returns
+a rendered jinja2 template
+DO NOT allow into actual production
+"""
+@app.route('/test/')
+def return_html():
+	#load env. make global later
+	env = Environment(
+    	loader=FileSystemLoader('./templates/')
+	)
+	#get template html page
+	template = env.get_template("resort_temp.html")
+	#get a filled resort object
+	resort = scrapeService.getResort(510)
+	#render template with resort info
+	return template.render(resort= resort)
 
 @app.route('/resorts/')
 def resorts_page():
