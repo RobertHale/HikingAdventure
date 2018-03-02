@@ -1,6 +1,7 @@
 from fetch import fetchJSON, fetchXML
 from resort import Resort
 from trail import Trail
+from photo import Photo
 from xml.etree import ElementTree
 
 """
@@ -31,13 +32,13 @@ def getResort(id):
 	except ValueError as e:
 		return Resort("unknown", -1)
 	res = Resort(data['name'], data['id'])
-	res.lifts   = data['lift_count']        if 'lift_count'       in data else -1
-	res.runs    = data['run_count']         if 'run_count'        in data else -1
+	res.lifts   = data['lift_count']        if 'lift_count'       in data else "unknown"
+	res.runs    = data['run_count']         if 'run_count'        in data else "unknown"
 	res.website = data['official_website']  if 'official_website' in data else "unknown"
-	res.lat     = data['latitude']          if 'latitude'         in data else -1
-	res.long    = data['longitude']         if 'longitude'        in data else -1
-	res.elev    = data['top_elevation']     if 'top_elevation'    in data else -1
-	res.mapid   = data['ski_maps'][0]['id'] if len(data['ski_maps']) > 0  else -1
+	res.lat     = data['latitude']          if 'latitude'         in data else "unknown"
+	res.lon     = data['longitude']         if 'longitude'        in data else "unknown"
+	res.elev    = data['top_elevation']     if 'top_elevation'    in data else "unknown"
+	res.mapid   = data['ski_maps'][0]['id'] if len(data['ski_maps']) > 0  else "unknown"
 	maptree = None
 	try:
 		maptree = fetchXML("https://skimap.org/SkiMaps/view/" + str(res.mapid) + ".xml")
@@ -50,28 +51,66 @@ def getResort(id):
 		res.mapurl = "unknown"
 	return res
 
-"""
-gets all trails nearby given lat and long
-associates all created trails with resortid
-"""
-def getTrails(lon, lat, cnt, resortid):
-	res = []
-	data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(lat) + '&lon=' + str(lon) + '&maxDistance=10&maxResults=' + str(cnt) + '&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+def getTrails(lon, lat, cnt, resort, trails):
+	"""
+	gets all trails nearby given lat and long
+	associates all created trails with resortid
+	"""
+	data = None
+	if resort is None:
+		data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(lat) + '&lon=' + str(lon) + '&maxDistance=10&maxResults=' + str(cnt) + '&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+	else:
+		data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(resort.lat) + '&lon=' + str(resort.lon) + '&maxDistance=10&maxResults=' + str(cnt) + '&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+
 	for t in data['trails']:
-		trail = Trail(t['name'], t['id'])
-		trail.difficulty = t['difficulty'] if 'difficulty' in t else "unknown"
-		trail.summary    = t['summary']    if 'summary'    in t else "unknown"
-		trail.stars      = t['stars']      if 'stars'      in t else 0
-		trail.starVotes  = t['starVotes']  if 'starVotes'  in t else 0
-		trail.lat        = t['latitude']   if 'latitude'   in t else 0
-		trail.long       = t['longitude']  if 'longitude'  in t else 0
-		trail.length     = t['length']     if 'length'     in t else 0
-		trail.ascent     = t['ascent']     if 'ascent'     in t else 0
-		trail.descent    = t['descent']    if 'descent'    in t else 0
-		trail.condition  = t['condition']  if 'condition'  in t else "unknown"
-		trail.img        = t['imgMedium']  if 'imgMedium'  in t else "unknown"
-		trail.resortid   = resortid
-		trail.photoids   = [0, 1, 2]
-		res.append(trail)
-	return res
+		if t['id'] not in trails:
+			trail = Trail(t['name'], t['id'])
+			trail.difficulty = t['difficulty'] if 'difficulty' in t else "unknown"
+			trail.summary    = t['summary']    if 'summary'    in t else "unknown"
+			trail.stars      = t['stars']      if 'stars'      in t else "unknown"
+			trail.starVotes  = t['starVotes']  if 'starVotes'  in t else "unknown"
+			trail.lat        = t['latitude']   if 'latitude'   in t else "unknown"
+			trail.long       = t['longitude']  if 'longitude'  in t else "unknown"
+			trail.length     = t['length']     if 'length'     in t else "unknown"
+			trail.ascent     = t['ascent']     if 'ascent'     in t else "unknown"
+			trail.descent    = t['descent']    if 'descent'    in t else "unknown"
+			trail.condition  = t['condition']  if 'condition'  in t else "unknown"
+			trail.img        = t['imgMedium']  if 'imgMedium'  in t else "unknown"
+			trails[trail.id] = trail
+		trails[t['id']].addResort(resort.id)
+		resort.addTrail(t['id'])
+	return trails
+
+def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photo):
+	"""
+	gets all trails nearby given resort
+	associates all created trails with resortid
+	and adds photo for trail into the photos for the resort
+	"""
+	data = None
+	if resort is None:
+		data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(lat) + '&lon=' + str(lon) + '&maxDistance=10&maxResults=' + str(cnt) + '&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+	else:
+		data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(resort.lat) + '&lon=' + str(resort.lon) + '&maxDistance=10&maxResults=' + str(cnt) + '&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+
+	for t in data['trails']:
+		if t['id'] not in trails:
+			trail = Trail(t['name'], t['id'])
+			trail.difficulty = t['difficulty'] if 'difficulty' in t else "unknown"
+			trail.summary    = t['summary']    if 'summary'    in t else "unknown"
+			trail.stars      = t['stars']      if 'stars'      in t else "unknown"
+			trail.starVotes  = t['starVotes']  if 'starVotes'  in t else "unknown"
+			trail.lat        = t['latitude']   if 'latitude'   in t else "unknown"
+			trail.long       = t['longitude']  if 'longitude'  in t else "unknown"
+			trail.length     = t['length']     if 'length'     in t else "unknown"
+			trail.ascent     = t['ascent']     if 'ascent'     in t else "unknown"
+			trail.descent    = t['descent']    if 'descent'    in t else "unknown"
+			trail.condition  = t['condition']  if 'condition'  in t else "unknown"
+			trail.img        = t['imgMedium']  if 'imgMedium'  in t else "unknown"
+			trails[trail.id] = trail
+		trails[t['id']].addResort(resort.id)
+		resort.addTrail(t['id'])
+		if 'imgMedium' in t:
+			photo.addPhoto(t['imgMedium'], t['id'])
+	return trails, photo
 
