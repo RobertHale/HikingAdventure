@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, './scraper/')
 sys.path.insert(0, './models/')
-from flask          import Flask, render_template, Response
+from flask          import Flask, render_template, Response, request
 from jinja2         import Template, Environment, FileSystemLoader
 from resort         import Resort
 from trail          import Trail
@@ -84,18 +84,39 @@ def photo_page(photo):
 
 @app.route('/resorts/', subdomain='api')
 def resorts_API():
+	"""
+	get multiple resorts from Colorado
+
+	Required Args:
+		None
+	Optional Args:
+		maxcnt: max number of trails to return
+	Note:
+		maxcnt defaults to 10
+	"""
+	cnt = request.args.get('maxcnt', default = 10, type = int)
 	response = app.response_class(
-        response=json.dumps(scrapeService.getResorts(10), 
+        response=json.dumps(scrapeService.getResorts(cnt), 
 		indent=4, default=ComplexHandler),
         status=200,
         mimetype='application/json'
     )
 	return response
 
-@app.route('/resorts/<resort>/', subdomain='api')
-def resort_API(resort):
+@app.route('/resorts/<resortid>/', subdomain='api')
+def resort_API(resortid):
+	"""
+	get a resort from Colorado based on resortid
+
+	Required Args:
+		None
+	Optional Args:
+		None
+	Note:
+		None
+	"""
 	response = app.response_class(
-        response=json.dumps(scrapeService.getResort(510), 
+        response=json.dumps(scrapeService.getResort(int(resortid)), 
 		indent=4, default=ComplexHandler),
         status=200,
         mimetype='application/json'
@@ -104,11 +125,57 @@ def resort_API(resort):
 
 @app.route('/trails/', subdomain='api')
 def trails_API():
-	return render_template("./mainpage_trails.html")
+	"""
+	get multiple trails from Colorado
+
+	Required Args:
+		None
+	Optional Args:
+		maxcnt: max number of trails to return
+		resortid: resort to base search around
+		lat & lon: latitude and longitude to base search around
+	Note:
+		Please supply resortid and lat/lon seperatly.
+		If both are supplied search will be based around resortid.
+		With no arguments search will default around the center of Colorado
+	"""
+	cnt      = request.args.get('maxcnt', default = 10, type = int)
+	resortid = request.args.get('resortid', type = int)
+	#default for lat and lon is the center of colorado
+	lat      = request.args.get('lat', default = 39.5501, type = float)
+	lon      = request.args.get('lon', default = -105.7821, type = float)
+	if resortid != None:
+		resort = scrapeService.getResort(resortid)
+		trails = scrapeService.getTrails(resort.long, resort.lat, cnt, resortid)
+	else:
+		trails = scrapeService.getTrails(lon, lat, cnt, 0)
+	response = app.response_class(
+        response=json.dumps(trails, 
+		indent=4, default=ComplexHandler),
+        status=200,
+        mimetype='application/json'
+    )
+	return response
 
 @app.route('/trails/<trail>/', subdomain='api')
 def trail_API(trail):
-	return 'thank you for using trail api.'
+	"""
+	get a trail from Colorado based on trailid
+
+	Required Args:
+		None
+	Optional Args:
+		None
+	Note:
+		None
+	"""
+	response = app.response_class(
+        response=json.dumps(scrapeService.getTrails(-105.7821, 39.5501, 1, 0), 
+		indent=4, default=ComplexHandler),
+        status=200,
+        mimetype='application/json'
+    )
+	return response
 
 @app.route('/photos/', subdomain='api')
 def photos_API():

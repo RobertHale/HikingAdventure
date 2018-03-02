@@ -26,7 +26,10 @@ def getResorts(cnt):
 #scrapes and returns a single resort
 #specified by id
 def getResort(id):
-	data = fetchJSON("https://skimap.org/SkiAreas/view/" + str(id) + ".json")
+	try:
+		data = fetchJSON("https://skimap.org/SkiAreas/view/" + str(id) + ".json")
+	except ValueError as e:
+		return Resort("unknown", -1)
 	res = Resort(data['name'], data['id'])
 	res.lifts   = data['lift_count']        if 'lift_count'       in data else -1
 	res.runs    = data['run_count']         if 'run_count'        in data else -1
@@ -53,7 +56,7 @@ associates all created trails with resortid
 """
 def getTrails(lon, lat, cnt, resortid):
 	res = []
-	data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(lat) + '&lon=' + str(lon) + '&maxDistance=10&maxResults=' + str(cnt) + 'sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+	data = fetchJSON('https://www.hikingproject.com/data/get-trails?lat=' + str(lat) + '&lon=' + str(lon) + '&maxDistance=10&maxResults=' + str(cnt) + '&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
 	for t in data['trails']:
 		trail = Trail(t['name'], t['id'])
 		trail.difficulty = t['difficulty'] if 'difficulty' in t else "unknown"
