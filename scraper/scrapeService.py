@@ -1,4 +1,4 @@
-from fetch import fetchJSON, fetchXML
+from fetch import fetchJSON, fetchXML, fetchYelpJSON
 from resort import Resort
 from trail import Trail
 from photo import Photo
@@ -49,6 +49,12 @@ def getResort(id):
 		res.mapurl = "unknown"
 	except ElementTree.ParseError as e:
 		res.mapurl = "unknown"
+	try:
+		yelpdata = fetchYelpJSON('https://api.yelp.com/v3/businesses/search?&latitude=' + str(res.lat) + '&longitude=' + str(res.lon))
+	except ValueError:
+		res.reviewcount = 0
+	else:
+		res.setYelp(yelpdata['businesses'][0]['rating'], yelpdata['businesses'][0]['review_count'])
 	return res
 
 def getTrails(lon, lat, cnt, resort, trails):
