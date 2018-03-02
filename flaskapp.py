@@ -9,6 +9,7 @@ from complexhandler import ComplexHandler
 import scrapeService
 import requests
 import json
+from database 		import db_session
 
 
 app = Flask(__name__)
@@ -112,6 +113,10 @@ def githubstats():
 	# Return data in a string
 	data = str(commits) + " " + str(issues) + " " + str(commits_each.get("victor40", 0)) + " " + str(commits_each.get("duoALopez", 0)) + " " + str(commits_each.get("alexdai186", 0)) + " " + str(commits_each.get("RobertHale", 0)) + " " + str(commits_each.get("vponakala", 0)) + " " + str(commits_each.get("davepcast", 0))
 	return data
+	
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
 
 if __name__ == "__main__":
 	app.run()
