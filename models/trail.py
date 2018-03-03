@@ -12,7 +12,6 @@ class Trail:
 		self.length     = "unknown"
 		self.ascent     = "unknown"
 		self.descent    = "unknown"
-		self.condition  = "unknown"
 		self.img        = "unknown"
 		self.resorts    = []
 
