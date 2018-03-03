@@ -14,8 +14,16 @@ class Trail:
 		self.descent    = "unknown"
 		self.condition  = "unknown"
 		self.img        = "unknown"
-		self.resortid   = "unknown"
-		self.photoids   = []
+		self.resorts    = []
+
+	def addResort(self, id):
+		self.resorts.append(id)
+
+	def removeResort(self, id):
+		if id in self.resorts:
+			self.resorts.remove(id)
+			return True
+		return False
 
 	def jsonable(self):
 		return self.__dict__
