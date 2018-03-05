@@ -54,10 +54,13 @@ def getResort(id):
 		res.mapurl = "unknown"
 	try:
 		yelpdata = fetch.fetchYelpJSON('https://api.yelp.com/v3/businesses/search?&latitude=' + str(res.lat) + '&longitude=' + str(res.lon))
+		res.setYelp(yelpdata['businesses'][0]['rating'], yelpdata['businesses'][0]['review_count'])
 	except ValueError:
 		res.reviewcount = 0
-	else:
-		res.setYelp(yelpdata['businesses'][0]['rating'], yelpdata['businesses'][0]['review_count'])
+		res.yelpRating = "unknown"
+	except IndexError:
+		res.reviewcount = 0
+		res.yelpRating  = "unknown"
 	return res
 
 def getTrails(lon, lat, cnt, resort, trails):
