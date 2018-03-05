@@ -8,7 +8,7 @@ class Trail:
 		self.stars      = "unknown"
 		self.starVotes  = "unknown"
 		self.lat        = "unknown"
-		self.long       = "unknown"
+		self.lon       = "unknown"
 		self.length     = "unknown"
 		self.ascent     = "unknown"
 		self.descent    = "unknown"
