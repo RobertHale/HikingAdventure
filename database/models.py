@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
 
+#Association table for resorts and trails
 class ResortTrailJunction(Base):
 	__tablename__ = 'rtjunc'
 	resortid = Column(Integer, ForeignKey("resorts.id"), primary_key=True)
@@ -27,7 +28,9 @@ class Resort(Base):
 	mapid	= Column(Integer)
 	mapurl	= Column(String(50), unique=True)
 	reviews = Column(String(50))
-	trails = relationship('Trail', secondary='rtjunc', backref='resorts')
+	
+	trails = relationship('Trail', secondary='rtjunc', back_populates='resorts')
+	photos = relationship('Photo', back_populates='resort')
 	
 	def __init__(self, name=None, lifts=None, runs=None, website=None, lat=None, long=None, elev=None, mapid=None, mapurl=None, reviews=None):
 		self.name		= name
@@ -59,10 +62,11 @@ class Trail(Base):
 	descent		= Column(Integer)
 	condition	= Column(String(50))
 	img			= Column(String(50))
-	photoids	= Column(Integer)
-	resorts = relationship('Resort', secondary='rtjunc', backref='trails')
 	
-	def __init__(self, name=None, difficulty=None, summary=None, stars=None, starVotes=None, lat=None, long=None, length=None, ascent=None, descent=None, condition=None, img=None, photoids=None):
+	resorts = relationship('Resort', secondary='rtjunc', back_populates='trails')
+	photos = relationship('Photo', back_populates='trail')
+	
+	def __init__(self, name=None, difficulty=None, summary=None, stars=None, starVotes=None, lat=None, long=None, length=None, ascent=None, descent=None, condition=None, img=None):
 		self.name		= name
 		self.difficulty = difficulty
 		self.summary	= summary
@@ -75,7 +79,6 @@ class Trail(Base):
 		self.descent	= descent
 		self.condition	= condition
 		self.img		= img
-		self.photoids	= photoids
 	
 	def __repr__(self):
 		return '<Trail %r>' % (self.name)
@@ -86,6 +89,9 @@ class Photo(Base):
 	resortid = Column(Integer, ForeignKey("resorts.id"))
 	trailid = Column(Integer, ForeignKey("trails.id"))
 	url = Column(String(50), unique=True)
+	
+	trail = relationship('Trail', back_populates='photos', uselist=False)
+	resort = relationship('Resort', back_populates='photos', uselist=False)
 	
 	def __init__(self, resortid=None, trailid=None, url=None):
 		self.url = url

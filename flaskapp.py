@@ -1,6 +1,7 @@
 import sys
 sys.path.insert(0, './scraper/')
 sys.path.insert(0, './models/')
+sys.path.insert(0, './database/')
 from flask          import Flask, render_template, Response
 from jinja2         import Template, Environment, FileSystemLoader
 from resort         import Resort
