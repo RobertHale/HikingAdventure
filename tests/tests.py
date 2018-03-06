@@ -24,21 +24,52 @@ def createResort(data, yelpdata):
 	resort.reviewcount = yelpdata['businesses'][0]['review_count']
 	return resort
 
+def resortcontentequal(self, r1, r2):
+	self.assertEqual(r1.name, r2.name)
+	self.assertEqual(r1.id, r2.id)
+	self.assertEqual(r1.lifts, r2.lifts)
+	self.assertEqual(r1.runs, r2.runs)
+	self.assertEqual(r1.website, r2.website)
+	self.assertEqual(r1.lat, r2.lat)
+	self.assertEqual(r1.lon, r2.lon)
+	self.assertEqual(r1.elev, r2.elev)
+	self.assertEqual(r1.mapid, r2.mapid)
+	self.assertEqual(r1.yelprating, r2.yelprating)
+	self.assertEqual(r1.reviewcount, r2.reviewcount)
+
 def createTrail(t):
 	trail = Trail(name=t['name'], id=t['id'])
 	trail.difficulty = t['difficulty']
-	trail.summary    = t['summary']   
-	trail.stars      = t['stars']     
+	trail.summary    = t['summary']
+	trail.stars      = t['stars']  
 	trail.starVotes  = t['starVotes'] 
-	trail.lat        = t['latitude']  
-	trail.lon        = t['longitude'] 
-	trail.length     = t['length']    
-	trail.ascent     = t['ascent']    
+	trail.lat        = t['latitude']
+	trail.lon        = t['longitude']
+	trail.length     = t['length']
+	trail.ascent     = t['ascent']  
 	trail.descent    = t['descent']
 	trail.img        = t['imgMedium']
 	return trail
 
+def trailcontentequal(self, t1, t2):
+	self.assertEqual(t1.name, t2.name)
+	self.assertEqual(t1.id, t2.id)
+	self.assertEqual(t1.difficulty, t2.difficulty)
+	self.assertEqual(t1.summary, t2.summary)
+	self.assertEqual(t1.stars, t2.stars)
+	self.assertEqual(t1.starVotes, t2.starVotes)
+	self.assertEqual(t1.lat, t2.lat)
+	self.assertEqual(t1.lon, t2.lon)
+	self.assertEqual(t1.length, t2.length)
+	self.assertEqual(t1.ascent, t2.ascent)
+	self.assertEqual(t1.descent, t2.descent)
+	self.assertEqual(t1.img, t2.img)
+
+
 class scrapServiceTests (TestCase):
+
+	maxDiff = None
+
 	def testresorts1(self):
 		"""
 		test getResorts with valid fetch result
@@ -90,7 +121,7 @@ class scrapServiceTests (TestCase):
 		fetch.fetchJSON.assert_called_once_with("https://skimap.org/SkiAreas/view/1.json")
 		fetch.fetchXML.assert_called_once_with("https://skimap.org/SkiMaps/view/1.xml")
 		fetch.fetchYelpJSON.assert_called_once_with("https://api.yelp.com/v3/businesses/search?&latitude=1&longitude=1")
-		self.assertEqual(res.__dict__, resort.__dict__)
+		resortcontentequal(self, res, resort)
 
 	def testresort2(self):
 		"""
@@ -107,7 +138,7 @@ class scrapServiceTests (TestCase):
 		fetch.fetchJSON.assert_called_once_with("https://skimap.org/SkiAreas/view/1.json")
 		fetch.fetchXML.assert_not_called()
 		fetch.fetchYelpJSON.assert_not_called()
-		self.assertEqual(res.__dict__, resort.__dict__)
+		resortcontentequal(self, res, resort)
 
 	def testtrails1(self):
 		"""
@@ -118,17 +149,16 @@ class scrapServiceTests (TestCase):
 				 'starVotes':1, 'latitude':1, 'longitude':1, 'length':1, 'ascent':1,
 				 'descent':1, 'imgMedium':'img'}]}
 		trail  = createTrail(data['trails'][0])
-		trail.resorts.append(1)
 		resort = Resort(name='name', id=1)
+		trail.resorts.append(resort)
 		trails = {}
 		fetch.fetchJSON = MagicMock(return_value=data)
 		#function call
 		res = scrapeService.getTrails(1, 1, 1, resort, trails)
 		#validation
 		fetch.fetchJSON.assert_called_once_with('https://www.hikingproject.com/data/get-trails?lat=None&lon=None&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
-		self.assertEqual(res[1].__dict__, trail.__dict__)
-		self.assertEqual(resort.trails, [1])
-		self.assertEqual(trails[1].__dict__, trail.__dict__)
+		trailcontentequal(self, res[1], trail)
+		self.assertEqual(len(resort.trails), 1)
 
 	def testtrails2(self):
 		"""
@@ -154,8 +184,8 @@ class scrapServiceTests (TestCase):
 				 'starVotes':1, 'latitude':1, 'longitude':1, 'length':1, 'ascent':1,
 				 'descent':1, 'imgMedium':'img'}]}
 		trail  = createTrail(data['trails'][0])
-		trail.resorts.append(1)
 		resort = Resort(name="name", id=1)
+		trail.resorts.append(resort)
 		photo  = Photo(id=2, resortid=1)
 		trails = {}
 		fetch.fetchJSON = MagicMock(return_value=data)
@@ -163,9 +193,8 @@ class scrapServiceTests (TestCase):
 		res1, res2 = scrapeService.getTrailsAndPhotos(1, 1, 1, resort, trails, photo)
 		#validation
 		fetch.fetchJSON.assert_called_once_with('https://www.hikingproject.com/data/get-trails?lat=None&lon=None&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
-		self.assertEqual(res1[1].__dict__, trail.__dict__)
-		self.assertEqual(resort.trails, [1])
-		self.assertEqual(trails[1].__dict__, trail.__dict__)
+		trailcontentequal(self, res1[1], trail)
+		self.assertEqual(len(resort.trails), 1)
 		self.assertEqual(photo.photos, res2.photos)
 
 	def testphotos2(self):
