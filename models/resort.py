@@ -1,31 +1,20 @@
-class Resort:
-    def __init__(self, name, id):
-        self.name        = name
-        self.id          = id
-        self.lifts       = "unknown"
-        self.runs        = "unknown"
-        self.website     = "unknown"
-        self.lat         = "unknown"
-        self.lon         = "unknown"
-        self.elev        = "unknown"
-        self.mapid       = "unknown"
-        self.mapurl      = "unknown"
-        self.yelpRating  = "unknown"
-        self.reviewcount = "unknown"
-        self.trails      = []
+from model import Model
 
-    def addTrail(self, id):
-        self.trails.append(id)
-
-    def deletTrail(self, id):
-        if id in self.trails:
-            self.trails.remove(id)
-            return True
-        return False
-
-    def setYelp(self, rating, reviewcount):
-        self.yelpRating = rating
+class Resort(Model):
+    def __init__(self, name=None, id=None, lifts=None, runs=None, website=None, lat=None, lon=None, 
+                elev=None, mapid=None, mapurl=None, yelprating=None, reviewcount=None, trails=None):
+        super(Resort, self).__init__(name, id)
+        self.lifts       = lifts
+        self.runs        = runs
+        self.website     = website
+        self.lat         = lat
+        self.lon         = lon
+        self.elev        = elev
+        self.mapid       = mapid
+        self.mapurl      = mapurl
+        self.yelprating  = yelprating
         self.reviewcount = reviewcount
+        if trails is None:
+            trails = []
+        self.trails      = trails
 
-    def jsonable(self):
-        return self.__dict__

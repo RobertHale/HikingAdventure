@@ -33,15 +33,15 @@ def getResort(id):
 	try:
 		data = fetch.fetchJSON("https://skimap.org/SkiAreas/view/" + str(id) + ".json")
 	except ValueError as e:
-		return Resort("unknown", -1)
-	res = Resort(data['name'], data['id'])
-	res.lifts   = data['lift_count']        if 'lift_count'       in data else "unknown"
-	res.runs    = data['run_count']         if 'run_count'        in data else "unknown"
-	res.website = data['official_website']  if 'official_website' in data else "unknown"
-	res.lat     = data['latitude']          if 'latitude'         in data else "unknown"
-	res.lon     = data['longitude']         if 'longitude'        in data else "unknown"
-	res.elev    = data['top_elevation']     if 'top_elevation'    in data else "unknown"
-	res.mapid   = data['ski_maps'][0]['id'] if len(data['ski_maps']) > 0  else "unknown"
+		return Resort()
+	res = Resort(name=data['name'], id=data['id'])
+	res.lifts   = data['lift_count']        if 'lift_count'       in data else None
+	res.runs    = data['run_count']         if 'run_count'        in data else None
+	res.website = data['official_website']  if 'official_website' in data else None
+	res.lat     = data['latitude']          if 'latitude'         in data else None
+	res.lon     = data['longitude']         if 'longitude'        in data else None
+	res.elev    = data['top_elevation']     if 'top_elevation'    in data else None
+	res.mapid   = data['ski_maps'][0]['id'] if len(data['ski_maps']) > 0  else None
 	maptree = None
 	try:
 		maptree = fetch.fetchXML("https://skimap.org/SkiMaps/view/" + str(res.mapid) + ".xml")
@@ -49,18 +49,17 @@ def getResort(id):
 		if(maprender is not None):
 			res.mapurl  = maprender.get('url')
 	except ValueError as e:
-		res.mapurl = "unknown"
+		res.mapurl = None
 	except ElementTree.ParseError as e:
-		res.mapurl = "unknown"
+		res.mapurl = None
 	try:
 		yelpdata = fetch.fetchYelpJSON('https://api.yelp.com/v3/businesses/search?&latitude=' + str(res.lat) + '&longitude=' + str(res.lon))
-		res.setYelp(yelpdata['businesses'][0]['rating'], yelpdata['businesses'][0]['review_count'])
+		res.yelprating  = yelpdata['businesses'][0]['rating']
+		res.reviewcount = yelpdata['businesses'][0]['review_count']
 	except ValueError:
 		res.reviewcount = 0
-		res.yelpRating = "unknown"
 	except IndexError:
 		res.reviewcount = 0
-		res.yelpRating  = "unknown"
 	return res
 
 def getTrails(lon, lat, cnt, resort, trails):
@@ -78,7 +77,7 @@ def getTrails(lon, lat, cnt, resort, trails):
 		return trails
 	for t in data['trails']:
 		if t['id'] not in trails:
-			trail = Trail(t['name'], t['id'])
+			trail = Trail(name=t['name'], id=t['id'])
 			trail.difficulty = t['difficulty'] if 'difficulty' in t else "unknown"
 			trail.summary    = t['summary']    if 'summary'    in t else "unknown"
 			trail.stars      = t['stars']      if 'stars'      in t else "unknown"
@@ -89,9 +88,9 @@ def getTrails(lon, lat, cnt, resort, trails):
 			trail.ascent     = t['ascent']     if 'ascent'     in t else "unknown"
 			trail.descent    = t['descent']    if 'descent'    in t else "unknown"
 			trail.img        = t['imgMedium']  if 'imgMedium'  in t else "unknown"
-			trails[trail.id] = trail
-		trails[t['id']].addResort(resort.id)
-		resort.addTrail(t['id'])
+			trails[t['id']] = trail
+		trails[t['id']].resorts.append(resort.getid())
+		resort.trails.append(t['id'])
 	return trails
 
 def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photo):
@@ -110,7 +109,7 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photo):
 		return trails, photo
 	for t in data['trails']:
 		if t['id'] not in trails:
-			trail = Trail(t['name'], t['id'])
+			trail = Trail(name=t['name'], id=t['id'])
 			trail.difficulty = t['difficulty'] if 'difficulty' in t else "unknown"
 			trail.summary    = t['summary']    if 'summary'    in t else "unknown"
 			trail.stars      = t['stars']      if 'stars'      in t else "unknown"
@@ -121,10 +120,10 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photo):
 			trail.ascent     = t['ascent']     if 'ascent'     in t else "unknown"
 			trail.descent    = t['descent']    if 'descent'    in t else "unknown"
 			trail.img        = t['imgMedium']  if 'imgMedium'  in t else "unknown"
-			trails[trail.id] = trail
-		trails[t['id']].addResort(resort.id)
-		resort.addTrail(t['id'])
+			trails[t['id']] = trail
+		trails[t['id']].resorts.append(resort.getid())
+		resort.trails.append(t['id'])
 		if 'imgMedium' in t:
-			photo.addPhoto(t['imgMedium'], t['id'])
+			photo.photos.append((t['imgMedium'], t['id']))
 	return trails, photo
 

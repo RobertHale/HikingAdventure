@@ -3,7 +3,7 @@ class Model:
 		self.__name = name
 		self.__id   = id
 
-	def getName(self):
+	def getname(self):
 		return self.__name
 
 	def getid(self):

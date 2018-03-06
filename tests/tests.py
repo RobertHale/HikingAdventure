@@ -11,29 +11,27 @@ from photo         import Photo
 import fetch
 import scrapeService
 
-testXML1 = "<region id=\"281\" abbreviation=\"CO \" level=\"3\" type=\"Principal Subdivision\"><skiAreas><skiArea id=\"513\">Arapahoe Basin</skiArea>"
-
 def createResort(data, yelpdata):
-	resort         = Resort(data['name'], data['id'])
-	resort.lifts   = data['lift_count']
-	resort.runs    = data['run_count']
-	resort.website = data['official_website']
-	resort.lat     = data['latitude']
-	resort.lon     = data['longitude']
-	resort.elev    = data['top_elevation']
-	resort.mapid   = data['ski_maps'][0]['id']
-	resort.mapurl  = "unknown"
-	resort.setYelp(yelpdata['businesses'][0]['rating'], yelpdata['businesses'][0]['review_count'])
+	resort             = Resort(name=data['name'], id=data['id'])
+	resort.lifts       = data['lift_count']
+	resort.runs        = data['run_count']
+	resort.website     = data['official_website']
+	resort.lat         = data['latitude']
+	resort.lon         = data['longitude']
+	resort.elev        = data['top_elevation']
+	resort.mapid       = data['ski_maps'][0]['id']
+	resort.yelprating  = yelpdata['businesses'][0]['rating']
+	resort.reviewcount = yelpdata['businesses'][0]['review_count']
 	return resort
 
 def createTrail(t):
-	trail = Trail(t['name'], t['id'])
+	trail = Trail(name=t['name'], id=t['id'])
 	trail.difficulty = t['difficulty']
 	trail.summary    = t['summary']   
 	trail.stars      = t['stars']     
 	trail.starVotes  = t['starVotes'] 
 	trail.lat        = t['latitude']  
-	trail.long       = t['longitude'] 
+	trail.lon        = t['longitude'] 
 	trail.length     = t['length']    
 	trail.ascent     = t['ascent']    
 	trail.descent    = t['descent']
@@ -51,7 +49,7 @@ class scrapServiceTests (TestCase):
 		skiarea = ElementTree.Element('skiArea', id="1")
 		skiareas.append(skiarea)
 		etree.append(skiareas)
-		resort = Resort("foo", 1)
+		resort = Resort(name="foo", id=1)
 		fetch.fetchXML  = MagicMock(return_value=etree)
 		scrapeService.getResort = MagicMock(return_value=resort) 
 		#function call
@@ -99,7 +97,7 @@ class scrapServiceTests (TestCase):
 		test getResort with all fetchs raising ValueError
 		"""
 		#setup
-		resort = Resort("unknown", -1)
+		resort = Resort()
 		fetch.fetchJSON     = MagicMock(side_effect=ValueError)
 		fetch.fetchXML      = MagicMock(side_effect=ValueError)
 		fetch.fetchYelpJSON = MagicMock(side_effect=ValueError)
@@ -120,14 +118,14 @@ class scrapServiceTests (TestCase):
 				 'starVotes':1, 'latitude':1, 'longitude':1, 'length':1, 'ascent':1,
 				 'descent':1, 'imgMedium':'img'}]}
 		trail  = createTrail(data['trails'][0])
-		trail.addResort(1)
-		resort = Resort('name', 1)
+		trail.resorts.append(1)
+		resort = Resort(name='name', id=1)
 		trails = {}
 		fetch.fetchJSON = MagicMock(return_value=data)
 		#function call
 		res = scrapeService.getTrails(1, 1, 1, resort, trails)
 		#validation
-		fetch.fetchJSON.assert_called_once_with('https://www.hikingproject.com/data/get-trails?lat=unknown&lon=unknown&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+		fetch.fetchJSON.assert_called_once_with('https://www.hikingproject.com/data/get-trails?lat=None&lon=None&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
 		self.assertEqual(res[1].__dict__, trail.__dict__)
 		self.assertEqual(resort.trails, [1])
 		self.assertEqual(trails[1].__dict__, trail.__dict__)
@@ -138,12 +136,12 @@ class scrapServiceTests (TestCase):
 		"""
 		#setup
 		fetch.fetchJSON = MagicMock(side_effect=ValueError)
-		resort = Resort("name", 1)
+		resort = Resort(name="name", id=1)
 		trails = {}
 		#function call
 		res = scrapeService.getTrails(1, 1, 1, resort, trails)
 		#validation
-		fetch.fetchJSON.assert_called_once_with('https://www.hikingproject.com/data/get-trails?lat=unknown&lon=unknown&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+		fetch.fetchJSON.assert_called_once_with('https://www.hikingproject.com/data/get-trails?lat=None&lon=None&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
 		self.assertEqual(trails, res)
 		self.assertEqual(len(resort.trails), 0)
 
@@ -156,15 +154,15 @@ class scrapServiceTests (TestCase):
 				 'starVotes':1, 'latitude':1, 'longitude':1, 'length':1, 'ascent':1,
 				 'descent':1, 'imgMedium':'img'}]}
 		trail  = createTrail(data['trails'][0])
-		trail.addResort(1)
-		resort = Resort('name', 1)
-		photo  = Photo(2, 1)
+		trail.resorts.append(1)
+		resort = Resort(name="name", id=1)
+		photo  = Photo(id=2, resortid=1)
 		trails = {}
 		fetch.fetchJSON = MagicMock(return_value=data)
 		#function call
 		res1, res2 = scrapeService.getTrailsAndPhotos(1, 1, 1, resort, trails, photo)
 		#validation
-		fetch.fetchJSON.assert_called_once_with('https://www.hikingproject.com/data/get-trails?lat=unknown&lon=unknown&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+		fetch.fetchJSON.assert_called_once_with('https://www.hikingproject.com/data/get-trails?lat=None&lon=None&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
 		self.assertEqual(res1[1].__dict__, trail.__dict__)
 		self.assertEqual(resort.trails, [1])
 		self.assertEqual(trails[1].__dict__, trail.__dict__)
@@ -176,13 +174,13 @@ class scrapServiceTests (TestCase):
 		"""
 		#setup
 		fetch.fetchJSON = MagicMock(side_effect=ValueError)
-		resort = Resort("name", 1)
-		photo  = Photo(2, 1)
+		resort = Resort(name="name", id=1)
+		photo  = Photo(id=2, resortid=1)
 		trails = {}
 		#function call
 		res1, res2 = scrapeService.getTrailsAndPhotos(1, 1, 1, resort, trails, photo)
 		#validation
-		fetch.fetchJSON.assert_called_once_with('https://www.hikingproject.com/data/get-trails?lat=unknown&lon=unknown&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+		fetch.fetchJSON.assert_called_once_with('https://www.hikingproject.com/data/get-trails?lat=None&lon=None&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
 		self.assertEqual(trails, res1)
 		self.assertEqual(photo,  res2)
 		self.assertEqual(len(resort.trails), 0)
