@@ -15,3 +15,9 @@ def fetchXML(url):
 	if r.status_code is not 200:
 		raise ValueError
 	return ElementTree.fromstring(r.content)
+
+def fetchYelpJSON(url):
+	r = requests.get(url, headers={"Authorization":"Bearer ESPPXZgvpg43NZtUW4KRpOEkt4Jmh_XMGlwyyYd3M1wu7jXWxAhBtXObaJ7VRQXsOivJA_o9WaUFreC7JuCEEEjZhZ9_6iIXeaLK4X2_jgOaoPGCZP1sy7Esws2ZWnYx"})
+	if r.status_code is not 200:
+		raise ValueError
+	return r.json()
