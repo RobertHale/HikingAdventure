@@ -105,7 +105,7 @@ def getTrails(lon, lat, cnt, resort, trails):
     return trails
 
 
-def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photo):
+def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photos):
     """
     gets all trails nearby given resort
     associates all created trails with resortid
@@ -123,7 +123,7 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photo):
                     resort.lon) + '&maxDistance=10&maxResults=' + str(
                     cnt) + '&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
     except ValueError as e:
-        return trails, photo
+        return trails, photos
     for t in data['trails']:
         if t['id'] not in trails:
             trail = Trail(name=t['name'], id=t['id'])
@@ -136,10 +136,11 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photo):
             trail.length = t['length'] if 'length' in t else "unknown"
             trail.ascent = t['ascent'] if 'ascent' in t else "unknown"
             trail.descent = t['descent'] if 'descent' in t else "unknown"
-            trail.img = t['imgMedium'] if 'imgMedium' in t else "unknown"
+            photo = Photo(name=trail.name + " photo", id=trail.id, trailid=trail.id, resortid=resort.id,
+                          lat=trail.lat, lon=trail.lon)
+            photo.url = t['imgMedium'] if 'imgMedium' in t else "unknown"
+            photos[photo.id] = photo
             trails[t['id']] = trail
         trails[t['id']].resorts.append(resort)
-        resort.trails.append(trail)
-        if 'imgMedium' in t:
-            photo.photos.append((t['imgMedium'], t['id']))
-    return trails, photo
+        resort.trails.append(trails[t['id']])
+    return trails, photos

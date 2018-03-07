@@ -20,7 +20,6 @@ class Trail(Base):
     length = Column(Float)
     ascent = Column(Integer)
     descent = Column(Integer)
-    img = Column(String(50))
     youtubeid = Column(String(50))
     resorts = relationship('Resort', secondary='rtjunc', backref='resort_trails')
 

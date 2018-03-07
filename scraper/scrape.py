@@ -33,8 +33,8 @@ def fullscrape(rcnt, tcnt):
     print("Done\n")
     print("Getting trails and photos: ", end="")
     for resort in resorts:
-        photo = Photo(name=resort.getname(), id=resort.getid(), resortid=resort.getid())
-        trails, photo = scrapeService.getTrailsAndPhotos(resort.lat, resort.lon, tcnt, resort, trails, photo)
+        photos = {}
+        trails, photos = scrapeService.getTrailsAndPhotos(resort.lat, resort.lon, tcnt, resort, trails, photos)
         photos.append(photo)
     print("Done\n")
     return resorts, trails, photos
