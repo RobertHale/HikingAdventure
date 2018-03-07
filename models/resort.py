@@ -1,5 +1,4 @@
 import sys
-
 sys.path.insert(0, '../database/')
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
