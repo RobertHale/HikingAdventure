@@ -5,6 +5,7 @@ from database import Base
 #Association/Junction table for resorts and trails
 class ResortTrailJunction(Base):
 	__tablename__ = 'resort_trail_junc'
+	__table_args__ = {'extend_existing': True} 
 	resortid = Column(Integer, ForeignKey("resorts.id"), primary_key=True)
 	trailid = Column(Integer, ForeignKey("trails.id"), primary_key=True)
 	
@@ -14,14 +15,16 @@ class ResortTrailJunction(Base):
 		
 	def __repr__(self):
 		return '<Resort %r, Trail %r>' % (self.resortid, self.trailid)
-		
+
 class ResortPhotoJunction(Base):
-	_tablename__ = 'resort_photo_junc'
+	__tablename__ = 'resort_photo_junc'
+	__table_args__ = {'extend_existing': True} 
 	resortid = Column(Integer, ForeignKey("resorts.id"), primary_key=True)
 	photoid = Column(Integer, ForeignKey("photos.id"), primary_key=True)
 
 class Resort(Base):
 	__tablename__ = 'resorts'
+	__table_args__ = {'extend_existing': True} 
 	id		    = Column(Integer, primary_key=True, autoincrement=False)
 	name	    = Column(String(50), unique=True)
 	lifts	    = Column(Integer)
@@ -56,6 +59,7 @@ class Resort(Base):
 
 class Trail(Base):
 	__tablename__ = 'trails'
+	__table_args__ = {'extend_existing': True} 
 	id			= Column(Integer, primary_key=True, autoincrement=False)
 	name		= Column(String(50), unique=True)
 	difficulty	= Column(String(50))
@@ -93,6 +97,7 @@ class Trail(Base):
 
 class Photo(Base):
 	__tablename__ = 'photos'
+	__table_args__ = {'extend_existing': True} 
 	id	= Column(Integer, primary_key=True)
 	resortid = Column(Integer, ForeignKey("resorts.id"))
 	trailid = Column(Integer, ForeignKey("trails.id"))
