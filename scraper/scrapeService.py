@@ -63,6 +63,13 @@ def getResort(id):
         res.reviewcount = 0
     except IndexError:
         res.reviewcount = 0
+    try:
+        youtubedata = fetch.fetchJSON('https://www.googleapis.com/youtube/v3/search?q=' + res.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+        res.youtubeid = youtubedata['items'][0]['id']['videoId']
+    except ValueError:
+        res.youtubeid = None
+    except IndexError:
+        res.youtubeid = None
     return res
 
 
@@ -96,7 +103,14 @@ def getTrails(lon, lat, cnt, resort, trails):
             trail.length = t['length'] if 'length' in t else "unknown"
             trail.ascent = t['ascent'] if 'ascent' in t else "unknown"
             trail.descent = t['descent'] if 'descent' in t else "unknown"
-            trail.img = t['imgMedium'] if 'imgMedium' in t else "unknown"
+            try:
+                youtubedata = fetch.fetchJSON(
+                    'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+                trail.youtubeid = youtubedata['items'][0]['id']['videoId']
+            except ValueError:
+                trail.youtubeid = None
+            except IndexError:
+                trail.youtubeid = None
             trails[t['id']] = trail
         trails[t['id']].resorts.append(resort)
         resort.trails.append(trail)
@@ -134,6 +148,14 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photos):
             trail.length = t['length'] if 'length' in t else "unknown"
             trail.ascent = t['ascent'] if 'ascent' in t else "unknown"
             trail.descent = t['descent'] if 'descent' in t else "unknown"
+            try:
+                youtubedata = fetch.fetchJSON(
+                    'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+                trail.youtubeid = youtubedata['items'][0]['id']['videoId']
+            except ValueError:
+                trail.youtubeid = None
+            except IndexError:
+                trail.youtubeid = None
             photo = Photo(name=trail.name + " photo", id=trail.id, trailid=trail.id, resortid=resort.id,
                           lat=trail.lat, lon=trail.lon)
             photo.url = t['imgMedium'] if 'imgMedium' in t else "unknown"
