@@ -1,19 +1,17 @@
 import sys
 
 sys.path.insert(0, '../scraper/')
-sys.path.insert(0, '../models/')
+sys.path.insert(0, '../database/')
 from unittest import main, TestCase
 from unittest.mock import MagicMock
 from xml.etree import ElementTree
 from scrapeService import getResorts
-from resort import Resort
-from trail import Trail
-from photo import Photo
+from models import Resort, Trail, Photo
 import fetch
 import scrapeService
 
 
-def createResort(data, yelpdata):
+def createresort(data, yelpdata):
     resort = Resort(name=data['name'], id=data['id'])
     resort.lifts = data['lift_count']
     resort.runs = data['run_count']
@@ -41,7 +39,7 @@ def resortcontentequal(self, r1, r2):
     self.assertEqual(r1.reviewcount, r2.reviewcount)
 
 
-def createTrail(t):
+def createtrail(t):
     trail = Trail(name=t['name'], id=t['id'])
     trail.difficulty = t['difficulty']
     trail.summary = t['summary']
@@ -70,7 +68,7 @@ def trailcontentequal(self, t1, t2):
     self.assertEqual(t1.descent, t2.descent)
 
 
-class scrapServiceTests(TestCase):
+class ScrapServiceTests(TestCase):
     maxDiff = None
 
     def testresorts1(self):
@@ -114,7 +112,7 @@ class scrapServiceTests(TestCase):
                 'official_website': 'url', 'latitude': 1, 'longitude': 1,
                 'top_elevation': 1, 'ski_maps': [{'id': 1}]}
         yelpdata = {'businesses': [{'rating': 5, 'review_count': 5}]}
-        resort = createResort(data, yelpdata)
+        resort = createresort(data, yelpdata)
         fetch.fetchJSON = MagicMock(return_value=data)
         fetch.fetchXML = MagicMock(side_effect=ValueError)
         fetch.fetchYelpJSON = MagicMock(return_value=yelpdata)
@@ -151,7 +149,7 @@ class scrapServiceTests(TestCase):
         data = {'trails': [{'name': 'name', 'id': 1, 'difficulty': 1, 'summary': 'sum', 'stars': 1,
                             'starVotes': 1, 'latitude': 1, 'longitude': 1, 'length': 1, 'ascent': 1,
                             'descent': 1, 'imgMedium': 'img'}]}
-        trail = createTrail(data['trails'][0])
+        trail = createtrail(data['trails'][0])
         resort = Resort(name='name', id=1)
         trail.resorts.append(resort)
         trails = {}
@@ -188,7 +186,7 @@ class scrapServiceTests(TestCase):
         data = {'trails': [{'name': 'name', 'id': 1, 'difficulty': 1, 'summary': 'sum', 'stars': 1,
                             'starVotes': 1, 'latitude': 1, 'longitude': 1, 'length': 1, 'ascent': 1,
                             'descent': 1, 'imgMedium': 'img'}]}
-        trail = createTrail(data['trails'][0])
+        trail = createtrail(data['trails'][0])
         resort = Resort(name="name", id=1)
         trail.resorts.append(resort)
         photos = {}

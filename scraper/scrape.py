@@ -1,13 +1,4 @@
-import sys
-
-sys.path.insert(0, '../models/')
 import scrapeService
-import json
-from resort import Resort
-from trail import Trail
-from photo import Photo
-import trail
-from complexhandler import ComplexHandler
 import pprint
 
 
@@ -35,7 +26,6 @@ def fullscrape(rcnt, tcnt):
     for resort in resorts:
         photos = {}
         trails, photos = scrapeService.getTrailsAndPhotos(resort.lat, resort.lon, tcnt, resort, trails, photos)
-        photos.append(photo)
     print("Done\n")
     return resorts, trails, photos
 
