@@ -15,3 +15,8 @@ def init_db():
 	# you will have to import them first before calling init_db()
 	import models
 	Base.metadata.create_all(bind=engine)
+
+# drops all tables in db, essentially getting rid of all data
+def drop_db():
+	import models
+	Base.metadata.drop_all(bind=engine)
