@@ -13,7 +13,7 @@ export default class cards extends React.Component {
     if(this.props.trails){
       deck = this.props.trails.map(onecard => {
         return (
-          <Card data={onecard} />
+          <Card key={onecard.name} data={onecard} />
         );
 
       });
