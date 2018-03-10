@@ -98,7 +98,7 @@ def getTrails(lon, lat, cnt, resort, trails):
             trail.descent = t['descent'] if 'descent' in t else "unknown"
             trail.img = t['imgMedium'] if 'imgMedium' in t else "unknown"
             trails[t['id']] = trail
-        trails[t['id']].resorts.append(resort)
+        #trails[t['id']].resorts.append(resort)
         resort.trails.append(trail)
     return trails
 
@@ -134,11 +134,13 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photos):
             trail.length = t['length'] if 'length' in t else "unknown"
             trail.ascent = t['ascent'] if 'ascent' in t else "unknown"
             trail.descent = t['descent'] if 'descent' in t else "unknown"
-            photo = Photo(name=trail.name + " photo", id=trail.id, trailid=trail.id, resortid=resort.id,
+            photo = Photo(name=trail.name + " photo",
                           lat=trail.lat, lon=trail.lon)
             photo.url = t['imgMedium'] if 'imgMedium' in t else "unknown"
-            photos[photo.id] = photo
+            photos[photo.url] = photo
             trails[t['id']] = trail
-        trails[t['id']].resorts.append(resort)
+            photo.trail = trails[t['id']]
+       # trails[t['id']].resorts.append(resort)
         resort.trails.append(trails[t['id']])
+        resort.photos += trails[t['id']].photos
     return trails, photos

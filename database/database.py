@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('mysql://HikingDev:HikingDev1@hadbinstance.cw0u5qkvowfz.us-east-1.rds.amazonaws.com/hikingdb', convert_unicode=True, pool_recycle=3600)
+engine = create_engine('mysql://HikingDev:HikingDev1@hadbinstance.cw0u5qkvowfz.us-east-1.rds.amazonaws.com/hikingdb?charset=utf8mb4', convert_unicode=True, pool_recycle=3600, encoding='utf-8')
 db_session = scoped_session(sessionmaker(autocommit=False,
 										 autoflush=False,
 										 bind=engine))
