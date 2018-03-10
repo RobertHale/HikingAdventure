@@ -1,6 +1,7 @@
 import sys
 sys.path.insert(0, './scraper/')
 sys.path.insert(0, './models/')
+sys.path.insert(0, './database/')
 from flask          import Flask, render_template, Response
 from jinja2         import Template, Environment, FileSystemLoader
 from resort         import Resort
@@ -9,6 +10,7 @@ from complexhandler import ComplexHandler
 import scrapeService
 import requests
 import json
+from database 		import db_session
 
 
 app = Flask(__name__)
@@ -22,12 +24,6 @@ simple test route that returns
 a rendered jinja2 template
 DO NOT allow into actual production
 """
-@app.route('/devtest')
-def tbd():
-    day = ['rover', 'red']
-    return render_template('./indexreact.html', day=day)
-
-
 @app.route('/test/')
 def return_html():
 	#load env. make global later
@@ -118,6 +114,10 @@ def githubstats():
 	# Return data in a string
 	data = str(commits) + " " + str(issues) + " " + str(commits_each.get("victor40", 0)) + " " + str(commits_each.get("duoALopez", 0)) + " " + str(commits_each.get("alexdai186", 0)) + " " + str(commits_each.get("RobertHale", 0)) + " " + str(commits_each.get("vponakala", 0)) + " " + str(commits_each.get("davepcast", 0))
 	return data
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
 
 if __name__ == "__main__":
 	app.run()
