@@ -9,76 +9,40 @@ import {
   PaginationItem,
   PaginationLink
 } from 'reactstrap';
+import { Link } from "react-router-dom";
 
 export default class Resorts extends React.Component {
   constructor(){
     super();
-    this.set = {resorts : []}
+    this.state = {
+      resorts : [],
+      perpage : 0
+
+    }
+
   }
   //This is where we want to query the database
   //For now we use temporary information
-  componentWillMount(){
-    this.setState({
-      resorts: [
-        {
-          name  : "a",
-          lifts : 1,
-          runs  : 1
-        },
-        {
-          name  : "b",
-          lifts : 2,
-          runs  : 2
-        },
-        {
-          name  : "c",
-          lifts : 3,
-          runs  : 3
-        },
-        {
-          name  : "d",
-          lifts : 4,
-          runs  : 4
-        },
-        {
-          name  : "e",
-          lifts : 5,
-          runs  : 5
-        },
-        {
-          name  : "f",
-          lifts : 6,
-          runs  : 6
-        },
-        {
-          name  : "g",
-          lifts : 7,
-          runs  : 7
-        },
-        {
-          name  : "h",
-          lifts : 8,
-          runs  : 8
-        },
-        {
-          name  : "i",
-          lifts : 9,
-          runs  : 9
-        },
-      ]});
+  componentWillReceiveProps(nextProps){
+    console.log("fire");
+    this.setState({perpage : nextProps.match.params.page});
+  }
+
+  componentDidMount(){
+    console.log("mounted");
+  }
+  componentWillUnmount(){
+    console.log("wtf");
   }
 
   render () {
-    <div>
-    <Row>
-      <Col>
-        <div id="card3" class="card h-100 mt-4 cardbg"></div>
+    return(
+      <div>
+      <p>
+      Data here {this.state.perpage} {this.props.match.params.page}
+      </p>
+      <Link to="/resorts/10">press me </Link>
       </div>
-      <div class="col-sm-12 col-lg-6 col-centered">
-        <div id="card4" class="card h-100 mt-4 cardbg"></div>
-      </Col>
-    </Row>
-
-    </div>
+    );
   }
 }

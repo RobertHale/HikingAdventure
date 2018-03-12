@@ -17,6 +17,7 @@ app = Flask(__name__)
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
+    print("here")
     day = ['rover', 'red']
     return render_template('./indexreact.html', day=day)
 

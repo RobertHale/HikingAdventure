@@ -2,8 +2,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import Navbar from "./navbar"
-import Home from "./Home"
+import Navbar from "./navbar";
+import Home from "./Home";
+import Resorts from "./Resorts";
 import { Button } from 'reactstrap';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 //import 'bootstrap/dist/css/bootstrap.css';
@@ -14,6 +15,7 @@ ReactDOM.render(
   <div>
   <Route exact path="/" component={Home} />
   <Route path="/welp" component={App} />
+  <Route path= "/resorts/:page?" component={Resorts} />
   </div>
   </Router>,
   document.getElementById("content")
