@@ -10,6 +10,7 @@ import {
   PaginationLink
 } from 'reactstrap';
 import { Link } from "react-router-dom";
+import Resortcard from "./Resortcard";
 
 export default class Resorts extends React.Component {
   constructor(){
@@ -94,16 +95,22 @@ export default class Resorts extends React.Component {
       this.pairup(x);
     }
     componentWillUnmount(){
+      // <Link to="/resorts/10">press me </Link>
       console.log("We unmounted Resorts");
     }
 
     render () {
+      let rcard;
+      if(this.state.presorts){
+        rcard = this.state.presorts.map(currentc => {
+          return(
+            <Resortcard data = {currentc} />
+          );
+        })
+      }
       return(
         <div>
-        <p>
-        Data here {this.state.perpage} {this.props.match.params.page}
-        </p>
-        <Link to="/resorts/10">press me </Link>
+        {rcard}
         </div>
       );
     }
