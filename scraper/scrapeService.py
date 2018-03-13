@@ -112,7 +112,6 @@ def getTrails(lon, lat, cnt, resort, trails):
             except IndexError:
                 trail.youtubeid = None
             trails[t['id']] = trail
-        trails[t['id']].resorts.append(resort)
         resort.trails.append(trail)
     return trails
 
@@ -162,7 +161,6 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photos):
             photos[photo.url] = photo
             trails[t['id']] = trail
             photo.trail = trails[t['id']]
-        trails[t['id']].resorts.append(resort)
         resort.trails.append(trails[t['id']])
         resort.photos += trails[t['id']].photos
     return trails, photos
