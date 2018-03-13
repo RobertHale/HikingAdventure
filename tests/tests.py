@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, '../scraper/')
 sys.path.insert(0, '../database/')
 from unittest import main, TestCase
-from unittest.mock import MagicMock
+from mock import MagicMock
 from xml.etree import ElementTree
 from scrapeService import getResorts
 from models import Resort, Trail, Photo
