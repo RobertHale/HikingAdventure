@@ -11,7 +11,7 @@ import fetch
 import scrapeService
 
 
-def createresort(data, yelpdata):
+def createresort(data, yelpdata, ytdata):
     resort = Resort(name=data['name'], id=data['id'])
     resort.lifts = data['lift_count']
     resort.runs = data['run_count']
@@ -22,6 +22,7 @@ def createresort(data, yelpdata):
     resort.mapid = data['ski_maps'][0]['id']
     resort.yelprating = yelpdata['businesses'][0]['rating']
     resort.reviewcount = yelpdata['businesses'][0]['review_count']
+    resort.youtubeid = ytdata['items'][0]['id']['videoId']
     return resort
 
 
@@ -112,7 +113,8 @@ class ScrapServiceTests(TestCase):
                 'official_website': 'url', 'latitude': 1, 'longitude': 1,
                 'top_elevation': 1, 'ski_maps': [{'id': 1}]}
         yelpdata = {'businesses': [{'rating': 5, 'review_count': 5}]}
-        resort = createresort(data, yelpdata)
+        ytdata = {'items': [{'id': {'videoId': 3}}]}
+        resort = createresort(data, yelpdata, ytdata)
         fetch.fetchJSON = MagicMock(return_value=data)
         fetch.fetchXML = MagicMock(side_effect=ValueError)
         fetch.fetchYelpJSON = MagicMock(return_value=yelpdata)
