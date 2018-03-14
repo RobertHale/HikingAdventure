@@ -75,7 +75,7 @@ class Trail(Base):
 	youtubeid   = Column(String(500))
 	
 	resorts = relationship('Resort', secondary='resort_trail_junc', back_populates='trails')
-	photos = relationship('Photo', back_populates='trail')
+	photos = relationship('Photo', back_populates='trail', cascade_backrefs=False)
 	
 #	def __init__(self, name=None, difficulty=None, summary=None, stars=None, starVotes=None, lat=None, long=None, length=None, ascent=None, descent=None, condition=None, img=None):
 #		self.name		= name
@@ -104,7 +104,7 @@ class Photo(Base):
 	lat			= Column(Float)
 	lon 		= Column(Float)
 	
-	trail = relationship('Trail', back_populates='photos', uselist=False)
+	trail = relationship('Trail', back_populates='photos', uselist=False, cascade_backrefs=False)
 	resorts = relationship('Resort', secondary='resort_photo_junc', back_populates='photos')
 	
 #	def __init__(self, resortid=None, trailid=None, url=None):

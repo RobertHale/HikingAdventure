@@ -5,8 +5,10 @@ import pprint
 def main():
     pp = pprint.PrettyPrinter(indent=4)
     resorts, trails, photos = fullscrape(100, 10)
+    pp.pprint(photos)
     for photo in photos:
-        pp.pprint(photo.__dict__)
+        pp.pprint(photos[photo].__dict__)
+    print(len(photos))
 
 
 def fullscrape(rcnt, tcnt):
@@ -18,13 +20,12 @@ def fullscrape(rcnt, tcnt):
         tcnt = number of trails to scrape per resort
     """
     trails = {}
-    photos = []
-    print("Getting resorts: ", end="")
+    print("Getting resorts: ")
     resorts = scrapeService.getResorts(rcnt)
     print("Done\n")
-    print("Getting trails and photos: ", end="")
+    print("Getting trails and photos: ")
+    photos = {}
     for resort in resorts:
-        photos = {}
         trails, photos = scrapeService.getTrailsAndPhotos(resort.lat, resort.lon, tcnt, resort, trails, photos)
     print("Done\n")
     return resorts, trails, photos
