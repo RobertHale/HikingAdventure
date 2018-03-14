@@ -26,10 +26,10 @@ class Resort(Base):
 	__tablename__ = 'resorts'
 	__table_args__ = {'extend_existing': True} 
 	id		    = Column(Integer, primary_key=True, autoincrement=False)
-	name	    = Column(String(50), unique=True)
+	name	    = Column(String(500), unique=True)
 	lifts	    = Column(Integer)
 	runs	    = Column(Integer)
-	website     = Column(String(50))
+	website     = Column(String(500))
 	lat		    = Column(Float)
 	lon 	    = Column(Float)
 	elev	    = Column(Integer)
@@ -37,7 +37,7 @@ class Resort(Base):
 	mapurl	    = Column(String(500), unique=True)
 	yelprating  = Column(Float)
 	reviewcount = Column(Integer)
-	youtubeid   = Column(String(50))
+	youtubeid   = Column(String(500))
 	
 	trails = relationship('Trail', secondary='resort_trail_junc', back_populates='resorts')
 	photos = relationship('Photo', secondary='resort_photo_junc', back_populates='resorts')
@@ -61,7 +61,7 @@ class Trail(Base):
 	__tablename__ = 'trails'
 	__table_args__ = {'extend_existing': True} 
 	id			= Column(Integer, primary_key=True, autoincrement=False)
-	name		= Column(String(50))
+	name		= Column(String(500))
 	difficulty	= Column(String(50))
 	summary		= Column(String(5000))
 	stars		= Column(Integer)
@@ -72,7 +72,7 @@ class Trail(Base):
 	ascent		= Column(Integer)
 	descent		= Column(Integer)
 	condition	= Column(String(50))
-	youtubeid   = Column(String(50))
+	youtubeid   = Column(String(500))
 	
 	resorts = relationship('Resort', secondary='resort_trail_junc', back_populates='trails')
 	photos = relationship('Photo', back_populates='trail')
