@@ -60,7 +60,7 @@ class DBAccess:
 if __name__ == "__main__":
 	drop_db()
 	init_db()
-	r,t,p = scrape.fullscrape(10,10)
+	r,t,p = scrape.fullscrape(75,25)
 	acc = DBAccess(db_session)
 	acc.insertData(r)
 	

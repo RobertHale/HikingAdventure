@@ -63,13 +63,13 @@ def getResort(id):
         res.reviewcount = 0
     except IndexError:
         res.reviewcount = 0
-    try:
-        youtubedata = fetch.fetchJSON('https://www.googleapis.com/youtube/v3/search?q=' + res.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
-        res.youtubeid = youtubedata['items'][0]['id']['videoId']
-    except ValueError:
-        res.youtubeid = None
-    except IndexError:
-        res.youtubeid = None
+    # try:
+    #     youtubedata = fetch.fetchJSON('https://www.googleapis.com/youtube/v3/search?q=' + res.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+    #     res.youtubeid = youtubedata['items'][0]['id']['videoId']
+    # except ValueError:
+    #     res.youtubeid = None
+    # except IndexError:
+    #     res.youtubeid = None
     return res
 
 
@@ -94,23 +94,23 @@ def getTrails(lon, lat, cnt, resort, trails):
     for t in data['trails']:
         if t['id'] not in trails:
             trail = Trail(name=t['name'], id=t['id'])
-            trail.difficulty = t['difficulty'] if 'difficulty' in t else "unknown"
-            trail.summary = t['summary'] if 'summary' in t else "unknown"
-            trail.stars = t['stars'] if 'stars' in t else "unknown"
-            trail.starVotes = t['starVotes'] if 'starVotes' in t else "unknown"
-            trail.lat = t['latitude'] if 'latitude' in t else "unknown"
-            trail.lon = t['longitude'] if 'longitude' in t else "unknown"
-            trail.length = t['length'] if 'length' in t else "unknown"
-            trail.ascent = t['ascent'] if 'ascent' in t else "unknown"
-            trail.descent = t['descent'] if 'descent' in t else "unknown"
-            try:
-                youtubedata = fetch.fetchJSON(
-                    'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
-                trail.youtubeid = youtubedata['items'][0]['id']['videoId']
-            except ValueError:
-                trail.youtubeid = None
-            except IndexError:
-                trail.youtubeid = None
+            trail.difficulty = t['difficulty'] if 'difficulty' in t else None
+            trail.summary = t['summary'] if 'summary' in t else None
+            trail.stars = t['stars'] if 'stars' in t else None
+            trail.starVotes = t['starVotes'] if 'starVotes' in t else None
+            trail.lat = t['latitude'] if 'latitude' in t else None
+            trail.lon = t['longitude'] if 'longitude' in t else None
+            trail.length = t['length'] if 'length' in t else None
+            trail.ascent = t['ascent'] if 'ascent' in t else None
+            trail.descent = t['descent'] if 'descent' in t else None
+            # try:
+            #     youtubedata = fetch.fetchJSON(
+            #         'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+            #     trail.youtubeid = youtubedata['items'][0]['id']['videoId']
+            # except ValueError:
+            #     trail.youtubeid = None
+            # except IndexError:
+            #     trail.youtubeid = None
             trails[t['id']] = trail
         resort.trails.append(trail)
     return trails
@@ -138,29 +138,30 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photos):
     for t in data['trails']:
         if t['id'] not in trails:
             trail = Trail(name=t['name'], id=t['id'])
-            trail.difficulty = t['difficulty'] if 'difficulty' in t else "unknown"
-            trail.summary = t['summary'] if 'summary' in t else "unknown"
-            trail.stars = t['stars'] if 'stars' in t else "unknown"
-            trail.starVotes = t['starVotes'] if 'starVotes' in t else "unknown"
-            trail.lat = t['latitude'] if 'latitude' in t else "unknown"
-            trail.lon = t['longitude'] if 'longitude' in t else "unknown"
-            trail.length = t['length'] if 'length' in t else "unknown"
-            trail.ascent = t['ascent'] if 'ascent' in t else "unknown"
-            trail.descent = t['descent'] if 'descent' in t else "unknown"
-            try:
-                youtubedata = fetch.fetchJSON(
-                    'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
-                trail.youtubeid = youtubedata['items'][0]['id']['videoId']
-            except ValueError:
-                trail.youtubeid = None
-            except IndexError:
-                trail.youtubeid = None
-            photo = Photo(name=trail.name + " photo",
-                          lat=trail.lat, lon=trail.lon)
-            photo.url = t['imgMedium'] if 'imgMedium' in t else "unknown"
-            photos[photo.url] = photo
+            trail.difficulty = t['difficulty'] if 'difficulty' in t else None
+            trail.summary = t['summary'] if 'summary' in t else None
+            trail.stars = t['stars'] if 'stars' in t else None
+            trail.starVotes = t['starVotes'] if 'starVotes' in t else None
+            trail.lat = t['latitude'] if 'latitude' in t else None
+            trail.lon = t['longitude'] if 'longitude' in t else None
+            trail.length = t['length'] if 'length' in t else None
+            trail.ascent = t['ascent'] if 'ascent' in t else None
+            trail.descent = t['descent'] if 'descent' in t else None
+            # try:
+            #     youtubedata = fetch.fetchJSON(
+            #         'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+            #     trail.youtubeid = youtubedata['items'][0]['id']['videoId']
+            # except ValueError:
+            #     trail.youtubeid = None
+            # except IndexError:
+            #     trail.youtubeid = None
             trails[t['id']] = trail
-            photo.trail = trails[t['id']]
+            if 'imgMedium' in t and t['imgMedium'] != "":
+                photo = Photo(name=trail.name + " photo",
+                          lat=trail.lat, lon=trail.lon)
+                photo.url = t['imgMedium']
+                photos[t['imgMedium']] = photo
+                photo.trail = trails[t['id']]
         resort.trails.append(trails[t['id']])
         resort.photos += trails[t['id']].photos
     return trails, photos
