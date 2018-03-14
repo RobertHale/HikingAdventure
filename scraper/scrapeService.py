@@ -63,13 +63,13 @@ def getResort(id):
         res.reviewcount = 0
     except IndexError:
         res.reviewcount = 0
-    # try:
-    #     youtubedata = fetch.fetchJSON('https://www.googleapis.com/youtube/v3/search?q=' + res.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
-    #     res.youtubeid = youtubedata['items'][0]['id']['videoId']
-    # except ValueError:
-    #     res.youtubeid = None
-    # except IndexError:
-    #     res.youtubeid = None
+    try:
+        youtubedata = fetch.fetchJSON('https://www.googleapis.com/youtube/v3/search?q=' + res.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+        res.youtubeid = youtubedata['items'][0]['id']['videoId']
+    except ValueError:
+        res.youtubeid = None
+    except IndexError:
+        res.youtubeid = None
     return res
 
 
@@ -103,14 +103,14 @@ def getTrails(lon, lat, cnt, resort, trails):
             trail.length = t['length'] if 'length' in t else None
             trail.ascent = t['ascent'] if 'ascent' in t else None
             trail.descent = t['descent'] if 'descent' in t else None
-            # try:
-            #     youtubedata = fetch.fetchJSON(
-            #         'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
-            #     trail.youtubeid = youtubedata['items'][0]['id']['videoId']
-            # except ValueError:
-            #     trail.youtubeid = None
-            # except IndexError:
-            #     trail.youtubeid = None
+            try:
+                youtubedata = fetch.fetchJSON(
+                    'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+                trail.youtubeid = youtubedata['items'][0]['id']['videoId']
+            except ValueError:
+                trail.youtubeid = None
+            except IndexError:
+                trail.youtubeid = None
             trails[t['id']] = trail
         resort.trails.append(trail)
     return trails
@@ -147,14 +147,14 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photos):
             trail.length = t['length'] if 'length' in t else None
             trail.ascent = t['ascent'] if 'ascent' in t else None
             trail.descent = t['descent'] if 'descent' in t else None
-            # try:
-            #     youtubedata = fetch.fetchJSON(
-            #         'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
-            #     trail.youtubeid = youtubedata['items'][0]['id']['videoId']
-            # except ValueError:
-            #     trail.youtubeid = None
-            # except IndexError:
-            #     trail.youtubeid = None
+            try:
+                youtubedata = fetch.fetchJSON(
+                    'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+                trail.youtubeid = youtubedata['items'][0]['id']['videoId']
+            except ValueError:
+                trail.youtubeid = None
+            except IndexError:
+                trail.youtubeid = None
             trails[t['id']] = trail
             if 'imgMedium' in t and t['imgMedium'] != "":
                 photo = Photo(name=trail.name + " photo",
