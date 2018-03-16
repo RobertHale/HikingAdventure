@@ -17,6 +17,7 @@ ReactDOM.render(
   <Route exact path="/" component={Home} />
   <Route path="/welp" component={Resortcard} />
   <Route path= "/resorts/:page?" component={Resorts} />
+  <Route path= "/resorts/resort/:place" component={App} />
   </div>
   </Router>,
   document.getElementById("content")
