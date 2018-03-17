@@ -1,6 +1,6 @@
 import sys
 
-sys.path.insert(0, './database/')
+sys.path.insert(0, '/home/ubuntu/flaskapp/database')
 from flask import Flask, render_template, Response
 from database import db_session
 from sqlalchemy import create_engine
@@ -13,7 +13,6 @@ app = Flask(__name__)
 app.config['DEBUG'] = False
 
 engine = create_engine('mysql://HikingDev:HikingDev1@hadbinstance.cw0u5qkvowfz.us-east-1.rds.amazonaws.com/hikingdb?charset=utf8mb4')
-
 Session = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 s = scoped_session(Session)
 Base = declarative_base()
@@ -23,7 +22,9 @@ from models import Resort, Trail, Photo
 
 Base.metadata.create_all()
 manager = flask_restless.APIManager(app, session=s)
-
+manager.create_api(Resort, methods=['GET'])
+manager.create_api(Trail, methods=['GET'])
+manager.create_api(Photo, methods=['GET'])
 
 @app.route('/')
 def hello_world():
@@ -119,7 +120,4 @@ def shutdown_session(exception=None):
 
 
 if __name__ == "__main__":
-    manager.create_api(Resort, methods=['GET'])
-    manager.create_api(Trail, methods=['GET'])
-    manager.create_api(Photo, methods=['GET'])
     app.run()
