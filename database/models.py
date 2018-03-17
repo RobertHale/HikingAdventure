@@ -97,7 +97,7 @@ class Trail(Base):
 class Photo(Base):
 	__tablename__ = 'photos'
 	__table_args__ = {'extend_existing': True} 
-	#id	= Column(Integer, primary_key=True)
+	id	= Column(Integer, primary_key=True, autoincrement = False)
 	trailid = Column(Integer, ForeignKey("trails.id"))
 	url = Column(String(500))
 	name = Column(String(500), primary_key=True)

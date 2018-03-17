@@ -157,7 +157,7 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photos):
                 trail.youtubeid = None
             trails[t['id']] = trail
             if 'imgMedium' in t and t['imgMedium'] != "":
-                photo = Photo(name=trail.name + " photo",
+                photo = Photo(id = trail.id, name=trail.name + " photo",
                           lat=trail.lat, lon=trail.lon)
                 photo.url = t['imgMedium']
                 photos[t['imgMedium']] = photo
