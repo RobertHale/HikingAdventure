@@ -43,7 +43,6 @@ export default class Resorts extends React.Component {
   componentWillReceiveProps(nextProps){
     console.log("fire");
     this.setState({perpage : nextProps.match.params.page});
-    this.getinfo();
     console.log(this.state.resorts);
     //Here we want to break down the information
   }
