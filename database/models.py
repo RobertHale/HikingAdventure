@@ -20,7 +20,7 @@ class ResortPhotoJunction(Base):
 	__tablename__ = 'resort_photo_junc'
 	__table_args__ = {'extend_existing': True} 
 	resortid = Column(Integer, ForeignKey("resorts.id"), primary_key=True)
-	photoid = Column(Integer, ForeignKey("photos.id"), primary_key=True)
+	photoid = Column(String(500), ForeignKey("photos.name"), primary_key=True)
 
 class Resort(Base):
 	__tablename__ = 'resorts'
@@ -29,12 +29,12 @@ class Resort(Base):
 	name	    = Column(String(50), unique=True)
 	lifts	    = Column(Integer)
 	runs	    = Column(Integer)
-	website     = Column(String(50), unique=True)
+	website     = Column(String(50))
 	lat		    = Column(Float)
 	lon 	    = Column(Float)
 	elev	    = Column(Integer)
 	mapid	    = Column(Integer)
-	mapurl	    = Column(String(50), unique=True)
+	mapurl	    = Column(String(500), unique=True)
 	yelprating  = Column(Float)
 	reviewcount = Column(Integer)
 	youtubeid   = Column(String(50))
@@ -61,7 +61,7 @@ class Trail(Base):
 	__tablename__ = 'trails'
 	__table_args__ = {'extend_existing': True} 
 	id			= Column(Integer, primary_key=True, autoincrement=False)
-	name		= Column(String(50), unique=True)
+	name		= Column(String(50))
 	difficulty	= Column(String(50))
 	summary		= Column(String(5000))
 	stars		= Column(Integer)
@@ -72,11 +72,10 @@ class Trail(Base):
 	ascent		= Column(Integer)
 	descent		= Column(Integer)
 	condition	= Column(String(50))
-	img			= Column(String(50))
 	youtubeid   = Column(String(50))
 	
 	resorts = relationship('Resort', secondary='resort_trail_junc', back_populates='trails')
-	photos = relationship('Photo', back_populates='trail')
+	photos = relationship('Photo', back_populates='trail', cascade_backrefs=False)
 	
 #	def __init__(self, name=None, difficulty=None, summary=None, stars=None, starVotes=None, lat=None, long=None, length=None, ascent=None, descent=None, condition=None, img=None):
 #		self.name		= name
@@ -98,15 +97,14 @@ class Trail(Base):
 class Photo(Base):
 	__tablename__ = 'photos'
 	__table_args__ = {'extend_existing': True} 
-	id	= Column(Integer, primary_key=True)
-	resortid = Column(Integer, ForeignKey("resorts.id"))
+	#id	= Column(Integer, primary_key=True)
 	trailid = Column(Integer, ForeignKey("trails.id"))
 	url = Column(String(500))
-	name = Column(String(50), unique=True)
+	name = Column(String(500), primary_key=True)
 	lat			= Column(Float)
 	lon 		= Column(Float)
 	
-	trail = relationship('Trail', back_populates='photos', uselist=False)
+	trail = relationship('Trail', back_populates='photos', uselist=False, cascade_backrefs=False)
 	resorts = relationship('Resort', secondary='resort_photo_junc', back_populates='photos')
 	
 #	def __init__(self, resortid=None, trailid=None, url=None):

@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, '../scraper/')
 sys.path.insert(0, '../database/')
 from unittest import main, TestCase
-from unittest.mock import MagicMock
+from mock import MagicMock
 from xml.etree import ElementTree
 from scrapeService import getResorts
 from models import Resort, Trail, Photo
@@ -11,7 +11,7 @@ import fetch
 import scrapeService
 
 
-def createresort(data, yelpdata):
+def createresort(data, yelpdata, ytdata):
     resort = Resort(name=data['name'], id=data['id'])
     resort.lifts = data['lift_count']
     resort.runs = data['run_count']
@@ -22,6 +22,7 @@ def createresort(data, yelpdata):
     resort.mapid = data['ski_maps'][0]['id']
     resort.yelprating = yelpdata['businesses'][0]['rating']
     resort.reviewcount = yelpdata['businesses'][0]['review_count']
+    resort.youtubeid = ytdata['items'][0]['id']['videoId']
     return resort
 
 
@@ -39,7 +40,7 @@ def resortcontentequal(self, r1, r2):
     self.assertEqual(r1.reviewcount, r2.reviewcount)
 
 
-def createtrail(t):
+def createtrail(t, ytdata):
     trail = Trail(name=t['name'], id=t['id'])
     trail.difficulty = t['difficulty']
     trail.summary = t['summary']
@@ -51,6 +52,7 @@ def createtrail(t):
     trail.ascent = t['ascent']
     trail.descent = t['descent']
     trail.img = t['imgMedium']
+    trail.youtubeid = ytdata['items'][0]['id']['videoId']
     return trail
 
 
@@ -112,14 +114,17 @@ class ScrapServiceTests(TestCase):
                 'official_website': 'url', 'latitude': 1, 'longitude': 1,
                 'top_elevation': 1, 'ski_maps': [{'id': 1}]}
         yelpdata = {'businesses': [{'rating': 5, 'review_count': 5}]}
-        resort = createresort(data, yelpdata)
-        fetch.fetchJSON = MagicMock(return_value=data)
+        ytdata = {'items': [{'id': {'videoId': 3}}]}
+        resort = createresort(data, yelpdata, ytdata)
+        return_values = [data, ytdata]
+        fetch.fetchJSON = MagicMock(side_effect=lambda x : return_values.pop(0))
         fetch.fetchXML = MagicMock(side_effect=ValueError)
         fetch.fetchYelpJSON = MagicMock(return_value=yelpdata)
         # function call
         res = scrapeService.getResort(1)
         # validation
-        fetch.fetchJSON.assert_called_once_with("https://skimap.org/SkiAreas/view/1.json")
+        fetch.fetchJSON.assert_any_call("https://skimap.org/SkiAreas/view/1.json")
+        fetch.fetchJSON.assert_any_call("https://www.googleapis.com/youtube/v3/search?q=resort&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o")
         fetch.fetchXML.assert_called_once_with("https://skimap.org/SkiMaps/view/1.xml")
         fetch.fetchYelpJSON.assert_called_once_with("https://api.yelp.com/v3/businesses/search?&latitude=1&longitude=1")
         resortcontentequal(self, res, resort)
@@ -149,16 +154,18 @@ class ScrapServiceTests(TestCase):
         data = {'trails': [{'name': 'name', 'id': 1, 'difficulty': 1, 'summary': 'sum', 'stars': 1,
                             'starVotes': 1, 'latitude': 1, 'longitude': 1, 'length': 1, 'ascent': 1,
                             'descent': 1, 'imgMedium': 'img'}]}
-        trail = createtrail(data['trails'][0])
+        ytdata = {'items': [{'id': {'videoId': 3}}]}
+        trail = createtrail(data['trails'][0], ytdata)
         resort = Resort(name='name', id=1)
-        trail.resorts.append(resort)
         trails = {}
-        fetch.fetchJSON = MagicMock(return_value=data)
+        return_values = [data, ytdata]
+        fetch.fetchJSON = MagicMock(side_effect=lambda x : return_values.pop(0))
         # function call
         res = scrapeService.getTrails(1, 1, 1, resort, trails)
         # validation
-        fetch.fetchJSON.assert_called_once_with(
+        fetch.fetchJSON.assert_any_call(
             'https://www.hikingproject.com/data/get-trails?lat=None&lon=None&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+        fetch.fetchJSON.assert_any_call("https://www.googleapis.com/youtube/v3/search?q=name&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o")
         trailcontentequal(self, res[1], trail)
         self.assertEqual(len(resort.trails), 1)
 
@@ -186,17 +193,17 @@ class ScrapServiceTests(TestCase):
         data = {'trails': [{'name': 'name', 'id': 1, 'difficulty': 1, 'summary': 'sum', 'stars': 1,
                             'starVotes': 1, 'latitude': 1, 'longitude': 1, 'length': 1, 'ascent': 1,
                             'descent': 1, 'imgMedium': 'img'}]}
-        trail = createtrail(data['trails'][0])
+        ytdata = {'items': [{'id': {'videoId': 3}}]}
+        trail = createtrail(data['trails'][0], ytdata)
         resort = Resort(name="name", id=1)
-        trail.resorts.append(resort)
         photos = {}
         trails = {}
-        fetch.fetchJSON = MagicMock(return_value=data)
+        return_values = [data, ytdata]
+        fetch.fetchJSON = MagicMock(side_effect=lambda x : return_values.pop(0))
         # function call
         res1, res2 = scrapeService.getTrailsAndPhotos(1, 1, 1, resort, trails, photos)
         # validation
-        fetch.fetchJSON.assert_called_once_with(
-            'https://www.hikingproject.com/data/get-trails?lat=None&lon=None&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+        self.assertEqual(fetch.fetchJSON.call_count, 2)
         trailcontentequal(self, res1[1], trail)
         self.assertEqual(len(resort.trails), 1)
         self.assertEqual(photos, res2)
