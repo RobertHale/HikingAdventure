@@ -40,9 +40,9 @@ install:
     - pip install Werkzeug==0.14.1
     - pip list
 
-branches: 
-    - master
-    - dev
+# branches: 
+#     - master
+#     - dev
 # before_script:
 #     - date
 #     - uname -a
