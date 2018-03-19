@@ -1,10 +1,9 @@
-
 sudo: false
 
 language: python
 
 python:
-   - "3.6"
+   - "2.7"
 
 before_install:
     - cat .travis.yml
@@ -12,11 +11,33 @@ before_install:
     - pip --version
 
 install:
-    - pip install autopep8
-    - pip install coverage
-    - pip install mypy
-    - pip install pylint
-    - pip install numpy
+    - pip install certifi==2018.1.18
+    - pip install chardet==3.0.4
+    - pip install click==6.7
+    - pip install Flask==0.12.2
+    - pip install Flask-REST-JSONAPI==0.17.0
+    - pip install Flask-Restless==0.17.0
+    - pip install Flask-SQLAlchemy==2.3.2
+    - pip install fmt==0.3.1
+    - pip install funcsigs==1.0.2
+    - pip install gyp==0.1
+    - pip install idna==2.6
+    - pip install itsdangerous==0.24
+    - pip install Jinja2==2.10
+    - pip install MarkupSafe==1.0
+    - pip install marshmallow==2.13.1
+    - pip install marshmallow-jsonapi==0.16.0
+    - pip install mimerender==0.6.0
+    - pip install mock==2.0.0
+    - pip install mysqlclient==1.3.12
+    - pip install pbr==3.1.1
+    - pip install python-dateutil==2.7.0
+    - pip install python-mimeparse==1.6.0
+    - pip install requests==2.18.4
+    - pip install six==1.11.0
+    - pip install SQLAlchemy==1.2.5
+    - pip install urllib3==1.22
+    - pip install Werkzeug==0.14.1
     - pip list
 
 before_script:
@@ -27,9 +48,6 @@ before_script:
     - coverage  --version
     - git       --version
     - make      --version
-    - mypy      --version
-    - pydoc     --version
-    - pylint    --version
     - python3.6 --version
     - ls -al
     - cat makefile
