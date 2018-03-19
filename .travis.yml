@@ -40,17 +40,20 @@ install:
     - pip install Werkzeug==0.14.1
     - pip list
 
-before_script:
-    - date
-    - uname -a
-    - printenv | sort
-    - autopep8  --version
-    - coverage  --version
-    - git       --version
-    - make      --version
-    - python3.6 --version
-    - ls -al
-    - cat makefile
+branches: 
+    - master
+    - dev
+# before_script:
+#     - date
+#     - uname -a
+#     - printenv | sort
+#     - autopep8  --version
+#     - coverage  --version
+#     - git       --version
+#     - make      --version
+#     - python3.6 --version
+#     - ls -al
+#     - cat makefile
 
-script:
-- make travis
+# script:
+# - make travis
