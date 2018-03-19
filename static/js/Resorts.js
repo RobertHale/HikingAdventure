@@ -120,6 +120,7 @@ export default class Resorts extends React.Component {
 
         <div>
         <Link to="/resorts/10">press me </Link>
+        <p>{this.props.page}</p>
         {rcard}
         </div>
       );
