@@ -2,6 +2,7 @@ import sys
 sys.path.insert(0, '../scraper/')
 from database import db_session, drop_db, init_db
 from models import Resort, Trail, Photo
+from sqlalchemy import exc
 import scrape
 
 class DBAccess:
@@ -14,7 +15,7 @@ class DBAccess:
 	def commit(self):
 		try:
 			self.session.commit()
-		except IntegrityError:
+		except exc.IntegrityError:
 			self.session.rollback()
 		
 	def insertData(self, resorts):

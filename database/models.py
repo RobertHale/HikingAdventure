@@ -20,7 +20,7 @@ class ResortPhotoJunction(Base):
 	__tablename__ = 'resort_photo_junc'
 	__table_args__ = {'extend_existing': True} 
 	resortid = Column(Integer, ForeignKey("resorts.id"), primary_key=True)
-	photoid = Column(String(500), ForeignKey("photos.name"), primary_key=True)
+	photoid = Column(Integer, ForeignKey("photos.id"), primary_key=True)
 
 class Resort(Base):
 	__tablename__ = 'resorts'
@@ -97,10 +97,10 @@ class Trail(Base):
 class Photo(Base):
 	__tablename__ = 'photos'
 	__table_args__ = {'extend_existing': True} 
-	id	= Column(Integer, primary_key=True, autoincrement = False)
-	trailid = Column(Integer, ForeignKey("trails.id"))
+	id	= Column(Integer, primary_key=True, autoincrement=False)
+	trailid = Column(Integer, ForeignKey("trails.id"), nullable=False)
 	url = Column(String(500))
-	name = Column(String(500), primary_key=True)
+	name = Column(String(500))
 	lat			= Column(Float)
 	lon 		= Column(Float)
 	
