@@ -2,59 +2,68 @@ import sys
 sys.path.insert(0, '../scraper/')
 from database import db_session, drop_db, init_db
 from models import Resort, Trail, Photo
+from sqlalchemy import exc
 import scrape
 
 class DBAccess:
+
+
 	
 	def __init__(self, session):
 		self.session = session
 	
+	def commit(self):
+		try:
+			self.session.commit()
+		except exc.IntegrityError:
+			self.session.rollback()
+		
 	def insertData(self, resorts):
 		for resort in resorts:
 			self.session.merge(resort)
-			self.session.commit()
+			self.commit()
 		
-	def QueryResort(self, id):
+	def queryResort(self, id):
 		return self.session.query(Resort).filter(Resort.id == id).first()
 
-	def QueryTrail(self, id):
+	def queryTrail(self, id):
 		return self.session.query(Trail).filter(Trail.id == id).first()
 		
-	def QueryPhoto(self, name):
+	def queryPhoto(self, name):
 		return self.session.query(Photo).filter(Photo.name == name).first()
 
 	# Returns a list of all resorts, up to the given limit, giving no limit or a limit of 0 returns all resorts.
-	def QueryAllResorts(self, limit=0):
+	def queryAllResorts(self, limit=0):
 		if limit <= 0:
 			return self.session.query(Resort).all()
 		return 	self.session.query(Resort).limit(limit).all()
 		
-	def QueryAllTrails(self, limit=0):
+	def queryAllTrails(self, limit=0):
 		if limit <= 0:
 			return self.session.query(Trail).all()
 		return 	self.session.query(Trail).limit(limit).all()
 		
-	def QueryAllPhotos(self, limit=0):
+	def queryAllPhotos(self, limit=0):
 		if limit <= 0:
 			return self.session.query(Photo).all()
 		return 	self.session.query(Photo).limit(limit).all()
 
-	def QueryTrailsFromResort(self, resort):
+	def queryTrailsFromResort(self, resort):
 		return resort.trails
 
-	def QueryPhotosFromResort(self, resort):
+	def queryPhotosFromResort(self, resort):
 		return resort.photos
 		
-	def QueryPhotosFromTrails(self, trail):
+	def queryPhotosFromTrails(self, trail):
 		return trail.photos
 	
-	def QueryResortsFromTrails(self, trail):
+	def queryResortsFromTrails(self, trail):
 		return trail.resorts
 		
-	def QueryTrailFromPhoto(self, photo):
+	def queryTrailFromPhoto(self, photo):
 		return photo.trail
 		
-	def QueryResortsFromPhoto(self, photo):
+	def queryResortsFromPhoto(self, photo):
 		return photo.resorts
 
 if __name__ == "__main__":
