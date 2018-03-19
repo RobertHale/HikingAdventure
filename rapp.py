@@ -4,8 +4,8 @@ sys.path.insert(0, './models/')
 sys.path.insert(0, './database/')
 from flask          import Flask, render_template, Response
 from jinja2         import Template, Environment, FileSystemLoader
-from resort         import Resort
-from trail          import Trail
+# from resort         import Resort
+# from trail          import Trail
 from complexhandler import ComplexHandler
 #import scrapeService
 import requests

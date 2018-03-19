@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import Resortcard from "./Resortcard";
+import $ from 'jquery';
 
 export default class Resorts extends React.Component {
   constructor(){
@@ -21,6 +22,7 @@ export default class Resorts extends React.Component {
       perpage : 0
     }
     this.pairup = this.pairup.bind(this);
+    this.getinfo = this.getinfo.bind(this);
   }
   pairup(fetchedResorts){
     //Do magic
@@ -41,9 +43,14 @@ export default class Resorts extends React.Component {
   componentWillReceiveProps(nextProps){
     console.log("fire");
     this.setState({perpage : nextProps.match.params.page});
+    console.log(this.state.resorts);
     //Here we want to break down the information
   }
 
+  getinfo(){
+    $.getJSON('http://hikingadventures.me/api/resorts?page=1')
+      .then(({ results }) => this.setState({ resorts: results }));
+  }
   componentDidMount(){
     var x =
       [
@@ -109,7 +116,9 @@ export default class Resorts extends React.Component {
         })
       }
       return(
+
         <div>
+        <Link to="/resorts/10">press me </Link>
         {rcard}
         </div>
       );
