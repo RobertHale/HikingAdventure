@@ -10,7 +10,11 @@
   max-height: 100%;
 }
 
+.title-text {
+	text-decoration: underline;
+}
 
+h3	{ color: white;}
 h4	{ color: white;}
 h6	{ color: white;}
 li	{ color: white;}
