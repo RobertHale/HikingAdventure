@@ -51,5 +51,5 @@ before_script:
     - ls -al
 
 script:
-    - dbtests.py
-    - tests.py
+    - ./tests/dbtests.py
+    - ./tests/tests.py
