@@ -13,11 +13,8 @@ export default class App extends React.Component {
   constructor(){
     super();
     this.state = {
-      name: "",
-      difficulty: "",
-      length: 0,
-      ascent: 0,
-      descent: 0
+      names: [],
+      dummy: true
 
     }
     this.grabdata = this.grabdata.bind(this);
@@ -38,30 +35,29 @@ export default class App extends React.Component {
     /*$.getJSON('http://hikingadventures.me/api/trails/7040125')
     .then(real => console.log(real.trails))*/
 
-    $.getJSON('https://www.hikingproject.com/data/get-trails-by-id?ids=7040125&key=200217902-4d9f4e11973eb6aa502e868e55361062').then(results => {
+    /*$.getJSON('https://www.hikingproject.com/data/get-trails-by-id?ids=7040125&key=200217902-4d9f4e11973eb6aa502e868e55361062').then(results => {
       results.trails.map(data => {
         n = data.name;
         d = data.difficulty;
         l = data.length;
         a = data.ascent;
         descent = data.descent;
-      });
+      });*/
+
+      $.getJSON('https://www.hikingproject.com/data/get-trails?lat=40.5306%20-106.362984&lon=-106.7836&maxDistance=200&maxResults=500&key=200217902-4d9f4e11973eb6aa502e868e55361062')
+        .then(practice => practice.trails.map(trail => (
+          {
+            p_name: trail.name
+          }
+        )))
+        .then(names => this.setState({
+          names,
+
+        }))
 
 
+      //});
 
-      if (d == "blue") {
-        d = "Intermediate"
-      }
-      this.setState({
-        name: n,
-        difficulty: d,
-        length: l,
-        ascent: a,
-        descent: descent
-
-      });
-
-    });
 
 
 

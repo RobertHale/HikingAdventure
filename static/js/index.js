@@ -12,6 +12,7 @@ import Trails from "./Trails";
 import $ from 'jquery';
 import Trails_Straw from "./Trails_Straw";
 import Trails_Aspen from "./Trails_Aspen";
+import Practice from "./Practice";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 //import 'bootstrap/dist/css/bootstrap.css';
 // ReactDOM.render(<App />, document.getElementById("content"));
@@ -26,6 +27,7 @@ ReactDOM.render(
   <Route exact path= "/flash" component={Trails} />
   <Route exact path="/straw" component={Trails_Straw} />
   <Route exact path="/aspen" component={Trails_Aspen} />
+  <Route exact path="/practice" component={Practice} />
   </div>
   </Router>,
   document.getElementById("content")
