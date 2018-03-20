@@ -52,4 +52,5 @@ before_script:
     - cat makefile
 
 script:
-- make travis
+    - dbtests.py
+    - tests.py
