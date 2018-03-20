@@ -102,3 +102,6 @@ ENV/
 
 # PyCharm
 .idea/
+
+# react dep
+node_modules/
