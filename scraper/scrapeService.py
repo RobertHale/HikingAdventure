@@ -1,5 +1,3 @@
-import sys
-sys.path.insert(0, '../database/')
 from models import Resort, Trail, Photo
 from xml.etree import ElementTree
 import fetch
