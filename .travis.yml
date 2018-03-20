@@ -52,7 +52,7 @@ before_script:
 
 script:
     - cd tests
-    - chmod +x ./tests/dbtests.py
-    - chmod +x ./tests/tests.py
-    - python ./tests/dbtests.py
-    - python ./tests/tests.py
+    - chmod +x ./dbtests.py
+    - chmod +x ./tests.py
+    - python ./dbtests.py
+    - python ./tests.py
