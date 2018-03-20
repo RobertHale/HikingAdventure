@@ -49,7 +49,6 @@ before_script:
     - git       --version
     - make      --version
     - ls -al
-    - cat makefile
 
 script:
     - dbtests.py
