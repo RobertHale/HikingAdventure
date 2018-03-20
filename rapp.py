@@ -8,7 +8,7 @@ from jinja2         import Template, Environment, FileSystemLoader
 # from trail          import Trail
 from complexhandler import ComplexHandler
 #import scrapeService
-import requests
+#import requests
 import json
 #from database 		import db_session
 
