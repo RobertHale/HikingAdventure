@@ -51,7 +51,7 @@ before_script:
     - ls -al
 
 script:
-    - chmod +x /tests/dbtests.py
-    - chmod +x /tests/tests.py
+    - chmod +x ./tests/dbtests.py
+    - chmod +x ./tests/tests.py
     - ./tests/dbtests.py
     - ./tests/tests.py
