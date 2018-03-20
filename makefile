@@ -17,7 +17,7 @@ clean:
 config:
 	git config -l
 
-run: tests.pyx dbtests.pyx
+run: tests.py dbtests.py
 
 scrub:
 	make clean
