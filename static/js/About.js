@@ -100,7 +100,7 @@ export default class About extends React.Component {
         githubcont: gitgroup
       });
     });
-      $.getJSON('http://www.hikingadventures.me/api/trails').then(results => console.log(results));
+      $.getJSON('http://127.0.0.1:5000/api/trails').then(results => console.log(results.objects));
 
   }
 
@@ -135,7 +135,7 @@ export default class About extends React.Component {
 
       <Row className="justify-content-center">
 
-      <Col lg="4" sm="8">
+      <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/ZHPGrSu.jpg"/>
       <p>
       <b>
@@ -157,7 +157,7 @@ export default class About extends React.Component {
       </p>
       </Col>
 
-      <Col lg="4" sm="8">
+      <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/4jHX00q.jpg"/>
       <p>
       <b>
@@ -183,7 +183,7 @@ export default class About extends React.Component {
       </p>
 
       </Col>
-      <Col lg="4" sm="8">
+      <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/mf7JSRj.jpg"/>
       <p>
       <b>
@@ -207,7 +207,7 @@ export default class About extends React.Component {
       </Row>
 
       <Row>
-      <Col lg="4" sm="8">
+      <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/F5Y7b3M.jpg"/>
       <p>
       <b>
@@ -228,7 +228,7 @@ export default class About extends React.Component {
         <b># of Unit Tests: </b> {this.state.githubcont[0].duoALopez.tests}
       </p>
       </Col>
-      <Col lg="4" sm="8">
+      <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/00OjoLZ.jpg"/>
       <p>
       <b>
@@ -250,7 +250,7 @@ export default class About extends React.Component {
       </p>
       </Col>
 
-      <Col lg="4" sm="8">
+      <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/zkxl05U.jpg"/>
       <p>
       <b>

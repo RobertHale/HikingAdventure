@@ -18,8 +18,8 @@ ReactDOM.render(
   <Route exact path="/" component={Home} />
   <Route path="/about" component={About} />
   <Route path="/welp" component={Resortcard} />
-  <Route path= "/resorts/:page?" component={Resorts} />
-  <Route path= "/resorts/resort/:place" component={App} />
+  <Route exact path= "/resorts:page?" component={Resorts} />
+  <Route exact path= "/resorts/:place" component={App} />
   </div>
   </Router>,
   document.getElementById("content")
