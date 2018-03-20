@@ -23,11 +23,16 @@ ReactDOM.render(
   <Route exact path="/" component={Home} />
   <Route path="/about" component={About} />
   <Route path="/welp" component={Resortcard} />
+<<<<<<< HEAD
   <Route path= "/resorts/:page?" component={Resorts} />
   <Route exact path= "/flash" component={Trails} />
   <Route exact path="/straw" component={Trails_Straw} />
   <Route exact path="/aspen" component={Trails_Aspen} />
   <Route exact path="/practice" component={Practice} />
+=======
+  <Route exact path= "/resorts:page?" component={Resorts} />
+  <Route exact path= "/resorts/:place" component={App} />
+>>>>>>> davepcast-dev
   </div>
   </Router>,
   document.getElementById("content")

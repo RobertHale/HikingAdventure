@@ -42,64 +42,81 @@ export default class Resorts extends React.Component {
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
     console.log("fire");
+    console.log(nextProps.match.params.page);
     this.setState({perpage : nextProps.match.params.page});
     console.log(this.state.resorts);
     //Here we want to break down the information
   }
 
   getinfo(){
-    $.getJSON('http://hikingadventures.me/api/resorts?page=1')
-      .then(({ results }) => this.setState({ resorts: results }));
+    $.getJSON('http://hikingadventures.m/api/resorts?page=1')
+    .then(({ results }) => {console.log(results)});
   }
   componentDidMount(){
     var x =
-      [
-        {
-          name  : "a",
-          lifts : 1,
-          runs  : 1
-        },
-        {
-          name  : "b",
-          lifts : 2,
-          runs  : 2
-        },
-        {
-          name  : "c",
-          lifts : 3,
-          runs  : 3
-        },
-        {
-          name  : "d",
-          lifts : 4,
-          runs  : 4
-        },
-        {
-          name  : "e",
-          lifts : 5,
-          runs  : 5
-        },
-        {
-          name  : "f",
-          lifts : 6,
-          runs  : 6
-        },
-        {
-          name  : "g",
-          lifts : 7,
-          runs  : 7
-        },
-        {
-          name  : "h",
-          lifts : 8,
-          runs  : 8
-        },
-        {
-          name  : "i",
-          lifts : 9,
-          runs  : 9
-        }];
-      this.pairup(x);
+    [
+      {
+        name  : "a",
+        lifts : 1,
+        runs  : 1
+      },
+      {
+        name  : "b",
+        lifts : 2,
+        runs  : 2
+      },
+      {
+        name  : "c",
+        lifts : 3,
+        runs  : 3
+      },
+      {
+        name  : "d",
+        lifts : 4,
+        runs  : 4
+      },
+      {
+        name  : "e",
+        lifts : 5,
+        runs  : 5
+      },
+      {
+        name  : "f",
+        lifts : 6,
+        runs  : 6
+      },
+      {
+        name  : "g",
+        lifts : 7,
+        runs  : 7
+      },
+      {
+        name  : "h",
+        lifts : 8,
+        runs  : 8
+      },
+      {
+        name  : "i",
+        lifts : 9,
+        runs  : 9
+      }];
+      // var url = 'http://127.0.0.1:5000/api/resorts?page=';
+      var pagenumber = this.props.match.params.page;
+      console.log(pagenumber);
+      var temp;
+      if(pagenumber == null){
+        pagenumber = 1
+      }
+      else{
+        temp = pagenumber.split(" ");
+        pagenumber = temp[1];
+      }
+      console.log(pagenumber);
+      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
+      fetchfrom += pagenumber;
+      console.log(fetchfrom);
+
+      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects)});
     }
     componentWillUnmount(){
       // <Link to="/resorts/10">press me </Link>
@@ -118,8 +135,57 @@ export default class Resorts extends React.Component {
       return(
 
         <div>
-        <Link to="/resorts/10">press me </Link>
+        <p>Data here {this.state.perpage} {this.props.match.params.page} </p>
+        <Link to="/resortspage= 10">press me </Link>
         {rcard}
+        <br/>
+        <Row className="justify-content-center">
+        <Pagination>
+        <PaginationItem>
+        <PaginationLink previous href="#" />
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink href="/resorts">
+        1
+        </PaginationLink>
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink href="/resortspage= 2">
+        2
+        </PaginationLink>
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink href="/resortspage= 3">
+        3
+        </PaginationLink>
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink href="/resortspage= 4">
+        4
+        </PaginationLink>
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink href="/resortspage= 5">
+        5
+        </PaginationLink>
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink href="/resortspage= 6">
+        6
+        </PaginationLink>
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink next href="#" />
+        </PaginationItem>
+        </Pagination>
+        </Row>
         </div>
       );
     }
