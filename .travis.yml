@@ -37,6 +37,7 @@ install:
     - pip install SQLAlchemy==1.2.5
     - pip install urllib3==1.22
     - pip install Werkzeug==0.14.1
+    - pip install sqlite
     - pip list
 
 # branches: 
