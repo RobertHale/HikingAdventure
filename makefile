@@ -1,8 +1,8 @@
 .DEFAULT_GOAL := all
 
-FILES1 :=                       \
-    tests.py                    \
-    dbtests.py 					\
+FILES1 :=						\
+    tests.py					\
+    dbtests.py					\	
 
 all:
 
@@ -29,9 +29,9 @@ status:
 	git remote -v
 	git status
 
-travis: collatz-tests Collatz.html Collatz.log
+travis:
 	make clean
 	ls -al
 	make run
 	ls -al
-make -r check
+	make -r check
