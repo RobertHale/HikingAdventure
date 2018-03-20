@@ -42,17 +42,14 @@ install:
 # branches: 
 #     - master
 #     - alexdai-dev
-# before_script:
-#     - date
-#     - uname -a
-#     - printenv | sort
-#     - autopep8  --version
-#     - coverage  --version
-#     - git       --version
-#     - make      --version
-#     - python3.6 --version
-#     - ls -al
-#     - cat makefile
+before_script:
+    - date
+    - uname -a
+    - printenv | sort
+    - git       --version
+    - make      --version
+    - ls -al
+    - cat makefile
 
-# script:
-# - make travis
+script:
+- make travis
