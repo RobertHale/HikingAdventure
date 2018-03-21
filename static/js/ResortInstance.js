@@ -52,11 +52,11 @@ export default class ResortInstance extends React.Component {
     var url = window.location.href;
     var lastPart = url.split("/").pop();
 
-    var fetchfrom = "http://127.0.0.1:5000/api/resorts/" + lastPart;
+    var fetchfrom = "http://hikingadventures.me/api/resorts/" + lastPart;
 
-    var fetchPhotos = "http://127.0.0.1:5000/api/resorts/" + lastPart + "/photos?results_per_page=25";
+    var fetchPhotos = "http://hikingadventures.me/api/resorts/" + lastPart + "/photos?results_per_page=25";
 
-    var fetchTrails = "http://127.0.0.1:5000/api/resorts/" + lastPart + "/trails?results_per_page=25";
+    var fetchTrails = "http://hikingadventures.me/api/resorts/" + lastPart + "/trails?results_per_page=25";
 
     console.log(fetchfrom)
 
