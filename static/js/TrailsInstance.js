@@ -22,7 +22,8 @@ export default class App extends React.Component {
       sum: "",
       vid: "",
       list: 0,
-      trailid: 0
+      trailid: 0,
+      dummy: 0
 
 
     }
