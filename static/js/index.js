@@ -11,14 +11,11 @@ import Photos from "./Photos";
 import Photocard from "./Photocard";
 import Trails from "./Trails";
 import Trailcard from "./Trailcard";
+import TrailsInstance from "./TrailsInstance";
 import { Button } from 'reactstrap';
-import Trails from "./Trails";
 import $ from 'jquery';
-import Trails_Straw from "./Trails_Straw";
-import Trails_Aspen from "./Trails_Aspen";
 import Practice from "./Practice";
 import axios from 'axios';
-import TrailsCard from './TrailsCard';
 import tether from 'tether';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 //import 'bootstrap/dist/css/bootstrap.css';
@@ -31,8 +28,10 @@ ReactDOM.render(
   <Route path="/about" component={About} />
   <Route exact path= "/resorts:page?" component={Resorts} />
   <Route exact path= "/resorts/:id" component={App} />
+
   <Route exact path= "/trails:page?" component={Trails} />
-  <Route exact path= "/trails/:id" component={App} />
+  <Route exact path= "/trails/:id" component={TrailsInstance} />
+
   <Route exact path= "/photos:page?" component={Photos} />
   <Route exact path= "/photos/:id" component={App} />
   </div>

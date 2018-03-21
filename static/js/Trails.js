@@ -1,165 +1,130 @@
-// App.jsx
-import React from   "react";
-import Card from    "./card";
-import Cards from   "./cards";
-import $ from 'jquery';
+// Load all resorts in our database, 12 in each page
+import React from "react";
 import {
-  Container,
+  Button,
   Row,
   Col,
-  Table
+  Container,
+  Pagination,
+  PaginationItem,
+  PaginationLink
 } from 'reactstrap';
-import tether from 'tether';
-export default class App extends React.Component {
+import { Link } from "react-router-dom";
+import Trailcard from "./Trailcard";
+import $ from 'jquery';
+
+export default class Trails extends React.Component {
   constructor(){
     super();
     this.state = {
-      name: "",
-      difficulty: "",
-      length: 0,
-      ascent: 0,
-      descent: 0,
-      sum: "",
-      vid: "",
-      dummy: ""
-
+      resorts : [],
+      presorts : [],
+      perpage : 0
     }
-    this.grabdata = this.grabdata.bind(this);
+    this.pairup = this.pairup.bind(this);
+  }
+  pairup(fetchedResorts){
+    //Do magic
+    console.log(fetchedResorts);
+    var s = 2;
+    var b = 0;
+    var e = fetchedResorts.length;
+    var mimic = fetchedResorts;
+    var paired = [];
+    for(b, e; b < e; b += s){
+      paired.push(mimic.slice(b, b+s));
+    }
+    console.log(paired);
+    this.setState({presorts: paired});
   }
 
+  componentWillReceiveProps(nextProps){
+    console.log("fire");
+    console.log(nextProps.match.params.page);
+    this.setState({perpage : nextProps.match.params.page});
+    console.log(this.state.resorts);
+    //Here we want to break down the information
+  }
 
   componentDidMount(){
-    this.grabdata();
+      // var url = 'http://127.0.0.1:5000/api/resorts?page=';
+      var pagenumber = this.props.match.params.page;
+      console.log(pagenumber);
+      var temp;
+      if(pagenumber == null){
+        pagenumber = 1
+      }
+      else{
+        temp = pagenumber.split(" ");
+        pagenumber = temp[1];
+      }
+      console.log(pagenumber);
+      var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
+      fetchfrom += pagenumber;
+      console.log(fetchfrom);
+
+      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects)});
+    }
+    componentWillUnmount(){
+      // <Link to="/resorts/10">press me </Link>
+    }
+
+    render () {
+      let tcard;
+      if(this.state.presorts){
+        tcard = this.state.presorts.map(currentc => {
+          return(
+            <Trailcard data = {currentc} />
+          );
+        })
+      }
+      return(
+
+        <div>
+        {tcard}
+        <br/>
+        <Row className="justify-content-center">
+        <Pagination>
+        <PaginationItem>
+        <PaginationLink previous href="#" />
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink href="/trailspage= 1">
+        1
+        </PaginationLink>
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink href="/trailspage= 2">
+        2
+        </PaginationLink>
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink href="/trailspage= 3">
+        3
+        </PaginationLink>
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink href="/trailspage= 4">
+        4
+        </PaginationLink>
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink href="/trailspage= 5">
+        5
+        </PaginationLink>
+        </PaginationItem>
+
+        <PaginationItem>
+        <PaginationLink next href="#" />
+        </PaginationItem>
+        </Pagination>
+        </Row>
+        </div>
+      );
+    }
   }
-
-
-  grabdata() {
-    var n = 'ffjjffj';
-    var d = '';
-    var l = 0;
-    var a = 0;
-    var descent = 0;
-    var sum = '';
-    var vid = '';
-
-    var url = window.location.href;
-    var lastPart = url.split("/").pop();
-
-    var fetchfrom = "http://127.0.0.1:5000/api/trails/" + lastPart
-
-    console.log(fetchfrom)
-
-    $.getJSON(fetchfrom)
-      .then(results => {
-        n = results.name;
-        d = results.difficulty;
-        l = results.length;
-        a = results.ascent;
-        descent = results.descent;
-        sum = results.summary;
-        vid = results.youtubeid;
-
-        if (d == "greenBlue") {
-          d = "Easy/Intermediate";
-        }
-
-        if (d == "blue") {
-          d = "Intermediate";
-        }
-
-        if (d == "green") {
-          d = "Easy";
-        }
-        this.setState({
-          name: n,
-          difficulty: d,
-          length: l,
-          ascent: a,
-          descent: descent,
-          sum: sum,
-          vid: vid
-
-        });
-
-        console.log(vid)
-      });
-
-
-  }
-
-  render () {
-
-    var titles = {
-      color:'white',
-    };
-
-    var center = {
-      color: 'white',
-      textAlign:'center'
-    };
-    return (
-      <div>
-      <div className="container-fluid" styles="background-color: #473c8b;">
-      	<p styles='text-align:center'>
-      	</p>
-      	  <div className="card h-100 cardbg">
-      			<div className="card-block">
-      				<h1 style={titles} className="card-title" align="center">{this.state.name}</h1>
-      			</div>
-      	</div>
-      	<br></br>
-
-      	<div className="row justify-content-center">
-      		<div className="col col-m-3">
-      			<h2 style={titles} id="difficultyheader">Difficulty</h2>
-      			<var style={titles} id="difficulty"> {this.state.difficulty}</var>
-      		</div>
-      		<div className="col col-m-3">
-      			<h2 style={titles} id="lengthheader">Length</h2>
-      			<var style={titles} id="length">{this.state.length} miles</var>
-      		</div>
-      		<div className="col col-m-3">
-      			<h2 style={titles} id="elevationheader">Elevation</h2>
-      			<var style={titles} id="ascent">{this.state.ascent} foot ascent</var>
-      			<br></br>
-      			<var style={titles} id="descent">{this.state.descent} foot descent</var>
-      		</div>
-      	</div>
-      	<br></br>
-
-      	<div className="card h-100 cardbg">
-      		<div className="card-title">
-      			<br></br>
-      			<h2 style={center} id="description">Description</h2>
-      		</div>
-      		<br></br>
-      		<p className="card-text">
-      			{this.state.sum}
-      			<br></br>
-              </p>
-      	</div>
-      	<br></br>
-      	<div id="links" className="row justify-content-center">
-      		<div className="col-lg-2">
-      			<h2 style={titles}>Nearby Resorts:</h2>
-      				<a id="resort" className="btn btn-primary" href="/resorts/3">Breckenridge</a>
-      		</div>
-      		<div className="col-lg-2">
-      			<h2 style={titles}>Photos:</h2>
-      			<a id="photo" className="btn btn-primary" href="/photos/3">Photos</a>
-      		</div>
-      	</div>
-      	<br></br>
-      	<div className="row justify-content-center">
-      		<h2 style={titles}> Related Video Content </h2>
-      	</div>
-      	<div className="row justify-content-center">
-      		<iframe width="560" height="315" src={"https://www.youtube.com/embed/" + this.state.vid} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
-      	</div>
-      <br></br>
-      </div>
-
-      </div>
-    );
-  }
-}

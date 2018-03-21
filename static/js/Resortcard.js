@@ -23,8 +23,19 @@ export default class card extends React.Component {
     if(this.props.data.length == 1){
       inputsize = false;
     }
-    const mylinkone = "/resorts/" + (this.props.data[0].id).toString();
-    const mylinktwo = "/resorts/" + (this.props.data[1].id).toString();
+    var firstvideo = "";
+    var flifts = "";
+    var felevation = "";
+    var flatitude = "";
+    var flongitude = "";
+    var secondvideo = "";
+    var slifts = "";
+    var selevation = "";
+    var slatitude = "";
+    var slongitude = "";
+
+    var mylinkone = "/resorts/" + (this.props.data[0].id).toString();
+    var mylinktwo2 = "/resorts/" + (this.props.data[1].id).toString();
     console.log(mylinkone)
     let firstimage = '';
     let secondimage = '';
@@ -61,7 +72,7 @@ export default class card extends React.Component {
     }
 
     if((this.props.data).length > 1){
-      mylinktwo = "/resorts/" + (this.props.data[1].id).toString();
+      mylinktwo2 = "/resorts/" + (this.props.data[1].id).toString();
       if(this.props.data[1].youtubeid == null){
         secondvideo = "";
       }
@@ -119,7 +130,7 @@ export default class card extends React.Component {
         <Card className="mt-4">
         <iframe src={secondvideo} width="100%" height="316" frameborder="0" allowFullScreen></iframe>
         <CardBody>
-        <CardTitle><Link to={mylinktwo}>{this.props.data[1].name}</Link></CardTitle>
+        <CardTitle><Link to={mylinktwo2}>{this.props.data[1].name}</Link></CardTitle>
         <CardText>
         <ul>
         <li>{"Number of Lifts: "}{slifts}</li>
