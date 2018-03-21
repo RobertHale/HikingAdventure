@@ -17,6 +17,7 @@ import $ from 'jquery';
 import Practice from "./Practice";
 import axios from 'axios';
 import tether from 'tether';
+import PhotoInstance from "./PhotoInstance";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 //import 'bootstrap/dist/css/bootstrap.css';
 // ReactDOM.render(<App />, document.getElementById("content"));
@@ -33,7 +34,7 @@ ReactDOM.render(
   <Route exact path= "/trails/:id" component={TrailsInstance} />
 
   <Route exact path= "/photos:page?" component={Photos} />
-  <Route exact path= "/photos/:id" component={App} />
+  <Route exact path= "/photos/:id" component={PhotoInstance} />
   </div>
   </Router>,
   document.getElementById("content")

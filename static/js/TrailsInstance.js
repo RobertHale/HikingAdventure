@@ -21,7 +21,9 @@ export default class App extends React.Component {
       descent: 0,
       sum: "",
       vid: "",
-      dummy: ""
+      list: 0,
+      trailid: 0
+
 
     }
     this.grabdata = this.grabdata.bind(this);
@@ -34,6 +36,7 @@ export default class App extends React.Component {
 
 
   grabdata() {
+    var i = 0;
     var n = 'ffjjffj';
     var d = '';
     var l = 0;
@@ -41,13 +44,16 @@ export default class App extends React.Component {
     var descent = 0;
     var sum = '';
     var vid = '';
+    var resortid = {};
+    var resortname = '';
+    var trailid = 0;
 
     var url = window.location.href;
     var lastPart = url.split("/").pop();
+    trailid = lastPart;
 
-    var fetchfrom = "http://127.0.0.1:5000/api/trails/" + lastPart
+    var fetchfrom = "http://hikingadventures.me/api/trails/" + lastPart
 
-    console.log(fetchfrom)
 
     $.getJSON(fetchfrom)
       .then(results => {
@@ -77,12 +83,42 @@ export default class App extends React.Component {
           ascent: a,
           descent: descent,
           sum: sum,
-          vid: vid
+          vid: vid,
+          trailid: trailid
 
         });
 
-        console.log(vid)
       });
+
+
+
+      var fetchresort = fetchfrom + "/resorts";
+
+
+
+      $.getJSON(fetchresort)
+        .then(results => {
+          let list = results.objects.map((resorts)=>{
+            return (
+              <a className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
+
+            )
+
+          })
+
+          this.setState({
+            list:list
+
+
+          });
+
+
+
+        });
+
+
+
+
 
 
   }
@@ -97,17 +133,28 @@ export default class App extends React.Component {
       color: 'white',
       textAlign:'center'
     };
+
+
     return (
       <div>
       <div className="container-fluid" styles="background-color: #473c8b;">
       	<p styles='text-align:center'>
       	</p>
+        <div className="row justify-content-center">
+          <div className= "col-lg-3">
       	  <div className="card h-100 cardbg">
       			<div className="card-block">
       				<h1 style={titles} className="card-title" align="center">{this.state.name}</h1>
       			</div>
-      	</div>
-      	<br></br>
+          </div>
+        </div>
+       </div>
+      <br></br>
+       <div className="row justify-content-center">
+        <iframe  width="560" height="315" src={"https://www.youtube.com/embed/" + this.state.vid} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
+        </div>
+
+
 
       	<div className="row justify-content-center">
       		<div className="col col-m-3">
@@ -131,30 +178,25 @@ export default class App extends React.Component {
       		<div className="card-title">
       			<br></br>
       			<h2 style={center} id="description">Description</h2>
+            <var style={titles}>{this.state.sum} </var>
       		</div>
       		<br></br>
-      		<p className="card-text">
-      			{this.state.sum}
-      			<br></br>
-              </p>
       	</div>
       	<br></br>
       	<div id="links" className="row justify-content-center">
       		<div className="col-lg-2">
       			<h2 style={titles}>Nearby Resorts:</h2>
-      				<a id="resort" className="btn btn-primary" href="/resorts/3">Breckenridge</a>
+      				{this.state.list}
       		</div>
+          <br></br>
       		<div className="col-lg-2">
       			<h2 style={titles}>Photos:</h2>
-      			<a id="photo" className="btn btn-primary" href="/photos/3">Photos</a>
+      			<a id="photo" className="btn btn-primary" href={"http://hikingadventures.me/photos/" + this.state.trailid}>Photos</a>
       		</div>
       	</div>
       	<br></br>
       	<div className="row justify-content-center">
-      		<h2 style={titles}> Related Video Content </h2>
-      	</div>
-      	<div className="row justify-content-center">
-      		<iframe width="560" height="315" src={"https://www.youtube.com/embed/" + this.state.vid} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
+      		<h2 style={titles}> </h2>
       	</div>
       <br></br>
       </div>
