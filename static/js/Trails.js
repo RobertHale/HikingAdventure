@@ -10,10 +10,10 @@ import {
   PaginationLink
 } from 'reactstrap';
 import { Link } from "react-router-dom";
-import Resortcard from "./Resortcard";
+import Trailcard from "./Trailcard";
 import $ from 'jquery';
 
-export default class Resorts extends React.Component {
+export default class Trails extends React.Component {
   constructor(){
     super();
     this.state = {
@@ -22,7 +22,6 @@ export default class Resorts extends React.Component {
       perpage : 0
     }
     this.pairup = this.pairup.bind(this);
-    this.getinfo = this.getinfo.bind(this);
   }
   pairup(fetchedResorts){
     //Do magic
@@ -38,8 +37,7 @@ export default class Resorts extends React.Component {
     console.log(paired);
     this.setState({presorts: paired});
   }
-  //This is where we want to query the database
-  //For now we use temporary information
+
   componentWillReceiveProps(nextProps){
     console.log("fire");
     console.log(nextProps.match.params.page);
@@ -48,58 +46,7 @@ export default class Resorts extends React.Component {
     //Here we want to break down the information
   }
 
-  getinfo(){
-    $.getJSON('http://hikingadventures.m/api/resorts?page=1')
-    .then(({ results }) => {console.log(results)});
-  }
   componentDidMount(){
-    var x =
-    [
-      {
-        name  : "a",
-        lifts : 1,
-        runs  : 1
-      },
-      {
-        name  : "b",
-        lifts : 2,
-        runs  : 2
-      },
-      {
-        name  : "c",
-        lifts : 3,
-        runs  : 3
-      },
-      {
-        name  : "d",
-        lifts : 4,
-        runs  : 4
-      },
-      {
-        name  : "e",
-        lifts : 5,
-        runs  : 5
-      },
-      {
-        name  : "f",
-        lifts : 6,
-        runs  : 6
-      },
-      {
-        name  : "g",
-        lifts : 7,
-        runs  : 7
-      },
-      {
-        name  : "h",
-        lifts : 8,
-        runs  : 8
-      },
-      {
-        name  : "i",
-        lifts : 9,
-        runs  : 9
-      }];
       // var url = 'http://127.0.0.1:5000/api/resorts?page=';
       var pagenumber = this.props.match.params.page;
       console.log(pagenumber);
@@ -112,7 +59,7 @@ export default class Resorts extends React.Component {
         pagenumber = temp[1];
       }
       console.log(pagenumber);
-      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
+      var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
       fetchfrom += pagenumber;
       console.log(fetchfrom);
 
@@ -120,28 +67,21 @@ export default class Resorts extends React.Component {
     }
     componentWillUnmount(){
       // <Link to="/resorts/10">press me </Link>
-      console.log("We unmounted Resorts");
     }
 
     render () {
-      let rcard;
+      let tcard;
       if(this.state.presorts){
-        rcard = this.state.presorts.map(currentc => {
+        tcard = this.state.presorts.map(currentc => {
           return(
-            <Resortcard data = {currentc} />
+            <Trailcard data = {currentc} />
           );
         })
       }
       return(
 
         <div>
-<<<<<<< HEAD
-        <Link to="/resorts/10">press me </Link>
-        <p>{this.props.page}</p>
-=======
-        <Link to="/resortspage= 10">press me </Link>
->>>>>>> master
-        {rcard}
+        {tcard}
         <br/>
         <Row className="justify-content-center">
         <Pagination>
@@ -150,38 +90,32 @@ export default class Resorts extends React.Component {
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/resorts">
+        <PaginationLink href="/trailspage= 1">
         1
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/resortspage= 2">
+        <PaginationLink href="/trailspage= 2">
         2
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/resortspage= 3">
+        <PaginationLink href="/trailspage= 3">
         3
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/resortspage= 4">
+        <PaginationLink href="/trailspage= 4">
         4
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/resortspage= 5">
+        <PaginationLink href="/trailspage= 5">
         5
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink href="/resortspage= 6">
-        6
         </PaginationLink>
         </PaginationItem>
 
