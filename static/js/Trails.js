@@ -20,7 +20,8 @@ export default class App extends React.Component {
       ascent: 0,
       descent: 0,
       sum: "",
-      vid: ""
+      vid: "",
+      dummy: ""
 
     }
     this.grabdata = this.grabdata.bind(this);
