@@ -40,7 +40,7 @@ export default class Photos extends React.Component {
   //This is where we want to query the database
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
-    console.log("fire");
+    //console.log("fire");
     console.log(nextProps.match.params.page);
     this.setState({perpage : nextProps.match.params.page});
     console.log(this.state.resorts);
@@ -60,7 +60,7 @@ export default class Photos extends React.Component {
         pagenumber = temp[1];
       }
       console.log(pagenumber);
-      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
+      var fetchfrom = "http://hikingadventures.me/api/photos?page=";
       fetchfrom += pagenumber;
       console.log(fetchfrom);
 
@@ -68,7 +68,7 @@ export default class Photos extends React.Component {
     }
     componentWillUnmount(){
       // <Link to="/resorts/10">press me </Link>
-      console.log("We unmounted Resorts");
+      //console.log("We unmounted Resorts");
     }
 
     render () {
@@ -80,49 +80,80 @@ export default class Photos extends React.Component {
           );
         })
       }
+      let calculatepage = 1;
+      let prev = "/photospage= 1";
+      let first = 1;
+      let firstlink = "/photospage= 1";
+      let second = 2;
+      let secondlink = "/photospage= 2";
+      let third = 3;
+      let thirdlink = "/photospage= 3";
+      let fourth = 4;
+      let fourthlink = "/photospage= 4";
+      let fifth = 5;
+      let fifthlink = "/photospage= 5";
+      let next = "/photospage= 6";
+      let temp;
+      if (this.props.match.params.page){
+        temp = (this.props.match.params.page).split(" ");
+        calculatepage = parseInt(temp[1], 10);
+      }
+      if (calculatepage > 3){
+        first = calculatepage - 2;
+        second = calculatepage - 1;
+        third = calculatepage;
+        fourth = calculatepage + 1;
+        fifth = calculatepage + 2;
+        prev = "/photospage= " + (calculatepage - 3);
+        firstlink = "/photospage= " + (calculatepage - 2);
+        secondlink = "/photospage= " + (calculatepage - 1);
+        thirdlink = "/photospage= " + (calculatepage);
+        fourthlink = "/photospage= " + (calculatepage + 1);
+        fifthlink = "/photospage= " + (calculatepage + 2);
+        next = "/photospage= " + (calculatepage + 3);
+      }
       return(
-
         <div>
         {pcard}
         <br/>
         <Row className="justify-content-center">
         <Pagination>
         <PaginationItem>
-        <PaginationLink previous href="#" />
+        <PaginationLink previous href={prev} />
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/photos">
-        1
+        <PaginationLink href={firstlink}>
+        {first}
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/photospage= 2">
-        2
+        <PaginationLink href={secondlink}>
+        {second}
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/photospage= 3">
-        3
+        <PaginationLink href={thirdlink}>
+        {third}
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/photospage= 4">
-        4
+        <PaginationLink href={fourthlink}>
+        {fourth}
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/photospage= 5">
-        5
+        <PaginationLink href={fifthlink}>
+        {fifth}
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink next href="#" />
+        <PaginationLink next href={next} />
         </PaginationItem>
         </Pagination>
         </Row>

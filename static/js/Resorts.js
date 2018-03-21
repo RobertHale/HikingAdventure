@@ -112,7 +112,8 @@ export default class Resorts extends React.Component {
         pagenumber = temp[1];
       }
       console.log(pagenumber);
-      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
+      // hikingadventures
+      var fetchfrom = "http://hikingadventures.me/api/resorts?page=";
       fetchfrom += pagenumber;
       console.log(fetchfrom);
 
@@ -132,56 +133,81 @@ export default class Resorts extends React.Component {
           );
         })
       }
+      let calculatepage = 1;
+      let prev = "/resortspage= 1";
+      let first = 1;
+      let firstlink = "/resortspage= 1";
+      let second = 2;
+      let secondlink = "/resortspage= 2";
+      let third = 3;
+      let thirdlink = "/resortspage= 3";
+      let fourth = 4;
+      let fourthlink = "/resortspage= 4";
+      let fifth = 5;
+      let fifthlink = "/resortspage= 5";
+      let next = "/resortspage= 6";
+      let temp;
+      if (this.props.match.params.page){
+        temp = (this.props.match.params.page).split(" ");
+        calculatepage = parseInt(temp[1], 10);
+      }
+      if (calculatepage > 3){
+        first = calculatepage - 2;
+        second = calculatepage - 1;
+        third = calculatepage;
+        fourth = calculatepage + 1;
+        fifth = calculatepage + 2;
+        prev = "/resortspage= " + (calculatepage - 3);
+        firstlink = "/resortspage= " + (calculatepage - 2);
+        secondlink = "/resortspage= " + (calculatepage - 1);
+        thirdlink = "/resortspage= " + (calculatepage);
+        fourthlink = "/resortspage= " + (calculatepage + 1);
+        fifthlink = "/resortspage= " + (calculatepage + 2);
+        next = "/resortspage= " + (calculatepage + 3);
+      }
       return(
 
         <div>
-
         {rcard}
         <br/>
         <Row className="justify-content-center">
         <Pagination>
         <PaginationItem>
-        <PaginationLink previous href="#" />
+        <PaginationLink previous href={prev} />
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/resorts">
-        1
+        <PaginationLink href={firstlink}>
+        {first}
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/resortspage= 2">
-        2
+        <PaginationLink href={secondlink}>
+        {second}
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/resortspage= 3">
-        3
+        <PaginationLink href={thirdlink}>
+        {third}
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/resortspage= 4">
-        4
+        <PaginationLink href={fourthlink}>
+        {fourth}
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/resortspage= 5">
-        5
+        <PaginationLink href={fifthlink}>
+        {fifth}
         </PaginationLink>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href="/resortspage= 6">
-        6
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink next href="#" />
+        <PaginationLink next href={next} />
         </PaginationItem>
         </Pagination>
         </Row>
