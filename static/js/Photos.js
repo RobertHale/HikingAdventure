@@ -22,7 +22,6 @@ export default class Photos extends React.Component {
       perpage : 0
     }
     this.pairup = this.pairup.bind(this);
-    this.getinfo = this.getinfo.bind(this);
   }
   pairup(fetchedResorts){
     //Do magic
@@ -48,10 +47,6 @@ export default class Photos extends React.Component {
     //Here we want to break down the information
   }
 
-  getinfo(){
-    $.getJSON('http://hikingadventures.m/api/resorts?page=1')
-    .then(({ results }) => {console.log(results)});
-  }
   componentDidMount(){
       // var url = 'http://127.0.0.1:5000/api/resorts?page=';
       var pagenumber = this.props.match.params.page;
@@ -88,7 +83,6 @@ export default class Photos extends React.Component {
       return(
 
         <div>
-        <p>Data here {this.state.perpage} {this.props.match.params.page} </p>
         {pcard}
         <br/>
         <Row className="justify-content-center">

@@ -135,7 +135,6 @@ export default class Resorts extends React.Component {
       return(
 
         <div>
-        <p>Data here {this.state.perpage} {this.props.match.params.page} </p>
         <Link to="/resortspage= 10">press me </Link>
         {rcard}
         <br/>
