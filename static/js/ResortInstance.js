@@ -2,6 +2,7 @@
 import React from   "react";
 import Card from    "./card";
 import Cards from   "./cards";
+import $ from 'jquery';
 import {
   Container,
   Row,
@@ -9,18 +10,92 @@ import {
   Table
 } from 'reactstrap';
 export default class ResortInstance extends React.Component {
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
     this.state = {
-      title: 'Resort Instance'
+      name: "",
+      elevation: 0,
+      runs: 0,
+      lifts: 0,
+      reviews: 0,
+      lat: 0,
+      lon: 0,
+      yelp: 0,
+      website: "",
+      map: ""
     };
+
+    this.grabdata = this.grabdata.bind(this);
   }
+
+  componentDidMount(){
+    this.grabdata();
+  }
+  grabdata() {
+    var n = '';
+    var e = 0;
+    var r = 0;
+    var l = 0;
+    var rev = 0;
+    var lat = 0;
+    var lon = 0;
+    var y = 0;
+    var w = '';
+    var m = '';
+
+    var url = window.location.href;
+    var lastPart = url.split("/").pop();
+
+    var fetchfrom = "http://127.0.0.1:5000/api/resorts/" + lastPart
+
+    console.log(fetchfrom)
+
+    $.getJSON(fetchfrom)
+      .then(results => {
+        n = results.name;
+        e = results.elev;
+        r = results.runs;
+        l = results.lifts;
+        rev = results.reviewcount;
+        lat = results.lat;
+        lon = results.lon;
+        y = results.yelprating;
+        w = results.website;
+        m = results.mapurl;
+
+        this.setState({
+          name: n,
+          elevation: e,
+          runs: r,
+          lifts: l,
+          reviews: rev,
+          lat: lat,
+          lon: lon,
+          yelp: y,
+          website: w,
+          map: m
+
+        });
+
+      });
+  }
+
   render () {
+
+    var titles = {
+      color:'white',
+    };
+
+    var center = {
+      color: 'white',
+      textAlign:'center'
+    };
+
     return (
       <div>
       <div id="title" className="row align-items-center">
   			<div className="col-12">
-  				<h1 id="name">Breckenridge</h1>
+  				<h1 style={titles} id="name">{this.state.name}</h1>
           <br></br>
   			</div>
   		</div>
@@ -28,36 +103,41 @@ export default class ResortInstance extends React.Component {
       <div className="row">
         <div id="main" className="col-lg-6">
           <div className="card cardbg">
-            <img className="card-img-top" src="https://skimap.org/data/510/2589/1510674068jpg_render.jpg" height="500" />
+            <img className="card-img-top" src="{this.state.map}" height="500" />
             <div className="card-block">
               <ul>
                 <li>
-                  <h2 id="coord" className="card-title">
-                    Coordinates: 39.472250035504 -106.06571187716
+                  <h2 id="latitude" className="card-title">
+                    Latitude: {this.state.lat}
+                  </h2>
+                </li>
+                <li>
+                  <h2 id="longitude" className="card-title">
+                    Longitude: {this.state.lon}
                   </h2>
                 </li>
                 <li>
                   <h2 id="elev" className="card-title">
-                    Elevation at Peak (meters): 3962
+                    Elevation at Peak (meters): {this.state.elevation}
                   </h2>
                 </li>
                 <li>
                   <h2 id="runs" className="card-title">
-                    total ski runs: 155
+                    Total Ski Runs: {this.state.runs}
                   </h2>
                 </li>
                 <li>
                   <h2 id="lifts" className="card-title">
-                    total lifts: 18
+                    Total Lifts: {this.state.lifts}
                   </h2>
                 </li>
                 <li>
                   <h2 id="review" className="card-title">
-                    Reviews: 4 stars from 261 reviews
+                    Reviews: {this.state.yelp} Stars from {this.state.reviews} Reviews
                   </h2>
                 </li>
               </ul>
-              <form id="web_link" action="https://www.breckenridge.com">
+              <form id="web_link" action="{this.state.website}">
                   <input type="submit" className="btn btn-primary" value="Website" />
               </form>
             </div>
@@ -83,36 +163,7 @@ export default class ResortInstance extends React.Component {
         </div>
       </div>
 
-      <div className="container" style={{backgroundColor: 'slate blue', margin: 'auto', height:'300vh'}}>
-           <div className="instance">
-               <div className="panel">
-                   <div className="panel-heading">
-                       <h1>{this.state.title}</h1></div>
-                       <br></br>
-                       <br></br>
-                       <br></br>
-                   <div className="panel-body">
-                       <Row>
-                           <Col xs={7} md={7}>
-                               {}
-                               <h3 >Difficulty </h3>
-                               <br></br>
-                               <br></br>
-                               <br></br>
 
-                               <h3 >Description</h3>
-                               <br></br>
-                               <br></br>
-                               <br></br>
-                               {}
-                               <h3 >Photographer</h3>
-                           </Col>
-                       </Row>
-
-                       </div>
-                   </div>
-               </div>
-           </div>
       </div>
     );
   }
