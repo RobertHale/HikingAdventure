@@ -7,6 +7,10 @@ import Home from "./Home";
 import About from "./About";
 import Resorts from "./Resorts";
 import Resortcard from "./Resortcard";
+import Photos from "./Photos";
+import Photocard from "./Photocard";
+import Trails from "./Trails";
+import Trailcard from "./Trailcard";
 import { Button } from 'reactstrap';
 import Trails from "./Trails";
 import $ from 'jquery';
@@ -25,10 +29,12 @@ ReactDOM.render(
   <div>
   <Route exact path="/" component={Home} />
   <Route path="/about" component={About} />
-  <Route exact path= "/trails/:place" component={Trails} />
-
   <Route exact path= "/resorts:page?" component={Resorts} />
-  <Route exact path= "/resorts/:place" component={App} />
+  <Route exact path= "/resorts/:id" component={App} />
+  <Route exact path= "/trails:page?" component={Trails} />
+  <Route exact path= "/trails/:id" component={App} />
+  <Route exact path= "/photos:page?" component={Photos} />
+  <Route exact path= "/photos/:id" component={App} />
   </div>
   </Router>,
   document.getElementById("content")
