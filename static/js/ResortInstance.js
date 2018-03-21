@@ -22,7 +22,9 @@ export default class ResortInstance extends React.Component {
       lon: 0,
       yelp: 0,
       website: "",
-      map: ""
+      map: "",
+      photos: 0,
+      trails: 0
     };
 
     this.grabdata = this.grabdata.bind(this);
@@ -42,11 +44,19 @@ export default class ResortInstance extends React.Component {
     var y = 0;
     var w = '';
     var m = '';
+    var p = 0;
+    var pn = '';
+    var t = 0;
+    var tn = '';
 
     var url = window.location.href;
     var lastPart = url.split("/").pop();
 
-    var fetchfrom = "http://127.0.0.1:5000/api/resorts/" + lastPart
+    var fetchfrom = "http://127.0.0.1:5000/api/resorts/" + lastPart;
+
+    var fetchPhotos = "http://127.0.0.1:5000/api/resorts/" + lastPart + "/photos?results_per_page=25";
+
+    var fetchTrails = "http://127.0.0.1:5000/api/resorts/" + lastPart + "/trails?results_per_page=25";
 
     console.log(fetchfrom)
 
@@ -78,6 +88,46 @@ export default class ResortInstance extends React.Component {
         });
 
       });
+
+      $.getJSON(fetchPhotos)
+        .then(results => {
+
+          var pad = {
+            margin: '0px 0px 10px 0px'
+          };
+
+          let photos = results.objects.map((photo)=>{
+            return(
+              <a style={pad} className="btn btn-primary" href={"/photos/"+photo.id}>{photo.name}</a>
+            )
+          })
+
+          this.setState({
+            photos: photos
+
+          });
+
+        });
+
+        $.getJSON(fetchTrails)
+          .then(results => {
+
+            var pad = {
+              margin: '0px 0px 10px 0px'
+            };
+
+            let trails = results.objects.map((trail)=>{
+              return(
+                <a style={pad} className="btn btn-primary" href={"/trails/"+trail.id}>{trail.name}</a>
+              )
+            })
+
+            this.setState({
+              trails: trails
+
+            });
+
+          });
   }
 
   render () {
@@ -86,9 +136,9 @@ export default class ResortInstance extends React.Component {
       color:'white',
     };
 
-    var center = {
+    var left = {
       color: 'white',
-      textAlign:'center'
+      textAlign:'left'
     };
 
     return (
@@ -103,41 +153,41 @@ export default class ResortInstance extends React.Component {
       <div className="row">
         <div id="main" className="col-lg-6">
           <div className="card cardbg">
-            <img className="card-img-top" src="{this.state.map}" height="500" />
+            <img className="card-img-top" src={this.state.map} height="500" />
             <div className="card-block">
               <ul>
                 <li>
-                  <h2 id="latitude" className="card-title">
+                  <h2 style={left} id="latitude" className="card-title">
                     Latitude: {this.state.lat}
                   </h2>
                 </li>
                 <li>
-                  <h2 id="longitude" className="card-title">
+                  <h2 style={left} id="longitude" className="card-title">
                     Longitude: {this.state.lon}
                   </h2>
                 </li>
                 <li>
-                  <h2 id="elev" className="card-title">
+                  <h2 style={left} id="elev" className="card-title">
                     Elevation at Peak (meters): {this.state.elevation}
                   </h2>
                 </li>
                 <li>
-                  <h2 id="runs" className="card-title">
+                  <h2 style={left} id="runs" className="card-title">
                     Total Ski Runs: {this.state.runs}
                   </h2>
                 </li>
                 <li>
-                  <h2 id="lifts" className="card-title">
+                  <h2 style={left} id="lifts" className="card-title">
                     Total Lifts: {this.state.lifts}
                   </h2>
                 </li>
                 <li>
-                  <h2 id="review" className="card-title">
+                  <h2 style={left} id="review" className="card-title">
                     Reviews: {this.state.yelp} Stars from {this.state.reviews} Reviews
                   </h2>
                 </li>
               </ul>
-              <form id="web_link" action="{this.state.website}">
+              <form id="web_link" action={this.state.website}>
                   <input type="submit" className="btn btn-primary" value="Website" />
               </form>
             </div>
@@ -146,8 +196,8 @@ export default class ResortInstance extends React.Component {
         <div className="col-lg-3">
           <div className="card cardbg h-10">
             <div className="card-block">
-              <h2 className="card-title">Nearby Trails:</h2>
-              <a id="trail" className="btn btn-primary" href="http://www.hikingadventures.me/trails/3">Aspen Alley Trail</a>
+              <h2 style={titles} className="card-title">Nearby Trails:</h2>
+              {this.state.trails}
             </div>
           </div>
         </div>
@@ -155,9 +205,8 @@ export default class ResortInstance extends React.Component {
         <div className="col-lg-3">
           <div className="card cardbg h-10">
             <div className="card-block">
-              <h2 className="card-title">Photos:</h2>
-              <a id="photo" className="btn btn-primary"
-                href="http://www.hikingadventures.me/photos/3">Aspen Alley Trail photos</a>
+              <h2 style={titles} className="card-title">Photos:</h2>
+              {this.state.photos}
             </div>
           </div>
         </div>

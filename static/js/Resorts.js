@@ -135,12 +135,7 @@ export default class Resorts extends React.Component {
       return(
 
         <div>
-<<<<<<< HEAD
-        <Link to="/resorts/10">press me </Link>
-        <p>{this.props.page}</p>
-=======
-        <Link to="/resortspage= 10">press me </Link>
->>>>>>> master
+
         {rcard}
         <br/>
         <Row className="justify-content-center">
