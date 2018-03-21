@@ -9,6 +9,7 @@ import {
   Col,
   Table
 } from 'reactstrap';
+import tether from 'tether';
 export default class App extends React.Component {
   constructor(){
     super();
@@ -30,37 +31,42 @@ export default class App extends React.Component {
 
 
   grabdata() {
-    var n = '';
+    var n = 'ffjjffj';
     var d = '';
     var l = 0;
     var a = 0;
     var descent = 0;
 
-    /*$.getJSON('http://hikingadventures.me/api/trails/7040125')
-    .then(real => console.log(real.trails))*/
 
-    $.getJSON('https://www.hikingproject.com/data/get-trails-by-id?ids=7039505&key=200217902-4d9f4e11973eb6aa502e868e55361062').then(results => {
-      results.trails.map(data => {
-        n = data.name;
-        d = data.difficulty;
-        l = data.length;
-        a = data.ascent;
-        descent = data.descent;
+
+    var url = window.location.href;
+    var lastPart = url.split("/").pop();
+    //console.log(url)
+
+    var string = 'htt'
+
+    $.getJSON("http://127.0.0.1:5000/api/trails/" + lastPart)
+      .then(results => {
+        n = results.name;
+        d = results.difficulty;
+        l = results.length;
+        a = results.ascent;
+        descent = results.descent;
+
+
+        this.setState({
+          name: n,
+          difficulty: d,
+          length: l,
+          ascent: a,
+          descent: descent
+
+        });
       });
 
-      if (d == "blueBlack") {
-        d = "Intermediate"
-      }
-      this.setState({
-        name: n,
-        difficulty: d,
-        length: l,
-        ascent: a,
-        descent: descent
 
-      });
 
-    });
+
 
   }
 

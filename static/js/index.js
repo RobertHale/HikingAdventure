@@ -13,6 +13,9 @@ import $ from 'jquery';
 import Trails_Straw from "./Trails_Straw";
 import Trails_Aspen from "./Trails_Aspen";
 import Practice from "./Practice";
+import axios from 'axios';
+import TrailsCard from './TrailsCard';
+import tether from 'tether';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 //import 'bootstrap/dist/css/bootstrap.css';
 // ReactDOM.render(<App />, document.getElementById("content"));
@@ -22,17 +25,10 @@ ReactDOM.render(
   <div>
   <Route exact path="/" component={Home} />
   <Route path="/about" component={About} />
-  <Route path="/welp" component={Resortcard} />
-<<<<<<< HEAD
-  <Route path= "/resorts/:page?" component={Resorts} />
-  <Route exact path= "/flash" component={Trails} />
-  <Route exact path="/straw" component={Trails_Straw} />
-  <Route exact path="/aspen" component={Trails_Aspen} />
-  <Route exact path="/practice" component={Practice} />
-=======
+  <Route exact path= "/trails/:place" component={Trails} />
+
   <Route exact path= "/resorts:page?" component={Resorts} />
   <Route exact path= "/resorts/:place" component={App} />
->>>>>>> davepcast-dev
   </div>
   </Router>,
   document.getElementById("content")

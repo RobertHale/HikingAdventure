@@ -25,6 +25,7 @@ export default class card extends React.Component {
     }
     const mylinkone = "/resorts/" + (this.props.data[0].id).toString();
     const mylinktwo = "/resorts/" + (this.props.data[1].id).toString();
+    console.log(mylinkone)
     let firstimage = '';
     let secondimage = '';
 

@@ -1,66 +1,71 @@
 // App.jsx
-import React from   "react";
-import Card from    "./card";
-import Cards from   "./cards";
-import $ from 'jquery';
+import React from "react";
 import {
-  Container,
+  Button,
   Row,
   Col,
-  Table
+  Container,
+  Pagination,
+  PaginationItem,
+  PaginationLink
 } from 'reactstrap';
+import { Link } from "react-router-dom";
+import Resortcard from "./Resortcard";
+import $ from 'jquery';
+
 export default class App extends React.Component {
   constructor(){
     super();
     this.state = {
-      names: [],
-      dummy: true
-
+      resorts : [],
+      presorts : [],
+      perpage : 0
     }
-    this.grabdata = this.grabdata.bind(this);
+    this.pairup = this.pairup.bind(this);
+
   }
 
+
+ pairup(fetchedResorts){
+    //Do magic
+    console.log(fetchedResorts);
+    var s = 2;
+    var b = 0;
+    var e = fetchedResorts.length;
+    var mimic = fetchedResorts;
+    var paired = [];
+    for(b, e; b < e; b += s){
+      paired.push(mimic.slice(b, b+s));
+    }
+    //console.log(paired);
+    this.setState({presorts: paired});
+  }
+
+
+  componentWillReceiveProps(nextProps){
+    console.log("fire");
+    console.log(nextProps.match.params.page);
+    this.setState({perpage : nextProps.match.params.page});
+    console.log(this.state.resorts);
+    //Here we want to break down the information
+  }
 
   componentDidMount(){
-    this.grabdata();
-  }
-
-  grabdata() {
-    var n = '';
-    var d = '';
-    var l = 0;
-    var a = 0;
-    var descent = 0;
-
-    /*$.getJSON('http://hikingadventures.me/api/trails/7040125')
-    .then(real => console.log(real.trails))*/
-
-    /*$.getJSON('https://www.hikingproject.com/data/get-trails-by-id?ids=7040125&key=200217902-4d9f4e11973eb6aa502e868e55361062').then(results => {
-      results.trails.map(data => {
-        n = data.name;
-        d = data.difficulty;
-        l = data.length;
-        a = data.ascent;
-        descent = data.descent;
-      });*/
-
-      $.getJSON('https://www.hikingproject.com/data/get-trails?lat=40.5306%20-106.362984&lon=-106.7836&maxDistance=200&maxResults=500&key=200217902-4d9f4e11973eb6aa502e868e55361062')
-        .then(practice => practice.trails.map(trail => (
-          {
-            p_name: trail.name
-          }
-        )))
-        .then(names => this.setState({
-          names,
-
-        }))
-
-
-      //});
-
-
-
-
+      var pagenumber = this.props.match.params.page;
+      //console.log(pagenumber);
+      var temp;
+      if(pagenumber == null){
+        pagenumber = 1
+      }
+      else{
+        temp = pagenumber.split(" ");
+        pagenumber = temp[1];
+      }
+      console.log(pagenumber);
+      var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
+      fetchfrom += pagenumber;
+      //console.log(fetchfrom);
+      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects)});
   }
 
   render () {
@@ -81,7 +86,7 @@ export default class App extends React.Component {
       	</p>
       	  <div className="card h-100 cardbg">
       			<div className="card-block">
-      				<h1 style={titles} className="card-title" align="center">{this.state.name}</h1>
+      				<h1 style={titles} className="card-title" align="center">{}</h1>
       			</div>
       	</div>
       	<br></br>
@@ -89,17 +94,17 @@ export default class App extends React.Component {
       	<div className="row justify-content-center">
       		<div className="col col-m-3">
       			<h2 style={titles} id="difficultyheader">Difficulty</h2>
-      			<var style={titles} id="difficulty"> {this.state.difficulty}</var>
+      			<var style={titles} id="difficulty"> {}</var>
       		</div>
       		<div className="col col-m-3">
       			<h2 style={titles} id="lengthheader">Length</h2>
-      			<var style={titles} id="length">{this.state.length} miles</var>
+      			<var style={titles} id="length">{} miles</var>
       		</div>
       		<div className="col col-m-3">
       			<h2 style={titles} id="elevationheader">Elevation</h2>
-      			<var style={titles} id="ascent">{this.state.ascent} foot ascent</var>
+      			<var style={titles} id="ascent">{} foot ascent</var>
       			<br></br>
-      			<var style={titles} id="descent">{this.state.descent} foot descent</var>
+      			<var style={titles} id="descent">{} foot descent</var>
       		</div>
       	</div>
       	<br></br>
