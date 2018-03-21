@@ -23,7 +23,31 @@ class TestApp(TestCase):
 		self.acc = DBAccess(db_session)
 		init_db(engine=self.engine)
 		
-	def testInsert(self):
+	def testInsertMerge1(self):
+		res = Resort()
+		res.name = "Test Insert Resort"
+		res.id = 1
+		res2 = Resort()
+		res2.name = "Test Insert Resort Copy"
+		res2.id = 1
+		self.acc.insertData([res, res2])
+		self.assertEqual(self.acc.queryResort(1).name, "Test Insert Resort Copy")
+		
+	def testInsertMerge2(self):
+		res = Resort()
+		res.name = "Test Insert Resort"
+		res.id = 2
+		t1 = Trail()
+		t1.id = 1
+		t2 = Trail()
+		t2.id = 1
+		res.trails.append(t1)
+		res.trails.append(t2)
+		self.acc.insertData([res])
+		self.assertIsNone(self.acc.queryResort(2))
+		
+		
+	def testRelationships(self):
 		res = Resort()
 		res.name = "Test Resort"
 		res.id = 123
@@ -37,13 +61,11 @@ class TestApp(TestCase):
 		trail.photos.append(photo)
 		res.trails.append(trail)
 		res.photos.append(photo)
-		#res.lifts = 1
-		#res.website = "Test Website"
-		#res.lat = 0.0f
-		#res.lon = 0.0f
 		self.acc.insertData([res])
 		self.assertEqual(self.acc.queryResort(123).name, "Test Resort")
 		self.assertEqual(self.acc.queryResort(123).trails[0].name, "Test Trail")
+		self.assertEqual(self.acc.queryResort(123).photos[0].name, "Test Trail photo")
+		self.assertEqual(self.acc.queryTrail(222).photos[0].name, "Test Trail photo")
 		
 if __name__ == "__main__":  # pragma: no cover
 	main()

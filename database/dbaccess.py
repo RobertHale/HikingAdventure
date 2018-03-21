@@ -15,7 +15,8 @@ class DBAccess:
 	def commit(self):
 		try:
 			self.session.commit()
-		except exc.IntegrityError:
+		except exc.IntegrityError as err:
+			print("IntegrityError thrown from statement '" + err.statement + "': Rolling Back")
 			self.session.rollback()
 		
 	def insertData(self, resorts):

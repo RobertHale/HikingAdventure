@@ -25,68 +25,43 @@ export default class Photocard extends React.Component {
     }
     let mylinkone = "/photos/" + (this.props.data[0].id).toString();
     let mylinktwo = "/photos/";
-    let firstimage = '';
-    let flongitude;
-    let flatitude;
-    let fid;
-    let secondimage = '';
-    let slongitude;
-    let slatitude;
-    let sid;
+    let firstimage = "";
+    let flongitude = "Unknown";
+    let flatitude = "Unknown";
+    let fid = "Unknown";
+    let secondimage = "";
+    let slongitude = "Unknown";
+    let slatitude = "Unknown";
+    let sid = "Unknown";
 
-    if(this.props.data[0].url == null){
-      firstimage = "";
-    }
-    else{
+    if(this.props.data[0].url != null){
       firstimage = this.props.data[0].url;
     }
-    if(this.props.data[0].lat == null){
-      flatitude = "";
-    }
-    else{
+    if(this.props.data[0].lat != null){
       flatitude = this.props.data[0].lat;
     }
-    if(this.props.data[0].lon == null){
-      flongitude = "";
-    }
-    else{
+    if(this.props.data[0].lon != null){
       flongitude = this.props.data[0].lon;
     }
-    if(this.props.data[0].trailid == null){
-      fid = "";
-    }
-    else{
+    if(this.props.data[0].trailid != null){
       fid = this.props.data[0].trailid;
     }
 
 
     if((this.props.data).length > 1){
       mylinktwo = "/photos/" + (this.props.data[1].id).toString();
-      if(this.props.data[1].url == null){
-        secondimage = "";
-      }
-      else{
+      if(this.props.data[1].url != null){
         secondimage = this.props.data[1].url;
       }
-      if(this.props.data[1].lat == null){
-        slatitude = "";
-      }
-      else{
+      if(this.props.data[1].lat != null){
         slatitude = this.props.data[1].lat;
       }
-      if(this.props.data[1].lon == null){
-        slongitude = "";
-      }
-      else{
+      if(this.props.data[1].lon != null){
         slongitude = this.props.data[1].lon;
       }
-      if(this.props.data[1].trailid == null){
-        sid = "";
-      }
-      else{
+      if(this.props.data[1].trailid != null){
         sid = this.props.data[1].trailid;
       }
-
     }
 
     return (
