@@ -58,7 +58,7 @@ export default class About extends React.Component {
     [{"RobertHale":{
         "commits": 0,
         "issues": 0,
-        "tests": 0
+        "tests": 8
       },
       "davepcast":{
         "commits": 0,
@@ -78,7 +78,7 @@ export default class About extends React.Component {
       "victor40":{
         "commits": 0,
         "issues": 0,
-        "tests": 0
+        "tests": 1
       },
       "vponakala":{
         "commits": 0,
@@ -100,8 +100,12 @@ export default class About extends React.Component {
         githubcont: gitgroup
       });
     });
-      $.getJSON('http://127.0.0.1:5000/api/trails').then(results => console.log(results.objects));
-
+    $.getJSON('https://api.github.com/repos/RobertHale/HikingAdventure/issues?state=all').then(results => {
+        this.setState({
+          totalissues: results[0].number,
+          totaltests: 9
+        });
+      });
   }
 
   changemessage(){
@@ -219,10 +223,10 @@ export default class About extends React.Component {
         <b>Responsibilities:</b> Frontend
       </p>
       <p>
-        <b># of Commits: </b> {this.state.githubcont[0].duoALopez.tests}
+        <b># of Commits: </b> {this.state.githubcont[0].duoALopez.commits}
       </p>
       <p>
-        <b># of Issues: </b> {this.state.githubcont[0].duoALopez.tests}
+        <b># of Issues: </b> {this.state.githubcont[0].duoALopez.issues}
       </p>
       <p>
         <b># of Unit Tests: </b> {this.state.githubcont[0].duoALopez.tests}
@@ -276,9 +280,9 @@ export default class About extends React.Component {
       <br/>
       <h3 className="title-text">Total Stats</h3>
       <br/>
-      <p><b>Total Commits: </b></p>
-      <p><b>Total Issues: </b></p>
-      <p><b>Total Unit Tests: </b></p>
+      <p><b>{"Total Commits: "} {this.state.totalcommits}</b></p>
+      <p><b>{"Total Issues: "} {this.state.totalissues}</b></p>
+      <p><b>{"Total Unit Tests: "} {this.state.totaltests}</b></p>
       <br/>
 
       <br/>

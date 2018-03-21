@@ -25,78 +25,48 @@ export default class card extends React.Component {
     }
     let mylinkone = "/resorts/" + (this.props.data[0].id).toString();
     let mylinktwo = "/resorts"
-    let firstvideo = '';
-    let secondvideo = '';
-    let flifts;
-    let slifts;
-    let felevation;
-    let selevation;
-    let flatitude;
-    let slatitude;
-    let flongitude;
-    let slongitude;
+    let fvideo = "";
+    let svideo = "";
+    let flifts = "Unknown";
+    let slifts = "Unknown";
+    let felevation = "Unknown";
+    let selevation = "Unknown";
+    let flatitude = "Unknown";
+    let slatitude = "Unknown";
+    let flongitude = "Unknown";
+    let slongitude = "Unknown";
 
-    if(this.props.data[0].youtubeid == null){
-      firstvideo = "";
+    if(this.props.data[0].youtubeid != null){
+      fvideo = "http://www.youtube.com/embed/" + this.props.data[0].youtubeid;
     }
-    else{
-      firstvideo = "http://www.youtube.com/embed/" + this.props.data[0].youtubeid;
-    }
-    if(this.props.data[0].lifts == null){
-      flifts = "Unknown";
-    }
-    else{
+    if(this.props.data[0].lifts != null){
       flifts = this.props.data[0].lifts;
     }
-    if(this.props.data[0].elev == null){
-      felevation = "Unknown";
-    }
-    else{
+    if(this.props.data[0].elev != null){
       felevation = this.props.data[0].elev;
     }
-    if(this.props.data[0].lat == null){
-      flatitude = "Unknown";
-    }
-    else{
+    if(this.props.data[0].lat != null){
       flatitude = this.props.data[0].lat;
     }
-    if(this.props.data[0].lon == null){
-      flongitude = "Unknown";
-    }
-    else{
+    if(this.props.data[0].lon != null){
       flongitude = this.props.data[0].lon;
     }
 
     if((this.props.data).length > 1){
       mylinktwo = "/resorts/" + (this.props.data[1].id).toString();
-      if(this.props.data[1].youtubeid == null){
-        secondvideo = "";
+      if(this.props.data[1].youtubeid != null){
+        svideo = "http://www.youtube.com/embed/" + this.props.data[1].youtubeid;
       }
-      else{
-        secondvideo = "http://www.youtube.com/embed/" + this.props.data[1].youtubeid;
-      }
-      if(this.props.data[1].lifts == null){
-        slifts = "Unknown";
-      }
-      else{
+      if(this.props.data[1].lifts != null){
         slifts = this.props.data[1].lifts;
       }
-      if(this.props.data[1].elev == null){
-        selevation = "Unknown";
-      }
-      else{
+      if(this.props.data[1].elev != null){
         selevation = this.props.data[1].elev;
       }
-      if(this.props.data[1].lat == null){
-        slatitude = "Unknown";
-      }
-      else{
+      if(this.props.data[1].lat != null){
         slatitude = this.props.data[1].lat;
       }
-      if(this.props.data[1].lon == null){
-        slongitude = "Unknown";
-      }
-      else{
+      if(this.props.data[1].lon != null){
         slongitude = this.props.data[1].lon;
       }
     }
@@ -107,7 +77,7 @@ export default class card extends React.Component {
       <Row>
       <Col lg="6" sm="12">
       <Card className="mt-4">
-      <iframe src={firstvideo} width="100%" height="316" frameborder="0" allowFullScreen></iframe>
+      <iframe src={fvideo} width="100%" height="316" frameborder="0" allowFullScreen></iframe>
       <CardBody>
       <CardTitle><Link to={mylinkone}>{this.props.data[0].name}</Link></CardTitle>
       <CardText>
@@ -124,7 +94,7 @@ export default class card extends React.Component {
       {inputsize == true &&
         <Col lg="6" sm="12">
         <Card className="mt-4">
-        <iframe src={secondvideo} width="100%" height="316" frameborder="0" allowFullScreen></iframe>
+        <iframe src={svideo} width="100%" height="316" frameborder="0" allowFullScreen></iframe>
         <CardBody>
         <CardTitle><Link to={mylinktwo}>{this.props.data[1].name}</Link></CardTitle>
         <CardText>
@@ -144,46 +114,3 @@ export default class card extends React.Component {
     );
   }
 }
-
-// <div>
-// <Row>
-//   <Col lg="6" sm="12">
-//     <Card>
-//       <CardImg top width="100%" src="https://i.imgur.com/M8hkf2Z.png" alt="Missing" />
-//       <CardBody>
-//         <CardTitle>Adolfo</CardTitle>
-//         <CardText> </CardText>
-//       </CardBody>
-//     </Card>
-//   </Col>
-//   <Col lg="6" sm="12">
-//     <Card>
-//       <CardImg top width="100%" src="https://i.imgur.com/M8hkf2Z.png" alt="Missing" />
-//       <CardBody>
-//         <CardTitle>Adolfo</CardTitle>
-//         <CardText> </CardText>
-//       </CardBody>
-//     </Card>
-//   </Col>
-// </Row>
-// <Row>
-// <Col lg="6" sm="12">
-//   <Card>
-//     <CardImg top width="100%" src="https://i.imgur.com/M8hkf2Z.png" alt="Missing" />
-//     <CardBody>
-//       <CardTitle>Adolfo</CardTitle>
-//       <CardText> </CardText>
-//     </CardBody>
-//   </Card>
-// </Col>
-// <Col lg="6" sm="12">
-//   <Card>
-//     <CardImg top width="100%" src="https://i.imgur.com/M8hkf2Z.png" alt="Missing" />
-//     <CardBody>
-//       <CardTitle>Adolfo</CardTitle>
-//       <CardText> </CardText>
-//     </CardBody>
-//   </Card>
-// </Col>
-// </Row>
-// </div>
