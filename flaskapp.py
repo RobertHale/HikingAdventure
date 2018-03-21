@@ -10,7 +10,7 @@ import flask_restless
 import requests
 
 app = Flask(__name__)
-app.config['DEBUG'] = True
+app.config['DEBUG'] = False
 
 engine = create_engine('mysql://HikingDev:HikingDev1@hadbinstance.cw0u5qkvowfz.us-east-1.rds.amazonaws.com/hikingdb?charset=utf8mb4')
 Session = sessionmaker(bind=engine, autocommit=False, autoflush=False)
@@ -22,9 +22,9 @@ from models import Resort, Trail, Photo
 
 Base.metadata.create_all()
 manager = flask_restless.APIManager(app, session=s)
-manager.create_api(Resort, methods=['GET'])
-manager.create_api(Trail, methods=['GET'])
-manager.create_api(Photo, methods=['GET'])
+manager.create_api(Resort, methods=['GET'], exclude_columns=['trails', 'photos'])
+manager.create_api(Trail, methods=['GET'], exclude_columns=['resorts', 'photos'])
+manager.create_api(Photo, methods=['GET'], exclude_columns=['trails', 'resorts'])
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
