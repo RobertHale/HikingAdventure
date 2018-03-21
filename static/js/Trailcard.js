@@ -25,66 +25,42 @@ export default class Trailcard extends React.Component {
     }
     let mylinkone = "/trails/" + (this.props.data[0].id).toString();
     let mylinktwo = "/trails"
-    let firstvideo = '';
-    let secondvideo = '';
-    let firstsummary = '';
-    let secondsummary = '';
-    let firstlength;
-    let secondlength;
-    let fdifficulty;
-    let sdifficulty;
+    let firstvideo = "";
+    let secondvideo = "";
+    let firstsummary = "No Summary";
+    let secondsummary = "No Summary";
+    let firstlength = "Unknown";
+    let secondlength = "Unknown";
+    let fdifficulty = "Unknown";
+    let sdifficulty = "Unknown";
 
-    if(this.props.data[0].youtubeid == null){
-      firstvideo = "";
-    }
-    else{
+    if(this.props.data[0].youtubeid != null){
       firstvideo = "http://www.youtube.com/embed/" + this.props.data[0].youtubeid;
     }
-    if((this.props.data[0].summary).length == 0){
-      firstsummary = "Unknown"
-    }
-    else{
+    if((this.props.data[0].summary).length != 0){
       firstsummary = this.props.data[0].summary;
     }
-    if((this.props.data[0].difficulty).length == 0){
-      fdifficulty = "Unknown"
-    }
-    else{
+    if((this.props.data[0].difficulty).length != 0){
       fdifficulty = this.props.data[0].difficulty;
     }
-    if((this.props.data[1].length).length == 0){
-      firstlength = "Unknown"
-    }
-    else{
+    if((this.props.data[1].length).length != 0){
       firstlength = this.props.data[1].length;
     }
 
     if((this.props.data).length > 1){
       mylinktwo = "/trails/" + (this.props.data[1].id).toString();
-      if(this.props.data[1].youtubeid == null){
-        secondvideo = "";
-      }
-      else{
+      if(this.props.data[1].youtubeid != null){
         secondvideo = "http://www.youtube.com/embed/" + this.props.data[1].youtubeid;
       }
-      if((this.props.data[1].summary).length == 0){
-        secondsummary = "Unknown"
-      }
-      else{
+      if((this.props.data[1].summary).length != 0){
         secondsummary = this.props.data[1].summary;
       }
 
-      if((this.props.data[1].difficulty).length == 0){
-        sdifficulty = "Unknown"
-      }
-      else{
+      if((this.props.data[1].difficulty).length != 0){
         sdifficulty = this.props.data[1].difficulty;
       }
 
-      if((this.props.data[1].length).length == 0){
-        secondlength = "Unknown"
-      }
-      else{
+      if((this.props.data[1].length).length != 0){
         secondlength = this.props.data[1].length;
       }
     }
@@ -95,7 +71,7 @@ export default class Trailcard extends React.Component {
       <Row>
       <Col lg="6" sm="12">
       <Card className="mt-4">
-      <iframe src={firstvideo} width="100%" height="316" frameborder="0" allowFullScreen></iframe>
+      <iframe src={firstvideo} width="100%" height="316" frameBorder="0" allowFullScreen></iframe>
       <CardBody>
       <CardTitle><Link to={mylinkone}>{this.props.data[0].name}</Link></CardTitle>
       <CardText>
@@ -111,7 +87,7 @@ export default class Trailcard extends React.Component {
       {inputsize == true &&
         <Col lg="6" sm="12">
         <Card className="mt-4">
-        <iframe src={secondvideo} width="100%" height="316" frameborder="0" allowFullScreen></iframe>
+        <iframe src={secondvideo} width="100%" height="316" frameBorder="0" allowFullScreen></iframe>
         <CardBody>
         <CardTitle><Link to={mylinktwo}>{this.props.data[1].name}</Link></CardTitle>
         <CardText>
