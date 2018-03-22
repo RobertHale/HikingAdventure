@@ -383,7 +383,7 @@ class AboutNavBar(unittest.TestCase):
 #tests links on resort instances(might be faulty)
 class ResortInstanceLinks(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox("./geckodriver")
+        self.driver = webdriver.Firefox(executable_path="../geckodriver/geckodriver)
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
