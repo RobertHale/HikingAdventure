@@ -1,0 +1,1785 @@
+{
+	"info": {
+		"_postman_id": "55c09ff9-648e-2125-7a23-0d5e4eb2d364",
+		"name": "HikingAdventure",
+		"description": "Collection of all API requests for hikingadventures.ne/api. \nFor api calls on single resources (i.e. /resorts/520) we do not support query parameters.\nFor api calls on collections (i.e. /resorts & /resorts/520/trails) we support the following query parameters:\n\n  q - JSON formatted search query. For more info: https://flask-restless.readthedocs.io/en/stable/searchformat.html#query-format\n  \n  page - Positive Integer page number. Must be less than or equal to total_pages.\n  \n  results_per_page - Positive Integer. If greater than maximum number of results this will be ignored.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "resorts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d69cfede-d6b1-462b-806c-16cc46f00339",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"test proper number of resorts returned\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.num_results).to.eql(56);",
+							"    pm.expect(jsonData.page).to.eql(1);",
+							"    pm.expect(jsonData.total_pages).to.eql(6);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"filter by id working\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/resorts?q={%22filters%22:[{%22name%22:%22id%22,%22op%22:%22eq%22,%22val%22:520}]}\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.num_results).to.eql(1);",
+							"            pm.expect(jsonData.objects[0].id).to.eql(520);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"invalid page number\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/resorts?page=80\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.message).to.eql(\"ProgrammingError\");",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/resorts",
+				"description": "pulls JSON data on on specified number of resorts. Default is ten resorts."
+			},
+			"response": [
+				{
+					"id": "5384c517-6e16-4800-8fe4-95ecca1e5db8",
+					"name": "resorts single page",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://www.hikingadventures.me/api/resorts?page=1",
+							"protocol": "http",
+							"host": [
+								"www",
+								"hikingadventures",
+								"me"
+							],
+							"path": [
+								"api",
+								"resorts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "gets first 10 resorts from api"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "3908",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 02:34:24 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Link",
+							"value": "<http://www.hikingadventures.me/api/resorts?page=2&results_per_page=10>; rel=\"next\", <http://www.hikingadventures.me/api/resorts?page=6&results_per_page=10>; rel=\"last\"",
+							"name": "Link",
+							"description": "Used to express a typed relationship with another resource, where the relation type is defined by RFC 5988"
+						},
+						{
+							"key": "Link",
+							"value": "<http://www.hikingadventures.me/api/resorts?page=2&results_per_page=10>; rel=\"next\", <http://www.hikingadventures.me/api/resorts?page=6&results_per_page=10>; rel=\"last\"",
+							"name": "Link",
+							"description": "Used to express a typed relationship with another resource, where the relation type is defined by RFC 5988"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"num_results\": 56, \n  \"objects\": [\n    {\n      \"elev\": 3487, \n      \"id\": 497, \n      \"lat\": 39.6045, \n      \"lifts\": 16, \n      \"lon\": -106.53, \n      \"mapid\": 13902, \n      \"mapurl\": \"https://skimap.org/data/497/2798/1517329966jpg_render.jpg\", \n      \"name\": \"Beaver Creek Resort\", \n      \"reviewcount\": 135, \n      \"runs\": 148, \n      \"website\": \"https://www.beavercreek.com/\", \n      \"yelprating\": 4.5, \n      \"youtubeid\": \"Lg5sKQpa1sw\"\n    }, \n    {\n      \"elev\": 2175, \n      \"id\": 498, \n      \"lat\": 40.4817, \n      \"lifts\": 4, \n      \"lon\": -106.839, \n      \"mapid\": 7898, \n      \"mapurl\": \"https://skimap.org/data/498/1615/1391825451thumb2000w.jpg\", \n      \"name\": \"Howelsen Hill Ski Area\", \n      \"reviewcount\": 437, \n      \"runs\": 15, \n      \"website\": \"http://steamboatsprings.net/departments/parks_recreation/facilities/howelsen_hill_ski_area\", \n      \"yelprating\": 4.5, \n      \"youtubeid\": \"IreT-1geSb0\"\n    }, \n    {\n      \"elev\": null, \n      \"id\": 499, \n      \"lat\": 37.8113, \n      \"lifts\": 1, \n      \"lon\": -107.655, \n      \"mapid\": 13919, \n      \"mapurl\": null, \n      \"name\": \"Kendall Mountain\", \n      \"reviewcount\": 36, \n      \"runs\": 11, \n      \"website\": \"http://www.skikendall.com/\", \n      \"yelprating\": 5.0, \n      \"youtubeid\": \"1QEI2SkaqzI\"\n    }, \n    {\n      \"elev\": 3221, \n      \"id\": 500, \n      \"lat\": 40.4546, \n      \"lifts\": 18, \n      \"lon\": -106.767, \n      \"mapid\": 13575, \n      \"mapurl\": \"https://skimap.org/data/500/2589/1510674195jpg_render.jpg\", \n      \"name\": \"Steamboat Ski Resort\", \n      \"reviewcount\": 29, \n      \"runs\": 165, \n      \"website\": \"http://www.steamboat.com\", \n      \"yelprating\": 4.5, \n      \"youtubeid\": \"PuPBgFitT7U\"\n    }, \n    {\n      \"elev\": 3676, \n      \"id\": 503, \n      \"lat\": 39.8725, \n      \"lifts\": 25, \n      \"lon\": -105.774, \n      \"mapid\": 13526, \n      \"mapurl\": null, \n      \"name\": \"Winter Park Resort\", \n      \"reviewcount\": 83, \n      \"runs\": 143, \n      \"website\": \"http://www.winterparkresort.com/\", \n      \"yelprating\": 4.0, \n      \"youtubeid\": \"1JxG2nyXsAE\"\n    }, \n    {\n      \"elev\": 3018, \n      \"id\": 504, \n      \"lat\": 39.1923, \n      \"lifts\": 7, \n      \"lon\": -106.87, \n      \"mapid\": 13578, \n      \"mapurl\": null, \n      \"name\": \"Buttermilk Mountain\", \n      \"reviewcount\": 13, \n      \"runs\": 44, \n      \"website\": \"http://adf.ly/1UwDWa\", \n      \"yelprating\": 5.0, \n      \"youtubeid\": \"XltKcnjBYmI\"\n    }, \n    {\n      \"elev\": 3628, \n      \"id\": 505, \n      \"lat\": 37.4673, \n      \"lifts\": 7, \n      \"lon\": -106.794, \n      \"mapid\": 13946, \n      \"mapurl\": null, \n      \"name\": \"Wolf Creek Ski Area\", \n      \"reviewcount\": 0, \n      \"runs\": 77, \n      \"website\": \"http://www.wolfcreekski.com/\", \n      \"yelprating\": null, \n      \"youtubeid\": \"yzBp-fyojPE\"\n    }, \n    {\n      \"elev\": 3016, \n      \"id\": 506, \n      \"lat\": 39.3934, \n      \"lifts\": 3, \n      \"lon\": -107.339, \n      \"mapid\": 9414, \n      \"mapurl\": null, \n      \"name\": \"Sunlight Mountain Resort\", \n      \"reviewcount\": 0, \n      \"runs\": 67, \n      \"website\": \"http://www.sunlightmtn.com\", \n      \"yelprating\": null, \n      \"youtubeid\": \"iw0jnIT_ykI\"\n    }, \n    {\n      \"elev\": 3527, \n      \"id\": 507, \n      \"lat\": 39.616, \n      \"lifts\": 32, \n      \"lon\": -106.363, \n      \"mapid\": 12252, \n      \"mapurl\": \"https://skimap.org/data/507/2200/1480979825jpg_render.jpg\", \n      \"name\": \"Vail\", \n      \"reviewcount\": 423, \n      \"runs\": 193, \n      \"website\": \"http://www.vail.snow.com\", \n      \"yelprating\": 4.0, \n      \"youtubeid\": \"_JYYhkopnrA\"\n    }, \n    {\n      \"elev\": 3292, \n      \"id\": 508, \n      \"lat\": 39.9391, \n      \"lifts\": 11, \n      \"lon\": -105.593, \n      \"mapid\": 13506, \n      \"mapurl\": null, \n      \"name\": \"Eldora Mountain Resort\", \n      \"reviewcount\": 0, \n      \"runs\": 53, \n      \"website\": \"http://www.eldora.com/\", \n      \"yelprating\": null, \n      \"youtubeid\": \"3WCrb-PppZc\"\n    }\n  ], \n  \"page\": 1, \n  \"total_pages\": 6\n}\n"
+				},
+				{
+					"id": "8bf731e3-85dd-4ad7-94a3-c1945a4b932b",
+					"name": "resorts using query search",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://hikingadventures.me/api/resorts?q={\"filters\":[{\"name\":\"id\",\"op\":\"eq\",\"val\":520}]}",
+							"protocol": "http",
+							"host": [
+								"hikingadventures",
+								"me"
+							],
+							"path": [
+								"api",
+								"resorts"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "{\"filters\":[{\"name\":\"id\",\"op\":\"eq\",\"val\":520}]}",
+									"description": "searchs for all resorts with id == 520"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": ""
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": ""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 02:34:24 GMT",
+							"name": "Date",
+							"description": ""
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": ""
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": ""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": ""
+						}
+					],
+					"cookie": [],
+					"body": "{\r\n  \"num_results\": 1, \r\n  \"objects\": [\r\n    {\r\n      \"elev\": 3002, \r\n      \"id\": 520, \r\n      \"lat\": 39.0613, \r\n      \"lifts\": 4, \r\n      \"lon\": -108.152, \r\n      \"mapid\": 11357, \r\n      \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \r\n      \"name\": \"Powderhorn Resort\", \r\n      \"reviewcount\": 2, \r\n      \"runs\": 29, \r\n      \"website\": \"http://www.powderhorn.com/\", \r\n      \"yelprating\": 4.0, \r\n      \"youtubeid\": \"Kp7xUU_WwbY\"\r\n    }\r\n  ], \r\n  \"page\": 1, \r\n  \"total_pages\": 1\r\n}\r\n"
+				}
+			]
+		},
+		{
+			"name": "resort",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0103d3ba-7023-4c20-ad40-a4eaf385318f",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Check valid request\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(520);",
+							"    pm.expect(jsonData.name).to.eql(\"Powderhorn Resort\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"unknown but valid id passed\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/resorts/2\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(_.isEmpty(jsonData)).to.eql(true);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"invalid id passed\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/resorts/abc\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(_.isEmpty(jsonData)).to.eql(true);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"adding random query params does not change data\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/resorts/520?page=230909\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.id).to.eql(520);",
+							"            pm.expect(jsonData.name).to.eql(\"Powderhorn Resort\")",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/resorts/520",
+				"description": "get JSON data on a resort"
+			},
+			"response": [
+				{
+					"id": "59815146-cc52-4a20-811d-472421f25f73",
+					"name": "resort",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": "http://www.hikingadventures.me/api/resorts/520"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "345",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 02:39:30 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"elev\": 3002, \n  \"id\": 520, \n  \"lat\": 39.0613, \n  \"lifts\": 4, \n  \"lon\": -108.152, \n  \"mapid\": 11357, \n  \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n  \"name\": \"Powderhorn Resort\", \n  \"reviewcount\": 2, \n  \"runs\": 29, \n  \"website\": \"http://www.powderhorn.com/\", \n  \"yelprating\": 4.0, \n  \"youtubeid\": \"Kp7xUU_WwbY\"\n}\n"
+				}
+			]
+		},
+		{
+			"name": "resort trails",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "13b1340b-fcfb-4ec9-8d26-e3f1c0179929",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"test valid request\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.num_results).to.eql(11);",
+							"    pm.expect(jsonData.page).to.eql(1);",
+							"    pm.expect(jsonData.total_pages).to.eql(2);",
+							"});",
+							"",
+							"pm.test(\"filter by id working\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/resorts/520/trails?q={%22filters%22:[{%22name%22:%22id%22,%22op%22:%22eq%22,%22val%22:7025388}]}\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.num_results).to.eql(1);",
+							"            pm.expect(jsonData.objects[0].id).to.eql(7025388);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"invalid page number\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/resorts/520/trails?page=80\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.message).to.eql(\"ProgrammingError\");",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/resorts/520/trails",
+				"description": "Gets JSON data for trails nearby the specified resort"
+			},
+			"response": [
+				{
+					"id": "cdb19b16-a1b7-4437-b4f7-9ff8b7144407",
+					"name": "resort trails single page",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://www.hikingadventures.me/api/resorts/520/trails?page=1",
+							"protocol": "http",
+							"host": [
+								"www",
+								"hikingadventures",
+								"me"
+							],
+							"path": [
+								"api",
+								"resorts",
+								"520",
+								"trails"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "gets first 10 trails nearby resort 520"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "10925",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 03:36:24 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"num_results\": 11, \n  \"objects\": [\n    {\n      \"ascent\": 527, \n      \"condition\": null, \n      \"descent\": -525, \n      \"difficulty\": \"greenBlue\", \n      \"id\": 7025388, \n      \"lat\": 38.9552, \n      \"length\": 14.9, \n      \"lon\": -108.104, \n      \"name\": \"Flowing Park Loop\", \n      \"photos\": [\n        {\n          \"id\": 7025388, \n          \"lat\": 38.9552, \n          \"lon\": -108.104, \n          \"name\": \"Flowing Park Loop photo\", \n          \"trailid\": 7025388, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7026822_medium_1484893183.jpg\"\n        }\n      ], \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"starVotes\": 2, \n      \"stars\": 5, \n      \"summary\": \"A great trail with stunning views from the rim of the Grand Mesa.\", \n      \"youtubeid\": \"UbbHRuaIJcM\"\n    }, \n    {\n      \"ascent\": 3252, \n      \"condition\": null, \n      \"descent\": -117, \n      \"difficulty\": \"green\", \n      \"id\": 7025413, \n      \"lat\": 38.9266, \n      \"length\": 11.4, \n      \"lon\": -108.237, \n      \"name\": \"Indian Point Trail #715\", \n      \"photos\": [], \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"starVotes\": 1, \n      \"stars\": 3, \n      \"summary\": \"Needs summary\", \n      \"youtubeid\": null\n    }, \n    {\n      \"ascent\": 85, \n      \"condition\": null, \n      \"descent\": -489, \n      \"difficulty\": \"greenBlue\", \n      \"id\": 7026395, \n      \"lat\": 39.0542, \n      \"length\": 1.8, \n      \"lon\": -108.091, \n      \"name\": \"Barnes Road, FSR #254\", \n      \"photos\": [\n        {\n          \"id\": 7026395, \n          \"lat\": 39.0542, \n          \"lon\": -108.091, \n          \"name\": \"Barnes Road, FSR #254 photo\", \n          \"trailid\": 7026395, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7026654_medium_1484437558.jpg\"\n        }\n      ], \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"starVotes\": 0, \n      \"stars\": 0, \n      \"summary\": \"Needs Summary\", \n      \"youtubeid\": null\n    }, \n    {\n      \"ascent\": 409, \n      \"condition\": null, \n      \"descent\": -407, \n      \"difficulty\": \"greenBlue\", \n      \"id\": 7034636, \n      \"lat\": 39.0623, \n      \"length\": 4.6, \n      \"lon\": -108.047, \n      \"name\": \"Lake of the Woods #506\", \n      \"photos\": [], \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"starVotes\": 1, \n      \"stars\": 3, \n      \"summary\": \"Lake of the Woods boasts every staple Grand Mesa has to offer: heavily wooded forests, lakes, and best of all, solitude.\", \n      \"youtubeid\": null\n    }, \n    {\n      \"ascent\": 390, \n      \"condition\": null, \n      \"descent\": -1011, \n      \"difficulty\": \"greenBlue\", \n      \"id\": 7034904, \n      \"lat\": 39.0285, \n      \"length\": 7.8, \n      \"lon\": -108.048, \n      \"name\": \"Mesa Top Trail #714\", \n      \"photos\": [\n        {\n          \"id\": 7034904, \n          \"lat\": 39.0285, \n          \"lon\": -108.048, \n          \"name\": \"Mesa Top Trail #714 photo\", \n          \"trailid\": 7034904, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7035347_medium_1502741655.jpg\"\n        }\n      ], \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"starVotes\": 1, \n      \"stars\": 4, \n      \"summary\": \"A beautiful singletrack on top of the Grand Mesa.\", \n      \"youtubeid\": null\n    }, \n    {\n      \"ascent\": 425, \n      \"condition\": null, \n      \"descent\": -360, \n      \"difficulty\": \"blue\", \n      \"id\": 7036456, \n      \"lat\": 39.0521, \n      \"length\": 5.5, \n      \"lon\": -108.098, \n      \"name\": \"West Bench Trail #501\", \n      \"photos\": [\n        {\n          \"id\": 7036456, \n          \"lat\": 39.0521, \n          \"lon\": -108.098, \n          \"name\": \"West Bench Trail #501 photo\", \n          \"trailid\": 7036456, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7036704_medium_1504731318.jpg\"\n        }\n      ], \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"starVotes\": 1, \n      \"stars\": 4, \n      \"summary\": \"A fun, low-traffic, very scenic route at the top of Powderhorn Resort's lifts.\", \n      \"youtubeid\": null\n    }, \n    {\n      \"ascent\": 149, \n      \"condition\": null, \n      \"descent\": -149, \n      \"difficulty\": \"greenBlue\", \n      \"id\": 7036747, \n      \"lat\": 39.028, \n      \"length\": 6.9, \n      \"lon\": -108.032, \n      \"name\": \"County Line Trail\", \n      \"photos\": [\n        {\n          \"id\": 7036747, \n          \"lat\": 39.028, \n          \"lon\": -108.032, \n          \"name\": \"County Line Trail photo\", \n          \"trailid\": 7036747, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7036929_medium_1505154404.jpg\"\n        }\n      ], \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"starVotes\": 1, \n      \"stars\": 3, \n      \"summary\": \"The first trail in what will be a great network in this area.\", \n      \"youtubeid\": \"U0yphg9VLUU\"\n    }, \n    {\n      \"ascent\": 212, \n      \"condition\": null, \n      \"descent\": -516, \n      \"difficulty\": \"blue\", \n      \"id\": 7048077, \n      \"lat\": 39.0284, \n      \"length\": 4.0, \n      \"lon\": -108.047, \n      \"name\": \"Mesa Top to Crag Crest / Grand Mesa Lodge Trail\", \n      \"photos\": [\n        {\n          \"id\": 7048077, \n          \"lat\": 39.0284, \n          \"lon\": -108.047, \n          \"name\": \"Mesa Top to Crag Crest / Grand Mesa Lodge Trail photo\", \n          \"trailid\": 7048077, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7044991_medium_1520975628.jpg\"\n        }\n      ], \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"starVotes\": 1, \n      \"stars\": 3, \n      \"summary\": \"Awesome backwoods run which is the start of the Grand Mesa 100 course\", \n      \"youtubeid\": \"5GPwGcfyUdo\"\n    }, \n    {\n      \"ascent\": 178, \n      \"condition\": null, \n      \"descent\": -3985, \n      \"difficulty\": \"black\", \n      \"id\": 7048079, \n      \"lat\": 38.9954, \n      \"length\": 9.2, \n      \"lon\": -108.113, \n      \"name\": \"Kannah Creek Trail\", \n      \"photos\": [], \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"starVotes\": 1, \n      \"stars\": 5, \n      \"summary\": \"This is a remote, long, technical, wild downhill!  Beware.\", \n      \"youtubeid\": \"-53SxKwjFig\"\n    }, \n    {\n      \"ascent\": 3873, \n      \"condition\": null, \n      \"descent\": -3, \n      \"difficulty\": \"blueBlack\", \n      \"id\": 7048081, \n      \"lat\": 38.961, \n      \"length\": 5.7, \n      \"lon\": -108.231, \n      \"name\": \"Coal Creek Basin Trail #703, Switchback Trail #705\", \n      \"photos\": [], \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"starVotes\": 1, \n      \"stars\": 4, \n      \"summary\": \"Huge climb.  Crux of the Grand Mesa 100 course around 60m.\", \n      \"youtubeid\": null\n    }\n  ], \n  \"page\": 1, \n  \"total_pages\": 2\n}\n"
+				}
+			]
+		},
+		{
+			"name": "resort photos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a5258e27-1410-4b19-a9c1-b6d19e3e03ea",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"test valid request\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.num_results).to.eql(7);",
+							"    pm.expect(jsonData.page).to.eql(1);",
+							"    pm.expect(jsonData.total_pages).to.eql(1);",
+							"});",
+							"",
+							"pm.test(\"filter by id working\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/resorts/520/photos?q={%22filters%22:[{%22name%22:%22id%22,%22op%22:%22eq%22,%22val%22:7025388}]}\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.num_results).to.eql(1);",
+							"            pm.expect(jsonData.objects[0].id).to.eql(7000032);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"invalid page number\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/trails?page=80\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.message).to.eql(\"ProgrammingError\");",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/resorts/520/photos",
+				"description": "gets JSON data for photos related to specified resort"
+			},
+			"response": [
+				{
+					"id": "d2b46191-3f72-4060-9248-de635dbe89f7",
+					"name": "resort photos single page",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://www.hikingadventures.me/api/resorts/520/photos?page=1",
+							"protocol": "http",
+							"host": [
+								"www",
+								"hikingadventures",
+								"me"
+							],
+							"path": [
+								"api",
+								"resorts",
+								"520",
+								"photos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "get first ten photos related to resort 520"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "8375",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 03:42:38 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"num_results\": 7, \n  \"objects\": [\n    {\n      \"id\": 7025388, \n      \"lat\": 38.9552, \n      \"lon\": -108.104, \n      \"name\": \"Flowing Park Loop photo\", \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"trail\": {\n        \"ascent\": 527, \n        \"condition\": null, \n        \"descent\": -525, \n        \"difficulty\": \"greenBlue\", \n        \"id\": 7025388, \n        \"lat\": 38.9552, \n        \"length\": 14.9, \n        \"lon\": -108.104, \n        \"name\": \"Flowing Park Loop\", \n        \"starVotes\": 2, \n        \"stars\": 5, \n        \"summary\": \"A great trail with stunning views from the rim of the Grand Mesa.\", \n        \"youtubeid\": \"UbbHRuaIJcM\"\n      }, \n      \"trailid\": 7025388, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7026822_medium_1484893183.jpg\"\n    }, \n    {\n      \"id\": 7026395, \n      \"lat\": 39.0542, \n      \"lon\": -108.091, \n      \"name\": \"Barnes Road, FSR #254 photo\", \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"trail\": {\n        \"ascent\": 85, \n        \"condition\": null, \n        \"descent\": -489, \n        \"difficulty\": \"greenBlue\", \n        \"id\": 7026395, \n        \"lat\": 39.0542, \n        \"length\": 1.8, \n        \"lon\": -108.091, \n        \"name\": \"Barnes Road, FSR #254\", \n        \"starVotes\": 0, \n        \"stars\": 0, \n        \"summary\": \"Needs Summary\", \n        \"youtubeid\": null\n      }, \n      \"trailid\": 7026395, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7026654_medium_1484437558.jpg\"\n    }, \n    {\n      \"id\": 7034904, \n      \"lat\": 39.0285, \n      \"lon\": -108.048, \n      \"name\": \"Mesa Top Trail #714 photo\", \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"trail\": {\n        \"ascent\": 390, \n        \"condition\": null, \n        \"descent\": -1011, \n        \"difficulty\": \"greenBlue\", \n        \"id\": 7034904, \n        \"lat\": 39.0285, \n        \"length\": 7.8, \n        \"lon\": -108.048, \n        \"name\": \"Mesa Top Trail #714\", \n        \"starVotes\": 1, \n        \"stars\": 4, \n        \"summary\": \"A beautiful singletrack on top of the Grand Mesa.\", \n        \"youtubeid\": null\n      }, \n      \"trailid\": 7034904, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7035347_medium_1502741655.jpg\"\n    }, \n    {\n      \"id\": 7036456, \n      \"lat\": 39.0521, \n      \"lon\": -108.098, \n      \"name\": \"West Bench Trail #501 photo\", \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"trail\": {\n        \"ascent\": 425, \n        \"condition\": null, \n        \"descent\": -360, \n        \"difficulty\": \"blue\", \n        \"id\": 7036456, \n        \"lat\": 39.0521, \n        \"length\": 5.5, \n        \"lon\": -108.098, \n        \"name\": \"West Bench Trail #501\", \n        \"starVotes\": 1, \n        \"stars\": 4, \n        \"summary\": \"A fun, low-traffic, very scenic route at the top of Powderhorn Resort's lifts.\", \n        \"youtubeid\": null\n      }, \n      \"trailid\": 7036456, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7036704_medium_1504731318.jpg\"\n    }, \n    {\n      \"id\": 7036747, \n      \"lat\": 39.028, \n      \"lon\": -108.032, \n      \"name\": \"County Line Trail photo\", \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"trail\": {\n        \"ascent\": 149, \n        \"condition\": null, \n        \"descent\": -149, \n        \"difficulty\": \"greenBlue\", \n        \"id\": 7036747, \n        \"lat\": 39.028, \n        \"length\": 6.9, \n        \"lon\": -108.032, \n        \"name\": \"County Line Trail\", \n        \"starVotes\": 1, \n        \"stars\": 3, \n        \"summary\": \"The first trail in what will be a great network in this area.\", \n        \"youtubeid\": \"U0yphg9VLUU\"\n      }, \n      \"trailid\": 7036747, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7036929_medium_1505154404.jpg\"\n    }, \n    {\n      \"id\": 7048077, \n      \"lat\": 39.0284, \n      \"lon\": -108.047, \n      \"name\": \"Mesa Top to Crag Crest / Grand Mesa Lodge Trail photo\", \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"trail\": {\n        \"ascent\": 212, \n        \"condition\": null, \n        \"descent\": -516, \n        \"difficulty\": \"blue\", \n        \"id\": 7048077, \n        \"lat\": 39.0284, \n        \"length\": 4.0, \n        \"lon\": -108.047, \n        \"name\": \"Mesa Top to Crag Crest / Grand Mesa Lodge Trail\", \n        \"starVotes\": 1, \n        \"stars\": 3, \n        \"summary\": \"Awesome backwoods run which is the start of the Grand Mesa 100 course\", \n        \"youtubeid\": \"5GPwGcfyUdo\"\n      }, \n      \"trailid\": 7048077, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7044991_medium_1520975628.jpg\"\n    }, \n    {\n      \"id\": 7048087, \n      \"lat\": 39.0284, \n      \"lon\": -108.047, \n      \"name\": \"Grand Mesa Ultras 100mile Course photo\", \n      \"resorts\": [\n        {\n          \"elev\": 3002, \n          \"id\": 520, \n          \"lat\": 39.0613, \n          \"lifts\": 4, \n          \"lon\": -108.152, \n          \"mapid\": 11357, \n          \"mapurl\": \"https://skimap.org/data/520/2200/1470512401jpg_render.jpg\", \n          \"name\": \"Powderhorn Resort\", \n          \"reviewcount\": 2, \n          \"runs\": 29, \n          \"website\": \"http://www.powderhorn.com/\", \n          \"yelprating\": 4.0, \n          \"youtubeid\": \"Kp7xUU_WwbY\"\n        }\n      ], \n      \"trail\": {\n        \"ascent\": 10530, \n        \"condition\": null, \n        \"descent\": -10538, \n        \"difficulty\": \"blueBlack\", \n        \"id\": 7048087, \n        \"lat\": 39.0284, \n        \"length\": 100.1, \n        \"lon\": -108.047, \n        \"name\": \"Grand Mesa Ultras 100mile Course\", \n        \"starVotes\": 1, \n        \"stars\": 5, \n        \"summary\": \"The route for the famous Grand Mesa 100 mile trail race averaging above 10,000' elevation with 10,500' of climbing.\", \n        \"youtubeid\": \"oyh4ceDNjbY\"\n      }, \n      \"trailid\": 7048087, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7005925_medium_1436894160.jpg\"\n    }\n  ], \n  \"page\": 1, \n  \"total_pages\": 1\n}\n"
+				}
+			]
+		},
+		{
+			"name": "trails",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b3473af-ec96-4080-b5a9-e9a695001e0e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"test valid request\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.num_results).to.eql(774);",
+							"    pm.expect(jsonData.page).to.eql(1);",
+							"    pm.expect(jsonData.total_pages).to.eql(78);",
+							"});",
+							"",
+							"pm.test(\"filter by id working\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/trails?q={%22filters%22:[{%22name%22:%22id%22,%22op%22:%22eq%22,%22val%22:7000032}]}\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.num_results).to.eql(1);",
+							"            pm.expect(jsonData.objects[0].id).to.eql(7000032);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"invalid page number\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/trails?page=80\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.message).to.eql(\"ProgrammingError\");",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/trails",
+				"description": "Get JSON data for specified number of trails. Default is ten trails."
+			},
+			"response": [
+				{
+					"id": "e8eba6d8-8c8c-4b3f-95a2-1b76dcae8f1c",
+					"name": "trails with query",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://hikingadventures.me/api/trails?q={\"filters\":[{\"name\":\"id\",\"op\":\"eq\",\"val\":7000032}]}",
+							"protocol": "http",
+							"host": [
+								"hikingadventures",
+								"me"
+							],
+							"path": [
+								"api",
+								"trails"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "{\"filters\":[{\"name\":\"id\",\"op\":\"eq\",\"val\":7000032}]}",
+									"description": "gets all trails with id == 7000032"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": ""
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": ""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 02:42:03 GMT",
+							"name": "Date",
+							"description": ""
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": ""
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": ""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": ""
+						}
+					],
+					"cookie": [],
+					"body": "{\r\n  \"num_results\": 1, \r\n  \"objects\": [\r\n    {\r\n      \"ascent\": 899, \r\n      \"condition\": null, \r\n      \"descent\": -56, \r\n      \"difficulty\": \"greenBlue\", \r\n      \"id\": 7000032, \r\n      \"lat\": 39.5759, \r\n      \"length\": 3.4, \r\n      \"lon\": -106.114, \r\n      \"name\": \"North Tenmile Creek\", \r\n      \"starVotes\": 7, \r\n      \"stars\": 4, \r\n      \"summary\": \"This serene valley ramble offers subtle views and the creek for company.\", \r\n      \"youtubeid\": \"m3-lrVNPpNA\"\r\n    }\r\n  ], \r\n  \"page\": 1, \r\n  \"total_pages\": 1\r\n}"
+				},
+				{
+					"id": "ada4001c-9967-4b76-aaa3-1556f3e18704",
+					"name": "trails single page",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://www.hikingadventures.me/api/trails?page=1",
+							"protocol": "http",
+							"host": [
+								"www",
+								"hikingadventures",
+								"me"
+							],
+							"path": [
+								"api",
+								"trails"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "gets first 10 trails from API"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "4080",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 02:42:03 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Link",
+							"value": "<http://www.hikingadventures.me/api/trails?page=2&results_per_page=10>; rel=\"next\", <http://www.hikingadventures.me/api/trails?page=78&results_per_page=10>; rel=\"last\"",
+							"name": "Link",
+							"description": "Used to express a typed relationship with another resource, where the relation type is defined by RFC 5988"
+						},
+						{
+							"key": "Link",
+							"value": "<http://www.hikingadventures.me/api/trails?page=2&results_per_page=10>; rel=\"next\", <http://www.hikingadventures.me/api/trails?page=78&results_per_page=10>; rel=\"last\"",
+							"name": "Link",
+							"description": "Used to express a typed relationship with another resource, where the relation type is defined by RFC 5988"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"num_results\": 774, \n  \"objects\": [\n    {\n      \"ascent\": 899, \n      \"condition\": null, \n      \"descent\": -56, \n      \"difficulty\": \"greenBlue\", \n      \"id\": 7000032, \n      \"lat\": 39.5759, \n      \"length\": 3.4, \n      \"lon\": -106.114, \n      \"name\": \"North Tenmile Creek\", \n      \"starVotes\": 7, \n      \"stars\": 4, \n      \"summary\": \"This serene valley ramble offers subtle views and the creek for company.\", \n      \"youtubeid\": \"m3-lrVNPpNA\"\n    }, \n    {\n      \"ascent\": 273, \n      \"condition\": null, \n      \"descent\": -37, \n      \"difficulty\": \"greenBlue\", \n      \"id\": 7000034, \n      \"lat\": 39.6054, \n      \"length\": 0.8, \n      \"lon\": -106.37, \n      \"name\": \"Sunlight\", \n      \"starVotes\": 2, \n      \"stars\": 3, \n      \"summary\": \"A traverse connecting the Wildwood and Mountaintop Express lift-top areas.\", \n      \"youtubeid\": \"Bparw9Jo3dk\"\n    }, \n    {\n      \"ascent\": 758, \n      \"condition\": null, \n      \"descent\": -7, \n      \"difficulty\": \"blue\", \n      \"id\": 7000035, \n      \"lat\": 39.6142, \n      \"length\": 1.4, \n      \"lon\": -106.368, \n      \"name\": \"Kinnickinnick\", \n      \"starVotes\": 3, \n      \"stars\": 3, \n      \"summary\": \"An enjoyable romp through wildflowers below and technicolor green carpeted forest above.\", \n      \"youtubeid\": \"we4sJRYQORg\"\n    }, \n    {\n      \"ascent\": 0, \n      \"condition\": null, \n      \"descent\": -652, \n      \"difficulty\": \"blue\", \n      \"id\": 7000036, \n      \"lat\": 39.6056, \n      \"length\": 1.4, \n      \"lon\": -106.37, \n      \"name\": \"Grand Escape\", \n      \"starVotes\": 2, \n      \"stars\": 3, \n      \"summary\": \"This ridge-top stroll is guaranteed to give you that \", \n      \"youtubeid\": \"JGPgxoIPY6Q\"\n    }, \n    {\n      \"ascent\": 155, \n      \"condition\": null, \n      \"descent\": -140, \n      \"difficulty\": \"greenBlue\", \n      \"id\": 7000037, \n      \"lat\": 39.6053, \n      \"length\": 1.2, \n      \"lon\": -106.371, \n      \"name\": \"Ptarmigan Loop\", \n      \"starVotes\": 3, \n      \"stars\": 5, \n      \"summary\": \"Delightful circuit atop Ptarmigan Ridge with magnificent views.\", \n      \"youtubeid\": \"QGYCmL02h2w\"\n    }, \n    {\n      \"ascent\": 664, \n      \"condition\": null, \n      \"descent\": 0, \n      \"difficulty\": \"blue\", \n      \"id\": 7000038, \n      \"lat\": 39.6177, \n      \"length\": 1.4, \n      \"lon\": -106.386, \n      \"name\": \"Ridge Route\", \n      \"starVotes\": 2, \n      \"stars\": 3, \n      \"summary\": \"A traverse above Game Creek Bowl affording great views of the Holy Cross wilderness.\", \n      \"youtubeid\": \"F5X3kRjkvvI\"\n    }, \n    {\n      \"ascent\": 71, \n      \"condition\": null, \n      \"descent\": -195, \n      \"difficulty\": \"green\", \n      \"id\": 7000039, \n      \"lat\": 39.6181, \n      \"length\": 1.1, \n      \"lon\": -106.384, \n      \"name\": \"Lower Fireweed\", \n      \"starVotes\": 1, \n      \"stars\": 3, \n      \"summary\": \"A low intensity way to sample the views on Vail mountain.\", \n      \"youtubeid\": \"TaDRCdly6ms\"\n    }, \n    {\n      \"ascent\": 168, \n      \"condition\": null, \n      \"descent\": -44, \n      \"difficulty\": \"green\", \n      \"id\": 7000040, \n      \"lat\": 39.6146, \n      \"length\": 1.0, \n      \"lon\": -106.368, \n      \"name\": \"Upper Fireweed\", \n      \"starVotes\": 1, \n      \"stars\": 3, \n      \"summary\": \"A low intensity traverse on Vail mountain's frontside with Gore Range views.\", \n      \"youtubeid\": \"ZktsMjDzKao\"\n    }, \n    {\n      \"ascent\": 41, \n      \"condition\": null, \n      \"descent\": -34, \n      \"difficulty\": \"green\", \n      \"id\": 7000045, \n      \"lat\": 39.6176, \n      \"length\": 0.7, \n      \"lon\": -106.387, \n      \"name\": \"Eagle's Loop\", \n      \"starVotes\": 1, \n      \"stars\": 3, \n      \"summary\": \"This short, mellow loop gives the masses easy access to spectacular views.\", \n      \"youtubeid\": \"Hc3mc0igHzU\"\n    }, \n    {\n      \"ascent\": 1, \n      \"condition\": null, \n      \"descent\": -4, \n      \"difficulty\": \"green\", \n      \"id\": 7000046, \n      \"lat\": 39.6183, \n      \"length\": 0.1, \n      \"lon\": -106.389, \n      \"name\": \"Eagle's Loop alternate\", \n      \"starVotes\": 0, \n      \"stars\": 0, \n      \"summary\": \"\", \n      \"youtubeid\": \"BYlb_MnOhBs\"\n    }\n  ], \n  \"page\": 1, \n  \"total_pages\": 78\n}\n"
+				}
+			]
+		},
+		{
+			"name": "trail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "83d5b3a7-b8ef-4cbd-ae93-7fc8ddf0ce88",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"test valid request\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(7000032);",
+							"    pm.expect(jsonData.name).to.eql(\"North Tenmile Creek\");",
+							"});",
+							"",
+							"pm.test(\"unknown but valid id passed\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/trails/99999999\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(_.isEmpty(jsonData)).to.eql(true);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"invalid id passed\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/trails/abc\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(_.isEmpty(jsonData)).to.eql(true);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"adding random query params does not change data\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/trails/7000032?page=230909\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.id).to.eql(7000032);",
+							"            pm.expect(jsonData.name).to.eql(\"North Tenmile Creek\")",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/trails/7000032",
+				"description": "pulls JSON data for specified trail."
+			},
+			"response": [
+				{
+					"id": "3dad8772-d35e-4f47-b0c4-e1336ea343f5",
+					"name": "trail",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": "http://www.hikingadventures.me/api/trails/7000032"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "355",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 02:44:47 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"ascent\": 899, \n  \"condition\": null, \n  \"descent\": -56, \n  \"difficulty\": \"greenBlue\", \n  \"id\": 7000032, \n  \"lat\": 39.5759, \n  \"length\": 3.4, \n  \"lon\": -106.114, \n  \"name\": \"North Tenmile Creek\", \n  \"starVotes\": 7, \n  \"stars\": 4, \n  \"summary\": \"This serene valley ramble offers subtle views and the creek for company.\", \n  \"youtubeid\": \"m3-lrVNPpNA\"\n}\n"
+				}
+			]
+		},
+		{
+			"name": "trail resorts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fa6a1e25-9998-4159-9eae-a6f9ae19401a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"test proper number of resorts returned\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.num_results).to.eql(1);",
+							"    pm.expect(jsonData.page).to.eql(1);",
+							"    pm.expect(jsonData.total_pages).to.eql(1);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"filter by id working\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/trails/7000032/resorts?q={%22filters%22:[{%22name%22:%22id%22,%22op%22:%22eq%22,%22val%22:4904}]}\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.num_results).to.eql(1);",
+							"            pm.expect(jsonData.objects[0].id).to.eql(4904);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"invalid page number\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/trails/7000032/resorts?page=80\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.message).to.eql(\"ProgrammingError\");",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/trails/7000032/resorts",
+				"description": "gets JSON data for resorts nearby specified trail"
+			},
+			"response": [
+				{
+					"id": "3207f410-727a-438a-ad1f-92c540471d90",
+					"name": "trail resorts single page",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://www.hikingadventures.me/api/trails/7000032/resorts?page=1",
+							"protocol": "http",
+							"host": [
+								"www",
+								"hikingadventures",
+								"me"
+							],
+							"path": [
+								"api",
+								"trails",
+								"7000032",
+								"resorts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "gets first 10 resorts nearby trail 7000032"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "18409",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 04:02:08 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"num_results\": 1, \n  \"objects\": [\n    {\n      \"elev\": null, \n      \"id\": 4904, \n      \"lat\": 39.5742, \n      \"lifts\": null, \n      \"lon\": -106.078, \n      \"mapid\": null, \n      \"mapurl\": null, \n      \"name\": \"Frisco Adventure Park\", \n      \"photos\": [\n        {\n          \"id\": 7000032, \n          \"lat\": 39.5759, \n          \"lon\": -106.114, \n          \"name\": \"North Tenmile Creek photo\", \n          \"trailid\": 7000032, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7000128_medium_1417582072.jpg\"\n        }, \n        {\n          \"id\": 7002475, \n          \"lat\": 39.5901, \n          \"lon\": -106.007, \n          \"name\": \"Back Ranch Loop photo\", \n          \"trailid\": 7002475, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001585_medium_1426304816.jpg\"\n        }, \n        {\n          \"id\": 7002479, \n          \"lat\": 39.6199, \n          \"lon\": -106.11, \n          \"name\": \"Buffalo Mountain Loop photo\", \n          \"trailid\": 7002479, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001592_medium_1426308187.jpg\"\n        }, \n        {\n          \"id\": 7002484, \n          \"lat\": 39.5879, \n          \"lon\": -106.016, \n          \"name\": \"Summit Cove: Soda Creek & Groovy Uvi photo\", \n          \"trailid\": 7002484, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7041521_medium_1512592803.jpg\"\n        }, \n        {\n          \"id\": 7002489, \n          \"lat\": 39.6516, \n          \"lon\": -106.098, \n          \"name\": \"Salmon Lake photo\", \n          \"trailid\": 7002489, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001711_medium_1426823178.jpg\"\n        }, \n        {\n          \"id\": 7002491, \n          \"lat\": 39.624, \n          \"lon\": -106.082, \n          \"name\": \"Mesa Cortina to Gore Range Trail Out and Back photo\", \n          \"trailid\": 7002491, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7019129_medium_1465999120.jpg\"\n        }, \n        {\n          \"id\": 7002492, \n          \"lat\": 39.6353, \n          \"lon\": -106.053, \n          \"name\": \"Ptarmigan Trail (#35) photo\", \n          \"trailid\": 7002492, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001610_medium_1426380440.jpg\"\n        }, \n        {\n          \"id\": 7002502, \n          \"lat\": 39.5903, \n          \"lon\": -106.007, \n          \"name\": \"Summit Cove to Tiger Road Loop photo\", \n          \"trailid\": 7002502, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001586_medium_1426304923.jpg\"\n        }, \n        {\n          \"id\": 7002524, \n          \"lat\": 39.5689, \n          \"lon\": -106.1, \n          \"name\": \"Peaks Trail photo\", \n          \"trailid\": 7002524, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7037581_medium_1506304906.jpg\"\n        }, \n        {\n          \"id\": 7002559, \n          \"lat\": 39.541, \n          \"lon\": -106.042, \n          \"name\": \"Colorado Trail: Georgia Pass to Breckenridge photo\", \n          \"trailid\": 7002559, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001618_medium_1426387871.jpg\"\n        }, \n        {\n          \"id\": 7003016, \n          \"lat\": 39.5673, \n          \"lon\": -106.084, \n          \"name\": \"Blue River Bikeway photo\", \n          \"trailid\": 7003016, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7002100_medium_1427424175.jpg\"\n        }, \n        {\n          \"id\": 7003018, \n          \"lat\": 39.5745, \n          \"lon\": -106.11, \n          \"name\": \"Temple Trail photo\", \n          \"trailid\": 7003018, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7002101_medium_1427425042.jpg\"\n        }, \n        {\n          \"id\": 7007035, \n          \"lat\": 39.4966, \n          \"lon\": -106.136, \n          \"name\": \"Colorado Trail: Copper Mountain to Camp Hale photo\", \n          \"trailid\": 7007035, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7006681_medium_1440283655.jpg\"\n        }, \n        {\n          \"id\": 7008375, \n          \"lat\": 39.6354, \n          \"lon\": -106.053, \n          \"name\": \"Ptarmigan Peak photo\", \n          \"trailid\": 7008375, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001610_medium_1426380440.jpg\"\n        }, \n        {\n          \"id\": 7011020, \n          \"lat\": 39.5412, \n          \"lon\": -106.042, \n          \"name\": \"CT - Segment 7 photo\", \n          \"trailid\": 7011020, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7023556_medium_1475511279.jpg\"\n        }, \n        {\n          \"id\": 7016057, \n          \"lat\": 39.5412, \n          \"lon\": -106.042, \n          \"name\": \"CDT: Gold Hill to Georgia Pass (CO Sec. 28) photo\", \n          \"trailid\": 7016057, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001618_medium_1426387871.jpg\"\n        }, \n        {\n          \"id\": 7019553, \n          \"lat\": 39.6278, \n          \"lon\": -106.275, \n          \"name\": \"Deluge Lake photo\", \n          \"trailid\": 7019553, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7020587_medium_1468877691.jpg\"\n        }, \n        {\n          \"id\": 7030202, \n          \"lat\": 39.5727, \n          \"lon\": -106.105, \n          \"name\": \"Mount Royal Trail photo\", \n          \"trailid\": 7030202, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7037575_medium_1506304584.jpg\"\n        }, \n        {\n          \"id\": 7032679, \n          \"lat\": 39.5673, \n          \"lon\": -106.084, \n          \"name\": \"Miner's Creek Road (38) photo\", \n          \"trailid\": 7032679, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7033523_medium_1499812753.jpg\"\n        }, \n        {\n          \"id\": 7033040, \n          \"lat\": 39.5691, \n          \"lon\": -106.1, \n          \"name\": \"Ten-Mile Range Traverse photo\", \n          \"trailid\": 7033040, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001492_medium_1426004438.jpg\"\n        }, \n        {\n          \"id\": 7036669, \n          \"lat\": 39.4682, \n          \"lon\": -106.012, \n          \"name\": \"Bald Mountain photo\", \n          \"trailid\": 7036669, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7036862_medium_1504967611.jpg\"\n        }, \n        {\n          \"id\": 7042343, \n          \"lat\": 39.5647, \n          \"lon\": -106.11, \n          \"name\": \"Ten-Mile Traverse Route photo\", \n          \"trailid\": 7042343, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001492_medium_1426004438.jpg\"\n        }\n      ], \n      \"reviewcount\": 570, \n      \"runs\": null, \n      \"trails\": [\n        {\n          \"ascent\": 899, \n          \"condition\": null, \n          \"descent\": -56, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7000032, \n          \"lat\": 39.5759, \n          \"length\": 3.4, \n          \"lon\": -106.114, \n          \"name\": \"North Tenmile Creek\", \n          \"starVotes\": 7, \n          \"stars\": 4, \n          \"summary\": \"This serene valley ramble offers subtle views and the creek for company.\", \n          \"youtubeid\": \"m3-lrVNPpNA\"\n        }, \n        {\n          \"ascent\": 712, \n          \"condition\": null, \n          \"descent\": -728, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7002475, \n          \"lat\": 39.5901, \n          \"length\": 7.5, \n          \"lon\": -106.007, \n          \"name\": \"Back Ranch Loop\", \n          \"starVotes\": 6, \n          \"stars\": 4, \n          \"summary\": \"A beautiful 8 mile loop that takes you through a forested area then along an old aqueduct trail.\", \n          \"youtubeid\": \"VP8L6O8lC30\"\n        }, \n        {\n          \"ascent\": 3332, \n          \"condition\": null, \n          \"descent\": -3331, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7002479, \n          \"lat\": 39.6199, \n          \"length\": 14.0, \n          \"lon\": -106.11, \n          \"name\": \"Buffalo Mountain Loop\", \n          \"starVotes\": 22, \n          \"stars\": 5, \n          \"summary\": \"An amazing hike circumnavigating Buffalo Mountain, over Eccles Pass.\", \n          \"youtubeid\": \"k8jaK1yLqyw\"\n        }, \n        {\n          \"ascent\": 381, \n          \"condition\": null, \n          \"descent\": -382, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7002484, \n          \"lat\": 39.5879, \n          \"length\": 3.2, \n          \"lon\": -106.016, \n          \"name\": \"Summit Cove: Soda Creek & Groovy Uvi\", \n          \"starVotes\": 1, \n          \"stars\": 4, \n          \"summary\": \"A mellow singletrack loop from the back of Summit Cove.\", \n          \"youtubeid\": \"0BO4dGAFzAU\"\n        }, \n        {\n          \"ascent\": 2415, \n          \"condition\": null, \n          \"descent\": -2415, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7002489, \n          \"lat\": 39.6516, \n          \"length\": 10.3, \n          \"lon\": -106.098, \n          \"name\": \"Salmon Lake\", \n          \"starVotes\": 4, \n          \"stars\": 4, \n          \"summary\": \"Talk about a great hike up a beautiful drainage! Earn stunning views of the East Thorn.\", \n          \"youtubeid\": \"gYagyQ_eKB0\"\n        }, \n        {\n          \"ascent\": 1091, \n          \"condition\": null, \n          \"descent\": -1093, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7002491, \n          \"lat\": 39.624, \n          \"length\": 8.1, \n          \"lon\": -106.082, \n          \"name\": \"Mesa Cortina to Gore Range Trail Out and Back\", \n          \"starVotes\": 10, \n          \"stars\": 4, \n          \"summary\": \"A mostly forested trail, with stream crossings and beautiful meadows.\", \n          \"youtubeid\": \"vA8n3ylAU4g\"\n        }, \n        {\n          \"ascent\": 3536, \n          \"condition\": null, \n          \"descent\": -3536, \n          \"difficulty\": \"blue\", \n          \"id\": 7002492, \n          \"lat\": 39.6353, \n          \"length\": 13.2, \n          \"lon\": -106.053, \n          \"name\": \"Ptarmigan Trail (#35)\", \n          \"starVotes\": 9, \n          \"stars\": 5, \n          \"summary\": \"A climb to the summit of Ptarmigan Mountain\", \n          \"youtubeid\": null\n        }, \n        {\n          \"ascent\": 1993, \n          \"condition\": null, \n          \"descent\": -1987, \n          \"difficulty\": \"blue\", \n          \"id\": 7002502, \n          \"lat\": 39.5903, \n          \"length\": 14.3, \n          \"lon\": -106.007, \n          \"name\": \"Summit Cove to Tiger Road Loop\", \n          \"starVotes\": 2, \n          \"stars\": 5, \n          \"summary\": \"A nice long loop with forest, meadows, and streams.\", \n          \"youtubeid\": \"mT0RNrTDHkI\"\n        }, \n        {\n          \"ascent\": 1213, \n          \"condition\": null, \n          \"descent\": -307, \n          \"difficulty\": \"blue\", \n          \"id\": 7002524, \n          \"lat\": 39.5689, \n          \"length\": 8.0, \n          \"lon\": -106.1, \n          \"name\": \"Peaks Trail\", \n          \"starVotes\": 14, \n          \"stars\": 4, \n          \"summary\": \"A popular trail for good reasons.  It's a rolling forested trail with diverse singletrack.\", \n          \"youtubeid\": \"MuUkIN2e2h8\"\n        }, \n        {\n          \"ascent\": 4446, \n          \"condition\": null, \n          \"descent\": -1856, \n          \"difficulty\": \"black\", \n          \"id\": 7002559, \n          \"lat\": 39.541, \n          \"length\": 20.5, \n          \"lon\": -106.042, \n          \"name\": \"Colorado Trail: Georgia Pass to Breckenridge\", \n          \"starVotes\": 2, \n          \"stars\": 5, \n          \"summary\": \"Hard work with big rewards on a popular section of the Colorado Trail.\", \n          \"youtubeid\": \"s_BvJ4HJars\"\n        }, \n        {\n          \"ascent\": 642, \n          \"condition\": null, \n          \"descent\": -168, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7003016, \n          \"lat\": 39.5673, \n          \"length\": 9.3, \n          \"lon\": -106.084, \n          \"name\": \"Blue River Bikeway\", \n          \"starVotes\": 2, \n          \"stars\": 3, \n          \"summary\": \"A great non-motorized way to connect Frisco and Breckenridge.\", \n          \"youtubeid\": \"s3TgB0ktkRg\"\n        }, \n        {\n          \"ascent\": 53, \n          \"condition\": null, \n          \"descent\": -34, \n          \"difficulty\": \"green\", \n          \"id\": 7003018, \n          \"lat\": 39.5745, \n          \"length\": 1.6, \n          \"lon\": -106.11, \n          \"name\": \"Temple Trail\", \n          \"starVotes\": 2, \n          \"stars\": 2, \n          \"summary\": \"Good views of Mount Royal, but not the best part of Rec Path system.\", \n          \"youtubeid\": \"w6bQji-tJrQ\"\n        }, \n        {\n          \"ascent\": 3011, \n          \"condition\": null, \n          \"descent\": -3441, \n          \"difficulty\": \"black\", \n          \"id\": 7007035, \n          \"lat\": 39.4966, \n          \"length\": 18.9, \n          \"lon\": -106.136, \n          \"name\": \"Colorado Trail: Copper Mountain to Camp Hale\", \n          \"starVotes\": 2, \n          \"stars\": 5, \n          \"summary\": \"An awesome, unique high alpine hike to over 12,000', but a steep finish.\", \n          \"youtubeid\": \"CPijTAfC4DY\"\n        }, \n        {\n          \"ascent\": 2518, \n          \"condition\": null, \n          \"descent\": -2518, \n          \"difficulty\": \"blue\", \n          \"id\": 7008375, \n          \"lat\": 39.6354, \n          \"length\": 8.4, \n          \"lon\": -106.053, \n          \"name\": \"Ptarmigan Peak\", \n          \"starVotes\": 3, \n          \"stars\": 4, \n          \"summary\": \"A nice smooth trail with great views of the Gore Range along the way.\", \n          \"youtubeid\": \"UsNNVBigdzw\"\n        }, \n        {\n          \"ascent\": 3781, \n          \"condition\": null, \n          \"descent\": -3152, \n          \"difficulty\": \"black\", \n          \"id\": 7011020, \n          \"lat\": 39.5412, \n          \"length\": 13.2, \n          \"lon\": -106.042, \n          \"name\": \"CT - Segment 7\", \n          \"starVotes\": 2, \n          \"stars\": 5, \n          \"summary\": \"An iconic trail crossing the Ten Mile Range with amazing views.\", \n          \"youtubeid\": \"NoU_wuCyjlI\"\n        }, \n        {\n          \"ascent\": 4796, \n          \"condition\": null, \n          \"descent\": -2206, \n          \"difficulty\": \"blue\", \n          \"id\": 7016057, \n          \"lat\": 39.5412, \n          \"length\": 20.3, \n          \"lon\": -106.042, \n          \"name\": \"CDT: Gold Hill to Georgia Pass (CO Sec. 28)\", \n          \"starVotes\": 0, \n          \"stars\": 0, \n          \"summary\": \"Needs Adoption\", \n          \"youtubeid\": \"fz-o2ygu6Hg\"\n        }, \n        {\n          \"ascent\": 3390, \n          \"condition\": null, \n          \"descent\": -3391, \n          \"difficulty\": \"black\", \n          \"id\": 7019553, \n          \"lat\": 39.6278, \n          \"length\": 9.2, \n          \"lon\": -106.275, \n          \"name\": \"Deluge Lake\", \n          \"starVotes\": 3, \n          \"stars\": 4, \n          \"summary\": \"A steep climb through aspens and fir leads to an alpine lake.\", \n          \"youtubeid\": \"27OdU6Dlz1E\"\n        }, \n        {\n          \"ascent\": 90, \n          \"condition\": null, \n          \"descent\": -528, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7020905, \n          \"lat\": 39.5478, \n          \"length\": 1.6, \n          \"lon\": -106.068, \n          \"name\": \"Robert Foote Trail #9047\", \n          \"starVotes\": 2, \n          \"stars\": 4, \n          \"summary\": \"Located near Ophir Mountain, this trail connects Ophir Mountain Road to the Peaks Trail.\", \n          \"youtubeid\": null\n        }, \n        {\n          \"ascent\": 106, \n          \"condition\": null, \n          \"descent\": -681, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7020906, \n          \"lat\": 39.5493, \n          \"length\": 2.2, \n          \"lon\": -106.076, \n          \"name\": \"Ho Chi Minh Trail #9155\", \n          \"starVotes\": 1, \n          \"stars\": 4, \n          \"summary\": \"A fun trail connecting Gold Hill Trail to Henry Recen Trail with great views of Lake Dillon!\", \n          \"youtubeid\": null\n        }, \n        {\n          \"ascent\": 68, \n          \"condition\": null, \n          \"descent\": -137, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7020907, \n          \"lat\": 39.5695, \n          \"length\": 1.1, \n          \"lon\": -106.07, \n          \"name\": \"Henry Recen Trail #9042\", \n          \"starVotes\": 1, \n          \"stars\": 4, \n          \"summary\": \"An awesome flume trail with some fun wooden features in Frisco, CO.\", \n          \"youtubeid\": null\n        }, \n        {\n          \"ascent\": 1384, \n          \"condition\": null, \n          \"descent\": 0, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7030202, \n          \"lat\": 39.5727, \n          \"length\": 1.6, \n          \"lon\": -106.105, \n          \"name\": \"Mount Royal Trail\", \n          \"starVotes\": 12, \n          \"stars\": 5, \n          \"summary\": \"A fairly steep and challenging, but short climb from the Frisco Rec Path up to the Mount Royal summit.\", \n          \"youtubeid\": \"bRDya9cWjt4\"\n        }, \n        {\n          \"ascent\": 1406, \n          \"condition\": null, \n          \"descent\": 0, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7032679, \n          \"lat\": 39.5673, \n          \"length\": 3.4, \n          \"lon\": -106.084, \n          \"name\": \"Miner's Creek Road (38)\", \n          \"starVotes\": 1, \n          \"stars\": 3, \n          \"summary\": \"This doubletrack dirt road parallels the Peaks Trail.\", \n          \"youtubeid\": \"DEy6EuZp9IY\"\n        }, \n        {\n          \"ascent\": 7143, \n          \"condition\": null, \n          \"descent\": -6619, \n          \"difficulty\": \"dblack\", \n          \"id\": 7033040, \n          \"lat\": 39.5691, \n          \"length\": 19.0, \n          \"lon\": -106.1, \n          \"name\": \"Ten-Mile Range Traverse\", \n          \"starVotes\": 1, \n          \"stars\": 5, \n          \"summary\": \"Frisco to Breckenridge, tagging all ten peaks in the Ten-Mile Range.\", \n          \"youtubeid\": \"RCkp87pW4D8\"\n        }, \n        {\n          \"ascent\": 3075, \n          \"condition\": null, \n          \"descent\": -3075, \n          \"difficulty\": \"blue\", \n          \"id\": 7036669, \n          \"lat\": 39.4682, \n          \"length\": 10.5, \n          \"lon\": -106.012, \n          \"name\": \"Bald Mountain\", \n          \"starVotes\": 2, \n          \"stars\": 5, \n          \"summary\": \"A good trail that offers some of the best 360-degree views in the Breckenridge area.\", \n          \"youtubeid\": \"iCEDfZgDPS8\"\n        }, \n        {\n          \"ascent\": 6038, \n          \"condition\": null, \n          \"descent\": -2984, \n          \"difficulty\": \"dblack\", \n          \"id\": 7042343, \n          \"lat\": 39.5647, \n          \"length\": 10.3, \n          \"lon\": -106.11, \n          \"name\": \"Ten-Mile Traverse Route\", \n          \"starVotes\": 1, \n          \"stars\": 5, \n          \"summary\": \"A challenging route tagging all ten peaks in the Ten-Mile Range!\", \n          \"youtubeid\": \"RCkp87pW4D8\"\n        }\n      ], \n      \"website\": \"http://www.townoffrisco.com/play/frisco-adventure-park-winter/general-info/\", \n      \"yelprating\": 4.5, \n      \"youtubeid\": \"bq-PhTa10Xw\"\n    }\n  ], \n  \"page\": 1, \n  \"total_pages\": 1\n}\n"
+				}
+			]
+		},
+		{
+			"name": "trail photos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "683db836-466e-4331-8147-d2d567192c4d",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"test valid request\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.num_results).to.eql(1);",
+							"    pm.expect(jsonData.page).to.eql(1);",
+							"    pm.expect(jsonData.total_pages).to.eql(1);",
+							"});",
+							"",
+							"pm.test(\"filter by id working\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/trails/7000032/photos?q={%22filters%22:[{%22name%22:%22id%22,%22op%22:%22eq%22,%22val%22:7000032}]}\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.num_results).to.eql(1);",
+							"            pm.expect(jsonData.objects[0].id).to.eql(7000032);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"invalid page number\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/trails/7000032/photos?page=80\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.message).to.eql(\"ProgrammingError\");",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/trails/7000032/photos",
+				"description": "gets JSON data for photos related to specified trial"
+			},
+			"response": [
+				{
+					"id": "26e76be0-bb31-42c6-9ec8-a9d6f18a976b",
+					"name": "trail photos single page",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://www.hikingadventures.me/api/trails/7000032/photos?page=1",
+							"protocol": "http",
+							"host": [
+								"www",
+								"hikingadventures",
+								"me"
+							],
+							"path": [
+								"api",
+								"trails",
+								"7000032",
+								"photos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "gets first 10 photos related to trail 7000032"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1267",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 04:01:40 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"num_results\": 1, \n  \"objects\": [\n    {\n      \"id\": 7000032, \n      \"lat\": 39.5759, \n      \"lon\": -106.114, \n      \"name\": \"North Tenmile Creek photo\", \n      \"resorts\": [\n        {\n          \"elev\": null, \n          \"id\": 4904, \n          \"lat\": 39.5742, \n          \"lifts\": null, \n          \"lon\": -106.078, \n          \"mapid\": null, \n          \"mapurl\": null, \n          \"name\": \"Frisco Adventure Park\", \n          \"reviewcount\": 570, \n          \"runs\": null, \n          \"website\": \"http://www.townoffrisco.com/play/frisco-adventure-park-winter/general-info/\", \n          \"yelprating\": 4.5, \n          \"youtubeid\": \"bq-PhTa10Xw\"\n        }\n      ], \n      \"trail\": {\n        \"ascent\": 899, \n        \"condition\": null, \n        \"descent\": -56, \n        \"difficulty\": \"greenBlue\", \n        \"id\": 7000032, \n        \"lat\": 39.5759, \n        \"length\": 3.4, \n        \"lon\": -106.114, \n        \"name\": \"North Tenmile Creek\", \n        \"starVotes\": 7, \n        \"stars\": 4, \n        \"summary\": \"This serene valley ramble offers subtle views and the creek for company.\", \n        \"youtubeid\": \"m3-lrVNPpNA\"\n      }, \n      \"trailid\": 7000032, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7000128_medium_1417582072.jpg\"\n    }\n  ], \n  \"page\": 1, \n  \"total_pages\": 1\n}\n"
+				}
+			]
+		},
+		{
+			"name": "photos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "767a5bce-a401-4851-8ba0-c4f0427547e9",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"test valid request\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.num_results).to.eql(478);",
+							"    pm.expect(jsonData.page).to.eql(1);",
+							"    pm.expect(jsonData.total_pages).to.eql(48);",
+							"});",
+							"",
+							"pm.test(\"filter by id working\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/photos?q={%22filters%22:[{%22name%22:%22id%22,%22op%22:%22eq%22,%22val%22:7000032}]}\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.num_results).to.eql(1);",
+							"            pm.expect(jsonData.objects[0].id).to.eql(7000032);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"invalid page number\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/photos?page=80\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.message).to.eql(\"ProgrammingError\");",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/photos",
+				"description": "Gets JSON data for specified number of photos. Default is ten photos."
+			},
+			"response": [
+				{
+					"id": "0dc25281-0a75-4a8a-8f0b-a4cfad824243",
+					"name": "photos single page",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://www.hikingadventures.me/api/photos?page=1",
+							"protocol": "http",
+							"host": [
+								"www",
+								"hikingadventures",
+								"me"
+							],
+							"path": [
+								"api",
+								"photos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "gets first 10 photos from API"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "6767",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 03:41:00 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Link",
+							"value": "<http://www.hikingadventures.me/api/photos?page=2&results_per_page=10>; rel=\"next\", <http://www.hikingadventures.me/api/photos?page=48&results_per_page=10>; rel=\"last\"",
+							"name": "Link",
+							"description": "Used to express a typed relationship with another resource, where the relation type is defined by RFC 5988"
+						},
+						{
+							"key": "Link",
+							"value": "<http://www.hikingadventures.me/api/photos?page=2&results_per_page=10>; rel=\"next\", <http://www.hikingadventures.me/api/photos?page=48&results_per_page=10>; rel=\"last\"",
+							"name": "Link",
+							"description": "Used to express a typed relationship with another resource, where the relation type is defined by RFC 5988"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"num_results\": 478, \n  \"objects\": [\n    {\n      \"id\": 7000032, \n      \"lat\": 39.5759, \n      \"lon\": -106.114, \n      \"name\": \"North Tenmile Creek photo\", \n      \"trail\": {\n        \"ascent\": 899, \n        \"condition\": null, \n        \"descent\": -56, \n        \"difficulty\": \"greenBlue\", \n        \"id\": 7000032, \n        \"lat\": 39.5759, \n        \"length\": 3.4, \n        \"lon\": -106.114, \n        \"name\": \"North Tenmile Creek\", \n        \"starVotes\": 7, \n        \"stars\": 4, \n        \"summary\": \"This serene valley ramble offers subtle views and the creek for company.\", \n        \"youtubeid\": \"m3-lrVNPpNA\"\n      }, \n      \"trailid\": 7000032, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7000128_medium_1417582072.jpg\"\n    }, \n    {\n      \"id\": 7000034, \n      \"lat\": 39.6054, \n      \"lon\": -106.37, \n      \"name\": \"Sunlight photo\", \n      \"trail\": {\n        \"ascent\": 273, \n        \"condition\": null, \n        \"descent\": -37, \n        \"difficulty\": \"greenBlue\", \n        \"id\": 7000034, \n        \"lat\": 39.6054, \n        \"length\": 0.8, \n        \"lon\": -106.37, \n        \"name\": \"Sunlight\", \n        \"starVotes\": 2, \n        \"stars\": 3, \n        \"summary\": \"A traverse connecting the Wildwood and Mountaintop Express lift-top areas.\", \n        \"youtubeid\": \"Bparw9Jo3dk\"\n      }, \n      \"trailid\": 7000034, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7001820_medium_1427154973.jpg\"\n    }, \n    {\n      \"id\": 7000035, \n      \"lat\": 39.6142, \n      \"lon\": -106.368, \n      \"name\": \"Kinnickinnick photo\", \n      \"trail\": {\n        \"ascent\": 758, \n        \"condition\": null, \n        \"descent\": -7, \n        \"difficulty\": \"blue\", \n        \"id\": 7000035, \n        \"lat\": 39.6142, \n        \"length\": 1.4, \n        \"lon\": -106.368, \n        \"name\": \"Kinnickinnick\", \n        \"starVotes\": 3, \n        \"stars\": 3, \n        \"summary\": \"An enjoyable romp through wildflowers below and technicolor green carpeted forest above.\", \n        \"youtubeid\": \"we4sJRYQORg\"\n      }, \n      \"trailid\": 7000035, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7020078_medium_1467865190.jpg\"\n    }, \n    {\n      \"id\": 7000036, \n      \"lat\": 39.6056, \n      \"lon\": -106.37, \n      \"name\": \"Grand Escape photo\", \n      \"trail\": {\n        \"ascent\": 0, \n        \"condition\": null, \n        \"descent\": -652, \n        \"difficulty\": \"blue\", \n        \"id\": 7000036, \n        \"lat\": 39.6056, \n        \"length\": 1.4, \n        \"lon\": -106.37, \n        \"name\": \"Grand Escape\", \n        \"starVotes\": 2, \n        \"stars\": 3, \n        \"summary\": \"This ridge-top stroll is guaranteed to give you that \", \n        \"youtubeid\": \"JGPgxoIPY6Q\"\n      }, \n      \"trailid\": 7000036, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7020084_medium_1467866463.jpg\"\n    }, \n    {\n      \"id\": 7000037, \n      \"lat\": 39.6053, \n      \"lon\": -106.371, \n      \"name\": \"Ptarmigan Loop photo\", \n      \"trail\": {\n        \"ascent\": 155, \n        \"condition\": null, \n        \"descent\": -140, \n        \"difficulty\": \"greenBlue\", \n        \"id\": 7000037, \n        \"lat\": 39.6053, \n        \"length\": 1.2, \n        \"lon\": -106.371, \n        \"name\": \"Ptarmigan Loop\", \n        \"starVotes\": 3, \n        \"stars\": 5, \n        \"summary\": \"Delightful circuit atop Ptarmigan Ridge with magnificent views.\", \n        \"youtubeid\": \"QGYCmL02h2w\"\n      }, \n      \"trailid\": 7000037, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7020088_medium_1467867713.jpg\"\n    }, \n    {\n      \"id\": 7000038, \n      \"lat\": 39.6177, \n      \"lon\": -106.386, \n      \"name\": \"Ridge Route photo\", \n      \"trail\": {\n        \"ascent\": 664, \n        \"condition\": null, \n        \"descent\": 0, \n        \"difficulty\": \"blue\", \n        \"id\": 7000038, \n        \"lat\": 39.6177, \n        \"length\": 1.4, \n        \"lon\": -106.386, \n        \"name\": \"Ridge Route\", \n        \"starVotes\": 2, \n        \"stars\": 3, \n        \"summary\": \"A traverse above Game Creek Bowl affording great views of the Holy Cross wilderness.\", \n        \"youtubeid\": \"F5X3kRjkvvI\"\n      }, \n      \"trailid\": 7000038, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7000160_medium_1417798195.jpg\"\n    }, \n    {\n      \"id\": 7000039, \n      \"lat\": 39.6181, \n      \"lon\": -106.384, \n      \"name\": \"Lower Fireweed photo\", \n      \"trail\": {\n        \"ascent\": 71, \n        \"condition\": null, \n        \"descent\": -195, \n        \"difficulty\": \"green\", \n        \"id\": 7000039, \n        \"lat\": 39.6181, \n        \"length\": 1.1, \n        \"lon\": -106.384, \n        \"name\": \"Lower Fireweed\", \n        \"starVotes\": 1, \n        \"stars\": 3, \n        \"summary\": \"A low intensity way to sample the views on Vail mountain.\", \n        \"youtubeid\": \"TaDRCdly6ms\"\n      }, \n      \"trailid\": 7000039, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7000187_medium_1417835429.jpg\"\n    }, \n    {\n      \"id\": 7000040, \n      \"lat\": 39.6146, \n      \"lon\": -106.368, \n      \"name\": \"Upper Fireweed photo\", \n      \"trail\": {\n        \"ascent\": 168, \n        \"condition\": null, \n        \"descent\": -44, \n        \"difficulty\": \"green\", \n        \"id\": 7000040, \n        \"lat\": 39.6146, \n        \"length\": 1.0, \n        \"lon\": -106.368, \n        \"name\": \"Upper Fireweed\", \n        \"starVotes\": 1, \n        \"stars\": 3, \n        \"summary\": \"A low intensity traverse on Vail mountain's frontside with Gore Range views.\", \n        \"youtubeid\": \"ZktsMjDzKao\"\n      }, \n      \"trailid\": 7000040, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7000187_medium_1417835429.jpg\"\n    }, \n    {\n      \"id\": 7000045, \n      \"lat\": 39.6176, \n      \"lon\": -106.387, \n      \"name\": \"Eagle's Loop photo\", \n      \"trail\": {\n        \"ascent\": 41, \n        \"condition\": null, \n        \"descent\": -34, \n        \"difficulty\": \"green\", \n        \"id\": 7000045, \n        \"lat\": 39.6176, \n        \"length\": 0.7, \n        \"lon\": -106.387, \n        \"name\": \"Eagle's Loop\", \n        \"starVotes\": 1, \n        \"stars\": 3, \n        \"summary\": \"This short, mellow loop gives the masses easy access to spectacular views.\", \n        \"youtubeid\": \"Hc3mc0igHzU\"\n      }, \n      \"trailid\": 7000045, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7000179_medium_1417833325.jpg\"\n    }, \n    {\n      \"id\": 7000046, \n      \"lat\": 39.6183, \n      \"lon\": -106.389, \n      \"name\": \"Eagle's Loop alternate photo\", \n      \"trail\": {\n        \"ascent\": 1, \n        \"condition\": null, \n        \"descent\": -4, \n        \"difficulty\": \"green\", \n        \"id\": 7000046, \n        \"lat\": 39.6183, \n        \"length\": 0.1, \n        \"lon\": -106.389, \n        \"name\": \"Eagle's Loop alternate\", \n        \"starVotes\": 0, \n        \"stars\": 0, \n        \"summary\": \"\", \n        \"youtubeid\": \"BYlb_MnOhBs\"\n      }, \n      \"trailid\": 7000046, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7000179_medium_1417833325.jpg\"\n    }\n  ], \n  \"page\": 1, \n  \"total_pages\": 48\n}\n"
+				},
+				{
+					"id": "5450a6d9-08fb-48df-8eb7-a4c07a9b3779",
+					"name": "photos with query",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://hikingadventures.me/api/photos?q={\"filters\":[{\"name\":\"id\",\"op\":\"eq\",\"val\":7000032}]}",
+							"protocol": "http",
+							"host": [
+								"hikingadventures",
+								"me"
+							],
+							"path": [
+								"api",
+								"photos"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "{\"filters\":[{\"name\":\"id\",\"op\":\"eq\",\"val\":7000032}]}",
+									"description": "gets all photos with id == 7000032"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": ""
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": ""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 03:41:00 GMT",
+							"name": "Date",
+							"description": ""
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": ""
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": ""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": ""
+						}
+					],
+					"cookie": [],
+					"body": "{\r\n  \"num_results\": 1, \r\n  \"objects\": [\r\n    {\r\n      \"id\": 7000032, \r\n      \"lat\": 39.5759, \r\n      \"lon\": -106.114, \r\n      \"name\": \"North Tenmile Creek photo\", \r\n      \"trail\": {\r\n        \"ascent\": 899, \r\n        \"condition\": null, \r\n        \"descent\": -56, \r\n        \"difficulty\": \"greenBlue\", \r\n        \"id\": 7000032, \r\n        \"lat\": 39.5759, \r\n        \"length\": 3.4, \r\n        \"lon\": -106.114, \r\n        \"name\": \"North Tenmile Creek\", \r\n        \"starVotes\": 7, \r\n        \"stars\": 4, \r\n        \"summary\": \"This serene valley ramble offers subtle views and the creek for company.\", \r\n        \"youtubeid\": \"m3-lrVNPpNA\"\r\n      }, \r\n      \"trailid\": 7000032, \r\n      \"url\": \"https://cdn-files.apstatic.com/hike/7000128_medium_1417582072.jpg\"\r\n    }\r\n  ], \r\n  \"page\": 1, \r\n  \"total_pages\": 1\r\n}"
+				}
+			]
+		},
+		{
+			"name": "photo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8187f77d-8c2e-4c62-84d3-045c16dead37",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"test valid request\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"North Tenmile Creek photo\");",
+							"    pm.expect(jsonData.id).to.eql(7000032);",
+							"});",
+							"",
+							"pm.test(\"unknown but valid id passed\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/photos/99999999\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(_.isEmpty(jsonData)).to.eql(true);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"invalid id passed\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/photos/abc\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(_.isEmpty(jsonData)).to.eql(true);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"adding random query params does not change data\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/photos/7000032?page=230909\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.id).to.eql(7000032);",
+							"            pm.expect(jsonData.name).to.eql(\"North Tenmile Creek photo\")",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/photos/7000032",
+				"description": "pulls JSON data for specified photo."
+			},
+			"response": [
+				{
+					"id": "6f562736-9c03-498b-96c3-da0782179894",
+					"name": "photo",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": "http://www.hikingadventures.me/api/photos/7000032"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "597",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 02:45:58 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"id\": 7000032, \n  \"lat\": 39.5759, \n  \"lon\": -106.114, \n  \"name\": \"North Tenmile Creek photo\", \n  \"trail\": {\n    \"ascent\": 899, \n    \"condition\": null, \n    \"descent\": -56, \n    \"difficulty\": \"greenBlue\", \n    \"id\": 7000032, \n    \"lat\": 39.5759, \n    \"length\": 3.4, \n    \"lon\": -106.114, \n    \"name\": \"North Tenmile Creek\", \n    \"starVotes\": 7, \n    \"stars\": 4, \n    \"summary\": \"This serene valley ramble offers subtle views and the creek for company.\", \n    \"youtubeid\": \"m3-lrVNPpNA\"\n  }, \n  \"trailid\": 7000032, \n  \"url\": \"https://cdn-files.apstatic.com/hike/7000128_medium_1417582072.jpg\"\n}\n"
+				}
+			]
+		},
+		{
+			"name": "photo resorts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f3b676c9-223c-4fab-973a-bb5e8c58c0c6",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"test proper number of resorts returned\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.num_results).to.eql(1);",
+							"    pm.expect(jsonData.page).to.eql(1);",
+							"    pm.expect(jsonData.total_pages).to.eql(1);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"filter by id working\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/photos/7000032/resorts?q={%22filters%22:[{%22name%22:%22id%22,%22op%22:%22eq%22,%22val%22:4904}]}\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.num_results).to.eql(1);",
+							"            pm.expect(jsonData.objects[0].id).to.eql(4904);",
+							"        });",
+							"});",
+							"",
+							"pm.test(\"invalid page number\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/photos/7000032/resorts?page=80\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.message).to.eql(\"ProgrammingError\");",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/photos/7000032/resorts",
+				"description": "get JSON data for resorts related to specified photo"
+			},
+			"response": [
+				{
+					"id": "60c53488-92c4-4c6e-bd7d-12baca1b78c8",
+					"name": "photo resorts single page",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://www.hikingadventures.me/api/photos/7000032/resorts?page=1",
+							"protocol": "http",
+							"host": [
+								"www",
+								"hikingadventures",
+								"me"
+							],
+							"path": [
+								"api",
+								"photos",
+								"7000032",
+								"resorts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "gets first 10 resorts related to photo 7000032"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "18409",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 04:07:36 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"num_results\": 1, \n  \"objects\": [\n    {\n      \"elev\": null, \n      \"id\": 4904, \n      \"lat\": 39.5742, \n      \"lifts\": null, \n      \"lon\": -106.078, \n      \"mapid\": null, \n      \"mapurl\": null, \n      \"name\": \"Frisco Adventure Park\", \n      \"photos\": [\n        {\n          \"id\": 7000032, \n          \"lat\": 39.5759, \n          \"lon\": -106.114, \n          \"name\": \"North Tenmile Creek photo\", \n          \"trailid\": 7000032, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7000128_medium_1417582072.jpg\"\n        }, \n        {\n          \"id\": 7002475, \n          \"lat\": 39.5901, \n          \"lon\": -106.007, \n          \"name\": \"Back Ranch Loop photo\", \n          \"trailid\": 7002475, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001585_medium_1426304816.jpg\"\n        }, \n        {\n          \"id\": 7002479, \n          \"lat\": 39.6199, \n          \"lon\": -106.11, \n          \"name\": \"Buffalo Mountain Loop photo\", \n          \"trailid\": 7002479, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001592_medium_1426308187.jpg\"\n        }, \n        {\n          \"id\": 7002484, \n          \"lat\": 39.5879, \n          \"lon\": -106.016, \n          \"name\": \"Summit Cove: Soda Creek & Groovy Uvi photo\", \n          \"trailid\": 7002484, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7041521_medium_1512592803.jpg\"\n        }, \n        {\n          \"id\": 7002489, \n          \"lat\": 39.6516, \n          \"lon\": -106.098, \n          \"name\": \"Salmon Lake photo\", \n          \"trailid\": 7002489, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001711_medium_1426823178.jpg\"\n        }, \n        {\n          \"id\": 7002491, \n          \"lat\": 39.624, \n          \"lon\": -106.082, \n          \"name\": \"Mesa Cortina to Gore Range Trail Out and Back photo\", \n          \"trailid\": 7002491, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7019129_medium_1465999120.jpg\"\n        }, \n        {\n          \"id\": 7002492, \n          \"lat\": 39.6353, \n          \"lon\": -106.053, \n          \"name\": \"Ptarmigan Trail (#35) photo\", \n          \"trailid\": 7002492, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001610_medium_1426380440.jpg\"\n        }, \n        {\n          \"id\": 7002502, \n          \"lat\": 39.5903, \n          \"lon\": -106.007, \n          \"name\": \"Summit Cove to Tiger Road Loop photo\", \n          \"trailid\": 7002502, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001586_medium_1426304923.jpg\"\n        }, \n        {\n          \"id\": 7002524, \n          \"lat\": 39.5689, \n          \"lon\": -106.1, \n          \"name\": \"Peaks Trail photo\", \n          \"trailid\": 7002524, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7037581_medium_1506304906.jpg\"\n        }, \n        {\n          \"id\": 7002559, \n          \"lat\": 39.541, \n          \"lon\": -106.042, \n          \"name\": \"Colorado Trail: Georgia Pass to Breckenridge photo\", \n          \"trailid\": 7002559, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001618_medium_1426387871.jpg\"\n        }, \n        {\n          \"id\": 7003016, \n          \"lat\": 39.5673, \n          \"lon\": -106.084, \n          \"name\": \"Blue River Bikeway photo\", \n          \"trailid\": 7003016, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7002100_medium_1427424175.jpg\"\n        }, \n        {\n          \"id\": 7003018, \n          \"lat\": 39.5745, \n          \"lon\": -106.11, \n          \"name\": \"Temple Trail photo\", \n          \"trailid\": 7003018, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7002101_medium_1427425042.jpg\"\n        }, \n        {\n          \"id\": 7007035, \n          \"lat\": 39.4966, \n          \"lon\": -106.136, \n          \"name\": \"Colorado Trail: Copper Mountain to Camp Hale photo\", \n          \"trailid\": 7007035, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7006681_medium_1440283655.jpg\"\n        }, \n        {\n          \"id\": 7008375, \n          \"lat\": 39.6354, \n          \"lon\": -106.053, \n          \"name\": \"Ptarmigan Peak photo\", \n          \"trailid\": 7008375, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001610_medium_1426380440.jpg\"\n        }, \n        {\n          \"id\": 7011020, \n          \"lat\": 39.5412, \n          \"lon\": -106.042, \n          \"name\": \"CT - Segment 7 photo\", \n          \"trailid\": 7011020, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7023556_medium_1475511279.jpg\"\n        }, \n        {\n          \"id\": 7016057, \n          \"lat\": 39.5412, \n          \"lon\": -106.042, \n          \"name\": \"CDT: Gold Hill to Georgia Pass (CO Sec. 28) photo\", \n          \"trailid\": 7016057, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001618_medium_1426387871.jpg\"\n        }, \n        {\n          \"id\": 7019553, \n          \"lat\": 39.6278, \n          \"lon\": -106.275, \n          \"name\": \"Deluge Lake photo\", \n          \"trailid\": 7019553, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7020587_medium_1468877691.jpg\"\n        }, \n        {\n          \"id\": 7030202, \n          \"lat\": 39.5727, \n          \"lon\": -106.105, \n          \"name\": \"Mount Royal Trail photo\", \n          \"trailid\": 7030202, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7037575_medium_1506304584.jpg\"\n        }, \n        {\n          \"id\": 7032679, \n          \"lat\": 39.5673, \n          \"lon\": -106.084, \n          \"name\": \"Miner's Creek Road (38) photo\", \n          \"trailid\": 7032679, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7033523_medium_1499812753.jpg\"\n        }, \n        {\n          \"id\": 7033040, \n          \"lat\": 39.5691, \n          \"lon\": -106.1, \n          \"name\": \"Ten-Mile Range Traverse photo\", \n          \"trailid\": 7033040, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001492_medium_1426004438.jpg\"\n        }, \n        {\n          \"id\": 7036669, \n          \"lat\": 39.4682, \n          \"lon\": -106.012, \n          \"name\": \"Bald Mountain photo\", \n          \"trailid\": 7036669, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7036862_medium_1504967611.jpg\"\n        }, \n        {\n          \"id\": 7042343, \n          \"lat\": 39.5647, \n          \"lon\": -106.11, \n          \"name\": \"Ten-Mile Traverse Route photo\", \n          \"trailid\": 7042343, \n          \"url\": \"https://cdn-files.apstatic.com/hike/7001492_medium_1426004438.jpg\"\n        }\n      ], \n      \"reviewcount\": 570, \n      \"runs\": null, \n      \"trails\": [\n        {\n          \"ascent\": 899, \n          \"condition\": null, \n          \"descent\": -56, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7000032, \n          \"lat\": 39.5759, \n          \"length\": 3.4, \n          \"lon\": -106.114, \n          \"name\": \"North Tenmile Creek\", \n          \"starVotes\": 7, \n          \"stars\": 4, \n          \"summary\": \"This serene valley ramble offers subtle views and the creek for company.\", \n          \"youtubeid\": \"m3-lrVNPpNA\"\n        }, \n        {\n          \"ascent\": 712, \n          \"condition\": null, \n          \"descent\": -728, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7002475, \n          \"lat\": 39.5901, \n          \"length\": 7.5, \n          \"lon\": -106.007, \n          \"name\": \"Back Ranch Loop\", \n          \"starVotes\": 6, \n          \"stars\": 4, \n          \"summary\": \"A beautiful 8 mile loop that takes you through a forested area then along an old aqueduct trail.\", \n          \"youtubeid\": \"VP8L6O8lC30\"\n        }, \n        {\n          \"ascent\": 3332, \n          \"condition\": null, \n          \"descent\": -3331, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7002479, \n          \"lat\": 39.6199, \n          \"length\": 14.0, \n          \"lon\": -106.11, \n          \"name\": \"Buffalo Mountain Loop\", \n          \"starVotes\": 22, \n          \"stars\": 5, \n          \"summary\": \"An amazing hike circumnavigating Buffalo Mountain, over Eccles Pass.\", \n          \"youtubeid\": \"k8jaK1yLqyw\"\n        }, \n        {\n          \"ascent\": 381, \n          \"condition\": null, \n          \"descent\": -382, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7002484, \n          \"lat\": 39.5879, \n          \"length\": 3.2, \n          \"lon\": -106.016, \n          \"name\": \"Summit Cove: Soda Creek & Groovy Uvi\", \n          \"starVotes\": 1, \n          \"stars\": 4, \n          \"summary\": \"A mellow singletrack loop from the back of Summit Cove.\", \n          \"youtubeid\": \"0BO4dGAFzAU\"\n        }, \n        {\n          \"ascent\": 2415, \n          \"condition\": null, \n          \"descent\": -2415, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7002489, \n          \"lat\": 39.6516, \n          \"length\": 10.3, \n          \"lon\": -106.098, \n          \"name\": \"Salmon Lake\", \n          \"starVotes\": 4, \n          \"stars\": 4, \n          \"summary\": \"Talk about a great hike up a beautiful drainage! Earn stunning views of the East Thorn.\", \n          \"youtubeid\": \"gYagyQ_eKB0\"\n        }, \n        {\n          \"ascent\": 1091, \n          \"condition\": null, \n          \"descent\": -1093, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7002491, \n          \"lat\": 39.624, \n          \"length\": 8.1, \n          \"lon\": -106.082, \n          \"name\": \"Mesa Cortina to Gore Range Trail Out and Back\", \n          \"starVotes\": 10, \n          \"stars\": 4, \n          \"summary\": \"A mostly forested trail, with stream crossings and beautiful meadows.\", \n          \"youtubeid\": \"vA8n3ylAU4g\"\n        }, \n        {\n          \"ascent\": 3536, \n          \"condition\": null, \n          \"descent\": -3536, \n          \"difficulty\": \"blue\", \n          \"id\": 7002492, \n          \"lat\": 39.6353, \n          \"length\": 13.2, \n          \"lon\": -106.053, \n          \"name\": \"Ptarmigan Trail (#35)\", \n          \"starVotes\": 9, \n          \"stars\": 5, \n          \"summary\": \"A climb to the summit of Ptarmigan Mountain\", \n          \"youtubeid\": null\n        }, \n        {\n          \"ascent\": 1993, \n          \"condition\": null, \n          \"descent\": -1987, \n          \"difficulty\": \"blue\", \n          \"id\": 7002502, \n          \"lat\": 39.5903, \n          \"length\": 14.3, \n          \"lon\": -106.007, \n          \"name\": \"Summit Cove to Tiger Road Loop\", \n          \"starVotes\": 2, \n          \"stars\": 5, \n          \"summary\": \"A nice long loop with forest, meadows, and streams.\", \n          \"youtubeid\": \"mT0RNrTDHkI\"\n        }, \n        {\n          \"ascent\": 1213, \n          \"condition\": null, \n          \"descent\": -307, \n          \"difficulty\": \"blue\", \n          \"id\": 7002524, \n          \"lat\": 39.5689, \n          \"length\": 8.0, \n          \"lon\": -106.1, \n          \"name\": \"Peaks Trail\", \n          \"starVotes\": 14, \n          \"stars\": 4, \n          \"summary\": \"A popular trail for good reasons.  It's a rolling forested trail with diverse singletrack.\", \n          \"youtubeid\": \"MuUkIN2e2h8\"\n        }, \n        {\n          \"ascent\": 4446, \n          \"condition\": null, \n          \"descent\": -1856, \n          \"difficulty\": \"black\", \n          \"id\": 7002559, \n          \"lat\": 39.541, \n          \"length\": 20.5, \n          \"lon\": -106.042, \n          \"name\": \"Colorado Trail: Georgia Pass to Breckenridge\", \n          \"starVotes\": 2, \n          \"stars\": 5, \n          \"summary\": \"Hard work with big rewards on a popular section of the Colorado Trail.\", \n          \"youtubeid\": \"s_BvJ4HJars\"\n        }, \n        {\n          \"ascent\": 642, \n          \"condition\": null, \n          \"descent\": -168, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7003016, \n          \"lat\": 39.5673, \n          \"length\": 9.3, \n          \"lon\": -106.084, \n          \"name\": \"Blue River Bikeway\", \n          \"starVotes\": 2, \n          \"stars\": 3, \n          \"summary\": \"A great non-motorized way to connect Frisco and Breckenridge.\", \n          \"youtubeid\": \"s3TgB0ktkRg\"\n        }, \n        {\n          \"ascent\": 53, \n          \"condition\": null, \n          \"descent\": -34, \n          \"difficulty\": \"green\", \n          \"id\": 7003018, \n          \"lat\": 39.5745, \n          \"length\": 1.6, \n          \"lon\": -106.11, \n          \"name\": \"Temple Trail\", \n          \"starVotes\": 2, \n          \"stars\": 2, \n          \"summary\": \"Good views of Mount Royal, but not the best part of Rec Path system.\", \n          \"youtubeid\": \"w6bQji-tJrQ\"\n        }, \n        {\n          \"ascent\": 3011, \n          \"condition\": null, \n          \"descent\": -3441, \n          \"difficulty\": \"black\", \n          \"id\": 7007035, \n          \"lat\": 39.4966, \n          \"length\": 18.9, \n          \"lon\": -106.136, \n          \"name\": \"Colorado Trail: Copper Mountain to Camp Hale\", \n          \"starVotes\": 2, \n          \"stars\": 5, \n          \"summary\": \"An awesome, unique high alpine hike to over 12,000', but a steep finish.\", \n          \"youtubeid\": \"CPijTAfC4DY\"\n        }, \n        {\n          \"ascent\": 2518, \n          \"condition\": null, \n          \"descent\": -2518, \n          \"difficulty\": \"blue\", \n          \"id\": 7008375, \n          \"lat\": 39.6354, \n          \"length\": 8.4, \n          \"lon\": -106.053, \n          \"name\": \"Ptarmigan Peak\", \n          \"starVotes\": 3, \n          \"stars\": 4, \n          \"summary\": \"A nice smooth trail with great views of the Gore Range along the way.\", \n          \"youtubeid\": \"UsNNVBigdzw\"\n        }, \n        {\n          \"ascent\": 3781, \n          \"condition\": null, \n          \"descent\": -3152, \n          \"difficulty\": \"black\", \n          \"id\": 7011020, \n          \"lat\": 39.5412, \n          \"length\": 13.2, \n          \"lon\": -106.042, \n          \"name\": \"CT - Segment 7\", \n          \"starVotes\": 2, \n          \"stars\": 5, \n          \"summary\": \"An iconic trail crossing the Ten Mile Range with amazing views.\", \n          \"youtubeid\": \"NoU_wuCyjlI\"\n        }, \n        {\n          \"ascent\": 4796, \n          \"condition\": null, \n          \"descent\": -2206, \n          \"difficulty\": \"blue\", \n          \"id\": 7016057, \n          \"lat\": 39.5412, \n          \"length\": 20.3, \n          \"lon\": -106.042, \n          \"name\": \"CDT: Gold Hill to Georgia Pass (CO Sec. 28)\", \n          \"starVotes\": 0, \n          \"stars\": 0, \n          \"summary\": \"Needs Adoption\", \n          \"youtubeid\": \"fz-o2ygu6Hg\"\n        }, \n        {\n          \"ascent\": 3390, \n          \"condition\": null, \n          \"descent\": -3391, \n          \"difficulty\": \"black\", \n          \"id\": 7019553, \n          \"lat\": 39.6278, \n          \"length\": 9.2, \n          \"lon\": -106.275, \n          \"name\": \"Deluge Lake\", \n          \"starVotes\": 3, \n          \"stars\": 4, \n          \"summary\": \"A steep climb through aspens and fir leads to an alpine lake.\", \n          \"youtubeid\": \"27OdU6Dlz1E\"\n        }, \n        {\n          \"ascent\": 90, \n          \"condition\": null, \n          \"descent\": -528, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7020905, \n          \"lat\": 39.5478, \n          \"length\": 1.6, \n          \"lon\": -106.068, \n          \"name\": \"Robert Foote Trail #9047\", \n          \"starVotes\": 2, \n          \"stars\": 4, \n          \"summary\": \"Located near Ophir Mountain, this trail connects Ophir Mountain Road to the Peaks Trail.\", \n          \"youtubeid\": null\n        }, \n        {\n          \"ascent\": 106, \n          \"condition\": null, \n          \"descent\": -681, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7020906, \n          \"lat\": 39.5493, \n          \"length\": 2.2, \n          \"lon\": -106.076, \n          \"name\": \"Ho Chi Minh Trail #9155\", \n          \"starVotes\": 1, \n          \"stars\": 4, \n          \"summary\": \"A fun trail connecting Gold Hill Trail to Henry Recen Trail with great views of Lake Dillon!\", \n          \"youtubeid\": null\n        }, \n        {\n          \"ascent\": 68, \n          \"condition\": null, \n          \"descent\": -137, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7020907, \n          \"lat\": 39.5695, \n          \"length\": 1.1, \n          \"lon\": -106.07, \n          \"name\": \"Henry Recen Trail #9042\", \n          \"starVotes\": 1, \n          \"stars\": 4, \n          \"summary\": \"An awesome flume trail with some fun wooden features in Frisco, CO.\", \n          \"youtubeid\": null\n        }, \n        {\n          \"ascent\": 1384, \n          \"condition\": null, \n          \"descent\": 0, \n          \"difficulty\": \"blueBlack\", \n          \"id\": 7030202, \n          \"lat\": 39.5727, \n          \"length\": 1.6, \n          \"lon\": -106.105, \n          \"name\": \"Mount Royal Trail\", \n          \"starVotes\": 12, \n          \"stars\": 5, \n          \"summary\": \"A fairly steep and challenging, but short climb from the Frisco Rec Path up to the Mount Royal summit.\", \n          \"youtubeid\": \"bRDya9cWjt4\"\n        }, \n        {\n          \"ascent\": 1406, \n          \"condition\": null, \n          \"descent\": 0, \n          \"difficulty\": \"greenBlue\", \n          \"id\": 7032679, \n          \"lat\": 39.5673, \n          \"length\": 3.4, \n          \"lon\": -106.084, \n          \"name\": \"Miner's Creek Road (38)\", \n          \"starVotes\": 1, \n          \"stars\": 3, \n          \"summary\": \"This doubletrack dirt road parallels the Peaks Trail.\", \n          \"youtubeid\": \"DEy6EuZp9IY\"\n        }, \n        {\n          \"ascent\": 7143, \n          \"condition\": null, \n          \"descent\": -6619, \n          \"difficulty\": \"dblack\", \n          \"id\": 7033040, \n          \"lat\": 39.5691, \n          \"length\": 19.0, \n          \"lon\": -106.1, \n          \"name\": \"Ten-Mile Range Traverse\", \n          \"starVotes\": 1, \n          \"stars\": 5, \n          \"summary\": \"Frisco to Breckenridge, tagging all ten peaks in the Ten-Mile Range.\", \n          \"youtubeid\": \"RCkp87pW4D8\"\n        }, \n        {\n          \"ascent\": 3075, \n          \"condition\": null, \n          \"descent\": -3075, \n          \"difficulty\": \"blue\", \n          \"id\": 7036669, \n          \"lat\": 39.4682, \n          \"length\": 10.5, \n          \"lon\": -106.012, \n          \"name\": \"Bald Mountain\", \n          \"starVotes\": 2, \n          \"stars\": 5, \n          \"summary\": \"A good trail that offers some of the best 360-degree views in the Breckenridge area.\", \n          \"youtubeid\": \"iCEDfZgDPS8\"\n        }, \n        {\n          \"ascent\": 6038, \n          \"condition\": null, \n          \"descent\": -2984, \n          \"difficulty\": \"dblack\", \n          \"id\": 7042343, \n          \"lat\": 39.5647, \n          \"length\": 10.3, \n          \"lon\": -106.11, \n          \"name\": \"Ten-Mile Traverse Route\", \n          \"starVotes\": 1, \n          \"stars\": 5, \n          \"summary\": \"A challenging route tagging all ten peaks in the Ten-Mile Range!\", \n          \"youtubeid\": \"RCkp87pW4D8\"\n        }\n      ], \n      \"website\": \"http://www.townoffrisco.com/play/frisco-adventure-park-winter/general-info/\", \n      \"yelprating\": 4.5, \n      \"youtubeid\": \"bq-PhTa10Xw\"\n    }\n  ], \n  \"page\": 1, \n  \"total_pages\": 1\n}\n"
+				}
+			]
+		},
+		{
+			"name": "photo trail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ecd7beee-ad78-4e07-8dbe-f56683a798ea",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"check valid request\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(7000032);",
+							"    pm.expect(jsonData.name).to.eql(\"North Tenmile Creek\");",
+							"});",
+							"",
+							"pm.test(\"adding random query params does not change data\", function(){",
+							"    pm.sendRequest(\"http://hikingadventures.me/api/photos/7000032/trail?page=230909\", function (err, response) {",
+							"            var jsonData = response.json();",
+							"            pm.expect(jsonData.id).to.eql(7000032);",
+							"            pm.expect(jsonData.name).to.eql(\"North Tenmile Creek\")",
+							"        });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://www.hikingadventures.me/api/photos/7000032/trail",
+				"description": "get JSON data for trail related to specified photo"
+			},
+			"response": [
+				{
+					"id": "02c5d1fc-f53a-4f2e-ab35-ecf4e5cef94e",
+					"name": "photo trail single page",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": "http://www.hikingadventures.me/api/photos/7000032/trail"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1039",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 21 Mar 2018 04:17:07 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"name": "Keep-Alive",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "Apache/2.4.18 (Ubuntu)",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept",
+							"name": "Vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"ascent\": 899, \n  \"condition\": null, \n  \"descent\": -56, \n  \"difficulty\": \"greenBlue\", \n  \"id\": 7000032, \n  \"lat\": 39.5759, \n  \"length\": 3.4, \n  \"lon\": -106.114, \n  \"name\": \"North Tenmile Creek\", \n  \"photos\": [\n    {\n      \"id\": 7000032, \n      \"lat\": 39.5759, \n      \"lon\": -106.114, \n      \"name\": \"North Tenmile Creek photo\", \n      \"trailid\": 7000032, \n      \"url\": \"https://cdn-files.apstatic.com/hike/7000128_medium_1417582072.jpg\"\n    }\n  ], \n  \"resorts\": [\n    {\n      \"elev\": null, \n      \"id\": 4904, \n      \"lat\": 39.5742, \n      \"lifts\": null, \n      \"lon\": -106.078, \n      \"mapid\": null, \n      \"mapurl\": null, \n      \"name\": \"Frisco Adventure Park\", \n      \"reviewcount\": 570, \n      \"runs\": null, \n      \"website\": \"http://www.townoffrisco.com/play/frisco-adventure-park-winter/general-info/\", \n      \"yelprating\": 4.5, \n      \"youtubeid\": \"bq-PhTa10Xw\"\n    }\n  ], \n  \"starVotes\": 7, \n  \"stars\": 4, \n  \"summary\": \"This serene valley ramble offers subtle views and the creek for company.\", \n  \"youtubeid\": \"m3-lrVNPpNA\"\n}\n"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a64d4da7-2336-4e65-bb81-a14fe501d278",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ff4ffb7a-4263-4b9d-bfd4-4f7fba83eda7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
