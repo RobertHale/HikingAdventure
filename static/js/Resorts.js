@@ -26,7 +26,7 @@ export default class Resorts extends React.Component {
   }
   pairup(fetchedResorts){
     //Do magic
-    console.log(fetchedResorts);
+    //console.log(fetchedResorts);
     var s = 2;
     var b = 0;
     var e = fetchedResorts.length;
@@ -35,7 +35,7 @@ export default class Resorts extends React.Component {
     for(b, e; b < e; b += s){
       paired.push(mimic.slice(b, b+s));
     }
-    console.log(paired);
+    //console.log(paired);
     this.setState({presorts: paired});
   }
   //This is where we want to query the database
@@ -49,7 +49,7 @@ export default class Resorts extends React.Component {
   }
 
   getinfo(){
-    $.getJSON('http://hikingadventures.m/api/resorts?page=1')
+    $.getJSON('http://hikingadventures.me/api/resorts?page=1')
     .then(({ results }) => {console.log(results)});
   }
   componentDidMount(){
@@ -115,7 +115,7 @@ export default class Resorts extends React.Component {
       // hikingadventures
       var fetchfrom = "http://hikingadventures.me/api/resorts?page=";
       fetchfrom += pagenumber;
-      console.log(fetchfrom);
+      //console.log(fetchfrom);
 
       $.getJSON(fetchfrom).then(results => {this.pairup(results.objects)});
     }

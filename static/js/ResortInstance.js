@@ -52,11 +52,11 @@ export default class ResortInstance extends React.Component {
     var url = window.location.href;
     var lastPart = url.split("/").pop();
 
-    var fetchfrom = "http://127.0.0.1:5000/api/resorts/" + lastPart;
+    var fetchfrom = "http://hikingadventures.me/api/resorts/" + lastPart;
 
-    var fetchPhotos = "http://127.0.0.1:5000/api/resorts/" + lastPart + "/photos?results_per_page=25";
+    var fetchPhotos = "http://hikingadventures.me/api/resorts/" + lastPart + "/photos?results_per_page=25";
 
-    var fetchTrails = "http://127.0.0.1:5000/api/resorts/" + lastPart + "/trails?results_per_page=25";
+    var fetchTrails = "http://hikingadventures.me/api/resorts/" + lastPart + "/trails?results_per_page=25";
 
     console.log(fetchfrom)
 
@@ -84,49 +84,45 @@ export default class ResortInstance extends React.Component {
           yelp: y,
           website: w,
           map: m
-
         });
-
       });
 
       $.getJSON(fetchPhotos)
         .then(results => {
 
           var pad = {
-            margin: '0px 0px 10px 0px'
+            margin: '0px 5px 10px 0px'
           };
 
           let photos = results.objects.map((photo)=>{
             return(
-              <a style={pad} className="btn btn-primary" href={"/photos/"+photo.id}>{photo.name}</a>
+              <li>
+                <a style={pad} className="btn btn-primary" href={"/photos/"+photo.id}>{photo.name}</a>
+              </li>
             )
           })
-
           this.setState({
             photos: photos
-
           });
-
         });
 
         $.getJSON(fetchTrails)
           .then(results => {
 
             var pad = {
-              margin: '0px 0px 10px 0px'
+              margin: '0px 5px 10px 0px'
             };
 
             let trails = results.objects.map((trail)=>{
               return(
-                <a style={pad} className="btn btn-primary" href={"/trails/"+trail.id}>{trail.name}</a>
+                <li>
+                  <a style={pad} className="btn btn-primary" href={"/trails/"+trail.id}>{trail.name}</a>
+                </li>
               )
             })
-
             this.setState({
               trails: trails
-
             });
-
           });
   }
 
@@ -134,11 +130,16 @@ export default class ResortInstance extends React.Component {
 
     var titles = {
       color:'white',
+      textAlign: 'center'
     };
 
     var left = {
       color: 'white',
       textAlign:'left'
+    };
+
+    var cardpad = {
+      margin: '0px 0px 10px 0px'
     };
 
     return (
@@ -150,9 +151,9 @@ export default class ResortInstance extends React.Component {
   			</div>
   		</div>
 
-      <div className="row">
-        <div id="main" className="col-lg-6">
-          <div className="card cardbg">
+      <div className="row justify-content-center">
+        <div id="main" className="col-lg-7">
+          <div style={cardpad} className="card cardbg">
             <img className="card-img-top" src={this.state.map} height="500" />
             <div className="card-block">
               <ul>
@@ -193,23 +194,35 @@ export default class ResortInstance extends React.Component {
             </div>
           </div>
         </div>
-        <div className="col-lg-3">
-          <div className="card cardbg h-10">
-            <div className="card-block">
-              <h2 style={titles} className="card-title">Nearby Trails:</h2>
-              {this.state.trails}
+
+        <div className="row">
+          <div className="col-lg-6">
+            <div style={cardpad} className="card cardbg h-10">
+              <div className="card-block">
+                <h2 style={titles} className="card-title">Nearby Trails:</h2>
+                <nav>
+                <ul>
+                {this.state.trails}
+                </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-6">
+            <div style={cardpad} className="card cardbg h-10">
+              <div className="card-block">
+                <h2 style={titles} className="card-title">Photos:</h2>
+                <nav>
+                <ul>
+                {this.state.photos}
+                </ul>
+                </nav>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="col-lg-3">
-          <div className="card cardbg h-10">
-            <div className="card-block">
-              <h2 style={titles} className="card-title">Photos:</h2>
-              {this.state.photos}
-            </div>
-          </div>
-        </div>
       </div>
 
 
