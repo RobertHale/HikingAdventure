@@ -2,8 +2,6 @@ sudo: false
 
 language: python
 
-addons:
-   firefox: "45.4.0esr"
 
 python:
    - "2.7"
@@ -12,10 +10,6 @@ before_install:
     - cat .travis.yml
     - pip install --upgrade pip
     - pip --version
-    - wget https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-linux64.tar.gz
-    - mkdir geckodriver
-    - tar -xzf geckodriver-v0.11.1-linux64.tar.gz -C geckodriver
-    - export PATH=$PATH:$PWD/geckodriver
 
 install:
     - pip install certifi==2018.1.18
@@ -64,4 +58,3 @@ script:
     - chmod +x ./tests.py
     - python ./dbtests.py
     - python ./tests.py
-    - python ./guitests.py
