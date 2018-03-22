@@ -60,7 +60,7 @@ export default class Trails extends React.Component {
         pagenumber = temp[1];
       }
       //console.log(pagenumber);
-      var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
+      var fetchfrom = "http://hikingadventures.me/api/trails?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 

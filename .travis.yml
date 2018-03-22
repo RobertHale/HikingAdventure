@@ -56,8 +56,3 @@ script:
     - chmod +x ./tests.py
     - python ./dbtests.py
     - python ./tests.py
-
-language: node_js
-   - "node"
-script:
-   - npm run test --prefix static &

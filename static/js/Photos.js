@@ -60,7 +60,7 @@ export default class Photos extends React.Component {
         pagenumber = temp[1];
       }
       //console.log(pagenumber);
-      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
+      var fetchfrom = "http://hikingadventures.me/api/photos?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 

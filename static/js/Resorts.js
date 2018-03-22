@@ -109,7 +109,7 @@ export default class Resorts extends React.Component {
       }
       //console.log(pagenumber);
       // hikingadventures
-      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
+      var fetchfrom = "http://hikingadventures.me/api/resorts?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
