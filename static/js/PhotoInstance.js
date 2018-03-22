@@ -17,7 +17,6 @@ import {
   PaginationItem,
   PaginationLink
 } from 'reactstrap';
-import tether from 'tether';
 export default class App extends React.Component {
   constructor(){
     super();
@@ -78,10 +77,14 @@ export default class App extends React.Component {
 
       $.getJSON(fetchresort)
         .then(results => {
+          var pad = {
+            margin: '0px 5px 10px 0px'
+          };
           let list = results.objects.map((resorts)=>{
             return (
-              <a className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
-
+              <li>
+                <a style={pad} className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
+              </li>
             )
 
           })
@@ -121,7 +124,7 @@ export default class App extends React.Component {
       <Row>
       <Col lg="5" sm="10">
       <Card className="mt-4">
-      <img src={this.state.url} />
+      <img width="450" height="450" src={this.state.url} />
       </Card>
       </Col>
 
@@ -138,7 +141,9 @@ export default class App extends React.Component {
       <Card className="mt-4">
       <CardBody>
       <h2 style={titles}>Link to Trail:</h2>
+      <li>
       <a id="photo" className="btn btn-primary" href={"http://hikingadventures.me/trails/" + this.state.trailid}>Trail</a>
+      </li>
       </CardBody>
       </Card>
       </div>
