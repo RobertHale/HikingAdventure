@@ -9,7 +9,6 @@ import {
   Col,
   Table
 } from 'reactstrap';
-import tether from 'tether';
 export default class App extends React.Component {
   constructor(){
     super();
