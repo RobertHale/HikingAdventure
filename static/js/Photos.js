@@ -10,7 +10,7 @@ import {
   PaginationLink
 } from 'reactstrap';
 import { Link } from "react-router-dom";
-import Photocard from "./Photocard";
+import PhotoRow from "./PhotoRow";
 import $ from 'jquery';
 
 export default class Photos extends React.Component {
@@ -25,7 +25,7 @@ export default class Photos extends React.Component {
   }
   pairup(fetchedResorts){
     //Do magic
-    console.log(fetchedResorts);
+    //console.log(fetchedResorts);
     var s = 2;
     var b = 0;
     var e = fetchedResorts.length;
@@ -34,7 +34,7 @@ export default class Photos extends React.Component {
     for(b, e; b < e; b += s){
       paired.push(mimic.slice(b, b+s));
     }
-    console.log(paired);
+    //console.log(paired);
     this.setState({presorts: paired});
   }
   //This is where we want to query the database
@@ -50,7 +50,7 @@ export default class Photos extends React.Component {
   componentDidMount(){
       // var url = 'http://127.0.0.1:5000/api/resorts?page=';
       var pagenumber = this.props.match.params.page;
-      console.log(pagenumber);
+      //console.log(pagenumber);
       var temp;
       if(pagenumber == null){
         pagenumber = 1
@@ -59,10 +59,10 @@ export default class Photos extends React.Component {
         temp = pagenumber.split(" ");
         pagenumber = temp[1];
       }
-      console.log(pagenumber);
-      var fetchfrom = "http://hikingadventures.me/api/photos?page=";
+      //console.log(pagenumber);
+      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
       fetchfrom += pagenumber;
-      console.log(fetchfrom);
+      //console.log(fetchfrom);
 
       $.getJSON(fetchfrom).then(results => {this.pairup(results.objects)});
     }
@@ -72,11 +72,11 @@ export default class Photos extends React.Component {
     }
 
     render () {
-      let pcard;
+      let prow;
       if(this.state.presorts){
-        pcard = this.state.presorts.map(currentc => {
+        prow = this.state.presorts.map(currentc => {
           return(
-            <Photocard data = {currentc} />
+            <PhotoRow key={currentc[0].id} data = {currentc} />
           );
         })
       }
@@ -114,7 +114,7 @@ export default class Photos extends React.Component {
       }
       return(
         <div>
-        {pcard}
+        {prow}
         <br/>
         <Row className="justify-content-center">
         <Pagination>

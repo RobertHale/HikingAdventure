@@ -80,7 +80,7 @@ export default class Home extends React.Component {
       activeIndex={activeIndex}
       next={this.next}
       previous={this.previous}
-      >
+      className="Homecarousel">
       <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
       {slides}
       <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />

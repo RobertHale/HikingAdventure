@@ -10,7 +10,7 @@ import {
   PaginationLink
 } from 'reactstrap';
 import { Link } from "react-router-dom";
-import Trailcard from "./Trailcard";
+import TrailRow from "./TrailRow";
 import $ from 'jquery';
 
 export default class Trails extends React.Component {
@@ -22,10 +22,11 @@ export default class Trails extends React.Component {
       perpage : 0
     }
     this.pairup = this.pairup.bind(this);
+
   }
   pairup(fetchedResorts){
     //Do magic
-    console.log(fetchedResorts);
+    //console.log(fetchedResorts);
     var s = 2;
     var b = 0;
     var e = fetchedResorts.length;
@@ -34,22 +35,22 @@ export default class Trails extends React.Component {
     for(b, e; b < e; b += s){
       paired.push(mimic.slice(b, b+s));
     }
-    console.log(paired);
+    //console.log(paired);
     this.setState({presorts: paired});
   }
 
   componentWillReceiveProps(nextProps){
-    console.log("fire");
-    console.log(nextProps.match.params.page);
+    //console.log("fire");
+    //console.log(nextProps.match.params.page);
     this.setState({perpage : nextProps.match.params.page});
-    console.log(this.state.resorts);
+    //console.log(this.state.resorts);
     //Here we want to break down the information
   }
 
   componentDidMount(){
       // var url = 'http://127.0.0.1:5000/api/resorts?page=';
       var pagenumber = this.props.match.params.page;
-      console.log(pagenumber);
+      //console.log(pagenumber);
       var temp;
       if(pagenumber == null){
         pagenumber = 1
@@ -58,10 +59,10 @@ export default class Trails extends React.Component {
         temp = pagenumber.split(" ");
         pagenumber = temp[1];
       }
-      console.log(pagenumber);
-      var fetchfrom = "http://hikingadventures.me/api/trails?page=";
+      //console.log(pagenumber);
+      var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
       fetchfrom += pagenumber;
-      console.log(fetchfrom);
+      //console.log(fetchfrom);
 
       $.getJSON(fetchfrom).then(results => {this.pairup(results.objects)});
     }
@@ -70,11 +71,11 @@ export default class Trails extends React.Component {
     }
 
     render () {
-      let tcard;
+      let trow;
       if(this.state.presorts){
-        tcard = this.state.presorts.map(currentc => {
+        trow = this.state.presorts.map(currentc => {
           return(
-            <Trailcard data = {currentc} />
+            <TrailRow key={currentc[0].id} data={currentc} />
           );
         })
       }
@@ -113,7 +114,7 @@ export default class Trails extends React.Component {
       return(
 
         <div>
-        {tcard}
+        {trow}
         <br/>
         <Row className="justify-content-center">
         <Pagination>
