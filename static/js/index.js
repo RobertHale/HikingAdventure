@@ -17,6 +17,7 @@ import TrailsInstance from "./TrailsInstance";
 import { Button } from 'reactstrap';
 import $ from 'jquery';
 import Practice from "./Practice";
+import PhotoInstance from "./PhotoInstance";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 //import 'bootstrap/dist/css/bootstrap.css';
 // ReactDOM.render(<App />, document.getElementById("content"));
