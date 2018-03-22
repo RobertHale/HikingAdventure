@@ -57,4 +57,4 @@ script:
     - chmod +x ./tests.py
     - python ./dbtests.py
     - python ./tests.py
-    - python static/selenium/guitests.py
+    - python ./guitests.py
