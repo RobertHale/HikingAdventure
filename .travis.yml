@@ -58,3 +58,4 @@ script:
     - chmod +x ./tests.py
     - python ./dbtests.py
     - python ./tests.py
+    - python ./guitests.py
