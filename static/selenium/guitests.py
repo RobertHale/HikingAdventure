@@ -12,7 +12,7 @@ import unittest, time, re
 #tests navbar on main page
 class Main_Nav_Bar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(60)
         driver = self.driver
         driver.get("http://hikingadventures.me/")
@@ -50,8 +50,8 @@ class Main_Nav_Bar(unittest.TestCase):
 #tests navbar on resort grid
 class ResortGridNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
-        self.driver.implicitly_wait(60)
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
+        self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
@@ -59,11 +59,14 @@ class ResortGridNavBar(unittest.TestCase):
     def test_resort_grid_nav_bar(self):
         driver = self.driver
         driver.get("http://hikingadventures.me/resorts")
-        driver.find_element_by_link_text("Resorts(current)").click()
-        driver.find_element_by_link_text("Trails").click()
-        driver.find_element_by_link_text("Photos").click()
-        driver.find_element_by_link_text("About").click()
         driver.find_element_by_link_text("Home").click()
+        driver.back()
+        driver.find_element_by_link_text("Trails").click()
+        driver.back()
+        driver.find_element_by_link_text("Photos").click()
+        driver.back()
+        driver.find_element_by_link_text("About").click()
+        driver.back()
 
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
@@ -94,7 +97,7 @@ class ResortGridNavBar(unittest.TestCase):
 #tests navbar on resort instance
 class ResortInstanceNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(60)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -102,13 +105,18 @@ class ResortInstanceNavBar(unittest.TestCase):
 
     def test_resort_instance_nav_bar(self):
         driver = self.driver
-        driver.get("http://hikingadventures.me/resorts")
-        driver.find_element_by_link_text("Beaver Creek Resort").click()
+        driver.get("http://hikingadventures.me/resorts/497")
         driver.find_element_by_link_text("Home").click()
+        driver.back()
         driver.find_element_by_link_text("Resorts(current)").click()
+        driver.back()
         driver.find_element_by_link_text("Trails").click()
+        driver.back()
         driver.find_element_by_link_text("Photos").click()
+        driver.back()
         driver.find_element_by_link_text("About").click()
+        driver.back()
+
 
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
@@ -138,7 +146,7 @@ class ResortInstanceNavBar(unittest.TestCase):
 #tests nav bar on trail grid
 class TrailGridNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(60)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -148,10 +156,13 @@ class TrailGridNavBar(unittest.TestCase):
         driver = self.driver
         driver.get("http://hikingadventures.me/trails")
         driver.find_element_by_link_text("Home").click()
+        driver.back()
         driver.find_element_by_link_text("Resorts(current)").click()
-        driver.find_element_by_link_text("Trails").click()
+        driver.back()
         driver.find_element_by_link_text("Photos").click()
+        driver.back()
         driver.find_element_by_link_text("About").click()
+        driver.back()
 
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
@@ -181,7 +192,7 @@ class TrailGridNavBar(unittest.TestCase):
 #tests nav bar on trail instance
 class TrailInstanceNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(60)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -189,13 +200,17 @@ class TrailInstanceNavBar(unittest.TestCase):
 
     def test_trail_instance_nav_bar(self):
         driver = self.driver
-        driver.get("http://hikingadventures.me/trails")
-        driver.find_element_by_link_text("North Tenmile Creek").click()
+        driver.get("http://hikingadventures.me/trails/7000032")
         driver.find_element_by_link_text("Home").click()
+        driver.back()
         driver.find_element_by_link_text("Resorts(current)").click()
-        driver.find_element_by_link_text("Trails").click()
+        driver.back()
         driver.find_element_by_link_text("Photos").click()
+        driver.back()
+        driver.find_element_by_link_text("Trails").click()
+        driver.back()
         driver.find_element_by_link_text("About").click()
+        driver.back()
 
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
@@ -225,7 +240,7 @@ class TrailInstanceNavBar(unittest.TestCase):
 #tests nav bar on photo grid
 class PhotoGridNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(60)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -235,10 +250,13 @@ class PhotoGridNavBar(unittest.TestCase):
         driver = self.driver
         driver.get("http://hikingadventures.me/photos")
         driver.find_element_by_link_text("Home").click()
+        driver.back()
         driver.find_element_by_link_text("Resorts(current)").click()
+        driver.back()
         driver.find_element_by_link_text("Trails").click()
-        driver.find_element_by_link_text("Photos").click()
+        driver.back()
         driver.find_element_by_link_text("About").click()
+        driver.back()
 
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
@@ -269,21 +287,25 @@ class PhotoGridNavBar(unittest.TestCase):
 #tests navbar on photo instance
 class PhotoInstanceNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
-        self.driver.implicitly_wait(60)
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
+        self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
 
     def test_photo_instance_nav_bar(self):
         driver = self.driver
-        driver.get("http://hikingadventures.me/photos")
-        driver.find_element_by_link_text("North Tenmile Creek photo").click()
+        driver.get("http://hikingadventures.me/photos/7000032")
         driver.find_element_by_link_text("Home").click()
+        driver.back()
         driver.find_element_by_link_text("Resorts(current)").click()
+        driver.back()
         driver.find_element_by_link_text("Trails").click()
+        driver.back()
         driver.find_element_by_link_text("Photos").click()
+        driver.back()
         driver.find_element_by_link_text("About").click()
+        driver.back()
 
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
@@ -314,8 +336,8 @@ class PhotoInstanceNavBar(unittest.TestCase):
 #tests nav bar on about page
 class AboutNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
-        self.driver.implicitly_wait(60)
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
+        self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
@@ -324,9 +346,13 @@ class AboutNavBar(unittest.TestCase):
         driver = self.driver
         driver.get("http://hikingadventures.me/about")
         driver.find_element_by_link_text("Home").click()
+        driver.back()
         driver.find_element_by_link_text("Resorts(current)").click()
+        driver.back()
         driver.find_element_by_link_text("Trails").click()
+        driver.back()
         driver.find_element_by_link_text("Photos").click()
+        driver.back()
         driver.find_element_by_link_text("About").click()
 
     def is_element_present(self, how, what):
@@ -354,11 +380,10 @@ class AboutNavBar(unittest.TestCase):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
-
 #tests links on resort instances(might be faulty)
 class ResortInstanceLinks(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -416,7 +441,7 @@ class ResortInstanceLinks(unittest.TestCase):
 #tests links in trail instance
 class TrailInstanceLinks(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -462,7 +487,7 @@ class TrailInstanceLinks(unittest.TestCase):
 #tests links in photo instance
 class PhotoInstanceLinks(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
