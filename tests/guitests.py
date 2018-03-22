@@ -8,8 +8,9 @@ from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
 #tests various links located on certain pages
-"""
+
 #tests navbar on main page
+
 class Main_Nav_Bar(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox(executable_path="./geckodriver")
@@ -47,8 +48,8 @@ class Main_Nav_Bar(unittest.TestCase):
         self.driver.close()
 
 
-#tests navbar on resort grid
-class ResortGridNavBar(unittest.TestCase):
+#tests navbar on resort
+class ResortNavBar(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
@@ -67,41 +68,6 @@ class ResortGridNavBar(unittest.TestCase):
         driver.back()
         driver.find_element_by_link_text("About").click()
         driver.back()
-
-    def is_element_present(self, how, what):
-        try: self.driver.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
-        return True
-
-    def is_alert_present(self):
-        try: self.driver.switch_to_alert()
-        except NoAlertPresentException as e: return False
-        return True
-
-    def close_alert_and_get_its_text(self):
-        try:
-            alert = self.driver.switch_to_alert()
-            alert_text = alert.text
-            if self.accept_next_alert:
-                alert.accept()
-            else:
-                alert.dismiss()
-            return alert_text
-        finally: self.accept_next_alert = True
-
-    def tearDown(self):
-        self.driver.quit()
-        self.assertEqual([], self.verificationErrors)
-
-
-#tests navbar on resort instance
-class ResortInstanceNavBar(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver")
-        self.driver.implicitly_wait(60)
-        self.base_url = "https://www.katalon.com/"
-        self.verificationErrors = []
-        self.accept_next_alert = True
 
     def test_resort_instance_nav_bar(self):
         driver = self.driver
@@ -143,8 +109,10 @@ class ResortInstanceNavBar(unittest.TestCase):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
-#tests nav bar on trail grid
-class TrailGridNavBar(unittest.TestCase):
+
+
+#tests nav bar on trail
+class TrailNavBar(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(60)
@@ -163,40 +131,6 @@ class TrailGridNavBar(unittest.TestCase):
         driver.back()
         driver.find_element_by_link_text("About").click()
         driver.back()
-
-    def is_element_present(self, how, what):
-        try: self.driver.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
-        return True
-
-    def is_alert_present(self):
-        try: self.driver.switch_to_alert()
-        except NoAlertPresentException as e: return False
-        return True
-
-    def close_alert_and_get_its_text(self):
-        try:
-            alert = self.driver.switch_to_alert()
-            alert_text = alert.text
-            if self.accept_next_alert:
-                alert.accept()
-            else:
-                alert.dismiss()
-            return alert_text
-        finally: self.accept_next_alert = True
-
-    def tearDown(self):
-        self.driver.quit()
-        self.assertEqual([], self.verificationErrors)
-
-#tests nav bar on trail instance
-class TrailInstanceNavBar(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver")
-        self.driver.implicitly_wait(60)
-        self.base_url = "https://www.katalon.com/"
-        self.verificationErrors = []
-        self.accept_next_alert = True
 
     def test_trail_instance_nav_bar(self):
         driver = self.driver
@@ -237,8 +171,9 @@ class TrailInstanceNavBar(unittest.TestCase):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
-#tests nav bar on photo grid
-class PhotoGridNavBar(unittest.TestCase):
+
+#tests nav bar on photo
+class PhotoNavBar(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(60)
@@ -257,42 +192,6 @@ class PhotoGridNavBar(unittest.TestCase):
         driver.back()
         driver.find_element_by_link_text("About").click()
         driver.back()
-
-    def is_element_present(self, how, what):
-        try: self.driver.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
-        return True
-
-    def is_alert_present(self):
-        try: self.driver.switch_to_alert()
-        except NoAlertPresentException as e: return False
-        return True
-
-    def close_alert_and_get_its_text(self):
-        try:
-            alert = self.driver.switch_to_alert()
-            alert_text = alert.text
-            if self.accept_next_alert:
-                alert.accept()
-            else:
-                alert.dismiss()
-            return alert_text
-        finally: self.accept_next_alert = True
-
-    def tearDown(self):
-        self.driver.quit()
-        self.assertEqual([], self.verificationErrors)
-
-
-#tests navbar on photo instance
-class PhotoInstanceNavBar(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver")
-        self.driver.implicitly_wait(30)
-        self.base_url = "https://www.katalon.com/"
-        self.verificationErrors = []
-        self.accept_next_alert = True
-
     def test_photo_instance_nav_bar(self):
         driver = self.driver
         driver.get("http://hikingadventures.me/photos/7000032")
@@ -307,6 +206,8 @@ class PhotoInstanceNavBar(unittest.TestCase):
         driver.find_element_by_link_text("About").click()
         driver.back()
 
+
+
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException as e: return False
@@ -331,6 +232,7 @@ class PhotoInstanceNavBar(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
+
 
 
 #tests nav bar on about page
@@ -379,11 +281,12 @@ class AboutNavBar(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
-"""
+
+
 #tests links on resort instances(might be faulty)
 class ResortInstanceLinks(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="../geckodriver/geckodriver")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -437,7 +340,7 @@ class ResortInstanceLinks(unittest.TestCase):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
-"""
+
 #tests links in trail instance
 class TrailInstanceLinks(unittest.TestCase):
     def setUp(self):
@@ -527,7 +430,7 @@ class PhotoInstanceLinks(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
-"""
+
 
 
 if __name__ == "__main__":
