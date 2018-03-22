@@ -8,7 +8,7 @@ from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
 #tests various links located on certain pages
-
+"""
 #tests navbar on main page
 class Main_Nav_Bar(unittest.TestCase):
     def setUp(self):
@@ -379,7 +379,7 @@ class AboutNavBar(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
-
+"""
 #tests links on resort instances(might be faulty)
 class ResortInstanceLinks(unittest.TestCase):
     def setUp(self):
@@ -437,7 +437,7 @@ class ResortInstanceLinks(unittest.TestCase):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
-
+"""
 #tests links in trail instance
 class TrailInstanceLinks(unittest.TestCase):
     def setUp(self):
@@ -527,7 +527,7 @@ class PhotoInstanceLinks(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
-
+"""
 
 
 if __name__ == "__main__":
