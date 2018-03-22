@@ -21,7 +21,8 @@ export default class App extends React.Component {
       sum: "",
       vid: "",
       list: 0,
-      trailid: 0
+      trailid: 0,
+      dummy: 0
 
 
     }
@@ -97,9 +98,12 @@ export default class App extends React.Component {
 
       $.getJSON(fetchresort)
         .then(results => {
+          var pad = {
+            margin: '0px 0px 10px 0px',
+          };
           let list = results.objects.map((resorts)=>{
             return (
-              <a className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
+              <a style = {pad} className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
 
             )
 
@@ -107,12 +111,7 @@ export default class App extends React.Component {
 
           this.setState({
             list:list
-
-
           });
-
-
-
         });
 
 
@@ -133,72 +132,98 @@ export default class App extends React.Component {
       textAlign:'center'
     };
 
+    var left = {
+      color: 'white',
+      textAlign:'left'
+    };
+
+    var pad = {
+      padding: '5px 5px 5px 5px'
+    };
+
 
     return (
       <div>
-      <div className="container-fluid" styles="background-color: #473c8b;">
-      	<p styles='text-align:center'>
-      	</p>
-        <div className="row justify-content-center">
-          <div className= "col-lg-3">
-      	  <div className="card h-100 cardbg">
-      			<div className="card-block">
-      				<h1 style={titles} className="card-title" align="center">{this.state.name}</h1>
-      			</div>
+      <div id="title" className="row align-items-center">
+  			<div className="col-12">
+  				<h1 style={titles} id="name">{this.state.name}</h1>
+          <br></br>
+  			</div>
+  		</div>
+
+
+
+      <div className="row">
+        <div id="main" className="col-lg-6">
+          <div className="card cardbg">
+            <iframe  width="540" height="500" src={"https://www.youtube.com/embed/" + this.state.vid} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
+            <div className="card-block">
+              <ul>
+                <li>
+                  <h2 style={left} id="difficulty" className="card-title">
+                    Difficulty: {this.state.difficulty}
+                  </h2>
+                </li>
+                <li>
+                  <h2 style={left} id="length" className="card-title">
+                    Length: {this.state.length} miles
+                  </h2>
+                </li>
+                <li>
+                  <h2 style={left} id="elev" className="card-title">
+                    Elevation: {this.state.elevation}
+                    <var style={titles} id="ascent">{this.state.ascent} foot ascent</var>
+              			<br></br>
+              			<var style={titles} id="descent">{this.state.descent} foot descent</var>
+                  </h2>
+                </li>
+                <li>
+                  <h2 style={left} id="description" className="card-title">
+                    Description: {this.state.sum}
+                  </h2>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-       </div>
-      <br></br>
-       <div className="row justify-content-center">
-        <iframe  width="560" height="315" src={"https://www.youtube.com/embed/" + this.state.vid} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
+        <div className="col-lg-3">
+          <div className="card cardbg h-10">
+            <div className="card-block">
+              <h2 style={titles} className="card-title">Nearby Resorts:</h2>
+              {this.state.list}
+            </div>
+          </div>
+        </div>
+
+        <div className="col-lg-3">
+          <div className="card cardbg h-12">
+            <div className="card-block">
+              <h2 style={center} className="card-title">Photos:</h2>
+              <a style={pad} id="photo" className="btn btn-primary" href={"http://hikingadventures.me/photos/" + this.state.trailid}>{this.state.name} Photos</a>
+            </div>
+          </div>
+        </div>
         </div>
 
 
 
-      	<div className="row justify-content-center">
-      		<div className="col col-m-3">
-      			<h2 style={titles} id="difficultyheader">Difficulty</h2>
-      			<var style={titles} id="difficulty"> {this.state.difficulty}</var>
-      		</div>
-      		<div className="col col-m-3">
-      			<h2 style={titles} id="lengthheader">Length</h2>
-      			<var style={titles} id="length">{this.state.length} miles</var>
-      		</div>
-      		<div className="col col-m-3">
-      			<h2 style={titles} id="elevationheader">Elevation</h2>
-      			<var style={titles} id="ascent">{this.state.ascent} foot ascent</var>
-      			<br></br>
-      			<var style={titles} id="descent">{this.state.descent} foot descent</var>
-      		</div>
-      	</div>
-      	<br></br>
 
-      	<div className="card h-100 cardbg">
-      		<div className="card-title">
-      			<br></br>
-      			<h2 style={center} id="description">Description</h2>
-            <var style={titles}>{this.state.sum} </var>
-      		</div>
-      		<br></br>
-      	</div>
-      	<br></br>
-      	<div id="links" className="row justify-content-center">
-      		<div className="col-lg-2">
-      			<h2 style={titles}>Nearby Resorts:</h2>
-      				{this.state.list}
-      		</div>
-          <br></br>
-      		<div className="col-lg-2">
-      			<h2 style={titles}>Photos:</h2>
-      			<a id="photo" className="btn btn-primary" href={"http://hikingadventures.me/photos/" + this.state.trailid}>Photos</a>
-      		</div>
-      	</div>
-      	<br></br>
-      	<div className="row justify-content-center">
-      		<h2 style={titles}> </h2>
-      	</div>
-      <br></br>
-      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     );
