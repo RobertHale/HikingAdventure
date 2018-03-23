@@ -10,7 +10,7 @@ import {
   PaginationLink
 } from 'reactstrap';
 import { Link } from "react-router-dom";
-import Resortcard from "./Resortcard";
+import ResortRow from "./ResortRow";
 import $ from 'jquery';
 
 export default class Resorts extends React.Component {
@@ -22,7 +22,7 @@ export default class Resorts extends React.Component {
       perpage : 0
     }
     this.pairup = this.pairup.bind(this);
-    this.getinfo = this.getinfo.bind(this);
+
   }
   pairup(fetchedResorts){
     //Do magic
@@ -41,17 +41,13 @@ export default class Resorts extends React.Component {
   //This is where we want to query the database
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
-    console.log("fire");
-    console.log(nextProps.match.params.page);
+    //console.log("fire");
+    //console.log(nextProps.match.params.page);
     this.setState({perpage : nextProps.match.params.page});
-    console.log(this.state.resorts);
+    c//onsole.log(this.state.resorts);
     //Here we want to break down the information
   }
 
-  getinfo(){
-    $.getJSON('http://hikingadventures.me/api/resorts?page=1')
-    .then(({ results }) => {console.log(results)});
-  }
   componentDidMount(){
     var x =
     [
@@ -102,7 +98,7 @@ export default class Resorts extends React.Component {
       }];
       // var url = 'http://127.0.0.1:5000/api/resorts?page=';
       var pagenumber = this.props.match.params.page;
-      console.log(pagenumber);
+      //console.log(pagenumber);
       var temp;
       if(pagenumber == null){
         pagenumber = 1
@@ -111,7 +107,7 @@ export default class Resorts extends React.Component {
         temp = pagenumber.split(" ");
         pagenumber = temp[1];
       }
-      console.log(pagenumber);
+      //console.log(pagenumber);
       // hikingadventures
       var fetchfrom = "http://hikingadventures.me/api/resorts?page=";
       fetchfrom += pagenumber;
@@ -121,15 +117,15 @@ export default class Resorts extends React.Component {
     }
     componentWillUnmount(){
       // <Link to="/resorts/10">press me </Link>
-      console.log("We unmounted Resorts");
+      //console.log("We unmounted Resorts");
     }
 
     render () {
-      let rcard;
+      let rrow;
       if(this.state.presorts){
-        rcard = this.state.presorts.map(currentc => {
+        rrow = this.state.presorts.map(currentc => {
           return(
-            <Resortcard data = {currentc} />
+            <ResortRow key={currentc[0].id} data={currentc} />
           );
         })
       }
@@ -168,7 +164,7 @@ export default class Resorts extends React.Component {
       return(
 
         <div>
-        {rcard}
+        {rrow}
         <br/>
         <Row className="justify-content-center">
         <Pagination>

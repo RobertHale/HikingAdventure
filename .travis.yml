@@ -58,3 +58,10 @@ script:
     - chmod +x ./tests.py
     - python ./dbtests.py
     - python ./tests.py
+
+# language: node_js
+# node_js: "8.9"
+# script:
+#     - echo Running Frontend Tests
+#     - npm install --prefix idb
+#     - npm run test --prefix idb &

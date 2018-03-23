@@ -63,7 +63,7 @@ export default class About extends React.Component {
       "davepcast":{
         "commits": 0,
         "issues": 0,
-        "tests": 0
+        "tests": 13
       },
       "duoALopez":{
         "commits": 0,
@@ -83,7 +83,7 @@ export default class About extends React.Component {
       "vponakala":{
         "commits": 0,
         "issues": 0,
-        "tests": 0
+        "tests": 14
       }
     }];
     var filler = [];
@@ -103,7 +103,7 @@ export default class About extends React.Component {
     $.getJSON('https://api.github.com/repos/RobertHale/HikingAdventure/issues?state=all').then(results => {
         this.setState({
           totalissues: results[0].number,
-          totaltests: 9
+          totaltests: 97
         });
       });
   }
