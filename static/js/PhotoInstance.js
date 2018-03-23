@@ -26,7 +26,7 @@ export default class App extends React.Component {
       lat: "",
       lon: "",
       trailid: "",
-      list: 0,
+      list: 0
 
     }
     this.grabdata = this.grabdata.bind(this);
@@ -64,7 +64,7 @@ export default class App extends React.Component {
           url: u,
           lat: lat,
           lon: lon,
-          trailid: trailid,
+          trailid: trailid
 
 
         });
