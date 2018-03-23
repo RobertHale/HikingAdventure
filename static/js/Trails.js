@@ -103,13 +103,13 @@ export default class Trails extends React.Component {
         third = calculatepage;
         fourth = calculatepage + 1;
         fifth = calculatepage + 2;
-        prev = "/trailspage= " + (calculatepage - 3);
+        prev = "/trailspage= " + (calculatepage - 1);
         firstlink = "/trailspage= " + (calculatepage - 2);
         secondlink = "/trailspage= " + (calculatepage - 1);
         thirdlink = "/trailspage= " + (calculatepage);
         fourthlink = "/trailspage= " + (calculatepage + 1);
         fifthlink = "/trailspage= " + (calculatepage + 2);
-        next = "/trailspage= " + (calculatepage + 3);
+        next = "/trailspage= " + (calculatepage + 1);
       }
       return(
 

@@ -104,13 +104,13 @@ export default class Photos extends React.Component {
         third = calculatepage;
         fourth = calculatepage + 1;
         fifth = calculatepage + 2;
-        prev = "/photospage= " + (calculatepage - 3);
+        prev = "/photospage= " + (calculatepage - 1);
         firstlink = "/photospage= " + (calculatepage - 2);
         secondlink = "/photospage= " + (calculatepage - 1);
         thirdlink = "/photospage= " + (calculatepage);
         fourthlink = "/photospage= " + (calculatepage + 1);
         fifthlink = "/photospage= " + (calculatepage + 2);
-        next = "/photospage= " + (calculatepage + 3);
+        next = "/photospage= " + (calculatepage + 1);
       }
       return(
         <div>
