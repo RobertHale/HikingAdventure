@@ -58,7 +58,7 @@ export default class About extends React.Component {
     [{"RobertHale":{
         "commits": 0,
         "issues": 0,
-        "tests": 8
+        "tests": 70
       },
       "davepcast":{
         "commits": 0,
@@ -291,17 +291,22 @@ export default class About extends React.Component {
       <p><b>{"www.hikingproject.com/data"}</b>{" - provides API for trail info and photos"}</p>
       <p><b>{"www.skimap.org"}</b>{" - provide API for ski resorts and their information"}</p>
       <p><b>{"www.youtube.com"}</b>{" - providing API for displaying related youtube videos"}</p>
+      <p><b>{"www.yelp.com"}</b>{" - providing API for displaying user reviews on resorts"}</p>
       <br/>
 
       <br/>
       <h3 className="title-text">Tools</h3>
       <br/>
-      <p><b>{"Bootstrap 4"}</b>{" - for beautifying and organizing HTML pages."}</p>
+      <p><b>{"React"}</b>{" - for creating a dynamic front end"}</p>
+      <p><b>{"React-router"}</b>{" - controls front end routing between different React Components"}</p>
+      <p><b>{"Reactstrap"}</b>{" - provides usage of Bootstrap 4 components in React"}</p>
       <p><b>{"Flask"}</b>{" - for the backend of the website"}</p>
       <p><b>{"Github"}</b>{" - for maintaining our report and project organization"}</p>
       <p><b>{"Slack"}</b>{" - for team communication and organization"}</p>
       <p><b>{"Postman"}</b>{" - for organizing API calls"}</p>
       <p><b>{"Amazon AWS"}</b>{" - for hosting website"}</p>
+      <p><b>{"MySQLAlchemy"}</b>{" - handles our back end API calls to our database"}</p>
+      <p><b>{"FlaskRestless"}</b>{" - handles our back end API and allows for specific database information"}</p>
       <br/>
 
       <br/>
