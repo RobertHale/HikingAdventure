@@ -1,6 +1,6 @@
 // Card instance of Resort
 import React from "react";
-import PhotoInstance from './PhotoInstance';
+import PhotoCard from './PhotoCard';
 import {
   Button,
   Card,
@@ -24,7 +24,7 @@ export default class PhotoRow extends React.Component {
     if(this.props.data){
       pinstance = this.props.data.map(single => {
         return(
-          <PhotoInstance key={single.id} photo={single} />
+          <PhotoCard key={single.id} photo={single} />
         );
       })
     }

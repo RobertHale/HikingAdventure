@@ -4,13 +4,13 @@ import ReactDOM from 'react-dom';
 import About from '../js/About';
 import Resorts from '../js/Resorts';
 import ResortRow from '../js/ResortRow';
-import ResortInstance from '../js/ResortInstance';
+import ResortCard from '../js/ResortCard';
 import Trails from '../js/Trails';
 import TrailRow from '../js/TrailRow';
-import TrailInstance from '../js/TrailInstance';
+import TrailCard from '../js/TrailCard';
 import Photos from '../js/Photos';
 import PhotoRow from '../js/PhotoRow';
-import PhotoInstance from '../js/PhotoInstance';
+import PhotoCard from '../js/PhotoCard';
 import Home from '../js/Home';
 import { mount, shallow } from 'enzyme';
 import { expect, assert } from 'chai';
@@ -95,51 +95,51 @@ describe('Home Page', function() {
   });
 });
 
-describe('Resort Instance', function() {
-  const resortinstance = shallow(<ResortInstance resort={resortdata} />);
+describe('Resort Card', function() {
+  const resort = shallow(<ResortCard resort={resortdata} />);
   it('Resort Card Generated', function() {
-    expect(resortinstance.find('.mt-4').exists()).to.eql(true);
+    expect(resort.find('.mt-4').exists()).to.eql(true);
   });
   it('Resort Video Url', function() {
-    const {src} = resortinstance.find('iframe').props();
+    const {src} = resort.find('iframe').props();
     assert.equal(src, "http://www.youtube.com/embed/Lg5sKQpa1sw");
   });
-  const mresortinstance = shallow(<ResortInstance resort={mixeddata} />);
+  const mresort = shallow(<ResortCard resort={mixeddata} />);
   it('Trail Video Url with no data', function() {
-    const {src} = mresortinstance.find('iframe').props();
+    const {src} = mresort.find('iframe').props();
     assert.equal(src, "");
   });
 });
 
-describe('Trail Instance', function() {
-  const trailinstance = shallow(<TrailInstance trail={traildata} />);
+describe('Trail Card', function() {
+  const trail = shallow(<TrailCard trail={traildata} />);
   it('Trail Card Generated', function() {
-    expect(trailinstance.find('.mt-4').exists()).to.eql(true);
+    expect(trail.find('.mt-4').exists()).to.eql(true);
   });
   it('Trail Video Url', function() {
-    const {src} = trailinstance.find('iframe').props();
+    const {src} = trail.find('iframe').props();
     assert.equal(src, "http://www.youtube.com/embed/m3-lrVNPpNA");
   });
-  const mtrailinstance = shallow(<TrailInstance trail={mixeddata} />);
+  const mtrail = shallow(<TrailCard trail={mixeddata} />);
   it('Trail Video Url with no data', function() {
-    const {src} = mtrailinstance.find('iframe').props();
+    const {src} = mtrail.find('iframe').props();
     assert.equal(src, "");
   });
 
 });
 
-describe('Photo Instance', function() {
-  const photoinstance = shallow(<PhotoInstance photo={photodata} />);
+describe('Photo Card', function() {
+  const photo = shallow(<PhotoCard photo={photodata} />);
   it('Photo Card Generated', function() {
-    expect(photoinstance.find('.mt-4').exists()).to.eql(true);
+    expect(photo.find('.mt-4').exists()).to.eql(true);
   });
   it('Photo photo Url', function() {
-    const {src} = photoinstance.find('CardImg').props();
+    const {src} = photo.find('CardImg').props();
     assert.equal(src, "https://cdn-files.apstatic.com/hike/7000128_medium_1417582072.jpg");
   });
-  const mphotoinstance = shallow(<PhotoInstance photo={mixeddata} />);
+  const mphoto = shallow(<PhotoCard photo={mixeddata} />);
   it('Photo photo Url with no data', function() {
-    const {src} = mphotoinstance.find('CardImg').props();
+    const {src} = mphoto.find('CardImg').props();
     assert.equal(src, "Unknown");
   });
 
@@ -160,35 +160,3 @@ describe('Models', function() {
     const trails = mount(<Trails match={modelpage}/>);
   });
 });
-
-
-
-
-
-// describe('Load', function() {
-//   it('run home page', function() {
-//     const div = document.createElement('div');
-//     ReactDOM.render(<Home />, div);
-//   });
-// });
-//
-// describe('API', function() {
-//   it('run about page', function() {
-//     const aboutpage = mount(<About/>);
-//     //var Mockdata = sinon.stub(Mockdata, 'then');
-//     var apicall = sinon.stub($, 'getJSON');
-//     function response(){
-//       var temp = $.Deferred();
-//       temp.then([{"davepcast":{"commits": 1, "issues": 1, "tests": 1}}]);
-//       return temp.promise();
-//     };
-//     apicall.returns(response());
-//   });
-// });
-//
-// describe('API', function() {
-//   it('empty test should run successfully', function() {
-//     const div = document.createElement('div');
-//     ReactDOM.render(<Resorts match={{'params': {'page': 'page= 1'}}} />, div);
-//   });
-// });

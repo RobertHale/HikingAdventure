@@ -1,6 +1,6 @@
 // Card instance of Resort
 import React from "react";
-import TrailInstance from './TrailInstance';
+import TrailCard from './TrailCard';
 import {
   Button,
   Card,
@@ -24,7 +24,7 @@ export default class TrailRow extends React.Component {
     if(this.props.data){
       tinstance = this.props.data.map(single => {
         return(
-          <TrailInstance key={single.id} trail={single} />
+          <TrailCard key={single.id} trail={single} />
         );
       })
     }

@@ -1,6 +1,6 @@
 // Card instance of Resort
 import React from "react";
-import ResortInstance from './ResortInstance';
+import ResortCard from './ResortCard';
 import {
   Button,
   Card,
@@ -24,7 +24,7 @@ export default class Resortrow extends React.Component {
     if(this.props.data){
       rinstance = this.props.data.map(single => {
         return(
-          <ResortInstance key={single.id} resort={single} />
+          <ResortCard key={single.id} resort={single} />
         );
       })
     }

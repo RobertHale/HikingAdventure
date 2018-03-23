@@ -17,7 +17,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 
-export default class TrailInstance extends React.Component {
+export default class TrailCard extends React.Component {
   render () {
     let name = "Unknown";
     let mylink = "Unknown";
