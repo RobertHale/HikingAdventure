@@ -50,7 +50,6 @@ before_script:
     - printenv | sort
     - git       --version
     - make      --version
-    - export DISPLAY=:10
     - ls -al
 
 script:
@@ -59,4 +58,3 @@ script:
     - chmod +x ./tests.py
     - python ./dbtests.py
     - python ./tests.py
-    - python ./guitests.py
