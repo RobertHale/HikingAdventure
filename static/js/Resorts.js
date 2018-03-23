@@ -153,13 +153,13 @@ export default class Resorts extends React.Component {
         third = calculatepage;
         fourth = calculatepage + 1;
         fifth = calculatepage + 2;
-        prev = "/resortspage= " + (calculatepage - 3);
+        prev = "/resortspage= " + (calculatepage - 1);
         firstlink = "/resortspage= " + (calculatepage - 2);
         secondlink = "/resortspage= " + (calculatepage - 1);
         thirdlink = "/resortspage= " + (calculatepage);
         fourthlink = "/resortspage= " + (calculatepage + 1);
         fifthlink = "/resortspage= " + (calculatepage + 2);
-        next = "/resortspage= " + (calculatepage + 3);
+        next = "/resortspage= " + (calculatepage + 1);
       }
       return(
 

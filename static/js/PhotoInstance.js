@@ -26,7 +26,7 @@ export default class App extends React.Component {
       lat: "",
       lon: "",
       trailid: "",
-      list: 0
+      list: 0,
 
     }
     this.grabdata = this.grabdata.bind(this);
@@ -64,7 +64,7 @@ export default class App extends React.Component {
           url: u,
           lat: lat,
           lon: lon,
-          trailid: trailid
+          trailid: trailid,
 
 
         });
@@ -141,9 +141,7 @@ export default class App extends React.Component {
       <Card className="mt-4">
       <CardBody>
       <h2 style={titles}>Link to Trail:</h2>
-      <li>
-      <a id="photo" className="btn btn-primary" href={"http://hikingadventures.me/trails/" + this.state.trailid}>Trail</a>
-      </li>
+      <a id="photo" className="btn btn-primary" href={"http://hikingadventures.me/trails/" + this.state.trailid}>{this.state.name}</a>
       </CardBody>
       </Card>
       </div>
@@ -152,7 +150,9 @@ export default class App extends React.Component {
       <Card className="mt-4">
       <CardBody>
       <h2 style={titles}>Link to Resorts:</h2>
+      <ul>
       {this.state.list}
+      </ul>
       </CardBody>
       </Card>
       </div>
