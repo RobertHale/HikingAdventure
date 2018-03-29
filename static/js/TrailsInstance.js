@@ -2,6 +2,7 @@
 import React from   "react";
 import Card from    "./card";
 import Cards from   "./cards";
+import NavBar from "./Navbar";
 import $ from 'jquery';
 import {
   Container,
@@ -144,6 +145,8 @@ export default class App extends React.Component {
 
     return (
       <div>
+      <NavBar/>
+      <Container>
       <div id="title" className="row align-items-center">
   			<div className="col-12">
   				<h1 style={titles} id="name">{this.state.name}</h1>
@@ -224,7 +227,7 @@ export default class App extends React.Component {
 
 
 
-
+        </Container>
       </div>
     );
   }

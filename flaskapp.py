@@ -1,6 +1,6 @@
 import sys
 
-sys.path.insert(0, '/home/ubuntu/flaskapp/database')
+sys.path.insert(0, './database')
 from flask import Flask, render_template, Response
 from database import db_session
 from sqlalchemy import create_engine

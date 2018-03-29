@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import PhotoRow from "./PhotoRow";
+import NavBar from "./Navbar";
 import $ from 'jquery';
 
 export default class Photos extends React.Component {
@@ -60,7 +61,7 @@ export default class Photos extends React.Component {
         pagenumber = temp[1];
       }
       //console.log(pagenumber);
-      var fetchfrom = "http://hikingadventures.me/api/photos?page=";
+      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
@@ -114,6 +115,8 @@ export default class Photos extends React.Component {
       }
       return(
         <div>
+        <NavBar/>
+        <Container>
         {prow}
         <br/>
         <Row className="justify-content-center">
@@ -157,6 +160,7 @@ export default class Photos extends React.Component {
         </PaginationItem>
         </Pagination>
         </Row>
+        </Container>
         </div>
       );
     }

@@ -12,6 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import TrailRow from "./TrailRow";
 import $ from 'jquery';
+import NavBar from "./Navbar";
 
 export default class Trails extends React.Component {
   constructor(){
@@ -60,7 +61,7 @@ export default class Trails extends React.Component {
         pagenumber = temp[1];
       }
       //console.log(pagenumber);
-      var fetchfrom = "http://hikingadventures.me/api/trails?page=";
+      var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
@@ -114,6 +115,8 @@ export default class Trails extends React.Component {
       return(
 
         <div>
+        <NavBar/>
+        <Container>
         {trow}
         <br/>
         <Row className="justify-content-center">
@@ -157,6 +160,7 @@ export default class Trails extends React.Component {
         </PaginationItem>
         </Pagination>
         </Row>
+        </Container>
         </div>
       );
     }

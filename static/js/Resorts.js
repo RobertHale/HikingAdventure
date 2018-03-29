@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import ResortRow from "./ResortRow";
+import NavBar from "./Navbar";
 import $ from 'jquery';
 
 export default class Resorts extends React.Component {
@@ -109,7 +110,7 @@ export default class Resorts extends React.Component {
       }
       //console.log(pagenumber);
       // hikingadventures
-      var fetchfrom = "http://hikingadventures.me/api/resorts?page=";
+      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
@@ -164,6 +165,8 @@ export default class Resorts extends React.Component {
       return(
 
         <div>
+        <NavBar/>
+        <Container>
         {rrow}
         <br/>
         <Row className="justify-content-center">
@@ -207,6 +210,7 @@ export default class Resorts extends React.Component {
         </PaginationItem>
         </Pagination>
         </Row>
+        </Container>
         </div>
       );
     }

@@ -2,6 +2,7 @@
 import React from   "react";
 import Cards from   "./cards";
 import $ from 'jquery';
+import NavBar from "./Navbar";
 import {
   Button,
   Card,
@@ -117,6 +118,8 @@ export default class App extends React.Component {
     };
     return (
       <div>
+      <NavBar/>
+      <Container>
       <Row>
       <h1 id="name">{this.state.name}</h1><br></br>
       </Row>
@@ -160,7 +163,7 @@ export default class App extends React.Component {
 
 
       </Row>
-
+      </Container>
       </div>
     );
   }
