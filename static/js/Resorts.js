@@ -174,7 +174,7 @@ export default class Resorts extends React.Component {
 
         <div>
         <Row>
-        <Button onClick={this.togglePopup.bind(this)}>show popup</Button>
+        <Button color="#2E2E2E" onClick={this.togglePopup.bind(this)}>show popup</Button>
         </Row>
         {rrow}
         <br/>
@@ -219,13 +219,11 @@ export default class Resorts extends React.Component {
         </PaginationItem>
         </Pagination>
         </Row>
-        {this.state.showPopup ? 
-          <Rpopup
+        <Rpopup
             text='Close Me'
-            closePopup={this.togglePopup.bind(this)}
+            isOpen={this.state.showPopup}
+            toggle={this.togglePopup.bind(this)}
           />
-          : null
-        }
         </div>
       );
     }
