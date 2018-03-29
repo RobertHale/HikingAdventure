@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import ResortRow from "./ResortRow";
+import Rpopup from "./Rpopup";
 import $ from 'jquery';
 
 export default class Resorts extends React.Component {
@@ -19,11 +20,19 @@ export default class Resorts extends React.Component {
     this.state = {
       resorts : [],
       presorts : [],
-      perpage : 0
+      perpage : 0,
+      showPopup: false
     }
     this.pairup = this.pairup.bind(this);
 
   }
+  
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
+  }
+  
   pairup(fetchedResorts){
     //Do magic
     //console.log(fetchedResorts);
@@ -109,7 +118,7 @@ export default class Resorts extends React.Component {
       }
       //console.log(pagenumber);
       // hikingadventures
-      var fetchfrom = "http://hikingadventures.me/api/resorts?page=";
+      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
@@ -164,6 +173,9 @@ export default class Resorts extends React.Component {
       return(
 
         <div>
+        <Row>
+        <Button onClick={this.togglePopup.bind(this)}>show popup</Button>
+        </Row>
         {rrow}
         <br/>
         <Row className="justify-content-center">
@@ -207,6 +219,13 @@ export default class Resorts extends React.Component {
         </PaginationItem>
         </Pagination>
         </Row>
+        {this.state.showPopup ? 
+          <Rpopup
+            text='Close Me'
+            closePopup={this.togglePopup.bind(this)}
+          />
+          : null
+        }
         </div>
       );
     }
