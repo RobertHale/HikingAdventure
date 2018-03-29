@@ -30,6 +30,9 @@
 .popup {
   background: #2E2E2E;
 }
+.popup-border{
+  background: #473c8b;
+}
 .form-text{
   color: white;
   margin: 5px 5px 5px 5px;

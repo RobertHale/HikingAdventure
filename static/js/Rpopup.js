@@ -9,7 +9,7 @@ export default class Rpopup extends React.Component {
         toggle={this.props.toggle}
       >
         <ModalHeader 
-          toggle={this.props.toggle}>Filter</ModalHeader>
+          toggle={this.props.toggle} className="popup-border">Filter</ModalHeader>
         <ModalBody className='popup'>
           <InputGroup>
             <InputGroupAddon className="form-text" addonType="prepend"># of lifts >= </InputGroupAddon>
@@ -38,7 +38,7 @@ export default class Rpopup extends React.Component {
             <Input placeholder="longitude"/>
           </InputGroup>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter className="popup-border">
           <Button color="primary">Submit</Button>
           <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
         </ModalFooter>
