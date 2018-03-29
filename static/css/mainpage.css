@@ -30,8 +30,9 @@
 .popup {
   background: #2E2E2E;
 }
-.text-white{
+.form-text{
   color: white;
+  margin: 5px 5px 5px 5px;
 }
 
 nav ul{height:200px; width:100%;}
