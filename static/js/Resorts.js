@@ -1,5 +1,6 @@
 // Load all resorts in our database, 12 in each page
 import React from "react";
+import ReactDOM from "react-dom";
 import {
   Button,
   Row,
@@ -26,8 +27,6 @@ export default class Resorts extends React.Component {
 
   }
   pairup(fetchedResorts){
-    //Do magic
-    //console.log(fetchedResorts);
     var s = 2;
     var b = 0;
     var e = fetchedResorts.length;
@@ -37,69 +36,32 @@ export default class Resorts extends React.Component {
       paired.push(mimic.slice(b, b+s));
     }
     //console.log(paired);
-    this.setState({presorts: paired});
+    this.setState({
+      presorts: paired
+    });
   }
   //This is where we want to query the database
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
-    //console.log("fire");
-    //console.log(nextProps.match.params.page);
-    this.setState({perpage : nextProps.match.params.page});
-    c//onsole.log(this.state.resorts);
-    //Here we want to break down the information
+    window.scrollTo(0, 0)
+    var pagenumber = nextProps.match.params.page;
+    var temp;
+    if(pagenumber == null){
+      pagenumber = 1
+    }
+    else{
+      temp = pagenumber.split(" ");
+      pagenumber = temp[1];
+      pagenumber = parseInt(pagenumber, 10);
+    }
+    var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
+    fetchfrom += pagenumber;
+    $.getJSON(fetchfrom).then(results => {this.pairup(results.objects)});
   }
 
   componentDidMount(){
-    var x =
-    [
-      {
-        name  : "a",
-        lifts : 1,
-        runs  : 1
-      },
-      {
-        name  : "b",
-        lifts : 2,
-        runs  : 2
-      },
-      {
-        name  : "c",
-        lifts : 3,
-        runs  : 3
-      },
-      {
-        name  : "d",
-        lifts : 4,
-        runs  : 4
-      },
-      {
-        name  : "e",
-        lifts : 5,
-        runs  : 5
-      },
-      {
-        name  : "f",
-        lifts : 6,
-        runs  : 6
-      },
-      {
-        name  : "g",
-        lifts : 7,
-        runs  : 7
-      },
-      {
-        name  : "h",
-        lifts : 8,
-        runs  : 8
-      },
-      {
-        name  : "i",
-        lifts : 9,
-        runs  : 9
-      }];
       // var url = 'http://127.0.0.1:5000/api/resorts?page=';
       var pagenumber = this.props.match.params.page;
-      //console.log(pagenumber);
       var temp;
       if(pagenumber == null){
         pagenumber = 1
@@ -107,18 +69,15 @@ export default class Resorts extends React.Component {
       else{
         temp = pagenumber.split(" ");
         pagenumber = temp[1];
+        pagenumber = parseInt(pagenumber, 10);
       }
-      //console.log(pagenumber);
-      // hikingadventures
       var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
       fetchfrom += pagenumber;
-      //console.log(fetchfrom);
 
       $.getJSON(fetchfrom).then(results => {this.pairup(results.objects)});
     }
     componentWillUnmount(){
-      // <Link to="/resorts/10">press me </Link>
-      //console.log("We unmounted Resorts");
+      //Testing purposes
     }
 
     render () {
@@ -176,33 +135,33 @@ export default class Resorts extends React.Component {
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href={firstlink}>
+        <Link className="page-link" to={firstlink}>
         {first}
-        </PaginationLink>
+        </Link>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href={secondlink}>
+        <Link className="page-link" to={secondlink}>
         {second}
-        </PaginationLink>
+        </Link>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href={thirdlink}>
+        <Link className="page-link" to={thirdlink}>
         {third}
-        </PaginationLink>
+        </Link>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href={fourthlink}>
+        <Link className="page-link" to={fourthlink}>
         {fourth}
-        </PaginationLink>
+        </Link>
         </PaginationItem>
 
         <PaginationItem>
-        <PaginationLink href={fifthlink}>
+        <Link className="page-link" to={fifthlink}>
         {fifth}
-        </PaginationLink>
+        </Link>
         </PaginationItem>
 
         <PaginationItem>

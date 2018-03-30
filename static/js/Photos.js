@@ -12,7 +12,9 @@ import {
 import { Link } from "react-router-dom";
 import PhotoRow from "./PhotoRow";
 import NavBar from "./Navbar";
+import Pages from "./Pages";
 import $ from 'jquery';
+import ReactPaginate from 'react-paginate';
 
 export default class Photos extends React.Component {
   constructor(){
@@ -20,11 +22,13 @@ export default class Photos extends React.Component {
     this.state = {
       resorts : [],
       presorts : [],
-      perpage : 0
+      perpage : 0,
+      pagecount: 0,
+      cpage: 0
     }
     this.pairup = this.pairup.bind(this);
   }
-  pairup(fetchedResorts){
+  pairup(fetchedResorts, resultcount, pagenumber){
     //Do magic
     //console.log(fetchedResorts);
     var s = 2;
@@ -36,22 +40,34 @@ export default class Photos extends React.Component {
       paired.push(mimic.slice(b, b+s));
     }
     //console.log(paired);
-    this.setState({presorts: paired});
+    this.setState({
+      presorts: paired,
+      pagecount: Math.ceil(resultcount/10),
+      cpage: pagenumber
+    });
   }
   //This is where we want to query the database
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
-    //console.log("fire");
-    console.log(nextProps.match.params.page);
-    this.setState({perpage : nextProps.match.params.page});
-    console.log(this.state.resorts);
-    //Here we want to break down the information
+    window.scrollTo(0, 0)
+    var pagenumber = nextProps.match.params.page;
+    var temp;
+    if(pagenumber == null){
+      pagenumber = 1
+    }
+    else{
+      temp = pagenumber.split(" ");
+      pagenumber = temp[1];
+      pagenumber = parseInt(pagenumber, 10);
+    }
+    var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
+    fetchfrom += pagenumber;
+    $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
 
   componentDidMount(){
       // var url = 'http://127.0.0.1:5000/api/resorts?page=';
       var pagenumber = this.props.match.params.page;
-      //console.log(pagenumber);
       var temp;
       if(pagenumber == null){
         pagenumber = 1
@@ -59,13 +75,14 @@ export default class Photos extends React.Component {
       else{
         temp = pagenumber.split(" ");
         pagenumber = temp[1];
+        pagenumber = parseInt(pagenumber, 10);
       }
       //console.log(pagenumber);
       var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
-      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects)});
+      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     }
     componentWillUnmount(){
       // <Link to="/resorts/10">press me </Link>
@@ -120,45 +137,7 @@ export default class Photos extends React.Component {
         {prow}
         <br/>
         <Row className="justify-content-center">
-        <Pagination>
-        <PaginationItem>
-        <PaginationLink previous href={prev} />
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink href={firstlink}>
-        {first}
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink href={secondlink}>
-        {second}
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink href={thirdlink}>
-        {third}
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink href={fourthlink}>
-        {fourth}
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink href={fifthlink}>
-        {fifth}
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink next href={next} />
-        </PaginationItem>
-        </Pagination>
+        <Pages pagedata={{pagecount: this.state.pagecount, url: "/photospage= ", cpage: this.state.cpage}}/>
         </Row>
         </Container>
         </div>
