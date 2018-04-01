@@ -22,7 +22,6 @@ export default class Photos extends React.Component {
     this.state = {
       resorts : [],
       presorts : [],
-      perpage : 0,
       pagecount: 0,
       cpage: 0
     }
@@ -97,38 +96,6 @@ export default class Photos extends React.Component {
             <PhotoRow key={currentc[0].id} data = {currentc} />
           );
         })
-      }
-      let calculatepage = 1;
-      let prev = "/photospage= 1";
-      let first = 1;
-      let firstlink = "/photospage= 1";
-      let second = 2;
-      let secondlink = "/photospage= 2";
-      let third = 3;
-      let thirdlink = "/photospage= 3";
-      let fourth = 4;
-      let fourthlink = "/photospage= 4";
-      let fifth = 5;
-      let fifthlink = "/photospage= 5";
-      let next = "/photospage= 6";
-      let temp;
-      if (this.props.match.params.page){
-        temp = (this.props.match.params.page).split(" ");
-        calculatepage = parseInt(temp[1], 10);
-      }
-      if (calculatepage > 3){
-        first = calculatepage - 2;
-        second = calculatepage - 1;
-        third = calculatepage;
-        fourth = calculatepage + 1;
-        fifth = calculatepage + 2;
-        prev = "/photospage= " + (calculatepage - 3);
-        firstlink = "/photospage= " + (calculatepage - 2);
-        secondlink = "/photospage= " + (calculatepage - 1);
-        thirdlink = "/photospage= " + (calculatepage);
-        fourthlink = "/photospage= " + (calculatepage + 1);
-        fifthlink = "/photospage= " + (calculatepage + 2);
-        next = "/photospage= " + (calculatepage + 3);
       }
       return(
         <div>

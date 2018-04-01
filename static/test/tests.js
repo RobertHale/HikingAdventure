@@ -5,12 +5,15 @@ import About from '../js/About';
 import Resorts from '../js/Resorts';
 import ResortRow from '../js/ResortRow';
 import ResortCard from '../js/ResortCard';
+import ResortInstance from '../js/ResortInstance';
 import Trails from '../js/Trails';
 import TrailRow from '../js/TrailRow';
 import TrailCard from '../js/TrailCard';
+import TrailInstance from '../js/TrailsInstance';
 import Photos from '../js/Photos';
 import PhotoRow from '../js/PhotoRow';
 import PhotoCard from '../js/PhotoCard';
+import PhotoInstance from '../js/PhotoInstance';
 import Home from '../js/Home';
 import { mount, shallow } from 'enzyme';
 import { expect, assert } from 'chai';
@@ -147,9 +150,11 @@ describe('Photo Card', function() {
 });
 
 describe('Models', function() {
+  // Spy on model pages function 'componentDidMount' which should be called when component mounts
+  sinon.spy(Resorts.prototype, 'componentDidMount');
+  sinon.spy(Photos.prototype, 'componentDidMount');
+  sinon.spy(Trails.prototype, 'componentDidMount');
 
-  const resorts = mount(<Resorts match={modelpage}/>);
-  const photos = mount(<Photos match={modelpage}/>);
   it('Resorts Mounts with Proper Data from React-Router', function() {
     const resorts = mount(<Resorts match={modelpage}/>);
   });
@@ -159,4 +164,43 @@ describe('Models', function() {
   it('Trails Mounts with Proper Data from React-Router', function() {
     const trails = mount(<Trails match={modelpage}/>);
   });
+
+  it('Resort componentDidMount called', function() {
+    expect(Resorts.prototype.componentDidMount.calledOnce).to.equal(true);
+  });
+  it('Photos componentDidMount called', function() {
+    expect(Photos.prototype.componentDidMount.calledOnce).to.equal(true);
+  });
+  it('Trails componentDidMount called', function() {
+    expect(Trails.prototype.componentDidMount.calledOnce).to.equal(true);
+  });
+
+});
+
+describe('Instances', function() {
+  // Spy on model pages function 'componentDidMount' which should be called when component mounts
+  sinon.spy(ResortInstance.prototype, 'componentDidMount');
+  sinon.spy(PhotoInstance.prototype, 'componentDidMount');
+  sinon.spy(TrailInstance.prototype, 'componentDidMount');
+
+  it('ResortInstance Mounts', function() {
+    const resorts = mount(<ResortInstance/>);
+  });
+  it('PhotoInstance Mounts', function() {
+    const photos = mount(<PhotoInstance/>);
+  });
+  it('TrailInstance Mounts', function() {
+    const trails = mount(<TrailInstance/>);
+  });
+
+  it('Resort componentDidMount called', function() {
+    expect(ResortInstance.prototype.componentDidMount.calledOnce).to.equal(true);
+  });
+  it('Photos componentDidMount called', function() {
+    expect(PhotoInstance.prototype.componentDidMount.calledOnce).to.equal(true);
+  });
+  it('Trails componentDidMount called', function() {
+    expect(TrailInstance.prototype.componentDidMount.calledOnce).to.equal(true);
+  });
+
 });

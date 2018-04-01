@@ -145,7 +145,7 @@ export default class ResortInstance extends React.Component {
 
     return (
       <div>
-      <Navbar/>
+      <NavBar/>
       <Container>
       <div id="title" className="row align-items-center">
   			<div className="col-12">

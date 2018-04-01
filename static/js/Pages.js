@@ -109,9 +109,7 @@ export default class Pages extends React.Component {
         {items}
         {next}
         </Pagination>
-
          : null}
-
       </div>
       );
   }
