@@ -6,7 +6,6 @@ import {
   PaginationItem,
   PaginationLink
  } from 'reactstrap';
-import ReactPaginate from 'react-paginate';
 import { Link } from "react-router-dom";
 
 export default class Pages extends React.Component {
@@ -28,6 +27,7 @@ export default class Pages extends React.Component {
     let max = 0;
     let disablep = true;
     let disablen = true;
+    //console.log(this.props.pagedata.cpage)
 
     // loading pagination in sets of 5, handle case if less than 5
     if(this.props.pagedata.pagecount < 5){
@@ -66,24 +66,24 @@ export default class Pages extends React.Component {
       var temp = this.props.pagedata.url;
       temp += (this.props.pagedata.cpage - 1);
       prev =  <PaginationItem>
-              <PaginationLink previous href={temp} />
+              <Link className="page-link" previous to={temp} />
               </PaginationItem>
     }
     else{
       prev =  <PaginationItem disabled>
-              <PaginationLink previous href="" />
+              <Link className="page-link" previous to="" />
               </PaginationItem>
     }
     if(!disablen){
       var temp = this.props.pagedata.url;
       temp += (this.props.pagedata.cpage + 1);
       next =  <PaginationItem>
-              <PaginationLink next href={temp} />
+              <Link className="page-link" next to={temp} />
               </PaginationItem>
     }
     else{
       next =  <PaginationItem disabled>
-              <PaginationLink next href="" />
+              <Link className="page-link" next to="" />
               </PaginationItem>
     }
     if(pages){

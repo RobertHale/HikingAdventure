@@ -27,22 +27,6 @@
   background: #2E2E2E;
   color: white;
 }
-<<<<<<< HEAD
-.popup {
-  background: #2E2E2E;
-}
-.popup-border{
-  background: #473c8b;
-}
-.form-text{
-  color: white;
-  margin: 5px 5px 5px 5px;
-}
-
-nav ul{height:200px; width:100%;}
-nav ul{overflow:hidden; overflow-y:scroll;}
-=======
->>>>>>> davepcast-dev
 
 .title-text {
 	text-decoration: underline;

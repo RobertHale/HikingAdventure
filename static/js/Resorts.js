@@ -23,9 +23,11 @@ export default class Resorts extends React.Component {
       resorts : [],
       presorts : [],
       pagecount: 0,
-      cpage: 0
+      cpage: 0,
+      sortBy: 0
     }
     this.pairup = this.pairup.bind(this);
+    this.sortLifts = this.sortLifts.bind(this);
 
   }
   pairup(fetchedResorts, resultcount, pagenumber){
@@ -47,6 +49,8 @@ export default class Resorts extends React.Component {
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
     window.scrollTo(0, 0)
+    //console.log(this.state.sortBy);
+
     var pagenumber = nextProps.match.params.page;
     var temp;
     if(pagenumber == null){
@@ -57,9 +61,19 @@ export default class Resorts extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
-    fetchfrom += pagenumber;
-    $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    if (this.state.sortBy == 1) {
+      var url = "http://127.0.0.1:5000/api/resorts?q=";
+      url += "{\"order_by\":[";
+      url += "{\"field\":\"lifts\",\"direction\":\"asc\"}]}";
+      url += "&page="
+      url += pagenumber
+      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    }
+    else{
+      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
+      fetchfrom += pagenumber;
+      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    }
   }
 
   componentDidMount(){
@@ -82,6 +96,27 @@ export default class Resorts extends React.Component {
       //Testing purposes
     }
 
+    sortLifts(){
+        var pagenumber = this.props.match.params.page;
+        var temp;
+        if(pagenumber == null){
+          pagenumber = 1
+        }
+        else{
+          temp = pagenumber.split(" ");
+          pagenumber = temp[1];
+          pagenumber = parseInt(pagenumber, 10);
+        }
+        this.setState({sortBy: 1});
+        //sort by lifts in ascending order(default)
+        var url = "http://127.0.0.1:5000/api/resorts?q=";
+        url += "{\"order_by\":[";
+        url += "{\"field\":\"lifts\",\"direction\":\"asc\"}]}";
+        url += "&page="
+        url += pagenumber
+        $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    }
+
     render () {
       let rrow;
       if(this.state.presorts){
@@ -95,6 +130,17 @@ export default class Resorts extends React.Component {
         <div>
         <NavBar/>
         <Container>
+
+        <Row>
+        <div className="dropdown">
+          <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" >Sort by
+          <span className="caret"></span></button>
+          <ul className="dropdown-menu">
+          <li><a onClick={this.sortLifts} href="#">Lifts</a></li>
+          </ul>
+        </div>
+        </Row>
+
         {rrow}
         <br/>
         <Row className="justify-content-center">
