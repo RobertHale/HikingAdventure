@@ -2,7 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import Navbar from "./navbar";
+import Navbar from "./Navbar";
 import Home from "./Home";
 import About from "./About";
 import Resorts from "./Resorts";
@@ -29,6 +29,7 @@ ReactDOM.render(
   <div>
   <Route exact path="/" component={Home} />
   <Route path="/about" component={About} />
+  <Route path="/navbar" component={Navbar} />
   <Route exact path= "/resorts:page?" component={Resorts} />
   <Route exact path= "/resorts/:id" component={ResortInstance} />
   <Route exact path= "/trails:page?" component={Trails} />
