@@ -116,7 +116,7 @@ export default class Rpopup extends React.Component {
           </InputGroup>
           <br></br>
           <InputGroup>
-            <InputGroupAddon className="form-text" addonType="prepend">Stars greater than: </InputGroupAddon>
+            <InputGroupAddon className="form-text" addonType="prepend">Stars >=</InputGroupAddon>
             <Input placeholder="Stars"
                 value={this.state.stars}
                 onChange={this.handleStarChange}/>

@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import TrailRow from "./TrailRow";
+import Tpopup from "./Tpopup";
 import $ from 'jquery';
 
 export default class Trails extends React.Component {
@@ -24,6 +25,13 @@ export default class Trails extends React.Component {
     this.pairup = this.pairup.bind(this);
 
   }
+
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
+  }
+
   pairup(fetchedResorts){
     //Do magic
     //console.log(fetchedResorts);
@@ -60,7 +68,7 @@ export default class Trails extends React.Component {
         pagenumber = temp[1];
       }
       //console.log(pagenumber);
-      var fetchfrom = "http://hikingadventures.me/api/trails?page=";
+      var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
@@ -114,6 +122,9 @@ export default class Trails extends React.Component {
       return(
 
         <div>
+        <Row>
+        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+        </Row>
         {trow}
         <br/>
         <Row className="justify-content-center">
@@ -157,6 +168,11 @@ export default class Trails extends React.Component {
         </PaginationItem>
         </Pagination>
         </Row>
+        <Tpopup
+            text='Close Me'
+            isOpen={this.state.showPopup}
+            toggle={this.togglePopup.bind(this)}
+          />
         </div>
       );
     }
