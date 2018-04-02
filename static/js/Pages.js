@@ -40,6 +40,9 @@ export default class Pages extends React.Component {
     else if((this.props.pagedata.cpage + 2) >= this.props.pagedata.pagecount){
       //next button disabled,
       disablep = false;
+      if(this.props.pagedata.cpage != this.props.pagedata.pagecount){
+        disablen = false;
+      }
       var limit = this.props.pagedata.pagecount;
       var length = limit - 4;
       for(length; length <= limit; length++){
@@ -47,6 +50,9 @@ export default class Pages extends React.Component {
       }
     }
     else if((this.props.pagedata.cpage -2) <= 0){
+      if(this.props.pagedata.cpage != 1){
+        disablep = false;
+      }
       disablen = false;
       pages = [1,2,3,4,5];
     }
@@ -66,24 +72,32 @@ export default class Pages extends React.Component {
       var temp = this.props.pagedata.url;
       temp += (this.props.pagedata.cpage - 1);
       prev =  <PaginationItem>
-              <PaginationLink previous href={temp} />
+              <Link className="page-link" to={temp}>
+              {"«"}
+              </Link>
               </PaginationItem>
     }
     else{
       prev =  <PaginationItem disabled>
-              <PaginationLink previous href="" />
+              <Link className="page-link" to="">
+              {"«"}
+              </Link>
               </PaginationItem>
     }
     if(!disablen){
       var temp = this.props.pagedata.url;
       temp += (this.props.pagedata.cpage + 1);
       next =  <PaginationItem>
-              <PaginationLink next href={temp} />
+              <Link className="page-link" to={temp}>
+              {"»"}
+              </Link>
               </PaginationItem>
     }
     else{
       next =  <PaginationItem disabled>
-              <PaginationLink next href="" />
+              <Link className="page-link" to="">
+              {"»"}
+              </Link>
               </PaginationItem>
     }
     if(pages){
@@ -91,13 +105,24 @@ export default class Pages extends React.Component {
       items = pages.map(page => {
         var link = this.props.pagedata.url;
         link += page;
-        return(
-          <PaginationItem>
-          <Link className="page-link" to={link}>
-          {page}
-          </Link>
-          </PaginationItem>
-        );
+        if(this.props.pagedata.cpage == page){
+          return(
+            <PaginationItem disabled key={page}>
+            <Link className="page-link" to={link}>
+            {page}
+            </Link>
+            </PaginationItem>
+          );
+        }
+        else{
+          return(
+            <PaginationItem key={page}>
+            <Link className="page-link" to={link}>
+            {page}
+            </Link>
+            </PaginationItem>
+          );
+        }
       })
     }
 

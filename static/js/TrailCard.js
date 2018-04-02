@@ -49,13 +49,11 @@ export default class TrailCard extends React.Component {
       <iframe src={video} width="100%" height="316" frameBorder="0" allowFullScreen></iframe>
       <CardBody>
       <CardTitle><Link to={mylink}>{name}</Link></CardTitle>
-      <CardText>
       <ul>
       <li>{"Summary: "}{summary}</li>
       <li>{"Difficulty: "}{difficulty}</li>
       <li>{"Length: "}{length}</li>
       </ul>
-      </CardText>
       </CardBody>
       </Card>
       </Col>
