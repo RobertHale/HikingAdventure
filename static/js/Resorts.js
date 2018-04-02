@@ -8,7 +8,8 @@ import {
   Container,
   Pagination,
   PaginationItem,
-  PaginationLink
+  PaginationLink,
+  Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import ResortRow from "./ResortRow";
@@ -24,12 +25,29 @@ export default class Resorts extends React.Component {
       presorts : [],
       pagecount: 0,
       cpage: 0,
-      sortBy: 0
+      dropdownOpen: false,
+      sortBy: 0,
+      lifts: "lifts",
+      cLifts: 0,
+      elev: "elev",
+      celev: 0
+
     }
+    this.toggle = this.toggle.bind(this);
     this.pairup = this.pairup.bind(this);
-    this.sortLifts = this.sortLifts.bind(this);
+    this.sort = this.sort.bind(this);
+    this.clickedLift = this.clickedLift.bind(this);
+    this.clickedElev = this.clickedElev.bind(this);
 
   }
+
+  toggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+
   pairup(fetchedResorts, resultcount, pagenumber){
     var s = 2;
     var b = 0;
@@ -49,8 +67,7 @@ export default class Resorts extends React.Component {
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
     window.scrollTo(0, 0)
-    //console.log(this.state.sortBy);
-
+    console.log(this.state.cLifts);
     var pagenumber = nextProps.match.params.page;
     var temp;
     if(pagenumber == null){
@@ -64,10 +81,18 @@ export default class Resorts extends React.Component {
     if (this.state.sortBy == 1) {
       var url = "http://127.0.0.1:5000/api/resorts?q=";
       url += "{\"order_by\":[";
-      url += "{\"field\":\"lifts\",\"direction\":\"asc\"}]}";
-      url += "&page="
-      url += pagenumber
-      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+      if (this.state.cLifts == 1) {
+        url += "{\"field\":\"lifts\",\"direction\":\"asc\"}]}";
+        url += "&page="
+        url += pagenumber
+        $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+      }
+      if (this.state.celev == 1) {
+        url += "{\"field\":\"elev\",\"direction\":\"asc\"}]}";
+        url += "&page="
+        url += pagenumber
+        $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+      }
     }
     else{
       var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
@@ -96,8 +121,14 @@ export default class Resorts extends React.Component {
       //Testing purposes
     }
 
-    sortLifts(){
+    sort(field){
         var pagenumber = this.props.match.params.page;
+        if (field == "lifts") {
+          var x = ("\"lifts\"")
+        }
+        if (field == "elev") {
+          var x = ("\"elev\"")
+        }
         var temp;
         if(pagenumber == null){
           pagenumber = 1
@@ -111,11 +142,25 @@ export default class Resorts extends React.Component {
         //sort by lifts in ascending order(default)
         var url = "http://127.0.0.1:5000/api/resorts?q=";
         url += "{\"order_by\":[";
-        url += "{\"field\":\"lifts\",\"direction\":\"asc\"}]}";
+        url += "{\"field\":" + x + ",\"direction\":\"asc\"}]}";
         url += "&page="
         url += pagenumber
+        console.log(url)
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     }
+
+    clickedLift(){
+      this.setState({cLifts: 1});
+      this.setState({celev: 0});
+      this.sort(this.state.lifts)
+    }
+
+    clickedElev(){
+      this.setState({celev: 1});
+      this.setState({cLifts: 0});
+      this.sort(this.state.elev)
+    }
+
 
     render () {
       let rrow;
@@ -132,13 +177,24 @@ export default class Resorts extends React.Component {
         <Container>
 
         <Row>
-        <div className="dropdown">
-          <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" >Sort by
-          <span className="caret"></span></button>
-          <ul className="dropdown-menu">
-          <li><a onClick={this.sortLifts} href="#">Lifts</a></li>
-          </ul>
-        </div>
+
+        <Col lg="2" sm="10">
+        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+        <DropdownToggle caret>
+          Sort by
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem onClick={this.toggle}>Name</DropdownItem>
+          <DropdownItem divider/>
+          <DropdownItem onClick={this.clickedLift}>Lifts</DropdownItem>
+          <DropdownItem divider/>
+          <DropdownItem onClick={this.clickedElev}>Elevation</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+        </Col>
+
+
+
         </Row>
 
         {rrow}
