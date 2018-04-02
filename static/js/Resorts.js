@@ -1,5 +1,6 @@
 // Load all resorts in our database, 12 in each page
 import React from "react";
+import ReactDOM from "react-dom";
 import {
   Button,
   Row,
@@ -7,11 +8,13 @@ import {
   Container,
   Pagination,
   PaginationItem,
-  PaginationLink
+  PaginationLink,
+  Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import ResortRow from "./ResortRow";
-import Rpopup from "./Rpopup";
+import NavBar from "./Navbar";
+import Pages from "./Pages";
 import $ from 'jquery';
 
 export default class Resorts extends React.Component {
@@ -20,22 +23,45 @@ export default class Resorts extends React.Component {
     this.state = {
       resorts : [],
       presorts : [],
-      perpage : 0,
-      showPopup: false
+      pagecount: 0,
+      cpage: 0,
+      dropdownOpen: false,
+      sortBy: 0,
+
+      cLifts: 0,
+      celev: 0,
+      cName: 0,
+      cDesc: 0,
+      cAsc: 0,
+      cStars: 0,
+      cRuns: 0,
+      cReview: 0
+
     }
+    this.toggle = this.toggle.bind(this);
     this.pairup = this.pairup.bind(this);
 
+    this.sort = this.sort.bind(this);
+    this.clickedLift = this.clickedLift.bind(this);
+    this.clickedElev = this.clickedElev.bind(this);
+    this.clickedName = this.clickedName.bind(this);
+    this.clickedStars = this.clickedStars.bind(this);
+    this.clickedRuns = this.clickedRuns.bind(this);
+    this.clickedReview = this.clickedReview.bind(this);
+    this.clickedDesc= this.clickedDesc.bind(this);
+    this.clickedAsc= this.clickedAsc.bind(this);
+
+
   }
-  
-  togglePopup() {
+
+  toggle() {
     this.setState({
-      showPopup: !this.state.showPopup
+      dropdownOpen: !this.state.dropdownOpen
     });
   }
-  
-  pairup(fetchedResorts){
-    //Do magic
-    //console.log(fetchedResorts);
+
+
+  pairup(fetchedResorts, resultcount, pagenumber){
     var s = 2;
     var b = 0;
     var e = fetchedResorts.length;
@@ -44,70 +70,93 @@ export default class Resorts extends React.Component {
     for(b, e; b < e; b += s){
       paired.push(mimic.slice(b, b+s));
     }
-    //console.log(paired);
-    this.setState({presorts: paired});
+    this.setState({
+      presorts: paired,
+      pagecount: Math.ceil(resultcount/10),
+      cpage: pagenumber
+    });
   }
   //This is where we want to query the database
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
-    //console.log("fire");
-    //console.log(nextProps.match.params.page);
-    this.setState({perpage : nextProps.match.params.page});
-    c//onsole.log(this.state.resorts);
-    //Here we want to break down the information
+    window.scrollTo(0, 0)
+    var pagenumber = nextProps.match.params.page;
+    var temp;
+    if(pagenumber == null){
+      pagenumber = 1
+    }
+    else{
+      temp = pagenumber.split(" ");
+      pagenumber = temp[1];
+      pagenumber = parseInt(pagenumber, 10);
+    }
+    if (this.state.sortBy == 1) {
+      var url = "http://127.0.0.1:5000/api/resorts?q=";
+      url += "{\"order_by\":[";
+      if (this.state.cLifts == 1) {
+        url += "{\"field\":\"lifts\",\"direction\":\"asc\"}]}";
+        if (this.state.cLifts == 1 && this.state.cDesc == 1) {
+          var url = "http://127.0.0.1:5000/api/resorts?q=";
+          url += "{\"order_by\":[";
+          url += "{\"field\":\"lifts\",\"direction\":\"desc\"}]}";
+        }
+      }
+      if (this.state.celev == 1) {
+        url += "{\"field\":\"elev\",\"direction\":\"asc\"}]}";
+        if (this.state.celev == 1 && this.state.cDesc == 1) {
+          var url = "http://127.0.0.1:5000/api/resorts?q=";
+          url += "{\"order_by\":[";
+          url += "{\"field\":\"elev\",\"direction\":\"desc\"}]}";
+        }
+      }
+      if (this.state.cName == 1) {
+        url += "{\"field\":\"name\",\"direction\":\"asc\"}]}";
+        if (this.state.cName == 1 && this.state.cDesc == 1) {
+          var url = "http://127.0.0.1:5000/api/resorts?q=";
+          url += "{\"order_by\":[";
+          url += "{\"field\":\"name\",\"direction\":\"desc\"}]}";
+        }
+      }
+
+      if (this.state.cStars == 1) {
+        url += "{\"field\":\"yelprating\",\"direction\":\"asc\"}]}";
+        if (this.state.cStars == 1 && this.state.cDesc == 1) {
+          var url = "http://127.0.0.1:5000/api/resorts?q=";
+          url += "{\"order_by\":[";
+          url += "{\"field\":\"yelprating\",\"direction\":\"desc\"}]}";
+        }
+      }
+
+      if (this.state.cRuns == 1) {
+        url += "{\"field\":\"runs\",\"direction\":\"asc\"}]}";
+        if (this.state.cRuns == 1 && this.state.cDesc == 1) {
+          var url = "http://127.0.0.1:5000/api/resorts?q=";
+          url += "{\"order_by\":[";
+          url += "{\"field\":\"runs\",\"direction\":\"desc\"}]}";
+        }
+      }
+
+      if (this.state.cReview == 1) {
+        url += "{\"field\":\"reviewcount\",\"direction\":\"asc\"}]}";
+        if (this.state.cReview == 1 && this.state.cDesc == 1) {
+          var url = "http://127.0.0.1:5000/api/resorts?q=";
+          url += "{\"order_by\":[";
+          url += "{\"field\":\"reviewcount\",\"direction\":\"desc\"}]}";
+        }
+      }
+      url += "&page="
+      url += pagenumber
+      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    }
+    else{
+      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
+      fetchfrom += pagenumber;
+      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    }
   }
 
   componentDidMount(){
-    var x =
-    [
-      {
-        name  : "a",
-        lifts : 1,
-        runs  : 1
-      },
-      {
-        name  : "b",
-        lifts : 2,
-        runs  : 2
-      },
-      {
-        name  : "c",
-        lifts : 3,
-        runs  : 3
-      },
-      {
-        name  : "d",
-        lifts : 4,
-        runs  : 4
-      },
-      {
-        name  : "e",
-        lifts : 5,
-        runs  : 5
-      },
-      {
-        name  : "f",
-        lifts : 6,
-        runs  : 6
-      },
-      {
-        name  : "g",
-        lifts : 7,
-        runs  : 7
-      },
-      {
-        name  : "h",
-        lifts : 8,
-        runs  : 8
-      },
-      {
-        name  : "i",
-        lifts : 9,
-        runs  : 9
-      }];
-      // var url = 'http://127.0.0.1:5000/api/resorts?page=';
       var pagenumber = this.props.match.params.page;
-      //console.log(pagenumber);
       var temp;
       if(pagenumber == null){
         pagenumber = 1
@@ -115,19 +164,175 @@ export default class Resorts extends React.Component {
       else{
         temp = pagenumber.split(" ");
         pagenumber = temp[1];
+        pagenumber = parseInt(pagenumber, 10);
       }
-      //console.log(pagenumber);
-      // hikingadventures
+      // var url = 'http://127.0.0.1:5000/api/resorts?page=';
       var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
       fetchfrom += pagenumber;
-      //console.log(fetchfrom);
-
-      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects)});
+      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     }
     componentWillUnmount(){
-      // <Link to="/resorts/10">press me </Link>
-      //console.log("We unmounted Resorts");
+      //Testing purposes
     }
+
+    sort(field, dir){
+        var pagenumber = this.props.match.params.page;
+        var x = "";
+        var d = dir;
+        if (field == "lifts") {
+          var x = ("\"lifts\"")
+        }
+        if (field == "elev") {
+          var x = ("\"elev\"")
+        }
+        if (field == "name") {
+          var x = ("\"name\"")
+        }
+        if (field == "yelprating") {
+          var x = ("\"yelprating\"")
+        }
+        if (field == "runs") {
+          var x = ("\"runs\"")
+        }
+        if (field == "reviewcount") {
+          var x = ("\"reviewcount\"")
+        }
+        var temp;
+        if(pagenumber == null){
+          pagenumber = 1
+        }
+        else{
+          temp = pagenumber.split(" ");
+          pagenumber = temp[1];
+          pagenumber = parseInt(pagenumber, 10);
+        }
+        this.setState({sortBy: 1});
+        var url = "http://127.0.0.1:5000/api/resorts?q=";
+        url += "{\"order_by\":[";
+        url += "{\"field\":" + x + ",\"direction\":" + d + "}]}";
+        url += "&page="
+        url += pagenumber
+        $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    }
+
+    clickedLift(){
+      this.setState({cLifts: 1});
+      this.setState({celev: 0});
+      this.setState({cName: 0});
+      this.setState({cDesc: 0});
+      this.setState({cAsc: 0});
+      this.setState({cStars: 0});
+      this.setState({cRuns: 0});
+      this.setState({cReview: 0});
+      this.sort("lifts", "\"asc\"")
+    }
+
+    clickedElev(){
+      this.setState({celev: 1});
+      this.setState({cLifts: 0});
+      this.setState({cName: 0});
+      this.setState({cDesc: 0});
+      this.setState({cAsc: 0});
+      this.setState({cStars: 0});
+      this.setState({cRuns: 0});
+      this.setState({cReview: 0});
+      this.sort("elev", "\"asc\"")
+    }
+
+    clickedName(){
+      this.setState({cLifts: 0});
+      this.setState({celev: 0});
+      this.setState({cName: 1});
+      this.setState({cDesc: 0});
+      this.setState({cAsc: 0});
+      this.setState({cStars: 0});
+      this.setState({cRuns: 0});
+      this.setState({cReview: 0});
+      this.sort("name", "\"asc\"")
+    }
+
+    clickedStars(){
+      this.setState({cLifts: 0});
+      this.setState({celev: 0});
+      this.setState({cName: 0});
+      this.setState({cDesc: 0});
+      this.setState({cAsc: 0});
+      this.setState({cStars: 1});
+      this.setState({cRuns: 0});
+      this.setState({cReview: 0});
+      this.sort("yelprating", "\"asc\"")
+    }
+
+    clickedRuns(){
+      this.setState({cLifts: 0});
+      this.setState({celev: 0});
+      this.setState({cName: 0});
+      this.setState({cDesc: 0});
+      this.setState({cAsc: 0});
+      this.setState({cStars: 0});
+      this.setState({cRuns: 1});
+      this.setState({cReview: 0});
+      this.sort("runs", "\"asc\"")
+    }
+
+    clickedReview(){
+      this.setState({cLifts: 0});
+      this.setState({celev: 0});
+      this.setState({cName: 0});
+      this.setState({cDesc: 0});
+      this.setState({cAsc: 0});
+      this.setState({cStars: 0});
+      this.setState({cRuns: 0});
+      this.setState({cReview: 1});
+      this.sort("reviewcount", "\"asc\"")
+    }
+
+    clickedDesc(){
+      this.setState({cDesc: 1});
+      this.setState({cAsc: 0});
+      if (this.state.cLifts == 1) {
+        this.sort("lifts", "\"desc\"")
+      }
+      if (this.state.celev == 1) {
+        this.sort("elev", "\"desc\"")
+      }
+      if (this.state.cName == 1) {
+        this.sort("name", "\"desc\"")
+      }
+      if (this.state.cStars == 1) {
+        this.sort("yelprating", "\"desc\"")
+      }
+      if (this.state.cRuns == 1) {
+        this.sort("runs", "\"desc\"")
+      }
+      if (this.state.cReview == 1) {
+        this.sort("reviewcount", "\"desc\"")
+      }
+    }
+
+    clickedAsc(){
+      this.setState({cAsc: 1});
+      this.setState({cDesc: 0});
+      if (this.state.cLifts == 1) {
+        this.sort("lifts", "\"asc\"")
+      }
+      if (this.state.celev == 1) {
+        this.sort("elev", "\"asc\"")
+      }
+      if (this.state.cName == 1) {
+        this.sort("name", "\"asc\"")
+      }
+      if (this.state.cStars == 1) {
+        this.sort("yelprating", "\"asc\"")
+      }
+      if (this.state.cRuns == 1) {
+        this.sort("runs", "\"asc\"")
+      }
+      if (this.state.cReview == 1) {
+        this.sort("reviewcount", "\"asc\"")
+      }
+    }
+
 
     render () {
       let rrow;
@@ -138,92 +343,50 @@ export default class Resorts extends React.Component {
           );
         })
       }
-      let calculatepage = 1;
-      let prev = "/resortspage= 1";
-      let first = 1;
-      let firstlink = "/resortspage= 1";
-      let second = 2;
-      let secondlink = "/resortspage= 2";
-      let third = 3;
-      let thirdlink = "/resortspage= 3";
-      let fourth = 4;
-      let fourthlink = "/resortspage= 4";
-      let fifth = 5;
-      let fifthlink = "/resortspage= 5";
-      let next = "/resortspage= 6";
-      let temp;
-      if (this.props.match.params.page){
-        temp = (this.props.match.params.page).split(" ");
-        calculatepage = parseInt(temp[1], 10);
-      }
-      if (calculatepage > 3){
-        first = calculatepage - 2;
-        second = calculatepage - 1;
-        third = calculatepage;
-        fourth = calculatepage + 1;
-        fifth = calculatepage + 2;
-        prev = "/resortspage= " + (calculatepage - 1);
-        firstlink = "/resortspage= " + (calculatepage - 2);
-        secondlink = "/resortspage= " + (calculatepage - 1);
-        thirdlink = "/resortspage= " + (calculatepage);
-        fourthlink = "/resortspage= " + (calculatepage + 1);
-        fifthlink = "/resortspage= " + (calculatepage + 2);
-        next = "/resortspage= " + (calculatepage + 1);
-      }
       return(
-
         <div>
+        <NavBar/>
+        <Container>
         <Row>
-        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+        <Col lg="2" sm="10">
+        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+        <DropdownToggle caret>
+          Sort by
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
+          <DropdownItem divider/>
+          <DropdownItem onClick={this.clickedLift}>Lifts</DropdownItem>
+          <DropdownItem divider/>
+          <DropdownItem onClick={this.clickedElev}>Elevation</DropdownItem>
+          <DropdownItem divider/>
+          <DropdownItem onClick={this.clickedStars}>Stars</DropdownItem>
+          <DropdownItem divider/>
+          <DropdownItem onClick={this.clickedRuns}>Runs</DropdownItem>
+          <DropdownItem divider/>
+          <DropdownItem onClick={this.clickedReview}>Review</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+        </Col>
+        <Col lg="2" sm="10">
+        <Dropdown direction="up" isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
+        <DropdownToggle caret>
+        Direction
+        </DropdownToggle>
+        <DropdownMenu>
+        <DropdownItem onClick={this.clickedAsc}>Ascending</DropdownItem>
+        <DropdownItem divider/>
+        <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
+        </DropdownMenu>
+        </Dropdown>
+        </Col>
         </Row>
         {rrow}
         <br/>
         <Row className="justify-content-center">
-        <Pagination>
-        <PaginationItem>
-        <PaginationLink previous href={prev} />
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink href={firstlink}>
-        {first}
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink href={secondlink}>
-        {second}
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink href={thirdlink}>
-        {third}
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink href={fourthlink}>
-        {fourth}
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink href={fifthlink}>
-        {fifth}
-        </PaginationLink>
-        </PaginationItem>
-
-        <PaginationItem>
-        <PaginationLink next href={next} />
-        </PaginationItem>
-        </Pagination>
+        <Pages pagedata={{pagecount: this.state.pagecount, url: "/resortspage= ", cpage: this.state.cpage}}/>
         </Row>
-        <Rpopup
-            text='Close Me'
-            isOpen={this.state.showPopup}
-            toggle={this.togglePopup.bind(this)}
-          />
+        </Container>
         </div>
       );
     }

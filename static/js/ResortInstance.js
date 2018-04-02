@@ -3,6 +3,7 @@ import React from   "react";
 import Card from    "./card";
 import Cards from   "./cards";
 import $ from 'jquery';
+import NavBar from "./Navbar";
 import {
   Container,
   Row,
@@ -144,6 +145,8 @@ export default class ResortInstance extends React.Component {
 
     return (
       <div>
+      <NavBar/>
+      <Container>
       <div id="title" className="row align-items-center">
   			<div className="col-12">
   				<h1 style={titles} id="name">{this.state.name}</h1>
@@ -225,7 +228,7 @@ export default class ResortInstance extends React.Component {
 
       </div>
 
-
+      </Container>
       </div>
     );
   }

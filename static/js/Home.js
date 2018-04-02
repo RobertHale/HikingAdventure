@@ -5,8 +5,10 @@ import {
   CarouselItem,
   CarouselControl,
   CarouselIndicators,
-  CarouselCaption
+  CarouselCaption,
+  Container
 } from 'reactstrap';
+import NavBar from "./Navbar";
 //import 'bootstrap/dist/css/bootstrap.css';
 
 
@@ -76,6 +78,9 @@ export default class Home extends React.Component {
     });
 
     return (
+      <div>
+      <NavBar/>
+      <Container>
       <Carousel
       activeIndex={activeIndex}
       next={this.next}
@@ -86,6 +91,8 @@ export default class Home extends React.Component {
       <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
       <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
       </Carousel>
+      </Container>
+      </div>
     );
   }
 }
