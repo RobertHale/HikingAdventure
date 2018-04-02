@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import PhotoRow from "./PhotoRow";
+import Ppopup from "./Ppopup";
 import $ from 'jquery';
 
 export default class Photos extends React.Component {
@@ -19,10 +20,18 @@ export default class Photos extends React.Component {
     this.state = {
       resorts : [],
       presorts : [],
-      perpage : 0
+      perpage : 0,
+      showPopup: false
     }
     this.pairup = this.pairup.bind(this);
   }
+
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
+  }
+
   pairup(fetchedResorts){
     //Do magic
     //console.log(fetchedResorts);
@@ -60,7 +69,7 @@ export default class Photos extends React.Component {
         pagenumber = temp[1];
       }
       //console.log(pagenumber);
-      var fetchfrom = "http://hikingadventures.me/api/photos?page=";
+      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
@@ -114,6 +123,9 @@ export default class Photos extends React.Component {
       }
       return(
         <div>
+        <Row>
+        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+        </Row>
         {prow}
         <br/>
         <Row className="justify-content-center">
@@ -157,6 +169,11 @@ export default class Photos extends React.Component {
         </PaginationItem>
         </Pagination>
         </Row>
+        <Ppopup
+            text='Close Me'
+            isOpen={this.state.showPopup}
+            toggle={this.togglePopup.bind(this)}
+          />
         </div>
       );
     }

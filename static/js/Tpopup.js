@@ -13,14 +13,14 @@ export default class Tpopup extends React.Component {
       lat: "",
       lon: ""
     }
-    this.handleLenChange = this.handleLenChange.bind(this);
+    this.handleLenChange  = this.handleLenChange.bind(this);
     this.handleDiffChange = this.handleDiffChange.bind(this);
-    this.handleAscChange = this.handleAscChange.bind(this);
+    this.handleAscChange  = this.handleAscChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);
     this.handleStarChange = this.handleStarChange.bind(this);
-    this.handleLatChange = this.handleLatChange.bind(this);
-    this.handleLonChange = this.handleLonChange.bind(this);
-    this.submitFilter = this.submitFilter.bind(this);
+    this.handleLatChange  = this.handleLatChange.bind(this);
+    this.handleLonChange  = this.handleLonChange.bind(this);
+    this.submitFilter     = this.submitFilter.bind(this);
   }
   handleLenChange(e) {
     this.setState({len: e.target.value});
@@ -44,7 +44,7 @@ export default class Tpopup extends React.Component {
     this.setState({lon: e.target.value});
   }
   submitFilter(){
-    var filter = "{\"filters\":[";
+    var filter = "\"filters\":[";
     var notFirst = false;
     if (!(this.state.len === "") && !isNaN(this.state.len)) {
       if(!notFirst){
@@ -94,7 +94,7 @@ export default class Tpopup extends React.Component {
       filter += ",";
       filter += "{\"name\":\"lon\",\"op\":\"like\",\"val\":" + this.state.lon + "}";
     }
-    filter += "]}";
+    filter += "]";
     console.log(filter);
   }
 

@@ -39,7 +39,7 @@ export default class Rpopup extends React.Component {
     this.setState({lon: e.target.value});
   }
   submitFilter(){
-    var filter = "{\"filters\":[";
+    var filter = "\"filters\":[";
     var notFirst = false;
     if (!(this.state.lifts === "") && !isNaN(this.state.lifts)) {
       if(!notFirst){
@@ -81,7 +81,7 @@ export default class Rpopup extends React.Component {
       filter += ",";
       filter += "{\"name\":\"lon\",\"op\":\"like\",\"val\":" + this.state.lon + "}";
     }
-    filter += "]}";
+    filter += "]";
     console.log(filter);
   }
 
