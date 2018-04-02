@@ -174,7 +174,7 @@ export default class Resorts extends React.Component {
 
         <div>
         <Row>
-        <Button color="#2E2E2E" onClick={this.togglePopup.bind(this)}>show popup</Button>
+        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
         </Row>
         {rrow}
         <br/>
