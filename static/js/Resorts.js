@@ -33,10 +33,13 @@ export default class Resorts extends React.Component {
       sortList: ["", "lifts", "elev", "name", "yelprating", "runs", "reviewcount"],
       dirEnum: {ASC:0, DESC:1},
       dirList: ["asc", "desc"],
-      showPopup: false
+      showPopup: false,
+      filter: ""
     }
     this.toggle = this.toggle.bind(this);
     this.pairup = this.pairup.bind(this);
+
+    this.submitFilter = this.submitFilter.bind(this);
 
     this.sort = this.sort.bind(this);
     this.clickedLift = this.clickedLift.bind(this);
@@ -58,6 +61,17 @@ export default class Resorts extends React.Component {
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+//this.setState({foo: "one"}, () => {
+//    this.setState({bar: "two"});
+//});
+  submitFilter(filter){
+    this.setState({
+      filter: filter
+    }, () => { 
+      this.sort(this.state.sortBy, this.state.direction);
     });
   }
 
@@ -97,9 +111,12 @@ export default class Resorts extends React.Component {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
       url += ",\"direction\":\"" + this.state.dirList[this.state.direction] + "\"}";
     }
-    url += "]}";
+    url += "]"
+    if(!(this.state.filter === "")) url += "," + this.state.filter;
+    url += "}";
     url += "&page=";
     url += pagenumber;
+    console.log(url);
     $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
 
@@ -140,7 +157,9 @@ export default class Resorts extends React.Component {
           url += "{\"field\":\"" + this.state.sortList[sort] + "\"";
           url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
         }
-        url += "]}";
+        url += "]";
+        if(!(this.state.filter === "")) url += "," + this.state.filter;
+        url += "}";
         url += "&page="
         url += pagenumber
         console.log(url);
@@ -241,6 +260,7 @@ export default class Resorts extends React.Component {
             text='Close Me'
             isOpen={this.state.showPopup}
             toggle={this.togglePopup.bind(this)}
+            submit={this.submitFilter}
           />
         </Container>
         </div>
