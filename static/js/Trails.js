@@ -27,14 +27,11 @@ export default class Trails extends React.Component {
 
       dropdownOpen: false,
       sortBy: 0,
-      cAscent: 0, //trails (works)
-      cDescent: 0, //trails (works)
-      cName: 0,  //trails (works)
-      cDesc: 0,  //trails descending button
-      cAsc: 0,   //trails ascending button
-      cStars: 0,  //trails(works)
-      cDiff: 0,   //trails(works)
-      cLength: 0,  //trails (works)
+      direction: 0,
+      sortEnum: {NONE:0, ASCENT:1, DESCENT:2, NAME:3, STARS:4, DIFFICULTY:5, LENGTH:6},
+      sortList: ["", "\"ascent\"", "\"descent\"", "\"name\"", "\"stars\"", "\"difficulty\"", "\"length\""],
+      dirEnum: {ASC:0, DESC:1},
+      dirList: ["\"asc\"", "\"desc\""],
     }
     this.pairup = this.pairup.bind(this);
 
@@ -60,8 +57,6 @@ export default class Trails extends React.Component {
   pairup(fetchedResorts, resultcount, pagenumber){
     //Do magic
     //console.log(fetchedResorts);
-    console.log(pagenumber);
-    console.log(resultcount);
     var s = 2;
     var b = 0;
     var e = fetchedResorts.length;
@@ -82,6 +77,7 @@ export default class Trails extends React.Component {
     window.scrollTo(0, 0)
     var pagenumber = nextProps.match.params.page;
     var temp;
+    var sortb = this.state.sortBy;
     if(pagenumber == null){
       pagenumber = 1
     }
@@ -90,69 +86,14 @@ export default class Trails extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    if (this.state.sortBy == 1) {
-      var url = "http://127.0.0.1:5000/api/trails?q=";
-      url += "{\"order_by\":[";
-      if (this.state.cAscent == 1) {
-        url += "{\"field\":\"ascent\",\"direction\":\"asc\"}]}";
-        if (this.state.cAscent == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/trails?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"ascent\",\"direction\":\"desc\"}]}";
-        }
-      }
-      if (this.state.cDescent == 1) {
-        url += "{\"field\":\"descent\",\"direction\":\"asc\"}]}";
-        if (this.state.cDescent == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/trails?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"descent\",\"direction\":\"desc\"}]}";
-        }
-      }
-      if (this.state.cName == 1) {
-        url += "{\"field\":\"name\",\"direction\":\"asc\"}]}";
-        if (this.state.cName == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/trails?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"name\",\"direction\":\"desc\"}]}";
-        }
-      }
-
-      if (this.state.cStars == 1) {
-        url += "{\"field\":\"stars\",\"direction\":\"asc\"}]}";
-        if (this.state.cStars == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/trails?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"stars\",\"direction\":\"desc\"}]}";
-        }
-      }
-
-      if (this.state.cDiff == 1) {
-        url += "{\"field\":\"difficulty\",\"direction\":\"asc\"}]}";
-        if (this.state.cDiff == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/trails?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"difficulty\",\"direction\":\"desc\"}]}";
-        }
-      }
-
-      if (this.state.cLength == 1) {
-        url += "{\"field\":\"length\",\"direction\":\"asc\"}]}";
-        if (this.state.cLength == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/trails?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"length\",\"direction\":\"desc\"}]}";
-        }
-      }
-      url += "&page="
-      url += pagenumber
-      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    var url = "http://127.0.0.1:5000/api/trails?q={";
+    url += "\"order_by\":[";
+    if (this.state.sortBy !=  0) {
+      url += "{\"field\":" + this.state.sortList[sortb] + ",\"direction\":" + this.state.dirList[this.state.direction] + "}]}";
     }
-    else{
-      var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
-      fetchfrom += pagenumber;
-      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
-    }
+    url += "&page=";
+    url += pagenumber;
+    $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
 
   componentDidMount(){
@@ -176,28 +117,9 @@ export default class Trails extends React.Component {
     }
 
     sort(field, dir){
-        var pagenumber = this.props.match.params.page;
-        var x = "";
-        var d = dir;
-        if (field == "ascent") {
-          var x = ("\"ascent\"")
-        }
-        if (field == "descent") {
-          var x = ("\"descent\"")
-        }
-        if (field == "name") {
-          var x = ("\"name\"")
-        }
-        if (field == "stars") {
-          var x = ("\"stars\"")
-        }
-        if (field == "difficulty") {
-          var x = ("\"difficulty\"")
-        }
-        if (field == "length") {
-          var x = ("\"length\"")
-        }
+        field = this.state.sortList[field];
         var temp;
+        var pagenumber = this.props.match.params.page;
         if(pagenumber == null){
           pagenumber = 1
         }
@@ -206,135 +128,56 @@ export default class Trails extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        this.setState({sortBy: 1});
         var url = "http://127.0.0.1:5000/api/trails?q=";
         url += "{\"order_by\":[";
-        url += "{\"field\":" + x + ",\"direction\":" + d + "}]}";
+        if (this.state.sortBy != this.state.sortEnum.NONE) {
+          url += "{\"field\":" + field + ",\"direction\":" + dir + "}]}";
+        }
         url += "&page="
         url += pagenumber
-        console.log(url)
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+
     }
 
     clickedAscent(){
-      this.setState({cAscent: 1});
-      this.setState({cDescent: 0});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 0});
-      this.setState({cDiff: 0});
-      this.setState({cLength: 0});
-      this.sort("ascent", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.ASCENT}, () =>
+      this.sort(this.state.sortBy, "\"asc\""));
     }
 
     clickedDescent(){
-      this.setState({cDescent: 1});
-      this.setState({cAscent: 0});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 0});
-      this.setState({cDiff: 0});
-      this.setState({cLength: 0});
-      this.sort("descent", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.DESCENT}, () =>
+      this.sort(this.state.sortBy, "\"asc\""));
     }
 
     clickedName(){
-      this.setState({cAscent: 0});
-      this.setState({cDescent: 0});
-      this.setState({cName: 1});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 0});
-      this.setState({cDiff: 0});
-      this.setState({cLength: 0});
-      this.sort("name", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.NAME}, () =>
+      this.sort(this.state.sortBy, "\"asc\""));
     }
 
     clickedStars(){
-      this.setState({cAscent: 0});
-      this.setState({cDescent: 0});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 1});
-      this.setState({cDiff: 0});
-      this.setState({cLength: 0});
-      this.sort("stars", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.STARS}, () =>
+      this.sort(this.state.sortBy, "\"asc\""));
     }
 
     clickedDiff(){
-      this.setState({cAscent: 0});
-      this.setState({cDescent: 0});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 0});
-      this.setState({cDiff: 1});
-      this.setState({cLength: 0});
-      this.sort("difficulty", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.DIFFICULTY}, () =>
+      this.sort(this.state.sortBy, "\"asc\""));
     }
 
     clickedLength(){
-      this.setState({cAscent: 0});
-      this.setState({cDescent: 0});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 0});
-      this.setState({cDiff: 0});
-      this.setState({cLength: 1});
-      this.sort("length", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.LENGTH}, () =>
+      this.sort(this.state.sortBy, "\"asc\""));
     }
 
     clickedDesc(){
-      this.setState({cDesc: 1});
-      this.setState({cAsc: 0});
-      if (this.state.cAscent == 1) {
-        this.sort("ascent", "\"desc\"")
-      }
-      if (this.state.cDescent == 1) {
-        this.sort("descent", "\"desc\"")
-      }
-      if (this.state.cName == 1) {
-        this.sort("name", "\"desc\"")
-      }
-      if (this.state.cStars == 1) {
-        this.sort("stars", "\"desc\"")
-      }
-      if (this.state.cDiff == 1) {
-        this.sort("difficulty", "\"desc\"")
-      }
-      if (this.state.cLength == 1) {
-        this.sort("length", "\"desc\"")
-      }
+      this.setState({direction: this.state.dirEnum.DESC});
+      this.sort(this.state.sortBy, this.state.dirList[1]);
     }
 
     clickedAsc(){
-      this.setState({cAsc: 1});
-      this.setState({cDesc: 0});
-      if (this.state.cAscent == 1) {
-        this.sort("ascent", "\"asc\"")
-      }
-      if (this.state.cDescent == 1) {
-        this.sort("descent", "\"asc\"")
-      }
-      if (this.state.cName == 1) {
-        this.sort("name", "\"asc\"")
-      }
-      if (this.state.cStars == 1) {
-        this.sort("stars", "\"asc\"")
-      }
-      if (this.state.cDiff == 1) {
-        this.sort("difficulty", "\"asc\"")
-      }
-      if (this.state.cLength == 1) {
-        this.sort("length", "\"asc\"")
-      }
+      this.setState({direction: this.state.dirEnum.ASC});
+      this.sort(this.state.sortBy, this.state.dirList[0]);
     }
-
-
 
     render () {
       let trow;

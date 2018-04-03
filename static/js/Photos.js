@@ -27,11 +27,11 @@ export default class Photos extends React.Component {
       dropdownOpen: false,
       sortBy: 0,
 
-      cLon: 0,  //photos (works)
-      cLat: 0,  //photos (works)
-      cName: 0, //photos (works)
-      cDesc: 0,
-      cAsc: 0,
+      direction: 0,
+      sortEnum: {NONE:0, LON:1, LAT:2, NAME:3},
+      sortList: ["", "\"lon\"", "\"lat\"", "\"name\""],
+      dirEnum: {ASC:0, DESC:1},
+      dirList: ["\"asc\"", "\"desc\""],
     }
     this.pairup = this.pairup.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -74,6 +74,7 @@ export default class Photos extends React.Component {
   componentWillReceiveProps(nextProps){
     window.scrollTo(0, 0)
     var pagenumber = nextProps.match.params.page;
+    var sortb = this.state.sortBy;
     var temp;
     if(pagenumber == null){
       pagenumber = 1
@@ -83,43 +84,15 @@ export default class Photos extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    if (this.state.sortBy == 1) {
-      var url = "http://127.0.0.1:5000/api/photos?q=";
-      url += "{\"order_by\":[";
-      if (this.state.cLon == 1) {
-        url += "{\"field\":\"lon\",\"direction\":\"asc\"}]}";
-        if (this.state.cLon == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/photos?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"lon\",\"direction\":\"desc\"}]}";
-        }
-      }
-      if (this.state.cLat == 1) {
-        url += "{\"field\":\"lat\",\"direction\":\"asc\"}]}";
-        if (this.state.cLat == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/photos?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"lat\",\"direction\":\"desc\"}]}";
-        }
-      }
-      if (this.state.cName == 1) {
-        url += "{\"field\":\"name\",\"direction\":\"asc\"}]}";
-        if (this.state.cName == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/photos?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"name\",\"direction\":\"desc\"}]}";
-        }
-      }
+    var url = "http://127.0.0.1:5000/api/photos?q={";
+    url += "\"order_by\":[";
+    if (this.state.sortBy !=  0) {
+      url += "{\"field\":" + this.state.sortList[sortb] + ",\"direction\":" + this.state.dirList[this.state.direction] + "}]}";
+    }
+    url += "&page=";
+    url += pagenumber;
+    $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
 
-      url += "&page="
-      url += pagenumber
-      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
-    }
-    else{
-      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
-      fetchfrom += pagenumber;
-      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
-    }
 
   }
 
@@ -149,18 +122,8 @@ export default class Photos extends React.Component {
 
 
     sort(field, dir){
+        field = this.state.sortList[field];
         var pagenumber = this.props.match.params.page;
-        var x = "";
-        var d = dir;
-        if (field == "lon") {
-          var x = ("\"lon\"")
-        }
-        if (field == "lat") {
-          var x = ("\"lat\"")
-        }
-        if (field == "name") {
-          var x = ("\"name\"")
-        }
         var temp;
         if(pagenumber == null){
           pagenumber = 1
@@ -170,71 +133,42 @@ export default class Photos extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        this.setState({sortBy: 1});
         var url = "http://127.0.0.1:5000/api/photos?q=";
         url += "{\"order_by\":[";
-        url += "{\"field\":" + x + ",\"direction\":" + d + "}]}";
+        if (this.state.sortBy != this.state.sortEnum.NONE) {
+          url += "{\"field\":" + field + ",\"direction\":" + dir + "}]}";
+        }
         url += "&page="
         url += pagenumber
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+
     }
 
     clickedLongitude(){
-      this.setState({cLon: 1});
-      this.setState({cLat: 0});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.sort("lon", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.LON}, () =>
+      this.sort(this.state.sortBy, "\"asc\""));
     }
 
     clickedLatitude(){
-      this.setState({cLon: 0});
-      this.setState({cLat: 1});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.sort("lat", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.LAT}, () =>
+      this.sort(this.state.sortBy, "\"asc\""));
     }
 
     clickedName(){
-      this.setState({cLon: 0});
-      this.setState({cLat: 0});
-      this.setState({cName: 1});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.sort("name", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.NAME}, () =>
+      this.sort(this.state.sortBy, "\"asc\""));
     }
-
 
 
 
     clickedDesc(){
-      this.setState({cDesc: 1});
-      this.setState({cAsc: 0});
-      if (this.state.cLon == 1) {
-        this.sort("lon", "\"desc\"")
-      }
-      if (this.state.cLat == 1) {
-        this.sort("lat", "\"desc\"")
-      }
-      if (this.state.cName == 1) {
-        this.sort("name", "\"desc\"")
-      }
+      this.setState({direction: this.state.dirEnum.DESC});
+      this.sort(this.state.sortBy, this.state.dirList[1]);
     }
 
     clickedAsc(){
-      this.setState({cAsc: 1});
-      this.setState({cDesc: 0});
-      if (this.state.cLon == 1) {
-        this.sort("lon", "\"asc\"")
-      }
-      if (this.state.cLat == 1) {
-        this.sort("lat", "\"asc\"")
-      }
-      if (this.state.cName == 1) {
-        this.sort("name", "\"asc\"")
-      }
+      this.setState({direction: this.state.dirEnum.ASC});
+      this.sort(this.state.sortBy, this.state.dirList[0]);
     }
 
 
