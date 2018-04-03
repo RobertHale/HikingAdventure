@@ -28,7 +28,6 @@ export default class Trails extends React.Component {
     this.pairup = this.pairup.bind(this);
 
   }
-<<<<<<< HEAD
 
   togglePopup() {
     this.setState({
