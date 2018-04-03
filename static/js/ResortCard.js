@@ -53,14 +53,12 @@ export default class ResortCard extends React.Component {
       <iframe src={video} width="100%" height="316" frameBorder="0" allowFullScreen></iframe>
       <CardBody>
       <CardTitle><Link to={mylink}>{name}</Link></CardTitle>
-      <CardText>
       <ul>
       <li className="proplifts">{"Number of Lifts: "}{lifts}</li>
       <li className="propelev">{"Elevation: "}{elevation}</li>
       <li className="proplat">{"Latitude: "}{latitude}</li>
       <li className="proplon">{"Longitude: "}{longitude}</li>
       </ul>
-      </CardText>
       </CardBody>
       </Card>
       </Col>

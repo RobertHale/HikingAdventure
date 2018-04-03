@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import PhotoRow from "./PhotoRow";
+import Ppopup from "./Ppopup";
 import NavBar from "./Navbar";
 import Pages from "./Pages";
 import $ from 'jquery';
@@ -50,6 +51,11 @@ export default class Photos extends React.Component {
     });
   }
 
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
+  }
 
   pairup(fetchedResorts, resultcount, pagenumber){
     //Do magic
@@ -221,6 +227,11 @@ export default class Photos extends React.Component {
         <Row className="justify-content-center">
         <Pages pagedata={{pagecount: this.state.pagecount, url: "/photospage= ", cpage: this.state.cpage}}/>
         </Row>
+        <Ppopup
+            text='Close Me'
+            isOpen={this.state.showPopup}
+            toggle={this.togglePopup.bind(this)}
+          />
         </Container>
         </div>
       );

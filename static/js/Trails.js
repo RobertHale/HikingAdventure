@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import TrailRow from "./TrailRow";
+import Tpopup from "./Tpopup";
 import $ from 'jquery';
 import NavBar from "./Navbar";
 import Pages from "./Pages";
@@ -51,6 +52,12 @@ export default class Trails extends React.Component {
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
     });
   }
 
@@ -234,6 +241,11 @@ export default class Trails extends React.Component {
         <Row className="justify-content-center">
         <Pages pagedata={{pagecount: this.state.pagecount, url: "/trailspage= ", cpage: this.state.cpage}}/>
         </Row>
+        <Tpopup
+            text='Close Me'
+            isOpen={this.state.showPopup}
+            toggle={this.togglePopup.bind(this)}
+          />
         </Container>
         </div>
       );
