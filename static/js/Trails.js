@@ -89,8 +89,9 @@ export default class Trails extends React.Component {
     var url = "http://127.0.0.1:5000/api/trails?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy !=  0) {
-      url += "{\"field\":" + this.state.sortList[sortb] + ",\"direction\":" + this.state.dirList[this.state.direction] + "}]}";
+      url += "{\"field\":" + this.state.sortList[sortb] + ",\"direction\":" + this.state.dirList[this.state.direction] + "}";
     }
+    url += "]}";
     url += "&page=";
     url += pagenumber;
     $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
