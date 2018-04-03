@@ -7,7 +7,8 @@ import {
   Container,
   Pagination,
   PaginationItem,
-  PaginationLink
+  PaginationLink,
+  Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import PhotoRow from "./PhotoRow";
@@ -22,10 +23,34 @@ export default class Photos extends React.Component {
       resorts : [],
       presorts : [],
       pagecount: 0,
-      cpage: 0
+      cpage: 0,
+      dropdownOpen: false,
+      sortBy: 0,
+
+      cLon: 0,  //photos (works)
+      cLat: 0,  //photos (works)
+      cName: 0, //photos (works)
+      cDesc: 0,
+      cAsc: 0,
     }
     this.pairup = this.pairup.bind(this);
+    this.toggle = this.toggle.bind(this);
+
+    this.sort = this.sort.bind(this);
+    this.clickedLongitude = this.clickedLongitude.bind(this);
+    this.clickedLatitude = this.clickedLatitude.bind(this);
+    this.clickedName = this.clickedName.bind(this);
+    this.clickedDesc= this.clickedDesc.bind(this);
+    this.clickedAsc= this.clickedAsc.bind(this);
   }
+
+  toggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+
   pairup(fetchedResorts, resultcount, pagenumber){
     //Do magic
     //console.log(fetchedResorts);
@@ -58,9 +83,44 @@ export default class Photos extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
-    fetchfrom += pagenumber;
-    $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    if (this.state.sortBy == 1) {
+      var url = "http://127.0.0.1:5000/api/photos?q=";
+      url += "{\"order_by\":[";
+      if (this.state.cLon == 1) {
+        url += "{\"field\":\"lon\",\"direction\":\"asc\"}]}";
+        if (this.state.cLon == 1 && this.state.cDesc == 1) {
+          var url = "http://127.0.0.1:5000/api/photos?q=";
+          url += "{\"order_by\":[";
+          url += "{\"field\":\"lon\",\"direction\":\"desc\"}]}";
+        }
+      }
+      if (this.state.cLat == 1) {
+        url += "{\"field\":\"lat\",\"direction\":\"asc\"}]}";
+        if (this.state.cLat == 1 && this.state.cDesc == 1) {
+          var url = "http://127.0.0.1:5000/api/photos?q=";
+          url += "{\"order_by\":[";
+          url += "{\"field\":\"lat\",\"direction\":\"desc\"}]}";
+        }
+      }
+      if (this.state.cName == 1) {
+        url += "{\"field\":\"name\",\"direction\":\"asc\"}]}";
+        if (this.state.cName == 1 && this.state.cDesc == 1) {
+          var url = "http://127.0.0.1:5000/api/photos?q=";
+          url += "{\"order_by\":[";
+          url += "{\"field\":\"name\",\"direction\":\"desc\"}]}";
+        }
+      }
+
+      url += "&page="
+      url += pagenumber
+      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    }
+    else{
+      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
+      fetchfrom += pagenumber;
+      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    }
+
   }
 
   componentDidMount(){
@@ -87,6 +147,97 @@ export default class Photos extends React.Component {
       //console.log("We unmounted Resorts");
     }
 
+
+    sort(field, dir){
+        var pagenumber = this.props.match.params.page;
+        var x = "";
+        var d = dir;
+        if (field == "lon") {
+          var x = ("\"lon\"")
+        }
+        if (field == "lat") {
+          var x = ("\"lat\"")
+        }
+        if (field == "name") {
+          var x = ("\"name\"")
+        }
+        var temp;
+        if(pagenumber == null){
+          pagenumber = 1
+        }
+        else{
+          temp = pagenumber.split(" ");
+          pagenumber = temp[1];
+          pagenumber = parseInt(pagenumber, 10);
+        }
+        this.setState({sortBy: 1});
+        var url = "http://127.0.0.1:5000/api/photos?q=";
+        url += "{\"order_by\":[";
+        url += "{\"field\":" + x + ",\"direction\":" + d + "}]}";
+        url += "&page="
+        url += pagenumber
+        $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    }
+
+    clickedLongitude(){
+      this.setState({cLon: 1});
+      this.setState({cLat: 0});
+      this.setState({cName: 0});
+      this.setState({cDesc: 0});
+      this.setState({cAsc: 0});
+      this.sort("lon", "\"asc\"")
+    }
+
+    clickedLatitude(){
+      this.setState({cLon: 0});
+      this.setState({cLat: 1});
+      this.setState({cName: 0});
+      this.setState({cDesc: 0});
+      this.setState({cAsc: 0});
+      this.sort("lat", "\"asc\"")
+    }
+
+    clickedName(){
+      this.setState({cLon: 0});
+      this.setState({cLat: 0});
+      this.setState({cName: 1});
+      this.setState({cDesc: 0});
+      this.setState({cAsc: 0});
+      this.sort("name", "\"asc\"")
+    }
+
+
+
+
+    clickedDesc(){
+      this.setState({cDesc: 1});
+      this.setState({cAsc: 0});
+      if (this.state.cLon == 1) {
+        this.sort("lon", "\"desc\"")
+      }
+      if (this.state.cLat == 1) {
+        this.sort("lat", "\"desc\"")
+      }
+      if (this.state.cName == 1) {
+        this.sort("name", "\"desc\"")
+      }
+    }
+
+    clickedAsc(){
+      this.setState({cAsc: 1});
+      this.setState({cDesc: 0});
+      if (this.state.cLon == 1) {
+        this.sort("lon", "\"asc\"")
+      }
+      if (this.state.cLat == 1) {
+        this.sort("lat", "\"asc\"")
+      }
+      if (this.state.cName == 1) {
+        this.sort("name", "\"asc\"")
+      }
+    }
+
+
     render () {
       let prow;
       if(this.state.presorts){
@@ -100,6 +251,36 @@ export default class Photos extends React.Component {
         <div>
         <NavBar/>
         <Container>
+        <Row>
+
+        <Col lg="2" sm="10">
+        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+        <DropdownToggle caret>
+          Sort by
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
+          <DropdownItem divider/>
+          <DropdownItem onClick={this.clickedLongitude}>Longitude</DropdownItem>
+          <DropdownItem divider/>
+          <DropdownItem onClick={this.clickedLatitude}>Latitude</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+        </Col>
+        <Col lg="2" sm="10">
+        <Dropdown direction="up" isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
+        <DropdownToggle caret>
+        Direction
+        </DropdownToggle>
+        <DropdownMenu>
+        <DropdownItem onClick={this.clickedAsc}>Ascending</DropdownItem>
+        <DropdownItem divider/>
+        <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
+        </DropdownMenu>
+        </Dropdown>
+        </Col>
+        </Row>
+
         {prow}
         <br/>
         <Row className="justify-content-center">
