@@ -13,6 +13,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import ResortRow from "./ResortRow";
+import Rpopup from "./Rpopup";
 import NavBar from "./Navbar";
 import Pages from "./Pages";
 import $ from 'jquery';
@@ -27,7 +28,6 @@ export default class Resorts extends React.Component {
       cpage: 0,
       dropdownOpen: false,
       sortBy: 0,
-
       cLifts: 0,
       celev: 0,
       cName: 0,
@@ -35,8 +35,8 @@ export default class Resorts extends React.Component {
       cAsc: 0,
       cStars: 0,
       cRuns: 0,
-      cReview: 0
-
+      cReview: 0,
+      showPopup: false
     }
     this.toggle = this.toggle.bind(this);
     this.pairup = this.pairup.bind(this);
@@ -50,8 +50,12 @@ export default class Resorts extends React.Component {
     this.clickedReview = this.clickedReview.bind(this);
     this.clickedDesc= this.clickedDesc.bind(this);
     this.clickedAsc= this.clickedAsc.bind(this);
+  }
 
-
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
   }
 
   toggle() {
@@ -348,9 +352,8 @@ export default class Resorts extends React.Component {
         <NavBar/>
         <Container>
         <Row>
-        <Col lg="2" sm="10">
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
+        <DropdownToggle color="primary" caret>
           Sort by
         </DropdownToggle>
         <DropdownMenu>
@@ -366,11 +369,9 @@ export default class Resorts extends React.Component {
           <DropdownItem divider/>
           <DropdownItem onClick={this.clickedReview}>Review</DropdownItem>
         </DropdownMenu>
-      </Dropdown>
-        </Col>
-        <Col lg="2" sm="10">
-        <Dropdown direction="up" isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
-        <DropdownToggle caret>
+        </Dropdown>
+        <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
+        <DropdownToggle color="primary" caret>
         Direction
         </DropdownToggle>
         <DropdownMenu>
@@ -379,13 +380,18 @@ export default class Resorts extends React.Component {
         <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
         </DropdownMenu>
         </Dropdown>
-        </Col>
+        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
         </Row>
         {rrow}
         <br/>
         <Row className="justify-content-center">
         <Pages pagedata={{pagecount: this.state.pagecount, url: "/resortspage= ", cpage: this.state.cpage}}/>
         </Row>
+        <Rpopup
+            text='Close Me'
+            isOpen={this.state.showPopup}
+            toggle={this.togglePopup.bind(this)}
+          />
         </Container>
         </div>
       );
