@@ -36,8 +36,8 @@ export default class Resorts extends React.Component {
       cStars: 0,
       cRuns: 0,
       cReview: 0
-
     }
+
     this.toggle = this.toggle.bind(this);
     this.pairup = this.pairup.bind(this);
 
@@ -50,8 +50,6 @@ export default class Resorts extends React.Component {
     this.clickedReview = this.clickedReview.bind(this);
     this.clickedDesc= this.clickedDesc.bind(this);
     this.clickedAsc= this.clickedAsc.bind(this);
-
-
   }
 
   toggle() {
@@ -59,7 +57,6 @@ export default class Resorts extends React.Component {
       dropdownOpen: !this.state.dropdownOpen
     });
   }
-
 
   pairup(fetchedResorts, resultcount, pagenumber){
     var s = 2;
