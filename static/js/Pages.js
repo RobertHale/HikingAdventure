@@ -6,6 +6,7 @@ import {
   PaginationItem,
   PaginationLink
  } from 'reactstrap';
+import ReactPaginate from 'react-paginate';
 import { Link } from "react-router-dom";
 
 export default class Pages extends React.Component {
@@ -27,7 +28,6 @@ export default class Pages extends React.Component {
     let max = 0;
     let disablep = true;
     let disablen = true;
-    //console.log(this.props.pagedata.cpage)
 
     // loading pagination in sets of 5, handle case if less than 5
     if(this.props.pagedata.pagecount < 5){
@@ -40,6 +40,9 @@ export default class Pages extends React.Component {
     else if((this.props.pagedata.cpage + 2) >= this.props.pagedata.pagecount){
       //next button disabled,
       disablep = false;
+      if(this.props.pagedata.cpage != this.props.pagedata.pagecount){
+        disablen = false;
+      }
       var limit = this.props.pagedata.pagecount;
       var length = limit - 4;
       for(length; length <= limit; length++){
@@ -47,6 +50,9 @@ export default class Pages extends React.Component {
       }
     }
     else if((this.props.pagedata.cpage -2) <= 0){
+      if(this.props.pagedata.cpage != 1){
+        disablep = false;
+      }
       disablen = false;
       pages = [1,2,3,4,5];
     }
@@ -66,24 +72,32 @@ export default class Pages extends React.Component {
       var temp = this.props.pagedata.url;
       temp += (this.props.pagedata.cpage - 1);
       prev =  <PaginationItem>
-              <Link className="page-link" previous to={temp} />
+              <Link className="page-link" to={temp}>
+              {"«"}
+              </Link>
               </PaginationItem>
     }
     else{
       prev =  <PaginationItem disabled>
-              <Link className="page-link" previous to="" />
+              <Link className="page-link" to="">
+              {"«"}
+              </Link>
               </PaginationItem>
     }
     if(!disablen){
       var temp = this.props.pagedata.url;
       temp += (this.props.pagedata.cpage + 1);
       next =  <PaginationItem>
-              <Link className="page-link" next to={temp} />
+              <Link className="page-link" to={temp}>
+              {"»"}
+              </Link>
               </PaginationItem>
     }
     else{
       next =  <PaginationItem disabled>
-              <Link className="page-link" next to="" />
+              <Link className="page-link" to="">
+              {"»"}
+              </Link>
               </PaginationItem>
     }
     if(pages){
@@ -91,13 +105,24 @@ export default class Pages extends React.Component {
       items = pages.map(page => {
         var link = this.props.pagedata.url;
         link += page;
-        return(
-          <PaginationItem>
-          <Link className="page-link" to={link}>
-          {page}
-          </Link>
-          </PaginationItem>
-        );
+        if(this.props.pagedata.cpage == page){
+          return(
+            <PaginationItem disabled key={page}>
+            <Link className="page-link" to={link}>
+            {page}
+            </Link>
+            </PaginationItem>
+          );
+        }
+        else{
+          return(
+            <PaginationItem key={page}>
+            <Link className="page-link" to={link}>
+            {page}
+            </Link>
+            </PaginationItem>
+          );
+        }
       })
     }
 

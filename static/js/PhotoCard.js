@@ -49,13 +49,11 @@ export default class PhotoCard extends React.Component {
       <CardImg top width="100%" src={image} alt="Missing" />
       <CardBody>
       <CardTitle><Link to={mylink}>{name}</Link></CardTitle>
-      <CardText>
       <ul>
       <li>{"Latitude: "}{latitude}</li>
       <li>{"Longitude: "}{longitude}</li>
       <li>{"Nearby Trail Id: "}{id}</li>
       </ul>
-      </CardText>
       </CardBody>
       </Card>
       </Col>
