@@ -14,7 +14,6 @@ import PhotoRow from "./PhotoRow";
 import NavBar from "./Navbar";
 import Pages from "./Pages";
 import $ from 'jquery';
-import ReactPaginate from 'react-paginate';
 
 export default class Photos extends React.Component {
   constructor(){
