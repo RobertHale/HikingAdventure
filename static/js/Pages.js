@@ -6,7 +6,6 @@ import {
   PaginationItem,
   PaginationLink
  } from 'reactstrap';
-import ReactPaginate from 'react-paginate';
 import { Link } from "react-router-dom";
 
 export default class Pages extends React.Component {
