@@ -13,6 +13,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
+  Form,
   FormGroup,
   Input
 } from 'reactstrap';
@@ -39,9 +40,10 @@ class NavBar extends React.Component {
     this.setState({sInput: e.target.value});
   }
   submitSearch(){
+    event.preventDefault()
     console.log(this.state.sInput);
     var destination = this.state.sInput;
-    this.props.history.push("/searchresults/" + destination);
+    this.props.history.push("/search/" + destination);
   }
 
   render () {
@@ -66,10 +68,12 @@ class NavBar extends React.Component {
       </NavItem>
       </Nav>
       </Collapse>
+      <Form className="commentForm" onSubmit={this.submitSearch}>
       <FormGroup className="form-inline ml-auto" expand="md">
       <Input className="form-control mr-sm-2" type="search" placeholder="Search" value={this.state.sInput} onChange={this.newInput} aria-label="Search" />
-      <Button outline color="light" type="submit" onClick={this.submitSearch}>Search</Button>
+      <Button outline color="light" type="submit">Search</Button>
       </FormGroup>
+      </Form>
       </Navbar>
       </div>
     );
