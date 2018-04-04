@@ -27,17 +27,18 @@ export default class Photos extends React.Component {
       cpage: 0,
       dropdownOpen: false,
       sortBy: 0,
-
       direction: 0,
       sortEnum: {NONE:0, LON:1, LAT:2, NAME:3},
       sortList: ["", "\"lon\"", "\"lat\"", "\"name\""],
       dirEnum: {ASC:0, DESC:1},
       dirList: ["\"asc\"", "\"desc\""],
+      showPopup: false,
+      filter: ""
     }
     this.pairup = this.pairup.bind(this);
     this.toggle = this.toggle.bind(this);
-
     this.sort = this.sort.bind(this);
+    this.submitFilter = this.submitFilter.bind(this);
     this.clickedLongitude = this.clickedLongitude.bind(this);
     this.clickedLatitude = this.clickedLatitude.bind(this);
     this.clickedName = this.clickedName.bind(this);
@@ -54,6 +55,14 @@ export default class Photos extends React.Component {
   togglePopup() {
     this.setState({
       showPopup: !this.state.showPopup
+    });
+  }
+
+  submitFilter(filter){
+    this.setState({
+      filter: filter
+    }, () => { 
+      this.sort(this.state.sortBy, this.state.direction);
     });
   }
 
@@ -95,9 +104,12 @@ export default class Photos extends React.Component {
     if (this.state.sortBy !=  0) {
       url += "{\"field\":" + this.state.sortList[sortb] + ",\"direction\":" + this.state.dirList[this.state.direction] + "}";
     }
-    url += "]}";
+    url += "]"
+    if(!(this.state.filter === "")) url += "," + this.state.filter;
+    url += "}";
     url += "&page=";
     url += pagenumber;
+    console.log(url);
     $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
 
 
@@ -143,10 +155,15 @@ export default class Photos extends React.Component {
         var url = "http://127.0.0.1:5000/api/photos?q=";
         url += "{\"order_by\":[";
         if (this.state.sortBy != this.state.sortEnum.NONE) {
-          url += "{\"field\":" + field + ",\"direction\":" + dir + "}]}";
+          url += "{\"field\":" + field + ",\"direction\":" + dir + "}";
         }
+
+        url += "]";
+        if(!(this.state.filter === "")) url += "," + this.state.filter;
+        url += "}";
         url += "&page="
         url += pagenumber
+        console.log(url);
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
 
     }
@@ -193,10 +210,8 @@ export default class Photos extends React.Component {
         <NavBar/>
         <Container>
         <Row>
-
-        <Col lg="2" sm="10">
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
+        <DropdownToggle color="primary" caret>
           Sort by
         </DropdownToggle>
         <DropdownMenu>
@@ -207,10 +222,8 @@ export default class Photos extends React.Component {
           <DropdownItem onClick={this.clickedLatitude}>Latitude</DropdownItem>
         </DropdownMenu>
       </Dropdown>
-        </Col>
-        <Col lg="2" sm="10">
-        <Dropdown direction="up" isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
-        <DropdownToggle caret>
+        <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
+        <DropdownToggle color="primary" caret>
         Direction
         </DropdownToggle>
         <DropdownMenu>
@@ -219,7 +232,7 @@ export default class Photos extends React.Component {
         <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
         </DropdownMenu>
         </Dropdown>
-        </Col>
+        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
         </Row>
 
         {prow}
@@ -231,6 +244,7 @@ export default class Photos extends React.Component {
             text='Close Me'
             isOpen={this.state.showPopup}
             toggle={this.togglePopup.bind(this)}
+            submit={this.submitFilter}
           />
         </Container>
         </div>

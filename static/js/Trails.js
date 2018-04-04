@@ -33,11 +33,14 @@ export default class Trails extends React.Component {
       sortList: ["", "\"ascent\"", "\"descent\"", "\"name\"", "\"stars\"", "\"difficulty\"", "\"length\""],
       dirEnum: {ASC:0, DESC:1},
       dirList: ["\"asc\"", "\"desc\""],
+      showPopup: false,
+      filter: ""
     }
     this.pairup = this.pairup.bind(this);
 
     this.toggle = this.toggle.bind(this);
     this.sort = this.sort.bind(this);
+    this.submitFilter = this.submitFilter.bind(this);
     this.clickedAscent = this.clickedAscent.bind(this);
     this.clickedDescent = this.clickedDescent.bind(this);
     this.clickedName = this.clickedName.bind(this);
@@ -58,6 +61,14 @@ export default class Trails extends React.Component {
   togglePopup() {
     this.setState({
       showPopup: !this.state.showPopup
+    });
+  }
+
+  submitFilter(filter){
+    this.setState({
+      filter: filter
+    }, () => { 
+      this.sort(this.state.sortBy, this.state.direction);
     });
   }
 
@@ -98,7 +109,9 @@ export default class Trails extends React.Component {
     if (this.state.sortBy !=  0) {
       url += "{\"field\":" + this.state.sortList[sortb] + ",\"direction\":" + this.state.dirList[this.state.direction] + "}";
     }
-    url += "]}";
+    url += "]"
+    if(!(this.state.filter === "")) url += "," + this.state.filter;
+    url += "}";
     url += "&page=";
     url += pagenumber;
     $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
@@ -139,10 +152,14 @@ export default class Trails extends React.Component {
         var url = "http://127.0.0.1:5000/api/trails?q=";
         url += "{\"order_by\":[";
         if (this.state.sortBy != this.state.sortEnum.NONE) {
-          url += "{\"field\":" + field + ",\"direction\":" + dir + "}]}";
+          url += "{\"field\":" + field + ",\"direction\":" + dir + "}";
         }
+        url += "]";
+        if(!(this.state.filter === "")) url += "," + this.state.filter;
+        url += "}";
         url += "&page="
         url += pagenumber
+        console.log(url);
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
 
     }
@@ -200,11 +217,9 @@ export default class Trails extends React.Component {
         <div>
         <NavBar/>
         <Container>
-
         <Row>
-        <Col lg="2" sm="10">
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
+        <DropdownToggle color="primary" caret>
           Sort by
         </DropdownToggle>
         <DropdownMenu>
@@ -221,10 +236,8 @@ export default class Trails extends React.Component {
           <DropdownItem onClick={this.clickedLength}>Length</DropdownItem>
         </DropdownMenu>
       </Dropdown>
-        </Col>
-        <Col lg="2" sm="10">
-        <Dropdown direction="up" isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
-        <DropdownToggle caret>
+        <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
+        <DropdownToggle color="primary" caret>
         Direction
         </DropdownToggle>
         <DropdownMenu>
@@ -233,7 +246,7 @@ export default class Trails extends React.Component {
         <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
         </DropdownMenu>
         </Dropdown>
-        </Col>
+        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
         </Row>
 
         {trow}
@@ -245,6 +258,7 @@ export default class Trails extends React.Component {
             text='Close Me'
             isOpen={this.state.showPopup}
             toggle={this.togglePopup.bind(this)}
+            submit={this.submitFilter}
           />
         </Container>
         </div>
