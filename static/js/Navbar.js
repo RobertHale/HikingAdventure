@@ -16,20 +16,32 @@ import {
   FormGroup,
   input
 } from 'reactstrap';
+import {withRouter} from 'react-router-dom'
 
-export default class NavBar extends React.Component {
+
+class NavBar extends React.Component {
   constructor(props) {
     super(props);
-
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      sInput: ""
     };
+    this.toggle = this.toggle.bind(this);
+    this.newInput = this.newInput.bind(this);
+    this.submitSearch = this.submitSearch.bind(this);
   }
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
+  }
+  newInput(e){
+    this.setState({sInput: e.target.value});
+  }
+  submitSearch(){
+    console.log(this.state.sInput);
+    var destination = this.state.sInput;
+    this.props.history.push("/searchresults/" + destination);
   }
 
   render () {
@@ -55,8 +67,8 @@ export default class NavBar extends React.Component {
       </Nav>
       </Collapse>
       <FormGroup className="form-inline ml-auto" expand="md">
-      <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-      <Button outline color="light" type="submit">Search</Button>
+      <input className="form-control mr-sm-2" type="search" placeholder="Search" value={this.state.sInput} onChange={this.newInput} aria-label="Search" />
+      <Button outline color="light" type="submit" onClick={this.submitSearch}>Search</Button>
       </FormGroup>
       </Navbar>
       </div>
@@ -64,7 +76,7 @@ export default class NavBar extends React.Component {
   }
 }
 
-
+export default withRouter(NavBar);
 
 // <nav class="navbar navbar-toggleable-md sticky-top navbar-inverse" style="background-color: #212121;">
 //   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
