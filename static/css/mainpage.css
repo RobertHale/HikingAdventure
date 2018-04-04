@@ -27,6 +27,9 @@
   background: #2E2E2E;
   color: white;
 }
+ .pagination> li > .spagination {
+  color: white;
+}
 .popup {
   background: #2E2E2E;
 }

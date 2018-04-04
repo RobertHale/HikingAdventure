@@ -7,6 +7,7 @@ import {
   Card
  } from 'reactstrap';
 import $ from 'jquery';
+import NavBar from "./Navbar";
 
 export default class About extends React.Component {
   constructor(){
@@ -126,7 +127,7 @@ export default class About extends React.Component {
     ));
     return (
       <div>
-
+      <NavBar/>
       <Row className="justify-content-center">
       <h4 className="title-text">About</h4>
       <br/>
