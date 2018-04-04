@@ -26,7 +26,8 @@ export default class Tpopup extends React.Component {
       filter += "{\"name\":\"lon\",\"op\":\"like\",\"val\":" + this.state.lon + "}";
     }
     filter += "]";
-    console.log(filter);
+    this.props.submit(filter);
+    this.props.toggle();  
   }
 
   render() {

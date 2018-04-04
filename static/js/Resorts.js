@@ -64,9 +64,6 @@ export default class Resorts extends React.Component {
     });
   }
 
-//this.setState({foo: "one"}, () => {
-//    this.setState({bar: "two"});
-//});
   submitFilter(filter){
     this.setState({
       filter: filter
@@ -74,7 +71,6 @@ export default class Resorts extends React.Component {
       this.sort(this.state.sortBy, this.state.direction);
     });
   }
-
 
   pairup(fetchedResorts, resultcount, pagenumber){
     var s = 2;
