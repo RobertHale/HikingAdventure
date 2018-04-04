@@ -27,6 +27,20 @@
   background: #2E2E2E;
   color: white;
 }
+.popup {
+  background: #2E2E2E;
+}
+.popup-border{
+  background: #473c8b;
+}
+.form-text{
+  color: white;
+  margin: 5px 5px 5px 5px;
+}
+.btn{
+	margin-top: 10px;
+	margin-right: 10px;
+}
 
 .title-text {
 	text-decoration: underline;
