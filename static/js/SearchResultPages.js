@@ -25,8 +25,8 @@ export default class SearchResultPages extends React.Component {
     // Grab tota/current page information, url as well
     var totalPages = this.props.pageCount;
     var currentPage = this.props.cPage;
-    //console.log('the current page is '+ currentPage);
-    //console.log('the total page count is '+ totalPages);
+    // console.log('the current page is '+ currentPage);
+    // console.log('the total page count is '+ totalPages);
     // array that we loop through to generate page buttons
     var pages = [];
     // 0 means no pagiation is needed, 1 otherwise
@@ -82,7 +82,7 @@ export default class SearchResultPages extends React.Component {
       pages = [currentPage-2, currentPage-1, currentPage, currentPage+1, currentPage+2];
     }
     // generate pagination number buttons
-    if(pages){
+    if(pages.length != 0){
       exists = 1
       items = pages.map(page => {
         if(currentPage == page){

@@ -182,7 +182,7 @@ export default class SearchResults extends React.Component {
       if(this.state.Tpresorts){
         trow = this.state.Tpresorts.map(currentc => {
           return(
-            <TrailRow key={currentc[0].id} data={currentc} />
+            <TrailRow key={currentc[0].id} data={currentc} highlight={this.props.match.params.query} />
           );
         })
       }
@@ -190,7 +190,7 @@ export default class SearchResults extends React.Component {
       if(this.state.Ppresorts){
         prow = this.state.Ppresorts.map(currentc => {
           return(
-            <PhotoRow key={currentc[0].id} data = {currentc} />
+            <PhotoRow key={currentc[0].id} data = {currentc} highlight={this.props.match.params.query} />
           );
         })
       }
