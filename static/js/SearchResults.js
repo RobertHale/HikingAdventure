@@ -63,7 +63,7 @@ export default class SearchResults extends React.Component {
     });
   }
   Rchangepage(page){
-    var Rfetch = "http://127.0.0.1:5000/api/resorts?page=" + page + "&results_per_page=4&q=";
+    var Rfetch = "http://hikingadventures.me/api/resorts?page=" + page + "&results_per_page=4&q=";
     Rfetch += this.state.query;
     //console.log(Rfetch);
     $.getJSON(Rfetch).then(results => {this.Rpairup(results.objects, results.num_results, page)});
@@ -88,7 +88,7 @@ export default class SearchResults extends React.Component {
     });
   }
   Tchangepage(page){
-    var Tfetch = "http://127.0.0.1:5000/api/trails?page=" + page + "&results_per_page=4&q=";
+    var Tfetch = "http://hikingadventures.me/api/trails?page=" + page + "&results_per_page=4&q=";
     Tfetch += this.state.query;
     //console.log(Tfetch);
     $.getJSON(Tfetch).then(results => {this.Tpairup(results.objects, results.num_results, page)});
@@ -113,7 +113,7 @@ export default class SearchResults extends React.Component {
     });
   }
   Pchangepage(page){
-    var Pfetch = "http://127.0.0.1:5000/api/photos?page=" + page + "&results_per_page=4&q=";
+    var Pfetch = "http://hikingadventures.me/api/photos?page=" + page + "&results_per_page=4&q=";
     Pfetch += this.state.query;
     //console.log(Pfetch);
     $.getJSON(Pfetch).then(results => {this.Ppairup(results.objects, results.num_results, page)});
@@ -129,13 +129,13 @@ export default class SearchResults extends React.Component {
       query : query
     });
     //console.log(this.state.query);
-  	var Rfetch = "http://127.0.0.1:5000/api/resorts?page=" + this.state.Rpage + "&results_per_page=4&q=";
+  	var Rfetch = "http://hikingadventures.me/api/resorts?page=" + this.state.Rpage + "&results_per_page=4&q=";
   	Rfetch += query
   	//console.log(Rfetch);
-  	var Tfetch = "http://127.0.0.1:5000/api/trails?page=" + this.state.Tpage  + "&results_per_page=4&q=";
+  	var Tfetch = "http://hikingadventures.me/api/trails?page=" + this.state.Tpage  + "&results_per_page=4&q=";
   	Tfetch += query
   	//console.log(Tfetch);
-  	var Pfetch = "http://127.0.0.1:5000/api/photos?page=" + this.state.Ppage + "&results_per_page=4&q=";
+  	var Pfetch = "http://hikingadventures.me/api/photos?page=" + this.state.Ppage + "&results_per_page=4&q=";
   	Pfetch += query
   	//console.log(Pfetch);
   	$.getJSON(Rfetch).then(results => {this.Rpairup(results.objects, results.num_results, this.state.Rpage)});
@@ -151,13 +151,13 @@ export default class SearchResults extends React.Component {
       query : query
     });
   	//console.log(query);
-  	var Rfetch = "http://127.0.0.1:5000/api/resorts?page=1&results_per_page=4&q=";
+  	var Rfetch = "http://hikingadventures.me/api/resorts?page=1&results_per_page=4&q=";
   	Rfetch += query;
   	//console.log(Rfetch);
-  	var Tfetch = "http://127.0.0.1:5000/api/trails?page=1&results_per_page=4&q=";
+  	var Tfetch = "http://hikingadventures.me/api/trails?page=1&results_per_page=4&q=";
   	Tfetch += query;
   	//console.log(Tfetch);
-  	var Pfetch = "http://127.0.0.1:5000/api/photos?page=1&results_per_page=4&q=";
+  	var Pfetch = "http://hikingadventures.me/api/photos?page=1&results_per_page=4&q=";
   	Pfetch += query;
   	//console.log(Pfetch);
   	$.getJSON(Rfetch).then(results => {this.Rpairup(results.objects, results.num_results, 1)});

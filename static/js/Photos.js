@@ -103,7 +103,7 @@ export default class Photos extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var url = "http://127.0.0.1:5000/api/photos?q={";
+    var url = "http://hikingadventures.me/api/photos?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy !=  0) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
@@ -120,7 +120,7 @@ export default class Photos extends React.Component {
   }
 
   componentDidMount(){
-      // var url = 'http://127.0.0.1:5000/api/resorts?page=';
+      // var url = 'http://hikingadventures.me/api/resorts?page=';
       var pagenumber = this.props.match.params.page;
       var temp;
       if(pagenumber == null){
@@ -132,7 +132,7 @@ export default class Photos extends React.Component {
         pagenumber = parseInt(pagenumber, 10);
       }
       //console.log(pagenumber);
-      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
+      var fetchfrom = "http://hikingadventures.me/api/photos?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
@@ -155,7 +155,7 @@ export default class Photos extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        var url = "http://127.0.0.1:5000/api/photos?q=";
+        var url = "http://hikingadventures.me/api/photos?q=";
         url += "{\"order_by\":[";
         if (field != this.state.sortEnum.NONE) {
           url += "{\"field\":\"" + this.state.sortList[field] + "\"";
