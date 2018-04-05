@@ -1,0 +1,1 @@
+../static/tests/guitests.py
