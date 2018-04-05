@@ -174,7 +174,7 @@ export default class SearchResults extends React.Component {
       if(this.state.Rpresorts){
         rrow = this.state.Rpresorts.map(currentc => {
           return(
-            <ResortRow key={currentc[0].id} data={currentc} />
+            <ResortRow key={currentc[0].id} data={currentc} highlight={this.props.match.params.query}/>
           );
         })
       }
