@@ -118,7 +118,6 @@ export default class Trails extends React.Component {
     url += "}";
     url += "&page=";
     url += pagenumber;
-    console.log(url)
     $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
 

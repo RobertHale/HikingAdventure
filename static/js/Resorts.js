@@ -123,7 +123,6 @@ export default class Resorts extends React.Component {
       var pagenumber = this.props.match.params.page;
       var id = ("\"id\"");
       var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
-      console.log(dir)
       var temp;
       if(pagenumber == null){
         pagenumber = 1
