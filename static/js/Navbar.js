@@ -39,9 +39,9 @@ class NavBar extends React.Component {
   newInput(e){
     this.setState({sInput: e.target.value});
   }
-  submitSearch(){
-    event.preventDefault()
-    console.log(this.state.sInput);
+  submitSearch(e){
+    e.preventDefault()
+    //console.log(this.state.sInput);
     var destination = this.state.sInput;
     this.props.history.push("/search/" + destination);
   }
