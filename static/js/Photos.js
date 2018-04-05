@@ -29,10 +29,14 @@ export default class Photos extends React.Component {
       sortBy: 0,
       direction: 0,
       sortEnum: {NONE:0, LON:1, LAT:2, NAME:3},
-      sortList: ["", "\"lon\"", "\"lat\"", "\"name\""],
+      sortList: ["", "lon", "lat", "name"],
+
       dirEnum: {ASC:0, DESC:1},
-      dirList: ["\"asc\"", "\"desc\""],
+      dirList: ["asc", "desc"],
+
       showPopup: false,
+      showSorting: 0,
+      showDirection: 0,
       filter: ""
     }
     this.pairup = this.pairup.bind(this);
@@ -61,7 +65,7 @@ export default class Photos extends React.Component {
   submitFilter(filter){
     this.setState({
       filter: filter
-    }, () => { 
+    }, () => {
       this.sort(this.state.sortBy, this.state.direction);
     });
   }
@@ -102,7 +106,8 @@ export default class Photos extends React.Component {
     var url = "http://127.0.0.1:5000/api/photos?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy !=  0) {
-      url += "{\"field\":" + this.state.sortList[sortb] + ",\"direction\":" + this.state.dirList[this.state.direction] + "}";
+      url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
+      url += ",\"direction\":\"" + this.state.dirList[this.state.direction] + "\"}";
     }
     url += "]"
     if(!(this.state.filter === "")) url += "," + this.state.filter;
@@ -141,7 +146,6 @@ export default class Photos extends React.Component {
 
 
     sort(field, dir){
-        field = this.state.sortList[field];
         var pagenumber = this.props.match.params.page;
         var temp;
         if(pagenumber == null){
@@ -154,8 +158,9 @@ export default class Photos extends React.Component {
         }
         var url = "http://127.0.0.1:5000/api/photos?q=";
         url += "{\"order_by\":[";
-        if (this.state.sortBy != this.state.sortEnum.NONE) {
-          url += "{\"field\":" + field + ",\"direction\":" + dir + "}";
+        if (field != this.state.sortEnum.NONE) {
+          url += "{\"field\":\"" + this.state.sortList[field] + "\"";
+          url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
         }
 
         url += "]";
@@ -163,36 +168,35 @@ export default class Photos extends React.Component {
         url += "}";
         url += "&page="
         url += pagenumber
-        console.log(url);
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
 
     }
 
     clickedLongitude(){
-      this.setState({sortBy: this.state.sortEnum.LON}, () =>
-      this.sort(this.state.sortBy, "\"asc\""));
+      this.setState({sortBy: this.state.sortEnum.LON, showSorting: this.state.sortEnum.LON}, () =>
+      this.sort(this.state.sortEnum.LON, this.state.direction));
     }
 
     clickedLatitude(){
-      this.setState({sortBy: this.state.sortEnum.LAT}, () =>
-      this.sort(this.state.sortBy, "\"asc\""));
+      this.setState({sortBy: this.state.sortEnum.LAT, showSorting: this.state.sortEnum.LAT}, () =>
+      this.sort(this.state.sortEnum.LAT, this.state.direction));
     }
 
     clickedName(){
-      this.setState({sortBy: this.state.sortEnum.NAME}, () =>
-      this.sort(this.state.sortBy, "\"asc\""));
+      this.setState({sortBy: this.state.sortEnum.NAME, showSorting: this.state.sortEnum.NAME}, () =>
+      this.sort(this.state.sortEnum.NAME, this.state.direction));
     }
 
 
 
     clickedDesc(){
-      this.setState({direction: this.state.dirEnum.DESC});
-      this.sort(this.state.sortBy, this.state.dirList[1]);
+      this.setState({direction: this.state.dirEnum.DESC, showDirection: this.state.dirEnum.DESC}, () =>
+      this.sort(this.state.sortBy, this.state.dirEnum.DESC));
     }
 
     clickedAsc(){
-      this.setState({direction: this.state.dirEnum.ASC});
-      this.sort(this.state.sortBy, this.state.dirList[0]);
+      this.setState({direction: this.state.dirEnum.ASC, showDirection: this.state.dirEnum.ASC}, () =>
+      this.sort(this.state.sortBy, this.state.dirEnum.ASC));
     }
 
 
@@ -212,7 +216,7 @@ export default class Photos extends React.Component {
         <Row>
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle color="primary" caret>
-          Sort by
+          Sort by: {this.state.sortList[this.state.showSorting]}
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
@@ -224,7 +228,7 @@ export default class Photos extends React.Component {
       </Dropdown>
         <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
         <DropdownToggle color="primary" caret>
-        Direction
+        Direction: {this.state.dirList[this.state.showDirection]}
         </DropdownToggle>
         <DropdownMenu>
         <DropdownItem onClick={this.clickedAsc}>Ascending</DropdownItem>

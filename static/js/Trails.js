@@ -30,10 +30,13 @@ export default class Trails extends React.Component {
       sortBy: 0,
       direction: 0,
       sortEnum: {NONE:0, ASCENT:1, DESCENT:2, NAME:3, STARS:4, DIFFICULTY:5, LENGTH:6},
-      sortList: ["", "\"ascent\"", "\"descent\"", "\"name\"", "\"stars\"", "\"difficulty\"", "\"length\""],
+      sortList: ["", "ascent", "descent", "name", "stars", "difficulty", "length"],
       dirEnum: {ASC:0, DESC:1},
-      dirList: ["\"asc\"", "\"desc\""],
+      dirList: ["asc", "desc"],
       showPopup: false,
+
+      showSort: 0,
+      showDirection: 0,
       filter: ""
     }
     this.pairup = this.pairup.bind(this);
@@ -67,7 +70,7 @@ export default class Trails extends React.Component {
   submitFilter(filter){
     this.setState({
       filter: filter
-    }, () => { 
+    }, () => {
       this.sort(this.state.sortBy, this.state.direction);
     });
   }
@@ -107,13 +110,15 @@ export default class Trails extends React.Component {
     var url = "http://127.0.0.1:5000/api/trails?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy !=  0) {
-      url += "{\"field\":" + this.state.sortList[sortb] + ",\"direction\":" + this.state.dirList[this.state.direction] + "}";
+      url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
+      url += ",\"direction\":\"" + this.state.dirList[this.state.direction] + "\"}";
     }
     url += "]"
     if(!(this.state.filter === "")) url += "," + this.state.filter;
     url += "}";
     url += "&page=";
     url += pagenumber;
+    console.log(url)
     $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
 
@@ -138,7 +143,6 @@ export default class Trails extends React.Component {
     }
 
     sort(field, dir){
-        field = this.state.sortList[field];
         var temp;
         var pagenumber = this.props.match.params.page;
         if(pagenumber == null){
@@ -151,57 +155,58 @@ export default class Trails extends React.Component {
         }
         var url = "http://127.0.0.1:5000/api/trails?q=";
         url += "{\"order_by\":[";
-        if (this.state.sortBy != this.state.sortEnum.NONE) {
-          url += "{\"field\":" + field + ",\"direction\":" + dir + "}";
+        if (field != this.state.sortEnum.NONE) {
+          url += "{\"field\":\"" + this.state.sortList[field] + "\"";
+          url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
         }
         url += "]";
         if(!(this.state.filter === "")) url += "," + this.state.filter;
         url += "}";
         url += "&page="
         url += pagenumber
-        console.log(url);
+        //console.log(url);
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
 
     }
 
     clickedAscent(){
-      this.setState({sortBy: this.state.sortEnum.ASCENT}, () =>
-      this.sort(this.state.sortBy, "\"asc\""));
+      this.setState({sortBy: this.state.sortEnum.ASCENT, showSort: this.state.sortEnum.ASCENT}, () =>
+      this.sort(this.state.sortEnum.ASCENT, this.state.direction));
     }
 
     clickedDescent(){
-      this.setState({sortBy: this.state.sortEnum.DESCENT}, () =>
-      this.sort(this.state.sortBy, "\"asc\""));
+      this.setState({sortBy: this.state.sortEnum.DESCENT, showSort: this.state.sortEnum.DESCENT}, () =>
+      this.sort(this.state.sortEnum.DESCENT, this.state.direction));
     }
 
     clickedName(){
-      this.setState({sortBy: this.state.sortEnum.NAME}, () =>
-      this.sort(this.state.sortBy, "\"asc\""));
+      this.setState({sortBy: this.state.sortEnum.NAME, showSort: this.state.sortEnum.NAME}, () =>
+      this.sort(this.state.sortEnum.NAME, this.state.direction));
     }
 
     clickedStars(){
-      this.setState({sortBy: this.state.sortEnum.STARS}, () =>
-      this.sort(this.state.sortBy, "\"asc\""));
+      this.setState({sortBy: this.state.sortEnum.STARS, showSort: this.state.sortEnum.STARS}, () =>
+      this.sort(this.state.sortEnum.STARS, this.state.direction));
     }
 
     clickedDiff(){
-      this.setState({sortBy: this.state.sortEnum.DIFFICULTY}, () =>
-      this.sort(this.state.sortBy, "\"asc\""));
+      this.setState({sortBy: this.state.sortEnum.DIFFICULTY, showSort: this.state.sortEnum.DIFFICULTY}, () =>
+      this.sort(this.state.sortEnum.DIFFICULTY, this.state.direction));
     }
 
     clickedLength(){
-      this.setState({sortBy: this.state.sortEnum.LENGTH}, () =>
-      this.sort(this.state.sortBy, "\"asc\""));
+      this.setState({sortBy: this.state.sortEnum.LENGTH, showSort: this.state.sortEnum.LENGTH}, () =>
+      this.sort(this.state.sortEnum.LENGTH, this.state.direction));
     }
 
     clickedDesc(){
-      this.setState({direction: this.state.dirEnum.DESC});
-      this.sort(this.state.sortBy, this.state.dirList[1]);
+      this.setState({direction: this.state.dirEnum.DESC, showDirection: this.state.dirEnum.DESC});
+      this.sort(this.state.sortBy, this.state.dirEnum.DESC);
     }
 
     clickedAsc(){
-      this.setState({direction: this.state.dirEnum.ASC});
-      this.sort(this.state.sortBy, this.state.dirList[0]);
+      this.setState({direction: this.state.dirEnum.ASC, showDirection: this.state.dirEnum.ASC});
+      this.sort(this.state.sortBy, this.state.dirEnum.ASC);
     }
 
     render () {
@@ -220,7 +225,7 @@ export default class Trails extends React.Component {
         <Row>
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle color="primary" caret>
-          Sort by
+          Sort by: {this.state.sortList[this.state.showSort]}
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
@@ -238,7 +243,7 @@ export default class Trails extends React.Component {
       </Dropdown>
         <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
         <DropdownToggle color="primary" caret>
-        Direction
+        Direction: {this.state.dirList[this.state.showDirection]}
         </DropdownToggle>
         <DropdownMenu>
         <DropdownItem onClick={this.clickedAsc}>Ascending</DropdownItem>
