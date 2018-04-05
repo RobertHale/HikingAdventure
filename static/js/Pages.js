@@ -59,7 +59,7 @@ export default class Pages extends React.Component {
               </Link>
               </PaginationItem>
     }
-    else if (currentPage == totalPages){
+    if (currentPage == totalPages){
       next =  <PaginationItem disabled>
               <Link className="page-link" to="">
               {"»"}
@@ -88,7 +88,7 @@ export default class Pages extends React.Component {
       pages = [currentPage-2, currentPage-1, currentPage, currentPage+1, currentPage+2];
     }
     // generate pagination number buttons
-    if(pages){
+    if(pages.length != 0){
       exists = 1
       items = pages.map(page => {
         aurl = url;

@@ -16,6 +16,7 @@ import {
   PaginationLink
 } from 'reactstrap';
 import { Link } from "react-router-dom";
+import Highlighter from "react-highlight-words";
 
 export default class TrailCard extends React.Component {
   render () {
@@ -48,7 +49,13 @@ export default class TrailCard extends React.Component {
       <Card className="mt-4">
       <iframe src={video} width="100%" height="316" frameBorder="0" allowFullScreen></iframe>
       <CardBody>
-      <CardTitle><Link to={mylink}>{name}</Link></CardTitle>
+      <CardTitle><Link to={mylink}><Highlighter
+          highlightClassName="Highlight"
+          searchWords={[this.props.highlight]}
+          autoEscape={true}
+          textToHighlight={name}/>
+      </Link>
+      </CardTitle>
       <ul>
       <li>{"Summary: "}{summary}</li>
       <li>{"Difficulty: "}{difficulty}</li>

@@ -24,7 +24,7 @@ export default class TrailRow extends React.Component {
     if(this.props.data){
       tinstance = this.props.data.map(single => {
         return(
-          <TrailCard key={single.id} trail={single} />
+          <TrailCard key={single.id} trail={single} highlight={this.props.highlight} />
         );
       })
     }
