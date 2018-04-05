@@ -24,7 +24,7 @@ export default class PhotoRow extends React.Component {
     if(this.props.data){
       pinstance = this.props.data.map(single => {
         return(
-          <PhotoCard key={single.id} photo={single} />
+          <PhotoCard key={single.id} photo={single} highlight={this.props.highlight} />
         );
       })
     }

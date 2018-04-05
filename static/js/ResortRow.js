@@ -24,7 +24,7 @@ export default class Resortrow extends React.Component {
     if(this.props.data){
       rinstance = this.props.data.map(single => {
         return(
-          <ResortCard key={single.id} resort={single} />
+          <ResortCard key={single.id} resort={single} highlight={this.props.highlight}/>
         );
       })
     }
