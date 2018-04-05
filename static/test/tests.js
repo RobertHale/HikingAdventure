@@ -15,10 +15,15 @@ import PhotoRow from '../js/PhotoRow';
 import PhotoCard from '../js/PhotoCard';
 import PhotoInstance from '../js/PhotoInstance';
 import Home from '../js/Home';
+import NavBar from '../js/Navbar.js';
+import Pages from '../js/Pages.js';
+import Srp from '../js/SearchResultPages.js';
+import SearchResults from '../js/SearchResults';
 import { mount, shallow } from 'enzyme';
 import { expect, assert } from 'chai';
 import sinon from 'sinon';
 import $ from 'jquery';
+var Promise = require("bluebird");
 //var assert = require('assert');
 
 
@@ -156,13 +161,13 @@ describe('Models', function() {
   sinon.spy(Trails.prototype, 'componentDidMount');
 
   it('Resorts Mounts with Proper Data from React-Router', function() {
-    const resorts = mount(<Resorts match={modelpage}/>);
+    const resorts = shallow(<Resorts match={modelpage}/>);
   });
   it('Photos Mounts with Proper Data from React-Router', function() {
-    const photos = mount(<Photos match={modelpage}/>);
+    const photos = shallow(<Photos match={modelpage}/>);
   });
   it('Trails Mounts with Proper Data from React-Router', function() {
-    const trails = mount(<Trails match={modelpage}/>);
+    const trails = shallow(<Trails match={modelpage}/>);
   });
 
   it('Resort componentDidMount called', function() {
@@ -184,13 +189,13 @@ describe('Instances', function() {
   sinon.spy(TrailInstance.prototype, 'componentDidMount');
 
   it('ResortInstance Mounts', function() {
-    const resorts = mount(<ResortInstance/>);
+    const resorts = shallow(<ResortInstance/>);
   });
   it('PhotoInstance Mounts', function() {
-    const photos = mount(<PhotoInstance/>);
+    const photos = shallow(<PhotoInstance/>);
   });
   it('TrailInstance Mounts', function() {
-    const trails = mount(<TrailInstance/>);
+    const trails = shallow(<TrailInstance/>);
   });
 
   it('Resort componentDidMount called', function() {
@@ -201,6 +206,40 @@ describe('Instances', function() {
   });
   it('Trails componentDidMount called', function() {
     expect(TrailInstance.prototype.componentDidMount.calledOnce).to.equal(true);
+  });
+
+});
+
+describe('About', function(){
+  sinon.spy(About.prototype, 'grabgitstats');
+  const Aboutpage = shallow(<About />);
+  it('About component grabgitstats called', function() {
+    expect(About.prototype.grabgitstats.calledOnce).to.equal(true);
+  });
+
+});
+
+describe('Pagination', function(){
+  it('Model Pagination mounts', function() {
+    const mpage = shallow( <Pages pagedata={{"pageCount": 10, "url": "mock", "cpage": 2 }} />);
+  });
+  it('Model Pagination mounts with no content', function() {
+    const mpage2 = shallow( <Pages pagedata={{"pageCount": 0, "url": "mock", "cpage": 0 }} />);
+  });
+  it('Search Result Pagination mounts', function() {
+    const srpage = shallow( <Srp pagedata={{"pageCount": 10, "cpage": 2 }} />);
+  });
+  it('Search Result Pagination mounts with no content', function() {
+    const srpage2 = shallow( <Srp pagedata={{"pageCount": 0, "cpage": 0 }} />);
+  });
+});
+
+describe('Search Results', function(){
+  it('Search Results mount with normal input', function() {
+    const searchresult = shallow(<SearchResults match={{'params': {'query': 'a'}}} />);
+  });
+  it('Search Results mount with random input', function() {
+    const searchresult2 = shallow(<SearchResults match={{'params': {'query': 'fsdjdsafjlkdsafkjdsf'}}} />);
   });
 
 });
