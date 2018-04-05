@@ -34,6 +34,8 @@ export default class Resorts extends React.Component {
       dirEnum: {ASC:0, DESC:1},
       dirList: ["asc", "desc"],
       showPopup: false,
+      showSorting: 0,
+      showDirection: 0,
       filter: ""
     }
     this.toggle = this.toggle.bind(this);
@@ -67,7 +69,7 @@ export default class Resorts extends React.Component {
   submitFilter(filter){
     this.setState({
       filter: filter
-    }, () => { 
+    }, () => {
       this.sort(this.state.sortBy, this.state.direction);
     });
   }
@@ -91,6 +93,8 @@ export default class Resorts extends React.Component {
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
     window.scrollTo(0, 0)
+    var id = ("\"id\"");
+    var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
     var pagenumber = nextProps.match.params.page;
     var temp;
     if(pagenumber == null){
@@ -112,12 +116,13 @@ export default class Resorts extends React.Component {
     url += "}";
     url += "&page=";
     url += pagenumber;
-    console.log(url);
     $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
 
   componentDidMount(){
       var pagenumber = this.props.match.params.page;
+      var id = ("\"id\"");
+      var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
       var temp;
       if(pagenumber == null){
         pagenumber = 1
@@ -127,9 +132,11 @@ export default class Resorts extends React.Component {
         pagenumber = temp[1];
         pagenumber = parseInt(pagenumber, 10);
       }
-      // var url = 'http://127.0.0.1:5000/api/resorts?page=';
+
       var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
       fetchfrom += pagenumber;
+
+
       $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     }
     componentWillUnmount(){
@@ -158,47 +165,54 @@ export default class Resorts extends React.Component {
         url += "}";
         url += "&page="
         url += pagenumber
-        console.log(url);
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     }
 
     clickedLift(){
       this.setState({sortBy: this.state.sortEnum.LIFTS});
+      this.setState({showSorting: this.state.sortEnum.LIFTS});
       this.sort(this.state.sortEnum.LIFTS, this.state.direction);
     }
 
     clickedElev(){
       this.setState({sortBy: this.state.sortEnum.ELEV});
+      this.setState({showSorting: this.state.sortEnum.ELEV});
       this.sort(this.state.sortEnum.ELEV, this.state.direction);
     }
 
     clickedName(){
       this.setState({sortBy: this.state.sortEnum.NAME});
+      this.setState({showSorting: this.state.sortEnum.NAME});
       this.sort(this.state.sortEnum.NAME, this.state.direction);
     }
 
     clickedStars(){
       this.setState({sortBy: this.state.sortEnum.STARS});
+      this.setState({showSorting: this.state.sortEnum.STARS});
       this.sort(this.state.sortEnum.STARS, this.state.direction);
     }
 
     clickedRuns(){
       this.setState({sortBy: this.state.sortEnum.RUNS});
+      this.setState({showSorting: this.state.sortEnum.RUNS});
       this.sort(this.state.sortEnum.RUNS, this.state.direction);
     }
 
     clickedReview(){
       this.setState({sortBy: this.state.sortEnum.REVIEW});
+      this.setState({showSorting: this.state.sortEnum.REVIEW});
       this.sort(this.state.sortEnum.REVIEW, this.state.direction);
     }
 
     clickedDesc(){
       this.setState({direction: this.state.dirEnum.DESC});
+      this.setState({showDirection: this.state.dirEnum.DESC});
       this.sort(this.state.sortBy, this.state.dirEnum.DESC);
     }
 
     clickedAsc(){
       this.setState({direction: this.state.dirEnum.ASC});
+      this.setState({showDirection: this.state.dirEnum.ASC});
       this.sort(this.state.sortBy, this.state.dirEnum.ASC);
     }
 
@@ -219,7 +233,7 @@ export default class Resorts extends React.Component {
         <Row>
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle color="primary" caret>
-          Sort by
+          Sort by: {this.state.sortList[this.state.showSorting]}
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
@@ -228,7 +242,7 @@ export default class Resorts extends React.Component {
           <DropdownItem divider/>
           <DropdownItem onClick={this.clickedElev}>Elevation</DropdownItem>
           <DropdownItem divider/>
-          <DropdownItem onClick={this.clickedStars}>Stars</DropdownItem>
+          <DropdownItem onClick={this.clickedStars}>Yelp Rating</DropdownItem>
           <DropdownItem divider/>
           <DropdownItem onClick={this.clickedRuns}>Runs</DropdownItem>
           <DropdownItem divider/>
@@ -237,7 +251,7 @@ export default class Resorts extends React.Component {
         </Dropdown>
         <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
         <DropdownToggle color="primary" caret>
-        Direction
+        Direction: {this.state.dirList[this.state.showDirection]}
         </DropdownToggle>
         <DropdownMenu>
         <DropdownItem onClick={this.clickedAsc}>Ascending</DropdownItem>
