@@ -52,7 +52,14 @@
 .title-text {
 	text-decoration: underline;
 }
+.input-group-text{
+	background-color: #2E2E2E;
+	border: 1px solid #473c8b;
+	color: white;
+	text-align: center;
+}
 
+span{ width: 110px;}
 h3	{ color: white;}
 h4	{ color: white;}
 h6	{ color: white;}

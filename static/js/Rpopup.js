@@ -39,6 +39,7 @@ export default class Rpopup extends React.Component {
     this.setState({lon: e.target.value});
   }
   submitFilter(){
+    alert("hello I am an alert");
     var filter = "\"filters\":[";
     var notFirst = false;
     if (!(this.state.lifts === "") && !isNaN(this.state.lifts)) {
@@ -96,14 +97,14 @@ export default class Rpopup extends React.Component {
           toggle={this.props.toggle} className="popup-border">Filter</ModalHeader>
         <ModalBody className='popup'>
           <InputGroup>
-            <InputGroupAddon className="form-text" addonType="prepend"># of lifts >= </InputGroupAddon>
+            <InputGroupAddon className="form-text" addonType="prepend">Ski Lifts >= </InputGroupAddon>
             <Input placeholder="GT" 
                 value={this.state.lifts}
                 onChange={this.handleLiftChange}/>
           </InputGroup>
           <br></br>
           <InputGroup>
-            <InputGroupAddon className="form-text" addonType="prepend"># of ski runs >= </InputGroupAddon>
+            <InputGroupAddon className="form-text" addonType="prepend">Ski Runs >= </InputGroupAddon>
             <Input placeholder="GT"
                 value={this.state.runs}
                 onChange={this.handleRunChange}/>
@@ -124,11 +125,11 @@ export default class Rpopup extends React.Component {
           </InputGroup>
           <br></br>
           <InputGroup>
-            <InputGroupAddon className="form-text" addonType="prepend">Lat:</InputGroupAddon>
+            <InputGroupAddon className="form-text" addonType="prepend">Latitude:</InputGroupAddon>
             <Input placeholder="latitude"
                 value={this.state.lat}
                 onChange={this.handleLatChange}/>
-            <InputGroupAddon className="form-text" addonType="prepend">Lon:</InputGroupAddon>
+            <InputGroupAddon className="form-text" addonType="prepend">Longitude:</InputGroupAddon>
             <Input placeholder="longitude"
                 value={this.state.lon}
                 onChange={this.handleLonChange}/>

@@ -105,7 +105,7 @@ export default class Resorts extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var url = "http://hikingadventures.me/api/resorts?q={";
+    var url = "http://127.0.0.1:5000/api/resorts?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy != this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
@@ -133,7 +133,7 @@ export default class Resorts extends React.Component {
         pagenumber = parseInt(pagenumber, 10);
       }
 
-      var fetchfrom = "http://hikingadventures.me/api/resorts?page=";
+      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
       fetchfrom += pagenumber;
 
 
@@ -154,7 +154,7 @@ export default class Resorts extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        var url = "http://hikingadventures.me/api/resorts?q=";
+        var url = "http://127.0.0.1:5000/api/resorts?q=";
         url += "{\"order_by\":[";
         if (sort != this.state.sortEnum.NONE) {
           url += "{\"field\":\"" + this.state.sortList[sort] + "\"";
@@ -163,8 +163,8 @@ export default class Resorts extends React.Component {
         url += "]";
         if(!(this.state.filter === "")) url += "," + this.state.filter;
         url += "}";
-        url += "&page="
-        url += pagenumber
+        url += "&page=";
+        url += pagenumber;
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     }
 
