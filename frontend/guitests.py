@@ -1,1 +1,1 @@
-../static/tests/guitests.py
+../tests/guitests.py
