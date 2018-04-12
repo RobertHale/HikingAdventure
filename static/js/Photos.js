@@ -29,6 +29,7 @@ export default class Photos extends React.Component {
       sortBy: 0,
       direction: 0,
       sortEnum: {NONE:0, LON:1, LAT:2, NAME:3},
+      showAttribute: ["", "Longitude", "Latitude", "Name"],
       sortList: ["", "lon", "lat", "name"],
 
       dirEnum: {ASC:0, DESC:1},
@@ -46,6 +47,7 @@ export default class Photos extends React.Component {
     this.clickedLongitude = this.clickedLongitude.bind(this);
     this.clickedLatitude = this.clickedLatitude.bind(this);
     this.clickedName = this.clickedName.bind(this);
+    this.clickedReset = this.clickedReset.bind(this);
     this.clickedDesc= this.clickedDesc.bind(this);
     this.clickedAsc= this.clickedAsc.bind(this);
   }
@@ -103,7 +105,7 @@ export default class Photos extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var url = "http://hikingadventures.me/api/photos?q={";
+    var url = "http://127.0.0.1:5000/api/photos?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy !=  0) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
@@ -120,7 +122,7 @@ export default class Photos extends React.Component {
   }
 
   componentDidMount(){
-      // var url = 'http://hikingadventures.me/api/resorts?page=';
+      // var url = 'http://127.0.0.1:5000/api/resorts?page=';
       var pagenumber = this.props.match.params.page;
       var temp;
       if(pagenumber == null){
@@ -132,7 +134,7 @@ export default class Photos extends React.Component {
         pagenumber = parseInt(pagenumber, 10);
       }
       //console.log(pagenumber);
-      var fetchfrom = "http://hikingadventures.me/api/photos?page=";
+      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
@@ -155,7 +157,7 @@ export default class Photos extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        var url = "http://hikingadventures.me/api/photos?q=";
+        var url = "http://127.0.0.1:5000/api/photos?q=";
         url += "{\"order_by\":[";
         if (field != this.state.sortEnum.NONE) {
           url += "{\"field\":\"" + this.state.sortList[field] + "\"";
@@ -186,6 +188,13 @@ export default class Photos extends React.Component {
       this.sort(this.state.sortEnum.NAME, this.state.direction));
     }
 
+    clickedReset(){
+      this.setState({sortBy: this.state.sortEnum.NONE});
+      this.setState({showSorting: this.state.sortEnum.NONE});
+      this.setState({direction: this.state.sortEnum.ASC});
+      this.setState({showDirection: this.state.sortEnum.ASC, filter:""}, () =>
+      this.sort(this.state.sortEnum.NONE, this.state.direction));
+    }
 
 
     clickedDesc(){
@@ -215,7 +224,7 @@ export default class Photos extends React.Component {
         <Row>
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle color="primary" caret>
-          Sort by: {this.state.sortList[this.state.showSorting]}
+          Sort by: {this.state.showAttribute[this.state.showSorting]}
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
@@ -236,6 +245,7 @@ export default class Photos extends React.Component {
         </DropdownMenu>
         </Dropdown>
         <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+        <Button color="primary" onClick={this.clickedReset}>Reset</Button>
         </Row>
 
         {prow}

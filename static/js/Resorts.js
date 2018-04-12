@@ -31,11 +31,13 @@ export default class Resorts extends React.Component {
       direction: 0,
       sortEnum: {NONE:0, LIFTS:1, ELEV:2, NAME:3, STARS:4, RUNS:5, REVIEW:6},
       sortList: ["", "lifts", "elev", "name", "yelprating", "runs", "reviewcount"],
+      showAttribute: ["", "Lifts", "Elevation", "Name", "Yelp Rating", "Runs", "Review Count"],
       dirEnum: {ASC:0, DESC:1},
       dirList: ["asc", "desc"],
       showPopup: false,
       showSorting: 0,
       showDirection: 0,
+      reset: "",
       filter: ""
     }
     this.toggle = this.toggle.bind(this);
@@ -50,6 +52,7 @@ export default class Resorts extends React.Component {
     this.clickedStars = this.clickedStars.bind(this);
     this.clickedRuns = this.clickedRuns.bind(this);
     this.clickedReview = this.clickedReview.bind(this);
+    this.clickedReset = this.clickedReset.bind(this);
     this.clickedDesc= this.clickedDesc.bind(this);
     this.clickedAsc= this.clickedAsc.bind(this);
   }
@@ -92,9 +95,7 @@ export default class Resorts extends React.Component {
   //This is where we want to query the database
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
-    window.scrollTo(0, 0)
-    var id = ("\"id\"");
-    var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
+    window.scrollTo(0, 0);
     var pagenumber = nextProps.match.params.page;
     var temp;
     if(pagenumber == null){
@@ -105,7 +106,7 @@ export default class Resorts extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var url = "http://hikingadventures.me/api/resorts?q={";
+    var url = "http://127.0.0.1:5000/api/resorts?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy != this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
@@ -133,10 +134,8 @@ export default class Resorts extends React.Component {
         pagenumber = parseInt(pagenumber, 10);
       }
 
-      var fetchfrom = "http://hikingadventures.me/api/resorts?page=";
+      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
       fetchfrom += pagenumber;
-
-
       $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     }
     componentWillUnmount(){
@@ -154,7 +153,7 @@ export default class Resorts extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        var url = "http://hikingadventures.me/api/resorts?q=";
+        var url = "http://127.0.0.1:5000/api/resorts?q=";
         url += "{\"order_by\":[";
         if (sort != this.state.sortEnum.NONE) {
           url += "{\"field\":\"" + this.state.sortList[sort] + "\"";
@@ -204,6 +203,14 @@ export default class Resorts extends React.Component {
       this.sort(this.state.sortEnum.REVIEW, this.state.direction);
     }
 
+    clickedReset(){
+      this.setState({sortBy: this.state.sortEnum.NONE});
+      this.setState({showSorting: this.state.sortEnum.NONE});
+      this.setState({direction: this.state.sortEnum.ASC});
+      this.setState({showDirection: this.state.sortEnum.ASC, filter:"", reset: "my nigga"}, () =>
+      this.sort(this.state.sortEnum.NONE, this.state.direction));
+    }
+
     clickedDesc(){
       this.setState({direction: this.state.dirEnum.DESC});
       this.setState({showDirection: this.state.dirEnum.DESC});
@@ -233,7 +240,7 @@ export default class Resorts extends React.Component {
         <Row>
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle color="primary" caret>
-          Sort by: {this.state.sortList[this.state.showSorting]}
+          Sort by: {this.state.showAttribute[this.state.showSorting]}
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
@@ -260,6 +267,7 @@ export default class Resorts extends React.Component {
         </DropdownMenu>
         </Dropdown>
         <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+        <Button color="primary" onClick={this.clickedReset}>Reset</Button>
         </Row>
         {rrow}
         <br/>
@@ -271,6 +279,7 @@ export default class Resorts extends React.Component {
             isOpen={this.state.showPopup}
             toggle={this.togglePopup.bind(this)}
             submit={this.submitFilter}
+            r={this.clickedReset}
           />
         </Container>
         </div>
