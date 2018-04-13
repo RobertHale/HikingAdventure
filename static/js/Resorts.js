@@ -232,7 +232,7 @@ export default class Resorts extends React.Component {
         <Container>
         <Row>
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle color="primary" caret>
+        <DropdownToggle color="prim" caret>
           Sort by: {this.state.sortList[this.state.showSorting]}
         </DropdownToggle>
         <DropdownMenu>
@@ -250,7 +250,7 @@ export default class Resorts extends React.Component {
         </DropdownMenu>
         </Dropdown>
         <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
-        <DropdownToggle color="primary" caret>
+        <DropdownToggle color="prim" caret>
         Direction: {this.state.dirList[this.state.showDirection]}
         </DropdownToggle>
         <DropdownMenu>
@@ -259,7 +259,7 @@ export default class Resorts extends React.Component {
         <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
         </DropdownMenu>
         </Dropdown>
-        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+        <Button color="prim" onClick={this.togglePopup.bind(this)}>Filter</Button>
         </Row>
         {rrow}
         <br/>

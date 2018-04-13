@@ -44,9 +44,20 @@
   color: white;
   margin: 5px 5px 5px 5px;
 }
-.btn-primary{
+.btn-prim{
 	margin-top: 10px;
 	margin-right: 10px;
+	background-color: #473c8b;
+	border: 1px solid #2E2E2E;
+	color: white;
+}
+.btn-prim:focus {
+	box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .5);
+}
+.btn-primary{
+	background-color: #473c8b;
+	border: 1px solid #2E2E2E;
+	color: white;
 }
 
 .title-text {

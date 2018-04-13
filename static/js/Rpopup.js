@@ -11,7 +11,7 @@ export default class Rpopup extends React.Component {
       stars: "",
       lat: "",
       lon: ""
-    }
+    };
     this.handleLiftChange = this.handleLiftChange.bind(this);
     this.handleRunChange  = this.handleRunChange.bind(this);
     this.handleElevChange = this.handleElevChange.bind(this);
@@ -38,17 +38,34 @@ export default class Rpopup extends React.Component {
   handleLonChange(e) {
     this.setState({lon: e.target.value});
   }
+  static checkAndNotifyNumber(number, name, min, max){
+    if (number === ""){
+      return false;
+    }
+    if (isNaN(number)){
+      alert("Please provide a number for " + name);
+      return false;
+    }
+    if (number < min){
+      alert("Please provide a number greater than " + min + " for " + name);
+      return false;
+    }
+    if (number > max){
+      alert("Please provide a number less than " + max + " for " + name);
+      return false;
+    }
+    return true;
+  }
   submitFilter(){
-    alert("hello I am an alert");
-    var filter = "\"filters\":[";
-    var notFirst = false;
-    if (!(this.state.lifts === "") && !isNaN(this.state.lifts)) {
+    let filter = "\"filters\":[";
+    let notFirst = false;
+    if (Rpopup.checkAndNotifyNumber(this.state.lifts, "lifts", 0, 40)) {
       if(!notFirst){
         notFirst = true;
       }
       filter += "{\"name\":\"lifts\",\"op\":\">=\",\"val\":" + this.state.lifts + "}";
     }
-    if (!(this.state.runs === "") && !isNaN(this.state.runs)) {
+    if (Rpopup.checkAndNotifyNumber(this.state.runs, "runs", 0, 200)) {
       if(notFirst){
         filter +=",";
       }else{
@@ -56,7 +73,7 @@ export default class Rpopup extends React.Component {
       }
       filter += "{\"name\":\"runs\",\"op\":\">=\",\"val\":" + this.state.runs + "}";
     }
-    if (!(this.state.elev === "") && !isNaN(this.state.elev)) {
+    if (Rpopup.checkAndNotifyNumber(this.state.elev, "elevation", 0, 5000)) {
       if(notFirst){
         filter +=",";
       }else{
@@ -64,7 +81,7 @@ export default class Rpopup extends React.Component {
       }
       filter += "{\"name\":\"elev\",\"op\":\">=\",\"val\":" + this.state.elev + "}";
     }
-    if (!(this.state.stars === "") && !isNaN(this.state.stars)) {
+    if (Rpopup.checkAndNotifyNumber(this.state.stars, "rating", 0, 5)) {
       if(notFirst){
         filter +=",";
       }else{
@@ -72,11 +89,10 @@ export default class Rpopup extends React.Component {
       }
       filter += "{\"name\":\"yelprating\",\"op\":\">=\",\"val\":" + this.state.stars + "}";
     }
-    if (!(this.state.lat === "") && !(this.state.lon === "") && !isNaN(this.state.lat) && !isNaN(this.state.lon)) {
+    // noinspection JSBitwiseOperatorUsage
+    if (Rpopup.checkAndNotifyNumber(this.state.lat, "latitude", 0, 180) & Rpopup.checkAndNotifyNumber(this.state.lon, "longitude", -180, 0)) {
       if(notFirst){
         filter +=",";
-      }else{
-        notFirst = true;
       }
       filter += "{\"name\":\"lat\",\"op\":\"like\",\"val\":" + this.state.lat + "}";
       filter += ",";
@@ -84,7 +100,7 @@ export default class Rpopup extends React.Component {
     }
     filter += "]";
     this.props.submit(filter);
-    this.props.toggle;
+    this.props.toggle();
   }
 
   render() {
@@ -98,39 +114,39 @@ export default class Rpopup extends React.Component {
         <ModalBody className='popup'>
           <InputGroup>
             <InputGroupAddon className="form-text" addonType="prepend">Ski Lifts >= </InputGroupAddon>
-            <Input placeholder="GT" 
+            <Input placeholder="Number of ski lifts"
                 value={this.state.lifts}
                 onChange={this.handleLiftChange}/>
           </InputGroup>
-          <br></br>
+          <br/>
           <InputGroup>
             <InputGroupAddon className="form-text" addonType="prepend">Ski Runs >= </InputGroupAddon>
-            <Input placeholder="GT"
+            <Input placeholder="Number of ski runs"
                 value={this.state.runs}
                 onChange={this.handleRunChange}/>
           </InputGroup>
-          <br></br>
+          <br/>
           <InputGroup>
             <InputGroupAddon className="form-text" addonType="prepend">Elevation >= </InputGroupAddon>
-            <Input placeholder="GT"
+            <Input placeholder="Elevation in meters"
                 value={this.state.elev}
                 onChange={this.handleElevChange}/>
           </InputGroup>
-          <br></br>
+          <br/>
           <InputGroup>
             <InputGroupAddon className="form-text" addonType="prepend">Stars >=</InputGroupAddon>
-            <Input placeholder="Stars"
+            <Input placeholder="Yelp rating from 1 to 5"
                 value={this.state.stars}
                 onChange={this.handleStarChange}/>
           </InputGroup>
-          <br></br>
+          <br/>
           <InputGroup>
             <InputGroupAddon className="form-text" addonType="prepend">Latitude:</InputGroupAddon>
-            <Input placeholder="latitude"
+            <Input placeholder="Latitude"
                 value={this.state.lat}
                 onChange={this.handleLatChange}/>
             <InputGroupAddon className="form-text" addonType="prepend">Longitude:</InputGroupAddon>
-            <Input placeholder="longitude"
+            <Input placeholder="Longitude"
                 value={this.state.lon}
                 onChange={this.handleLonChange}/>
           </InputGroup>

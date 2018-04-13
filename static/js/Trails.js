@@ -107,7 +107,7 @@ export default class Trails extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var url = "http://hikingadventures.me/api/trails?q={";
+    var url = "http://127.0.0.1:5000/api/trails?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy !=  0) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
@@ -132,7 +132,7 @@ export default class Trails extends React.Component {
         pagenumber = temp[1];
         pagenumber = parseInt(pagenumber, 10);
       }
-      var fetchfrom = "http://hikingadventures.me/api/trails?page=";
+      var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
       fetchfrom += pagenumber;
       $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     }
@@ -152,7 +152,7 @@ export default class Trails extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        var url = "http://hikingadventures.me/api/trails?q=";
+        var url = "http://127.0.0.1:5000/api/trails?q=";
         url += "{\"order_by\":[";
         if (field != this.state.sortEnum.NONE) {
           url += "{\"field\":\"" + this.state.sortList[field] + "\"";
@@ -223,7 +223,7 @@ export default class Trails extends React.Component {
         <Container>
         <Row>
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle color="primary" caret>
+        <DropdownToggle color="prim" caret>
           Sort by: {this.state.sortList[this.state.showSort]}
         </DropdownToggle>
         <DropdownMenu>
@@ -241,7 +241,7 @@ export default class Trails extends React.Component {
         </DropdownMenu>
       </Dropdown>
         <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
-        <DropdownToggle color="primary" caret>
+        <DropdownToggle color="prim" caret>
         Direction: {this.state.dirList[this.state.showDirection]}
         </DropdownToggle>
         <DropdownMenu>
@@ -250,7 +250,7 @@ export default class Trails extends React.Component {
         <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
         </DropdownMenu>
         </Dropdown>
-        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+        <Button color="prim" onClick={this.togglePopup.bind(this)}>Filter</Button>
         </Row>
 
         {trow}
