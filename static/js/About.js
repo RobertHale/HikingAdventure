@@ -80,7 +80,7 @@ export default class About extends React.Component {
       "victor40":{
         "commits": 0,
         "issues": 0,
-        "tests": 1
+        "tests": 6
       },
       "vponakala":{
         "commits": 0,
@@ -179,6 +179,9 @@ export default class About extends React.Component {
 
       <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/ZHPGrSu.jpg"/>
+      <p className="text-center">
+        <b>{"David Castilla"}</b>
+      </p>
       <p>
       <b>
       {"Bio: "}
@@ -201,6 +204,9 @@ export default class About extends React.Component {
 
       <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/4jHX00q.jpg"/>
+      <p className="text-center">
+        <b>{"Alex Dai"}</b>
+      </p>
       <p>
       <b>
       {"Bio: "}
@@ -227,6 +233,9 @@ export default class About extends React.Component {
       </Col>
       <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/mf7JSRj.jpg"/>
+      <p className="text-center">
+        <b>{"Robert Hale"}</b>
+      </p>
       <p>
       <b>
       {"Bio: "}
@@ -251,6 +260,9 @@ export default class About extends React.Component {
       <Row>
       <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/F5Y7b3M.jpg"/>
+      <p className="text-center">
+        <b>{"Adolfo Lopez"}</b>
+      </p>
       <p>
       <b>
       {"Bio: "}
@@ -272,6 +284,9 @@ export default class About extends React.Component {
       </Col>
       <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/00OjoLZ.jpg"/>
+      <p className="text-center">
+        <b>{"Vamsi Ponakala"}</b>
+      </p>
       <p>
       <b>
       {"Bio: "}
@@ -294,6 +309,9 @@ export default class About extends React.Component {
 
       <Col lg="4" md="4" sm="4">
       <img className="profile-picture img-thumbnail" src="https://i.imgur.com/zkxl05U.jpg"/>
+      <p className="text-center">
+        <b>{"Victor Yang"}</b>
+      </p>
       <p>
       <b>
       {"Bio: "}
@@ -326,25 +344,25 @@ export default class About extends React.Component {
       <br/>
       <h3 className="title-text">Sources</h3>
       <br/>
-      <p><b>{"www.hikingproject.com/data"}</b>{" - provides API for trail info and photos"}</p>
-      <p><b>{"www.skimap.org"}</b>{" - provide API for ski resorts and their information"}</p>
-      <p><b>{"www.youtube.com"}</b>{" - providing API for displaying related youtube videos"}</p>
-      <p><b>{"www.yelp.com"}</b>{" - providing API for displaying user reviews on resorts"}</p>
+      <p><a href = "https://www.hikingproject.com/data"><b>{"www.hikingproject.com/data"}</b></a>{" - provides API for trail info and photos"}</p>
+      <p><a href = "https://www.skimap.org"><b>{"www.skimap.org"}</b></a>{" - provide API for ski resorts and their information"}</p>
+      <p><a href = "https://www.youtube.com"><b>{"www.youtube.com"}</b></a>{" - providing API for displaying related youtube videos"}</p>
+      <p><a href = "https://www.yelp.com"><b>{"www.yelp.com"}</b></a>{" - providing API for displaying user reviews on resorts"}</p>
       <br/>
 
       <br/>
       <h3 className="title-text">Tools</h3>
       <br/>
-      <p><b>{"React"}</b>{" - for creating a dynamic front end"}</p>
-      <p><b>{"React-router"}</b>{" - controls front end routing between different React Components"}</p>
-      <p><b>{"Reactstrap"}</b>{" - provides usage of Bootstrap 4 components in React"}</p>
-      <p><b>{"Flask"}</b>{" - for the backend of the website"}</p>
-      <p><b>{"Github"}</b>{" - for maintaining our report and project organization"}</p>
-      <p><b>{"Slack"}</b>{" - for team communication and organization"}</p>
-      <p><b>{"Postman"}</b>{" - for organizing API calls"}</p>
-      <p><b>{"Amazon AWS"}</b>{" - for hosting website"}</p>
-      <p><b>{"MySQLAlchemy"}</b>{" - handles our back end API calls to our database"}</p>
-      <p><b>{"FlaskRestless"}</b>{" - handles our back end API and allows for specific database information"}</p>
+      <p><a href = "https://reactjs.org/"><b>{"React"}</b></a>{" - for creating a dynamic front end"}</p>
+      <p><a href = "https://github.com/ReactTraining/react-router"><b>{"React-router"}</b></a>{" - controls front end routing between different React Components"}</p>
+      <p><a href = "https://reactstrap.github.io/"><b>{"Reactstrap"}</b></a>{" - provides usage of Bootstrap 4 components in React"}</p>
+      <p><a href = "http://flask.pocoo.org/"><b>{"Flask"}</b></a>{" - for the backend of the website"}</p>
+      <p><a href = "https://github.com/"><b>{"Github"}</b></a>{" - for maintaining our report and project organization"}</p>
+      <p><a href = "https://slack.com/"><b>{"Slack"}</b></a>{" - for team communication and organization"}</p>
+      <p><a href = "https://www.getpostman.com/"><b>{"Postman"}</b></a>{" - for organizing API calls"}</p>
+      <p><a href = "https://aws.amazon.com/"><b>{"Amazon AWS"}</b></a>{" - for hosting website"}</p>
+      <p><a href = "https://www.sqlalchemy.org/"><b>{"SQLAlchemy"}</b></a>{" - handles our back end API calls to our database"}</p>
+      <p><a href = "https://flask-restless.readthedocs.io/en/stable/"><b>{"FlaskRestless"}</b></a>{" - handles our back end API and allows for specific database information"}</p>
       <br/>
 
       <br/>
