@@ -52,6 +52,7 @@ export default class About extends React.Component {
     }
     this.changemessage = this.changemessage.bind(this);
     this.grabgitstats = this.grabgitstats.bind(this);
+	this.getIssuesRecursive = this.getIssuesRecursive.bind(this);
   }
   grabgitstats(){
     var totalc = 0;
@@ -101,12 +102,48 @@ export default class About extends React.Component {
         githubcont: gitgroup
       });
     });
-    $.getJSON('https://api.github.com/repos/RobertHale/HikingAdventure/issues?state=all').then(results => {
-        this.setState({
-          totalissues: results[0].number,
-          totaltests: 97
-        });
+	$.getJSON('https://api.github.com/repos/RobertHale/HikingAdventure/issues?state=all&per_page=100', function (results, textStatus, jqXHR){
+  });
+  var issueCount = 0;
+  this.getIssuesRecursive('https://api.github.com/repos/RobertHale/HikingAdventure/issues?state=all&per_page=100&page=1', gitgroup, issueCount);
+  
+  }
+
+  parseLinkString(links){
+    let str = links;
+    let next = str.search('next');
+    let nextExists = false;
+    if(next != -1){
+      nextExists = true;
+      str = str.substring(0,next);
+      str = str.substring(str.lastIndexOf('<')+1, str.lastIndexOf('>'));
+    }
+    return {
+      next: nextExists,
+      page: str
+    }
+  }
+  
+  getIssuesRecursive(page, gitgroup, issueCount){
+	  $.getJSON(page, function (results, textStatus, jqXHR)
+	  {
+      results.map(issue => {
+        let i = 0;
+        issueCount += 1;
+        for(i;i < issue.assignees.length;i++){
+          gitgroup[0][issue.assignees[i].login].issues += 1;
+        }
       });
+          this.setState({
+            totalissues: issueCount,
+            totaltests: 97,
+        githubcont: gitgroup
+          });
+      var nextPage = this.parseLinkString(jqXHR.getResponseHeader('Link'));
+      if(nextPage.next){
+        this.getIssuesRecursive(nextPage.page, gitgroup, issueCount);
+      }
+    }.bind(this));
   }
 
   changemessage(){
@@ -264,7 +301,7 @@ export default class About extends React.Component {
       {"I'm a senior at UT majoring in Computer Science expecting to graduate at the end of this semester. My hobbies include video games and board games, and I also enjoy traveling."}
       </p>
       <p>
-        <b>Responsibilities:</b> Frontend
+        <b>Responsibilities:</b> Backend
       </p>
       <p>
         <b># of Commits: </b> {this.state.githubcont[0].victor40.commits}
