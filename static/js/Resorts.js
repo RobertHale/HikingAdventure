@@ -4,11 +4,7 @@ import ReactDOM from "react-dom";
 import {
   Button,
   Row,
-  Col,
   Container,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
 import { Link } from "react-router-dom";
@@ -37,7 +33,7 @@ export default class Resorts extends React.Component {
       showSorting: 0,
       showDirection: 0,
       filter: ""
-    }
+    };
     this.toggle = this.toggle.bind(this);
     this.pairup = this.pairup.bind(this);
 
@@ -75,11 +71,11 @@ export default class Resorts extends React.Component {
   }
 
   pairup(fetchedResorts, resultcount, pagenumber){
-    var s = 2;
-    var b = 0;
-    var e = fetchedResorts.length;
-    var mimic = fetchedResorts;
-    var paired = [];
+    let s = 2;
+    let b = 0;
+    let e = fetchedResorts.length;
+    let mimic = fetchedResorts;
+    let paired = [];
     for(b, e; b < e; b += s){
       paired.push(mimic.slice(b, b+s));
     }
@@ -92,11 +88,11 @@ export default class Resorts extends React.Component {
   //This is where we want to query the database
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
-    window.scrollTo(0, 0)
-    var id = ("\"id\"");
-    var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
-    var pagenumber = nextProps.match.params.page;
-    var temp;
+    window.scrollTo(0, 0);
+    let id = ("\"id\"");
+    let dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
+    let pagenumber = nextProps.match.params.page;
+    let temp;
     if(pagenumber == null){
       pagenumber = 1
     }
@@ -105,13 +101,13 @@ export default class Resorts extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var url = "http://127.0.0.1:5000/api/resorts?q={";
+    let url = "http://127.0.0.1:5000/api/resorts?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy != this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
       url += ",\"direction\":\"" + this.state.dirList[this.state.direction] + "\"}";
     }
-    url += "]"
+    url += "]";
     if(!(this.state.filter === "")) url += "," + this.state.filter;
     url += "}";
     url += "&page=";
@@ -120,10 +116,10 @@ export default class Resorts extends React.Component {
   }
 
   componentDidMount(){
-      var pagenumber = this.props.match.params.page;
-      var id = ("\"id\"");
-      var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
-      var temp;
+      let pagenumber = this.props.match.params.page;
+      let id = ("\"id\"");
+      let dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
+      let temp;
       if(pagenumber == null){
         pagenumber = 1
       }
@@ -133,7 +129,7 @@ export default class Resorts extends React.Component {
         pagenumber = parseInt(pagenumber, 10);
       }
 
-      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
+      let fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
       fetchfrom += pagenumber;
 
 
@@ -144,8 +140,8 @@ export default class Resorts extends React.Component {
     }
 
     sort(sort, dir){
-        var pagenumber = this.props.match.params.page;
-        var temp;
+        let pagenumber = this.props.match.params.page;
+        let temp;
         if(pagenumber == null){
           pagenumber = 1
         }
@@ -154,7 +150,7 @@ export default class Resorts extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        var url = "http://127.0.0.1:5000/api/resorts?q=";
+        let url = "http://127.0.0.1:5000/api/resorts?q=";
         url += "{\"order_by\":[";
         if (sort != this.state.sortEnum.NONE) {
           url += "{\"field\":\"" + this.state.sortList[sort] + "\"";

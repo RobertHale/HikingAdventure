@@ -3,11 +3,7 @@ import React from "react";
 import {
   Button,
   Row,
-  Col,
   Container,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
 import { Link } from "react-router-dom";
@@ -38,7 +34,7 @@ export default class Photos extends React.Component {
       showSorting: 0,
       showDirection: 0,
       filter: ""
-    }
+    };
     this.pairup = this.pairup.bind(this);
     this.toggle = this.toggle.bind(this);
     this.sort = this.sort.bind(this);
@@ -73,11 +69,11 @@ export default class Photos extends React.Component {
   pairup(fetchedResorts, resultcount, pagenumber){
     //Do magic
     //console.log(fetchedResorts);
-    var s = 2;
-    var b = 0;
-    var e = fetchedResorts.length;
-    var mimic = fetchedResorts;
-    var paired = [];
+    let s = 2;
+    let b = 0;
+    let e = fetchedResorts.length;
+    let mimic = fetchedResorts;
+    let paired = [];
     for(b, e; b < e; b += s){
       paired.push(mimic.slice(b, b+s));
     }
@@ -92,9 +88,8 @@ export default class Photos extends React.Component {
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
     window.scrollTo(0, 0)
-    var pagenumber = nextProps.match.params.page;
-    var sortb = this.state.sortBy;
-    var temp;
+    let pagenumber = nextProps.match.params.page;
+    let temp;
     if(pagenumber == null){
       pagenumber = 1
     }
@@ -103,13 +98,13 @@ export default class Photos extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var url = "http://127.0.0.1:5000/api/photos?q={";
+    let url = "http://127.0.0.1:5000/api/photos?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy !=  0) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
       url += ",\"direction\":\"" + this.state.dirList[this.state.direction] + "\"}";
     }
-    url += "]"
+    url += "]";
     if(!(this.state.filter === "")) url += "," + this.state.filter;
     url += "}";
     url += "&page=";
@@ -121,8 +116,8 @@ export default class Photos extends React.Component {
 
   componentDidMount(){
       // var url = 'http://hikingadventures.me/api/resorts?page=';
-      var pagenumber = this.props.match.params.page;
-      var temp;
+      let pagenumber = this.props.match.params.page;
+      let temp;
       if(pagenumber == null){
         pagenumber = 1
       }
@@ -132,7 +127,7 @@ export default class Photos extends React.Component {
         pagenumber = parseInt(pagenumber, 10);
       }
       //console.log(pagenumber);
-      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
+      let fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
@@ -145,8 +140,8 @@ export default class Photos extends React.Component {
 
 
     sort(field, dir){
-        var pagenumber = this.props.match.params.page;
-        var temp;
+        let pagenumber = this.props.match.params.page;
+        let temp;
         if(pagenumber == null){
           pagenumber = 1
         }
@@ -155,7 +150,7 @@ export default class Photos extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        var url = "http://127.0.0.1:5000/api/photos?q=";
+        let url = "http://127.0.0.1:5000/api/photos?q=";
         url += "{\"order_by\":[";
         if (field != this.state.sortEnum.NONE) {
           url += "{\"field\":\"" + this.state.sortList[field] + "\"";

@@ -3,11 +3,7 @@ import React from "react";
 import {
   Button,
   Row,
-  Col,
   Container,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
 import { Link } from "react-router-dom";
@@ -38,7 +34,7 @@ export default class Trails extends React.Component {
       showSort: 0,
       showDirection: 0,
       filter: ""
-    }
+    };
     this.pairup = this.pairup.bind(this);
 
     this.toggle = this.toggle.bind(this);
@@ -78,11 +74,11 @@ export default class Trails extends React.Component {
   pairup(fetchedResorts, resultcount, pagenumber){
     //Do magic
     //console.log(fetchedResorts);
-    var s = 2;
-    var b = 0;
-    var e = fetchedResorts.length;
-    var mimic = fetchedResorts;
-    var paired = [];
+    let s = 2;
+    let b = 0;
+    let e = fetchedResorts.length;
+    let mimic = fetchedResorts;
+    let paired = [];
     for(b, e; b < e; b += s){
       paired.push(mimic.slice(b, b+s));
     }
@@ -96,9 +92,8 @@ export default class Trails extends React.Component {
 
   componentWillReceiveProps(nextProps){
     window.scrollTo(0, 0)
-    var pagenumber = nextProps.match.params.page;
-    var temp;
-    var sortb = this.state.sortBy;
+    let pagenumber = nextProps.match.params.page;
+    let temp;
     if(pagenumber == null){
       pagenumber = 1
     }
@@ -107,7 +102,7 @@ export default class Trails extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var url = "http://127.0.0.1:5000/api/trails?q={";
+    let url = "http://127.0.0.1:5000/api/trails?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy !=  0) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
@@ -122,8 +117,8 @@ export default class Trails extends React.Component {
   }
 
   componentDidMount(){
-      var pagenumber = this.props.match.params.page;
-      var temp;
+      let pagenumber = this.props.match.params.page;
+      let temp;
       if(pagenumber == null){
         pagenumber = 1
       }
@@ -132,7 +127,7 @@ export default class Trails extends React.Component {
         pagenumber = temp[1];
         pagenumber = parseInt(pagenumber, 10);
       }
-      var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
+      let fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
       fetchfrom += pagenumber;
       $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     }
@@ -142,8 +137,8 @@ export default class Trails extends React.Component {
     }
 
     sort(field, dir){
-        var temp;
-        var pagenumber = this.props.match.params.page;
+        let temp;
+        let pagenumber = this.props.match.params.page;
         if(pagenumber == null){
           pagenumber = 1
         }
@@ -152,7 +147,7 @@ export default class Trails extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        var url = "http://127.0.0.1:5000/api/trails?q=";
+        let url = "http://127.0.0.1:5000/api/trails?q=";
         url += "{\"order_by\":[";
         if (field != this.state.sortEnum.NONE) {
           url += "{\"field\":\"" + this.state.sortList[field] + "\"";
