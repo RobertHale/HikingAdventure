@@ -37,7 +37,6 @@ export default class Resorts extends React.Component {
       showPopup: false,
       showSorting: 0,
       showDirection: 0,
-      reset: "",
       filter: ""
     }
     this.toggle = this.toggle.bind(this);
@@ -207,9 +206,10 @@ export default class Resorts extends React.Component {
       this.setState({sortBy: this.state.sortEnum.NONE});
       this.setState({showSorting: this.state.sortEnum.NONE});
       this.setState({direction: this.state.sortEnum.ASC});
-      this.setState({showDirection: this.state.sortEnum.ASC, filter:"", reset: "my nigga"}, () =>
+      this.setState({showDirection: this.state.sortEnum.ASC, filter:""}, () =>
       this.sort(this.state.sortEnum.NONE, this.state.direction));
     }
+
 
     clickedDesc(){
       this.setState({direction: this.state.dirEnum.DESC});
@@ -279,7 +279,6 @@ export default class Resorts extends React.Component {
             isOpen={this.state.showPopup}
             toggle={this.togglePopup.bind(this)}
             submit={this.submitFilter}
-            r={this.clickedReset}
           />
         </Container>
         </div>
