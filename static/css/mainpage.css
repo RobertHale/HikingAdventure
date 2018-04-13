@@ -2,6 +2,10 @@
 	background-color: #2E2E2E;
 }
 
+.Highlight {
+    background-color: #ffd54f;
+}
+
 .card-img-top{
 	width: 100%;
 	height: 316px;
@@ -27,6 +31,23 @@
   background: #2E2E2E;
   color: white;
 }
+ .pagination> li > .spagination {
+  color: white;
+}
+.popup {
+  background: #2E2E2E;
+}
+.popup-border{
+  background: #473c8b;
+}
+.form-text{
+  color: white;
+  margin: 5px 5px 5px 5px;
+}
+.btn-primary{
+	margin-top: 10px;
+	margin-right: 10px;
+}
 
 .title-text {
 	text-decoration: underline;
@@ -44,24 +65,4 @@ p	{ color: white;}
 	float: none;
 	margin-right: auto;
 	margin-left: auto;
-}
-
-.react-paginate ul {
-    display: inline-block;
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-.react-paginate li {
-    display: inline-block;
-}
-
-.react-paginate a {
-    cursor: default;
-		color: white;
-		float: left;
-		padding: 8px 16px;
-		transition: background-color .3s;
-		border: 1px solid #ddd;
-		font-size: 12px;
 }

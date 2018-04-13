@@ -8,22 +8,25 @@ import {
  } from 'reactstrap';
 import { Link } from "react-router-dom";
 
-export default class Pages extends React.Component {
+export default class SearchResultPages extends React.Component {
   constructor(){
     super();
     this.state = {
       filler: []
     }
+    this.updatePage = this.updatePage.bind(this);
+  }
+  updatePage(e){
+    //console.log(e.currentTarget.id);
+    var newPage = parseInt(e.currentTarget.id, 10);
+    this.props.changePage(newPage);
   }
   render () {
     // Grab tota/current page information, url as well
-    var totalPages = this.props.pagedata.pagecount;
-    var currentPage= this.props.pagedata.cpage;
-    var url = this.props.pagedata.url;
-
-    // adjusted url for corresponding pagination button
-    var aurl = '';
-
+    var totalPages = this.props.pageCount;
+    var currentPage = this.props.cPage;
+    // console.log('the current page is '+ currentPage);
+    // console.log('the total page count is '+ totalPages);
     // array that we loop through to generate page buttons
     var pages = [];
     // 0 means no pagiation is needed, 1 otherwise
@@ -35,38 +38,29 @@ export default class Pages extends React.Component {
     let next = "";
 
     // by default prev/next buttons are not disabled
-    aurl = url
-    aurl += (currentPage - 1);
+    var prevPage = currentPage - 1;
+    var nextPage = currentPage + 1;
     prev =  <PaginationItem>
-            <Link className="page-link" to={aurl}>
-            {"«"}
-            </Link>
+            <PaginationLink className="spagination" previous id={prevPage} onClick={this.updatePage}></PaginationLink>
             </PaginationItem>
 
-    aurl = url
-    aurl += (currentPage + 1);
     next =  <PaginationItem>
-            <Link className="page-link" to={aurl}>
-            {"»"}
-            </Link>
+            <PaginationLink className="spagination" next id={nextPage} onClick={this.updatePage}></PaginationLink>
             </PaginationItem>
 
     // check if prev/next should be disabled
     if (currentPage == 1){
+      //console.log('prev disabled')
       prev =  <PaginationItem disabled>
-              <Link className="page-link" to="">
-              {"«"}
-              </Link>
+              <PaginationLink className="spagination" previous disabled></PaginationLink>
               </PaginationItem>
     }
     if (currentPage == totalPages){
+      //console.log('next enabled')
       next =  <PaginationItem disabled>
-              <Link className="page-link" to="">
-              {"»"}
-              </Link>
+              <PaginationLink className="spagination" next disabled></PaginationLink>
               </PaginationItem>
     }
-
     // loading pagination in sets of 5, handle case if less than 5
     if(totalPages < 5){
       for(var x = 0; x < totalPages; x++){
@@ -91,23 +85,17 @@ export default class Pages extends React.Component {
     if(pages.length != 0){
       exists = 1
       items = pages.map(page => {
-        aurl = url;
-        aurl += page;
         if(currentPage == page){
           return(
             <PaginationItem disabled key={page}>
-            <Link className="page-link" to={aurl}>
-            {page}
-            </Link>
+            <PaginationLink className="spagination" disabled>{page}</PaginationLink>
             </PaginationItem>
           );
         }
         else{
           return(
             <PaginationItem key={page}>
-            <Link className="page-link" to={aurl}>
-            {page}
-            </Link>
+            <PaginationLink className="spagination" id={page} onClick={this.updatePage}>{page}</PaginationLink>
             </PaginationItem>
           );
         }

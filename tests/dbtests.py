@@ -23,6 +23,29 @@ class TestApp(TestCase):
 		self.acc = DBAccess(db_session)
 		init_db(engine=self.engine)
 		
+	def testQueryResort(self):
+		res = Resort()
+		res.name = "Test Query Resort"
+		res.id = 50
+		self.acc.insertData([res])
+		self.assertEqual(self.acc.queryResort(50).name, "Test Query Resort")
+		
+	def testQueryTrail(self):
+		trail = Trail()
+		trail.name = "Test Query Trail"
+		trail.id = 50
+		self.acc.insertData([trail])
+		self.assertEqual(self.acc.queryTrail(50).name, "Test Query Trail")
+		
+	def testQueryPhoto(self):
+		photo = Photo()
+		photo.name = "Test Query Photo"
+		photo.id = 50
+		photo.trailid = 50
+		self.acc.insertData([photo])
+		self.assertEqual(self.acc.queryPhoto("Test Query Photo").id, 50)
+		self.assertEqual(self.acc.queryPhoto("Test Query Photo").trailid, 50)
+		
 	def testInsertMerge1(self):
 		res = Resort()
 		res.name = "Test Insert Resort"

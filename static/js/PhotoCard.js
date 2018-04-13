@@ -16,6 +16,7 @@ import {
   PaginationLink
 } from 'reactstrap';
 import { Link } from "react-router-dom";
+import Highlighter from "react-highlight-words";
 
 export default class PhotoCard extends React.Component {
   render () {
@@ -48,14 +49,18 @@ export default class PhotoCard extends React.Component {
       <Card className="mt-4">
       <CardImg top width="100%" src={image} alt="Missing" />
       <CardBody>
-      <CardTitle><Link to={mylink}>{name}</Link></CardTitle>
-      <CardText>
+      <CardTitle><Link to={mylink}><Highlighter
+          highlightClassName="Highlight"
+          searchWords={[this.props.highlight]}
+          autoEscape={true}
+          textToHighlight={name}/>
+      </Link>
+      </CardTitle>
       <ul>
       <li>{"Latitude: "}{latitude}</li>
       <li>{"Longitude: "}{longitude}</li>
       <li>{"Nearby Trail Id: "}{id}</li>
       </ul>
-      </CardText>
       </CardBody>
       </Card>
       </Col>

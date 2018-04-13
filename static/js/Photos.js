@@ -13,6 +13,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import PhotoRow from "./PhotoRow";
+import Ppopup from "./Ppopup";
 import NavBar from "./Navbar";
 import Pages from "./Pages";
 import $ from 'jquery';
@@ -27,16 +28,26 @@ export default class Photos extends React.Component {
       cpage: 0,
       dropdownOpen: false,
       sortBy: 0,
+      direction: 0,
+      sortEnum: {NONE:0, LON:1, LAT:2, NAME:3},
+      sortList: ["", "lon", "lat", "name"],
 
-      cName: 0,
-      cDesc: 0,
-      cAsc: 0
+      dirEnum: {ASC:0, DESC:1},
+      dirList: ["asc", "desc"],
+
+      showPopup: false,
+      showSorting: 0,
+      showDirection: 0,
+      filter: ""
     }
 
     this.toggle = this.toggle.bind(this);
     this.pairup = this.pairup.bind(this);
-
+    this.toggle = this.toggle.bind(this);
     this.sort = this.sort.bind(this);
+    this.submitFilter = this.submitFilter.bind(this);
+    this.clickedLongitude = this.clickedLongitude.bind(this);
+    this.clickedLatitude = this.clickedLatitude.bind(this);
     this.clickedName = this.clickedName.bind(this);
     this.clickedDesc= this.clickedDesc.bind(this);
     this.clickedAsc= this.clickedAsc.bind(this);
@@ -45,6 +56,20 @@ export default class Photos extends React.Component {
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
+  }
+
+  submitFilter(filter){
+    this.setState({
+      filter: filter
+    }, () => {
+      this.sort(this.state.sortBy, this.state.direction);
     });
   }
 
@@ -71,6 +96,7 @@ export default class Photos extends React.Component {
   componentWillReceiveProps(nextProps){
     window.scrollTo(0, 0)
     var pagenumber = nextProps.match.params.page;
+    var sortb = this.state.sortBy;
     var temp;
     if(pagenumber == null){
       pagenumber = 1
@@ -80,32 +106,24 @@ export default class Photos extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-
-    if (this.state.sortBy == 1) {
-      var url = "http://127.0.0.1:5000/api/photos?q=";
-      url += "{\"order_by\":[";
-
-      if (this.state.cName == 1) {
-        url += "{\"field\":\"name\",\"direction\":\"asc\"}]}";
-        if (this.state.cName == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/photos?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"name\",\"direction\":\"desc\"}]}";
-        }
-      }
-
-      url += "&page="
-      url += pagenumber
-      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    var url = "http://hikingadventures.me/api/photos?q={";
+    url += "\"order_by\":[";
+    if (this.state.sortBy !=  0) {
+      url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
+      url += ",\"direction\":\"" + this.state.dirList[this.state.direction] + "\"}";
     }
-    else{
-    var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
-    fetchfrom += pagenumber;
-    $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    url += "]"
+    if(!(this.state.filter === "")) url += "," + this.state.filter;
+    url += "}";
+    url += "&page=";
+    url += pagenumber;
+    $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+
+
   }
 
   componentDidMount(){
-      // var url = 'http://127.0.0.1:5000/api/resorts?page=';
+      // var url = 'http://hikingadventures.me/api/resorts?page=';
       var pagenumber = this.props.match.params.page;
       var temp;
       if(pagenumber == null){
@@ -117,7 +135,7 @@ export default class Photos extends React.Component {
         pagenumber = parseInt(pagenumber, 10);
       }
       //console.log(pagenumber);
-      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
+      var fetchfrom = "http://hikingadventures.me/api/photos?page=";
       fetchfrom += pagenumber;
       //console.log(fetchfrom);
 
@@ -128,15 +146,9 @@ export default class Photos extends React.Component {
       //console.log("We unmounted Resorts");
     }
 
+
     sort(field, dir){
         var pagenumber = this.props.match.params.page;
-        var x = "";
-        var d = dir;
-
-        if (field == "name") {
-          var x = ("\"name\"")
-        }
-
         var temp;
         if(pagenumber == null){
           pagenumber = 1
@@ -146,39 +158,49 @@ export default class Photos extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        this.setState({sortBy: 1});
-        var url = "http://127.0.0.1:5000/api/photos?q=";
+        var url = "http://hikingadventures.me/api/photos?q=";
         url += "{\"order_by\":[";
-        url += "{\"field\":" + x + ",\"direction\":" + d + "}]}";
+        if (field != this.state.sortEnum.NONE) {
+          url += "{\"field\":\"" + this.state.sortList[field] + "\"";
+          url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
+        }
+
+        url += "]";
+        if(!(this.state.filter === "")) url += "," + this.state.filter;
+        url += "}";
         url += "&page="
         url += pagenumber
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+
+    }
+
+    clickedLongitude(){
+      this.setState({sortBy: this.state.sortEnum.LON, showSorting: this.state.sortEnum.LON}, () =>
+      this.sort(this.state.sortEnum.LON, this.state.direction));
+    }
+
+    clickedLatitude(){
+      this.setState({sortBy: this.state.sortEnum.LAT, showSorting: this.state.sortEnum.LAT}, () =>
+      this.sort(this.state.sortEnum.LAT, this.state.direction));
     }
 
     clickedName(){
-      this.setState({cName: 1});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.sort("name", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.NAME, showSorting: this.state.sortEnum.NAME}, () =>
+      this.sort(this.state.sortEnum.NAME, this.state.direction));
     }
 
-    clickedDesc(){
-      this.setState({cDesc: 1});
-      this.setState({cAsc: 0});
 
-      if (this.state.cName == 1) {
-        this.sort("name", "\"desc\"")
-      }
+
+    clickedDesc(){
+      this.setState({direction: this.state.dirEnum.DESC, showDirection: this.state.dirEnum.DESC}, () =>
+      this.sort(this.state.sortBy, this.state.dirEnum.DESC));
     }
 
     clickedAsc(){
-      this.setState({cAsc: 1});
-      this.setState({cDesc: 0});
-
-      if (this.state.cName == 1) {
-        this.sort("name", "\"asc\"")
-      }
+      this.setState({direction: this.state.dirEnum.ASC, showDirection: this.state.dirEnum.ASC}, () =>
+      this.sort(this.state.sortBy, this.state.dirEnum.ASC));
     }
+
 
     render () {
       let prow;
@@ -194,20 +216,21 @@ export default class Photos extends React.Component {
         <NavBar/>
         <Container>
         <Row>
-        <Col lg="2" sm="10">
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
-          Sort by
+        <DropdownToggle color="primary" caret>
+          Sort by: {this.state.sortList[this.state.showSorting]}
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
+          <DropdownItem divider/>
+          <DropdownItem onClick={this.clickedLongitude}>Longitude</DropdownItem>
+          <DropdownItem divider/>
+          <DropdownItem onClick={this.clickedLatitude}>Latitude</DropdownItem>
         </DropdownMenu>
       </Dropdown>
-        </Col>
-        <Col lg="2" sm="10">
-        <Dropdown direction="up" isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
-        <DropdownToggle caret>
-        Direction
+        <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
+        <DropdownToggle color="primary" caret>
+        Direction: {this.state.dirList[this.state.showDirection]}
         </DropdownToggle>
         <DropdownMenu>
         <DropdownItem onClick={this.clickedAsc}>Ascending</DropdownItem>
@@ -215,13 +238,20 @@ export default class Photos extends React.Component {
         <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
         </DropdownMenu>
         </Dropdown>
-        </Col>
+        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
         </Row>
+
         {prow}
         <br/>
         <Row className="justify-content-center">
         <Pages pagedata={{pagecount: this.state.pagecount, url: "/photospage= ", cpage: this.state.cpage}}/>
         </Row>
+        <Ppopup
+            text='Close Me'
+            isOpen={this.state.showPopup}
+            toggle={this.togglePopup.bind(this)}
+            submit={this.submitFilter}
+          />
         </Container>
         </div>
       );

@@ -13,6 +13,7 @@ import {
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import ResortRow from "./ResortRow";
+import Rpopup from "./Rpopup";
 import NavBar from "./Navbar";
 import Pages from "./Pages";
 import $ from 'jquery';
@@ -27,19 +28,21 @@ export default class Resorts extends React.Component {
       cpage: 0,
       dropdownOpen: false,
       sortBy: 0,
-
-      cLifts: 0,
-      celev: 0,
-      cName: 0,
-      cDesc: 0,
-      cAsc: 0,
-      cStars: 0,
-      cRuns: 0,
-      cReview: 0
+      direction: 0,
+      sortEnum: {NONE:0, LIFTS:1, ELEV:2, NAME:3, STARS:4, RUNS:5, REVIEW:6},
+      sortList: ["", "lifts", "elev", "name", "yelprating", "runs", "reviewcount"],
+      dirEnum: {ASC:0, DESC:1},
+      dirList: ["asc", "desc"],
+      showPopup: false,
+      showSorting: 0,
+      showDirection: 0,
+      filter: ""
     }
 
     this.toggle = this.toggle.bind(this);
     this.pairup = this.pairup.bind(this);
+
+    this.submitFilter = this.submitFilter.bind(this);
 
     this.sort = this.sort.bind(this);
     this.clickedLift = this.clickedLift.bind(this);
@@ -52,9 +55,23 @@ export default class Resorts extends React.Component {
     this.clickedAsc= this.clickedAsc.bind(this);
   }
 
+  togglePopup() {
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
+  }
+
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+  submitFilter(filter){
+    this.setState({
+      filter: filter
+    }, () => {
+      this.sort(this.state.sortBy, this.state.direction);
     });
   }
 
@@ -77,6 +94,8 @@ export default class Resorts extends React.Component {
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
     window.scrollTo(0, 0)
+    var id = ("\"id\"");
+    var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
     var pagenumber = nextProps.match.params.page;
     var temp;
     if(pagenumber == null){
@@ -87,73 +106,24 @@ export default class Resorts extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    if (this.state.sortBy == 1) {
-      var url = "http://127.0.0.1:5000/api/resorts?q=";
-      url += "{\"order_by\":[";
-      if (this.state.cLifts == 1) {
-        url += "{\"field\":\"lifts\",\"direction\":\"asc\"}]}";
-        if (this.state.cLifts == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/resorts?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"lifts\",\"direction\":\"desc\"}]}";
-        }
-      }
-      if (this.state.celev == 1) {
-        url += "{\"field\":\"elev\",\"direction\":\"asc\"}]}";
-        if (this.state.celev == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/resorts?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"elev\",\"direction\":\"desc\"}]}";
-        }
-      }
-      if (this.state.cName == 1) {
-        url += "{\"field\":\"name\",\"direction\":\"asc\"}]}";
-        if (this.state.cName == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/resorts?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"name\",\"direction\":\"desc\"}]}";
-        }
-      }
-
-      if (this.state.cStars == 1) {
-        url += "{\"field\":\"yelprating\",\"direction\":\"asc\"}]}";
-        if (this.state.cStars == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/resorts?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"yelprating\",\"direction\":\"desc\"}]}";
-        }
-      }
-
-      if (this.state.cRuns == 1) {
-        url += "{\"field\":\"runs\",\"direction\":\"asc\"}]}";
-        if (this.state.cRuns == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/resorts?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"runs\",\"direction\":\"desc\"}]}";
-        }
-      }
-
-      if (this.state.cReview == 1) {
-        url += "{\"field\":\"reviewcount\",\"direction\":\"asc\"}]}";
-        if (this.state.cReview == 1 && this.state.cDesc == 1) {
-          var url = "http://127.0.0.1:5000/api/resorts?q=";
-          url += "{\"order_by\":[";
-          url += "{\"field\":\"reviewcount\",\"direction\":\"desc\"}]}";
-        }
-      }
-      url += "&page="
-      url += pagenumber
-      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    var url = "http://hikingadventures.me/api/resorts?q={";
+    url += "\"order_by\":[";
+    if (this.state.sortBy != this.state.sortEnum.NONE) {
+      url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
+      url += ",\"direction\":\"" + this.state.dirList[this.state.direction] + "\"}";
     }
-    else{
-      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
-      fetchfrom += pagenumber;
-      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
-    }
+    url += "]"
+    if(!(this.state.filter === "")) url += "," + this.state.filter;
+    url += "}";
+    url += "&page=";
+    url += pagenumber;
+    $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
 
   componentDidMount(){
       var pagenumber = this.props.match.params.page;
+      var id = ("\"id\"");
+      var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
       var temp;
       if(pagenumber == null){
         pagenumber = 1
@@ -163,37 +133,19 @@ export default class Resorts extends React.Component {
         pagenumber = temp[1];
         pagenumber = parseInt(pagenumber, 10);
       }
-      // var url = 'http://127.0.0.1:5000/api/resorts?page=';
-      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
+
+      var fetchfrom = "http://hikingadventures.me/api/resorts?page=";
       fetchfrom += pagenumber;
+
+
       $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     }
     componentWillUnmount(){
       //Testing purposes
     }
 
-    sort(field, dir){
+    sort(sort, dir){
         var pagenumber = this.props.match.params.page;
-        var x = "";
-        var d = dir;
-        if (field == "lifts") {
-          var x = ("\"lifts\"")
-        }
-        if (field == "elev") {
-          var x = ("\"elev\"")
-        }
-        if (field == "name") {
-          var x = ("\"name\"")
-        }
-        if (field == "yelprating") {
-          var x = ("\"yelprating\"")
-        }
-        if (field == "runs") {
-          var x = ("\"runs\"")
-        }
-        if (field == "reviewcount") {
-          var x = ("\"reviewcount\"")
-        }
         var temp;
         if(pagenumber == null){
           pagenumber = 1
@@ -203,131 +155,66 @@ export default class Resorts extends React.Component {
           pagenumber = temp[1];
           pagenumber = parseInt(pagenumber, 10);
         }
-        this.setState({sortBy: 1});
-        var url = "http://127.0.0.1:5000/api/resorts?q=";
+        var url = "http://hikingadventures.me/api/resorts?q=";
         url += "{\"order_by\":[";
-        url += "{\"field\":" + x + ",\"direction\":" + d + "}]}";
+        if (sort != this.state.sortEnum.NONE) {
+          url += "{\"field\":\"" + this.state.sortList[sort] + "\"";
+          url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
+        }
+        url += "]";
+        if(!(this.state.filter === "")) url += "," + this.state.filter;
+        url += "}";
         url += "&page="
         url += pagenumber
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     }
 
     clickedLift(){
-      this.setState({cLifts: 1});
-      this.setState({celev: 0});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 0});
-      this.setState({cRuns: 0});
-      this.setState({cReview: 0});
-      this.sort("lifts", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.LIFTS});
+      this.setState({showSorting: this.state.sortEnum.LIFTS});
+      this.sort(this.state.sortEnum.LIFTS, this.state.direction);
     }
 
     clickedElev(){
-      this.setState({celev: 1});
-      this.setState({cLifts: 0});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 0});
-      this.setState({cRuns: 0});
-      this.setState({cReview: 0});
-      this.sort("elev", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.ELEV});
+      this.setState({showSorting: this.state.sortEnum.ELEV});
+      this.sort(this.state.sortEnum.ELEV, this.state.direction);
     }
 
     clickedName(){
-      this.setState({cLifts: 0});
-      this.setState({celev: 0});
-      this.setState({cName: 1});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 0});
-      this.setState({cRuns: 0});
-      this.setState({cReview: 0});
-      this.sort("name", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.NAME});
+      this.setState({showSorting: this.state.sortEnum.NAME});
+      this.sort(this.state.sortEnum.NAME, this.state.direction);
     }
 
     clickedStars(){
-      this.setState({cLifts: 0});
-      this.setState({celev: 0});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 1});
-      this.setState({cRuns: 0});
-      this.setState({cReview: 0});
-      this.sort("yelprating", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.STARS});
+      this.setState({showSorting: this.state.sortEnum.STARS});
+      this.sort(this.state.sortEnum.STARS, this.state.direction);
     }
 
     clickedRuns(){
-      this.setState({cLifts: 0});
-      this.setState({celev: 0});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 0});
-      this.setState({cRuns: 1});
-      this.setState({cReview: 0});
-      this.sort("runs", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.RUNS});
+      this.setState({showSorting: this.state.sortEnum.RUNS});
+      this.sort(this.state.sortEnum.RUNS, this.state.direction);
     }
 
     clickedReview(){
-      this.setState({cLifts: 0});
-      this.setState({celev: 0});
-      this.setState({cName: 0});
-      this.setState({cDesc: 0});
-      this.setState({cAsc: 0});
-      this.setState({cStars: 0});
-      this.setState({cRuns: 0});
-      this.setState({cReview: 1});
-      this.sort("reviewcount", "\"asc\"")
+      this.setState({sortBy: this.state.sortEnum.REVIEW});
+      this.setState({showSorting: this.state.sortEnum.REVIEW});
+      this.sort(this.state.sortEnum.REVIEW, this.state.direction);
     }
 
     clickedDesc(){
-      this.setState({cDesc: 1});
-      this.setState({cAsc: 0});
-      if (this.state.cLifts == 1) {
-        this.sort("lifts", "\"desc\"")
-      }
-      if (this.state.celev == 1) {
-        this.sort("elev", "\"desc\"")
-      }
-      if (this.state.cName == 1) {
-        this.sort("name", "\"desc\"")
-      }
-      if (this.state.cStars == 1) {
-        this.sort("yelprating", "\"desc\"")
-      }
-      if (this.state.cRuns == 1) {
-        this.sort("runs", "\"desc\"")
-      }
-      if (this.state.cReview == 1) {
-        this.sort("reviewcount", "\"desc\"")
-      }
+      this.setState({direction: this.state.dirEnum.DESC});
+      this.setState({showDirection: this.state.dirEnum.DESC});
+      this.sort(this.state.sortBy, this.state.dirEnum.DESC);
     }
 
     clickedAsc(){
-      this.setState({cAsc: 1});
-      this.setState({cDesc: 0});
-      if (this.state.cLifts == 1) {
-        this.sort("lifts", "\"asc\"")
-      }
-      if (this.state.celev == 1) {
-        this.sort("elev", "\"asc\"")
-      }
-      if (this.state.cName == 1) {
-        this.sort("name", "\"asc\"")
-      }
-      if (this.state.cStars == 1) {
-        this.sort("yelprating", "\"asc\"")
-      }
-      if (this.state.cRuns == 1) {
-        this.sort("runs", "\"asc\"")
-      }
-      if (this.state.cReview == 1) {
-        this.sort("reviewcount", "\"asc\"")
-      }
+      this.setState({direction: this.state.dirEnum.ASC});
+      this.setState({showDirection: this.state.dirEnum.ASC});
+      this.sort(this.state.sortBy, this.state.dirEnum.ASC);
     }
 
 
@@ -345,10 +232,9 @@ export default class Resorts extends React.Component {
         <NavBar/>
         <Container>
         <Row>
-        <Col lg="2" sm="10">
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
-          Sort by
+        <DropdownToggle color="primary" caret>
+          Sort by: {this.state.sortList[this.state.showSorting]}
         </DropdownToggle>
         <DropdownMenu>
           <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
@@ -357,18 +243,16 @@ export default class Resorts extends React.Component {
           <DropdownItem divider/>
           <DropdownItem onClick={this.clickedElev}>Elevation</DropdownItem>
           <DropdownItem divider/>
-          <DropdownItem onClick={this.clickedStars}>Stars</DropdownItem>
+          <DropdownItem onClick={this.clickedStars}>Yelp Rating</DropdownItem>
           <DropdownItem divider/>
           <DropdownItem onClick={this.clickedRuns}>Runs</DropdownItem>
           <DropdownItem divider/>
-          <DropdownItem onClick={this.clickedReview}>Review</DropdownItem>
+          <DropdownItem onClick={this.clickedReview}>Review Count</DropdownItem>
         </DropdownMenu>
-      </Dropdown>
-        </Col>
-        <Col lg="2" sm="10">
-        <Dropdown direction="up" isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
-        <DropdownToggle caret>
-        Direction
+        </Dropdown>
+        <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
+        <DropdownToggle color="primary" caret>
+        Direction: {this.state.dirList[this.state.showDirection]}
         </DropdownToggle>
         <DropdownMenu>
         <DropdownItem onClick={this.clickedAsc}>Ascending</DropdownItem>
@@ -376,13 +260,19 @@ export default class Resorts extends React.Component {
         <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
         </DropdownMenu>
         </Dropdown>
-        </Col>
+        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
         </Row>
         {rrow}
         <br/>
         <Row className="justify-content-center">
         <Pages pagedata={{pagecount: this.state.pagecount, url: "/resortspage= ", cpage: this.state.cpage}}/>
         </Row>
+        <Rpopup
+            text='Close Me'
+            isOpen={this.state.showPopup}
+            toggle={this.togglePopup.bind(this)}
+            submit={this.submitFilter}
+          />
         </Container>
         </div>
       );
