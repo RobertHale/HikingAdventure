@@ -29,20 +29,22 @@ export default class Tpopup extends React.Component {
       dropdownOpen: false
     };
     this.handleLenChange  = this.handleLenChange.bind(this);
-    this.handleDiffChange = this.handleDiffChange.bind(this);
     this.handleAscChange  = this.handleAscChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);
     this.handleStarChange = this.handleStarChange.bind(this);
     this.handleLatChange  = this.handleLatChange.bind(this);
     this.handleLonChange  = this.handleLonChange.bind(this);
     this.toggleDropDown   = this.toggleDropDown.bind(this);
+    this.clickedGreen     = this.clickedGreen.bind(this);
+    this.clickedGreenBlue = this.clickedGreenBlue.bind(this);
+    this.clickedBlue      = this.clickedBlue.bind(this);
+    this.clickedBlueBlack = this.clickedBlueBlack.bind(this);
+    this.clickedBlack     = this.clickedBlack.bind(this);
+    this.clickedDBlack    = this.clickedDBlack.bind(this);
     this.submitFilter     = this.submitFilter.bind(this);
   }
   handleLenChange(e) {
     this.setState({len: e.target.value});
-  }
-  handleDiffChange(e) {
-    this.setState({diff: e.target.value});
   }
   handleAscChange(e) {
     this.setState({asc: e.target.value});
@@ -60,9 +62,25 @@ export default class Tpopup extends React.Component {
     this.setState({lon: e.target.value});
   }
   toggleDropDown() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
+    this.setState({dropdownOpen: !this.state.dropdownOpen});
+  }
+  clickedGreen(){
+    this.setState({diff: "green"});
+  }
+  clickedGreenBlue(){
+    this.setState({diff: "greenBlue"});
+  }
+  clickedBlue(){
+    this.setState({diff: "blue"});
+  }
+  clickedBlueBlack(){
+    this.setState({diff: "blueBlack"});
+  }
+  clickedBlack(){
+    this.setState({diff: "black"});
+  }
+  clickedDBlack(){
+    this.setState({diff: "dblack"});
   }
   static checkAndNotifyNumber(number, name, min, max){
     if (number === ""){
@@ -97,7 +115,7 @@ export default class Tpopup extends React.Component {
       }else{
         notFirst = true;
       }
-      filter += "{\"name\":\"difficulty\",\"op\":\">=\",\"val\":\"" + this.state.diff + "\"}";
+      filter += "{\"name\":\"difficulty\",\"op\":\"eq\",\"val\":\"" + this.state.diff + "\"}";
     }
     if (Tpopup.checkAndNotifyNumber(this.state.asc, "ascent", 0, 12500)) {
       if(notFirst){
@@ -157,14 +175,16 @@ export default class Tpopup extends React.Component {
               <InputGroupAddon className="form-text" addonType="prepend">Difficulty:</InputGroupAddon>
               <InputGroupButtonDropdown addonType="append" isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
               <DropdownToggle color="primary" caret>
-                    Button Dropdown
+                    Select
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem header>Header</DropdownItem>
-                <DropdownItem disabled>Action</DropdownItem>
-                <DropdownItem>Another Action</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Another Action</DropdownItem>
+                <DropdownItem header>Difficulty</DropdownItem>
+                <DropdownItem onClick={this.clickedGreen}>Green</DropdownItem>
+                <DropdownItem onClick={this.clickedGreenBlue}>Green Blue</DropdownItem>
+                <DropdownItem onClick={this.clickedBlue}>Blue</DropdownItem>
+                <DropdownItem onClick={this.clickedBlueBlack}>Blue Black</DropdownItem>
+                <DropdownItem onClick={this.clickedBlack}>Black</DropdownItem>
+                <DropdownItem onClick={this.clickedDBlack}>Double Black</DropdownItem>
               </DropdownMenu>
             </InputGroupButtonDropdown>
           </InputGroup>
