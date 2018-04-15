@@ -53,7 +53,7 @@ export default class App extends React.Component {
     var lastPart = url.split("/").pop();
     trailid = lastPart;
 
-    var fetchfrom = "http://hikingadventures.me/api/trails/" + lastPart
+    var fetchfrom = "http://127.0.0.1:5000/api/trails/" + lastPart
 
 
     $.getJSON(fetchfrom)
@@ -104,7 +104,7 @@ export default class App extends React.Component {
           };
           let list = results.objects.map((resorts)=>{
             return (
-              <a style = {pad} className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
+              <a style = {pad} className="btn btn-primary" href={"http://127.0.0.1:5000/resorts/" + resorts.id}>{resorts.name}</a>
 
             )
 
@@ -126,6 +126,7 @@ export default class App extends React.Component {
 
     var titles = {
       color:'white',
+      textAlign: 'center'
     };
 
     var center = {
@@ -142,6 +143,10 @@ export default class App extends React.Component {
       padding: '5px 5px 5px 5px'
     };
 
+    var cardpad = {
+      margin: '0px 0px 10px 0px'
+    };
+
 
     return (
       <div>
@@ -156,11 +161,12 @@ export default class App extends React.Component {
 
 
 
-      <div className="row">
+      <div className="row justify-content-center">
         <div id="main" className="col-lg-6">
-          <div className="card cardbg">
-            <iframe  width="540" height="500" src={"https://www.youtube.com/embed/" + this.state.vid} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
+          <div style={cardpad} className="card cardbg">
+
             <div className="card-block">
+            <h2 style={titles} className="card-title">Description:</h2>
               <ul>
                 <li>
                   <h2 style={left} id="difficulty" className="card-title">
@@ -189,24 +195,41 @@ export default class App extends React.Component {
             </div>
           </div>
         </div>
-        <div className="col-lg-3">
-          <div className="card cardbg h-10">
-            <div className="card-block">
-              <h2 style={titles} className="card-title">Nearby Resorts:</h2>
-              {this.state.list}
-            </div>
-          </div>
+
+        <div className="col-lg-6">
+        <iframe  width="538" height="400" src={"https://www.youtube.com/embed/" + this.state.vid} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
         </div>
 
-        <div className="col-lg-3">
-          <div className="card cardbg h-12">
-            <div className="card-block">
-              <h2 style={center} className="card-title">Photos:</h2>
-              <a style={pad} id="photo" className="btn btn-primary" href={"http://hikingadventures.me/photos/" + this.state.trailid}>{this.state.name} Photos</a>
-            </div>
+        </div>
+
+      <div className="row">
+      <div className="col-lg-6">
+        <div style={cardpad} className="card cardbg h-10">
+          <div className="card-block">
+            <h2 style={titles} className="card-title">Nearby Resorts:</h2>
+            <ul>
+            <li>
+            {this.state.list}
+            </li>
+            </ul>
           </div>
         </div>
+      </div>
+
+      <div className="col-lg-6">
+        <div style={cardpad} className="card cardbg h-10">
+          <div className="card-block">
+            <h2 style={center} className="card-title">Photos:</h2>
+            <ul>
+            <li>
+            <a style={pad} id="photo" className="btn btn-primary" href={"http://127.0.0.1:5000/photos/" + this.state.trailid}>{this.state.name} Photos</a>
+            </li>
+            </ul>
+          </div>
         </div>
+      </div>
+      </div>
+
 
 
 
