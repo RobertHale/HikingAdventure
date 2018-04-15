@@ -58,6 +58,11 @@ iframe {
 	text-decoration: underline;
 }
 
+.equal-img{
+	width:100%;
+	height:auto;
+}
+
 h3	{ color: white;}
 h4	{ color: white;}
 h6	{ color: white;}
