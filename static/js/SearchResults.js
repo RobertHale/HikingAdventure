@@ -16,6 +16,7 @@ import PhotoRow from "./PhotoRow";
 import NavBar from "./Navbar";
 import Pages from "./Pages";
 import Srp from "./SearchResultPages";
+import Spinner from "./Spinner";
 import $ from 'jquery';
 
 export default class SearchResults extends React.Component {
@@ -28,13 +29,16 @@ export default class SearchResults extends React.Component {
       Rpresorts  : [],
       Tpresorts  : [],
       Ppresorts  : [],
-      Rpagecount : 0,
-      Tpagecount : 0,
-      Ppagecount : 0,
+      Rpagecount : 1,
+      Tpagecount : 1,
+      Ppagecount : 1,
       Rpage      : 1,
       Tpage      : 1,
       Ppage      : 1,
-      query      : ""
+      query      : "",
+      Rloading: true,
+      Tloading: true,
+      Ploading: true
     }
     this.Rpairup = this.Rpairup.bind(this);
     this.Tpairup = this.Tpairup.bind(this);
@@ -59,11 +63,13 @@ export default class SearchResults extends React.Component {
     this.setState({
       Rpresorts: paired,
       Rpagecount: Math.ceil(resultcount/4),
-      Rpage: pagenumber
+      Rpage: pagenumber,
+      Rloading: false
     });
   }
   Rchangepage(page){
-    var Rfetch = "http://hikingadventures.me/api/resorts?page=" + page + "&results_per_page=4&q=";
+    this.setState({Rloading: true});
+    var Rfetch = "http://127.0.0.1:5000/api/resorts?page=" + page + "&results_per_page=4&q=";
     Rfetch += this.state.query;
     //console.log(Rfetch);
     $.getJSON(Rfetch).then(results => {this.Rpairup(results.objects, results.num_results, page)});
@@ -84,11 +90,13 @@ export default class SearchResults extends React.Component {
     this.setState({
       Tpresorts: paired,
       Tpagecount: Math.ceil(resultcount/4),
-      Tpage: pagenumber
+      Tpage: pagenumber,
+      Tloading: false
     });
   }
   Tchangepage(page){
-    var Tfetch = "http://hikingadventures.me/api/trails?page=" + page + "&results_per_page=4&q=";
+    this.setState({Tloading: true});
+    var Tfetch = "http://127.0.0.1:5000/api/trails?page=" + page + "&results_per_page=4&q=";
     Tfetch += this.state.query;
     //console.log(Tfetch);
     $.getJSON(Tfetch).then(results => {this.Tpairup(results.objects, results.num_results, page)});
@@ -109,17 +117,24 @@ export default class SearchResults extends React.Component {
     this.setState({
       Ppresorts: paired,
       Ppagecount: Math.ceil(resultcount/4),
-      Ppage: pagenumber
+      Ppage: pagenumber,
+      Ploading: false
     });
   }
   Pchangepage(page){
-    var Pfetch = "http://hikingadventures.me/api/photos?page=" + page + "&results_per_page=4&q=";
+    this.setState({Ploading: true});
+    var Pfetch = "http://127.0.0.1:5000/api/photos?page=" + page + "&results_per_page=4&q=";
     Pfetch += this.state.query;
     //console.log(Pfetch);
     $.getJSON(Pfetch).then(results => {this.Ppairup(results.objects, results.num_results, page)});
   }
 
   componentWillReceiveProps(nextProps){
+    this.setState({
+      Rloading: true,
+      Tloading: true,
+      Ploading: true
+    });
 
   	window.scrollTo(0, 0)
     var query = "{\"filters\":[{\"name\":\"name\",\"op\":\"like\",\"val\":\""
@@ -129,13 +144,13 @@ export default class SearchResults extends React.Component {
       query : query
     });
     //console.log(this.state.query);
-  	var Rfetch = "http://hikingadventures.me/api/resorts?page=" + this.state.Rpage + "&results_per_page=4&q=";
+  	var Rfetch = "http://127.0.0.1:5000/api/resorts?page=" + this.state.Rpage + "&results_per_page=4&q=";
   	Rfetch += query
   	//console.log(Rfetch);
-  	var Tfetch = "http://hikingadventures.me/api/trails?page=" + this.state.Tpage  + "&results_per_page=4&q=";
+  	var Tfetch = "http://127.0.0.1:5000/api/trails?page=" + this.state.Tpage  + "&results_per_page=4&q=";
   	Tfetch += query
   	//console.log(Tfetch);
-  	var Pfetch = "http://hikingadventures.me/api/photos?page=" + this.state.Ppage + "&results_per_page=4&q=";
+  	var Pfetch = "http://127.0.0.1:5000/api/photos?page=" + this.state.Ppage + "&results_per_page=4&q=";
   	Pfetch += query
   	//console.log(Pfetch);
   	$.getJSON(Rfetch).then(results => {this.Rpairup(results.objects, results.num_results, this.state.Rpage)});
@@ -150,14 +165,15 @@ export default class SearchResults extends React.Component {
     this.setState({
       query : query
     });
+    // http://127.0.0.1:5000
   	//console.log(query);
-  	var Rfetch = "http://hikingadventures.me/api/resorts?page=1&results_per_page=4&q=";
+  	var Rfetch = "http://127.0.0.1:5000/api/resorts?page=1&results_per_page=4&q=";
   	Rfetch += query;
   	//console.log(Rfetch);
-  	var Tfetch = "http://hikingadventures.me/api/trails?page=1&results_per_page=4&q=";
+  	var Tfetch = "http://127.0.0.1:5000/api/trails?page=1&results_per_page=4&q=";
   	Tfetch += query;
   	//console.log(Tfetch);
-  	var Pfetch = "http://hikingadventures.me/api/photos?page=1&results_per_page=4&q=";
+  	var Pfetch = "http://127.0.0.1:5000/api/photos?page=1&results_per_page=4&q=";
   	Pfetch += query;
   	//console.log(Pfetch);
   	$.getJSON(Rfetch).then(results => {this.Rpairup(results.objects, results.num_results, 1)});
@@ -170,6 +186,12 @@ export default class SearchResults extends React.Component {
 
 	render () {
       //console.log('R page is ' + this.state.Rpage);
+      let Rloading = this.state.Rloading;
+      let Tloading = this.state.Tloading;
+      let Ploading = this.state.Ploading;
+      let Rresults = this.state.Rpagecount;
+      let Tresults = this.state.Tpagecount;
+      let Presults = this.state.Ppagecount;
       let rrow;
       if(this.state.Rpresorts){
         rrow = this.state.Rpresorts.map(currentc => {
@@ -200,19 +222,22 @@ export default class SearchResults extends React.Component {
         <Container>
         <br/>
         <h3>Resorts:</h3>
-        {rrow}
+        {Rresults == 0 ? <p>{"No Resorts Found"}</p> : null}
+        {Rloading ? <Spinner/> : rrow}
         <br/>
         <Row className="justify-content-center">
         <Srp cPage ={this.state.Rpage} pageCount={this.state.Rpagecount} changePage={this.Rchangepage}/>
         </Row>
         <h3>Trails:</h3>
-        {trow}
+        {Tresults == 0 ? <p>{"No Trails Found"}</p> : null}
+        {Tloading ? <Spinner/> : trow}
         <br/>
         <Row className="justify-content-center">
         <Srp cPage ={this.state.Tpage} pageCount={this.state.Tpagecount} changePage={this.Tchangepage}/>
         </Row>
-        <h3>photos:</h3>
-        {prow}
+        <h3>Photos:</h3>
+        {Presults == 0 ? <p>{"No Photos Found"}</p> : null}
+        {Ploading ? <Spinner/> : prow}
         <br/>
         <Row className="justify-content-center">
         <Srp cPage ={this.state.Ppage} pageCount={this.state.Ppagecount} changePage={this.Pchangepage}/>

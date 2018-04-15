@@ -16,6 +16,7 @@ import Tpopup from "./Tpopup";
 import $ from 'jquery';
 import NavBar from "./Navbar";
 import Pages from "./Pages";
+import Spinner from "./Spinner";
 
 export default class Trails extends React.Component {
   constructor(){
@@ -25,7 +26,6 @@ export default class Trails extends React.Component {
       presorts : [],
       pagecount: 0,
       cpage: 0,
-
       dropdownOpen: false,
       sortBy: 0,
       direction: 0,
@@ -35,10 +35,10 @@ export default class Trails extends React.Component {
       dirEnum: {ASC:0, DESC:1},
       dirList: ["asc", "desc"],
       showPopup: false,
-
       showSort: 0,
       showDirection: 0,
-      filter: ""
+      filter: "",
+      loading: true
     }
     this.pairup = this.pairup.bind(this);
 
@@ -54,7 +54,6 @@ export default class Trails extends React.Component {
     this.clickedReset = this.clickedReset.bind(this);
     this.clickedDesc= this.clickedDesc.bind(this);
     this.clickedAsc= this.clickedAsc.bind(this);
-
   }
 
   toggle() {
@@ -92,11 +91,13 @@ export default class Trails extends React.Component {
     this.setState({
       presorts: paired,
       pagecount: Math.ceil(resultcount/10),
-      cpage: pagenumber
+      cpage: pagenumber,
+      loading: false
     });
   }
 
   componentWillReceiveProps(nextProps){
+    this.setState({loading: true});
     window.scrollTo(0, 0)
     var pagenumber = nextProps.match.params.page;
     var temp;
@@ -124,8 +125,30 @@ export default class Trails extends React.Component {
   }
 
   componentDidMount(){
-      var pagenumber = this.props.match.params.page;
+    this.setState({loading: true});
+    var pagenumber = this.props.match.params.page;
+    var temp;
+    if(pagenumber == null){
+        pagenumber = 1
+    }
+    else{
+      temp = pagenumber.split(" ");
+      pagenumber = temp[1];
+      pagenumber = parseInt(pagenumber, 10);
+    }
+    var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
+    fetchfrom += pagenumber;
+    $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+  }
+
+  componentWillUnmount(){
+    // Testing purposes
+  }
+
+  sort(field, dir){
+      this.setState({loading: true});
       var temp;
+      var pagenumber = this.props.match.params.page;
       if(pagenumber == null){
         pagenumber = 1
       }
@@ -168,37 +191,40 @@ export default class Trails extends React.Component {
         //console.log(url);
         $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
 
-    }
+  clickedAscent(){
+    this.setState({sortBy: this.state.sortEnum.ASCENT, showSort: this.state.sortEnum.ASCENT}, () =>
+    this.sort(this.state.sortEnum.ASCENT, this.state.direction));
+  }
 
-    clickedAscent(){
-      this.setState({sortBy: this.state.sortEnum.ASCENT, showSort: this.state.sortEnum.ASCENT}, () =>
-      this.sort(this.state.sortEnum.ASCENT, this.state.direction));
-    }
+  clickedDescent(){
+    this.setState({sortBy: this.state.sortEnum.DESCENT, showSort: this.state.sortEnum.DESCENT}, () =>
+    this.sort(this.state.sortEnum.DESCENT, this.state.direction));
+  }
 
-    clickedDescent(){
-      this.setState({sortBy: this.state.sortEnum.DESCENT, showSort: this.state.sortEnum.DESCENT}, () =>
-      this.sort(this.state.sortEnum.DESCENT, this.state.direction));
-    }
+  clickedName(){
+    this.setState({sortBy: this.state.sortEnum.NAME, showSort: this.state.sortEnum.NAME}, () =>
+    this.sort(this.state.sortEnum.NAME, this.state.direction));
+  }
 
-    clickedName(){
-      this.setState({sortBy: this.state.sortEnum.NAME, showSort: this.state.sortEnum.NAME}, () =>
-      this.sort(this.state.sortEnum.NAME, this.state.direction));
-    }
+  clickedStars(){
+    this.setState({sortBy: this.state.sortEnum.STARS, showSort: this.state.sortEnum.STARS}, () =>
+    this.sort(this.state.sortEnum.STARS, this.state.direction));
+  }
 
-    clickedStars(){
-      this.setState({sortBy: this.state.sortEnum.STARS, showSort: this.state.sortEnum.STARS}, () =>
-      this.sort(this.state.sortEnum.STARS, this.state.direction));
-    }
+  clickedDiff(){
+    this.setState({sortBy: this.state.sortEnum.DIFFICULTY, showSort: this.state.sortEnum.DIFFICULTY}, () =>
+    this.sort(this.state.sortEnum.DIFFICULTY, this.state.direction));
+  }
 
-    clickedDiff(){
-      this.setState({sortBy: this.state.sortEnum.DIFFICULTY, showSort: this.state.sortEnum.DIFFICULTY}, () =>
-      this.sort(this.state.sortEnum.DIFFICULTY, this.state.direction));
-    }
+  clickedLength(){
+    this.setState({sortBy: this.state.sortEnum.LENGTH, showSort: this.state.sortEnum.LENGTH}, () =>
+    this.sort(this.state.sortEnum.LENGTH, this.state.direction));
+  }
 
-    clickedLength(){
-      this.setState({sortBy: this.state.sortEnum.LENGTH, showSort: this.state.sortEnum.LENGTH}, () =>
-      this.sort(this.state.sortEnum.LENGTH, this.state.direction));
-    }
+  clickedDesc(){
+    this.setState({direction: this.state.dirEnum.DESC, showDirection: this.state.dirEnum.DESC});
+    this.sort(this.state.sortBy, this.state.dirEnum.DESC);
+  }
 
     clickedReset(){
       this.setState({sortBy: this.state.sortEnum.NONE});
@@ -213,9 +239,15 @@ export default class Trails extends React.Component {
       this.sort(this.state.sortBy, this.state.dirEnum.DESC);
     }
 
-    clickedAsc(){
-      this.setState({direction: this.state.dirEnum.ASC, showDirection: this.state.dirEnum.ASC});
-      this.sort(this.state.sortBy, this.state.dirEnum.ASC);
+  render () {
+    let trow;
+    let isloading = this.state.loading;
+    if(this.state.presorts){
+      trow = this.state.presorts.map(currentc => {
+        return(
+          <TrailRow key={currentc[0].id} data={currentc} />
+        );
+      })
     }
 
     render () {
@@ -280,3 +312,4 @@ export default class Trails extends React.Component {
       );
     }
   }
+}
