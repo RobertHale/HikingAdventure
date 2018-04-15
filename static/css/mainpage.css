@@ -60,6 +60,11 @@
 	color: white;
 }
 
+iframe {
+  background: url(../assets/pcman.gif) center center;
+  background-repeat: no-repeat;
+ }
+
 .title-text {
 	text-decoration: underline;
 }
@@ -70,7 +75,11 @@
 	text-align: center;
 }
 
-span{ width: 110px;}
+.equal-img{
+	width:100%;
+	height:auto;
+}
+
 h3	{ color: white;}
 h4	{ color: white;}
 h6	{ color: white;}
