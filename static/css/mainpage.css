@@ -49,6 +49,11 @@
 	margin-right: 10px;
 }
 
+.equal-img{
+	width:100%;
+	height:auto;
+}
+
 .title-text {
 	text-decoration: underline;
 }

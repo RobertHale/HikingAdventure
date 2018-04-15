@@ -178,7 +178,7 @@ export default class About extends React.Component {
       <Row className="justify-content-center">
 
       <Col lg="4" md="4" sm="4">
-      <img className="profile-picture img-thumbnail" src="https://i.imgur.com/ZHPGrSu.jpg"/>
+      <img className="profile-picture img-thumbnail equal-img" src="https://i.imgur.com/ZHPGrSu.jpg"/>
       <p className="text-center">
         <b>{"David Castilla"}</b>
       </p>
@@ -203,7 +203,7 @@ export default class About extends React.Component {
       </Col>
 
       <Col lg="4" md="4" sm="4">
-      <img className="profile-picture img-thumbnail" src="https://i.imgur.com/4jHX00q.jpg"/>
+      <img className="profile-picture img-thumbnail equal-img" src="https://i.imgur.com/4jHX00q.jpg"/>
       <p className="text-center">
         <b>{"Alex Dai"}</b>
       </p>
@@ -232,7 +232,7 @@ export default class About extends React.Component {
 
       </Col>
       <Col lg="4" md="4" sm="4">
-      <img className="profile-picture img-thumbnail" src="https://i.imgur.com/mf7JSRj.jpg"/>
+      <img className="profile-picture img-thumbnail equal-img" src="https://i.imgur.com/mf7JSRj.jpg"/>
       <p className="text-center">
         <b>{"Robert Hale"}</b>
       </p>
@@ -259,7 +259,7 @@ export default class About extends React.Component {
 
       <Row>
       <Col lg="4" md="4" sm="4">
-      <img className="profile-picture img-thumbnail" src="https://i.imgur.com/F5Y7b3M.jpg"/>
+      <img className="profile-picture img-thumbnail equal-img" src="https://i.imgur.com/F5Y7b3M.jpg"/>
       <p className="text-center">
         <b>{"Adolfo Lopez"}</b>
       </p>
@@ -283,7 +283,7 @@ export default class About extends React.Component {
       </p>
       </Col>
       <Col lg="4" md="4" sm="4">
-      <img className="profile-picture img-thumbnail" src="https://i.imgur.com/00OjoLZ.jpg"/>
+      <img className="profile-picture img-thumbnail equal-img" src="https://i.imgur.com/00OjoLZ.jpg"/>
       <p className="text-center">
         <b>{"Vamsi Ponakala"}</b>
       </p>
@@ -308,7 +308,7 @@ export default class About extends React.Component {
       </Col>
 
       <Col lg="4" md="4" sm="4">
-      <img className="profile-picture img-thumbnail" src="https://i.imgur.com/zkxl05U.jpg"/>
+      <img className="profile-picture img-thumbnail equal-img" src="https://i.imgur.com/tJT9lrG.jpg"/>
       <p className="text-center">
         <b>{"Victor Yang"}</b>
       </p>
