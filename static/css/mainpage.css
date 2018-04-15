@@ -49,13 +49,18 @@
 	margin-right: 10px;
 }
 
-.equal-img{
-	width:100%;
-	height:auto;
-}
+iframe {
+  background: url(../assets/pcman.gif) center center;
+  background-repeat: no-repeat;
+ }
 
 .title-text {
 	text-decoration: underline;
+}
+
+.equal-img{
+	width:100%;
+	height:auto;
 }
 
 h3	{ color: white;}

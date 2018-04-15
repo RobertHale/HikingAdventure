@@ -33,6 +33,9 @@ export default class Pages extends React.Component {
     // holds pagination prev/next button
     let prev = "";
     let next = "";
+    // first and last pagination buttons
+    let first = "";
+    let last = "";
 
     // by default prev/next buttons are not disabled
     aurl = url
@@ -51,6 +54,22 @@ export default class Pages extends React.Component {
             </Link>
             </PaginationItem>
 
+    aurl = url
+    aurl += 1
+    first = <PaginationItem>
+            <Link className="page-link" to={aurl}>
+            {"First"}
+            </Link>
+            </PaginationItem>
+
+    aurl = url
+    aurl += totalPages
+    last = <PaginationItem>
+            <Link className="page-link" to={aurl}>
+            {"Last"}
+            </Link>
+            </PaginationItem>
+
     // check if prev/next should be disabled
     if (currentPage == 1){
       prev =  <PaginationItem disabled>
@@ -58,11 +77,23 @@ export default class Pages extends React.Component {
               {"«"}
               </Link>
               </PaginationItem>
+
+      first = <PaginationItem disabled>
+              <Link className="page-link" to="">
+              {"First"}
+              </Link>
+              </PaginationItem>
     }
     if (currentPage == totalPages){
       next =  <PaginationItem disabled>
               <Link className="page-link" to="">
               {"»"}
+              </Link>
+              </PaginationItem>
+
+      last =  <PaginationItem disabled>
+              <Link className="page-link" to="">
+              {"Last"}
               </Link>
               </PaginationItem>
     }
@@ -118,9 +149,11 @@ export default class Pages extends React.Component {
       <div>
       {exists == 1 ?
         <Pagination>
+        {first}
         {prev}
         {items}
         {next}
+        {last}
         </Pagination>
          : null}
       </div>
