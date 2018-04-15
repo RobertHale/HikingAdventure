@@ -10,6 +10,7 @@ export default class Spinner extends React.Component {
     }
   }
   render() {
+    // "ClimbingBoxLoader can be changed to any desired loading animation"
     return (
       <div className='sweet-loading'>
       <Row className="justify-content-center">
