@@ -36,6 +36,9 @@ export default class SearchResultPages extends React.Component {
     // holds pagination prev/next button
     let prev = "";
     let next = "";
+    // first and last pagination buttons
+    let first = "";
+    let last = "";
 
     // by default prev/next buttons are not disabled
     var prevPage = currentPage - 1;
@@ -47,18 +50,30 @@ export default class SearchResultPages extends React.Component {
     next =  <PaginationItem>
             <PaginationLink className="spagination" next id={nextPage} onClick={this.updatePage}></PaginationLink>
             </PaginationItem>
+    first = <PaginationItem>
+            <PaginationLink className="spagination" id={1} onClick={this.updatePage}>{"First"}</PaginationLink>
+            </PaginationItem>
+    last = <PaginationItem>
+            <PaginationLink className="spagination" id={totalPages} onClick={this.updatePage}>{"Last"}</PaginationLink>
+            </PaginationItem>
 
     // check if prev/next should be disabled
     if (currentPage == 1){
       //console.log('prev disabled')
       prev =  <PaginationItem disabled>
-              <PaginationLink className="spagination" previous disabled></PaginationLink>
+              <PaginationLink className="spagination" previous></PaginationLink>
+              </PaginationItem>
+      first = <PaginationItem disabled>
+              <PaginationLink className="spagination">{"First"}</PaginationLink>
               </PaginationItem>
     }
     if (currentPage == totalPages){
       //console.log('next enabled')
       next =  <PaginationItem disabled>
-              <PaginationLink className="spagination" next disabled></PaginationLink>
+              <PaginationLink className="spagination" next></PaginationLink>
+              </PaginationItem>
+      last =  <PaginationItem disabled>
+              <PaginationLink className="spagination" >{"Last"}</PaginationLink>
               </PaginationItem>
     }
     // loading pagination in sets of 5, handle case if less than 5
@@ -106,9 +121,11 @@ export default class SearchResultPages extends React.Component {
       <div>
       {exists == 1 ?
         <Pagination>
+        {first}
         {prev}
         {items}
         {next}
+        {last}
         </Pagination>
          : null}
       </div>
