@@ -157,39 +157,21 @@ export default class Trails extends React.Component {
         pagenumber = temp[1];
         pagenumber = parseInt(pagenumber, 10);
       }
-      var fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
-      fetchfrom += pagenumber;
-      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
-    }
+      var url = "http://127.0.0.1:5000/api/trails?q=";
+      url += "{\"order_by\":[";
+      if (field != this.state.sortEnum.NONE) {
+        url += "{\"field\":\"" + this.state.sortList[field] + "\"";
+        url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
+      }
+      url += "]";
+      if(!(this.state.filter === "")) url += "," + this.state.filter;
+      url += "}";
+      url += "&page="
+      url += pagenumber
+      //console.log(url);
+      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
 
-    componentWillUnmount(){
-      // Testing purposes
-    }
-
-    sort(field, dir){
-        var temp;
-        var pagenumber = this.props.match.params.page;
-        if(pagenumber == null){
-          pagenumber = 1
-        }
-        else{
-          temp = pagenumber.split(" ");
-          pagenumber = temp[1];
-          pagenumber = parseInt(pagenumber, 10);
-        }
-        var url = "http://127.0.0.1:5000/api/trails?q=";
-        url += "{\"order_by\":[";
-        if (field != this.state.sortEnum.NONE) {
-          url += "{\"field\":\"" + this.state.sortList[field] + "\"";
-          url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
-        }
-        url += "]";
-        if(!(this.state.filter === "")) url += "," + this.state.filter;
-        url += "}";
-        url += "&page="
-        url += pagenumber
-        //console.log(url);
-        $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+  }
 
   clickedAscent(){
     this.setState({sortBy: this.state.sortEnum.ASCENT, showSort: this.state.sortEnum.ASCENT}, () =>
@@ -220,24 +202,23 @@ export default class Trails extends React.Component {
     this.setState({sortBy: this.state.sortEnum.LENGTH, showSort: this.state.sortEnum.LENGTH}, () =>
     this.sort(this.state.sortEnum.LENGTH, this.state.direction));
   }
+  clickedReset(){
+    this.setState({sortBy: this.state.sortEnum.NONE});
+    this.setState({showSort: this.state.sortEnum.NONE});
+    this.setState({direction: this.state.sortEnum.ASC});
+    this.setState({showDirection: this.state.sortEnum.ASC, filter:""}, () =>
+    this.sort(this.state.sortEnum.NONE, this.state.direction));
+  }
 
   clickedDesc(){
     this.setState({direction: this.state.dirEnum.DESC, showDirection: this.state.dirEnum.DESC});
     this.sort(this.state.sortBy, this.state.dirEnum.DESC);
   }
 
-    clickedReset(){
-      this.setState({sortBy: this.state.sortEnum.NONE});
-      this.setState({showSort: this.state.sortEnum.NONE});
-      this.setState({direction: this.state.sortEnum.ASC});
-      this.setState({showDirection: this.state.sortEnum.ASC, filter:""}, () =>
-      this.sort(this.state.sortEnum.NONE, this.state.direction));
-    }
-
-    clickedDesc(){
-      this.setState({direction: this.state.dirEnum.DESC, showDirection: this.state.dirEnum.DESC});
-      this.sort(this.state.sortBy, this.state.dirEnum.DESC);
-    }
+  clickedAsc(){
+    this.setState({direction: this.state.dirEnum.ASC, showDirection: this.state.dirEnum.ASC});
+    this.sort(this.state.sortBy, this.state.dirEnum.ASC);
+  }
 
   render () {
     let trow;
@@ -249,67 +230,55 @@ export default class Trails extends React.Component {
         );
       })
     }
-
-    render () {
-      let trow;
-      if(this.state.presorts){
-        trow = this.state.presorts.map(currentc => {
-          return(
-            <TrailRow key={currentc[0].id} data={currentc} />
-          );
-        })
-      }
-      return(
-        <div>
-        <NavBar/>
-        <Container>
-        <Row>
-        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle color="primary" caret>
-          Sort by: {this.state.showAttribute[this.state.showSort]}
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
-          <DropdownItem divider/>
-          <DropdownItem onClick={this.clickedAscent}>Ascent</DropdownItem>
-          <DropdownItem divider/>
-          <DropdownItem onClick={this.clickedDescent}>Descent</DropdownItem>
-          <DropdownItem divider/>
-          <DropdownItem onClick={this.clickedStars}>Stars</DropdownItem>
-          <DropdownItem divider/>
-          <DropdownItem onClick={this.clickedDiff}>Difficulty</DropdownItem>
-          <DropdownItem divider/>
-          <DropdownItem onClick={this.clickedLength}>Length</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-        <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
-        <DropdownToggle color="primary" caret>
-        Direction: {this.state.dirList[this.state.showDirection]}
-        </DropdownToggle>
-        <DropdownMenu>
-        <DropdownItem onClick={this.clickedAsc}>Ascending</DropdownItem>
+    return(
+      <div>
+      <NavBar/>
+      <Container>
+      <Row>
+      <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+      <DropdownToggle color="primary" caret>
+        Sort by: {this.state.showAttribute[this.state.showSort]}
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
         <DropdownItem divider/>
-        <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
-        </DropdownMenu>
-        </Dropdown>
-        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
-        <Button color="primary" onClick={this.clickedReset}>Reset</Button>
-        </Row>
-
-        {trow}
-        <br/>
-        <Row className="justify-content-center">
-        <Pages pagedata={{pagecount: this.state.pagecount, url: "/trailspage= ", cpage: this.state.cpage}}/>
-        </Row>
-        <Tpopup
-            text='Close Me'
-            isOpen={this.state.showPopup}
-            toggle={this.togglePopup.bind(this)}
-            submit={this.submitFilter}
-          />
-        </Container>
-        </div>
-      );
-    }
+        <DropdownItem onClick={this.clickedAscent}>Ascent</DropdownItem>
+        <DropdownItem divider/>
+        <DropdownItem onClick={this.clickedDescent}>Descent</DropdownItem>
+        <DropdownItem divider/>
+        <DropdownItem onClick={this.clickedStars}>Stars</DropdownItem>
+        <DropdownItem divider/>
+        <DropdownItem onClick={this.clickedDiff}>Difficulty</DropdownItem>
+        <DropdownItem divider/>
+        <DropdownItem onClick={this.clickedLength}>Length</DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+      <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
+      <DropdownToggle color="primary" caret>
+      Direction: {this.state.dirList[this.state.showDirection]}
+      </DropdownToggle>
+      <DropdownMenu>
+      <DropdownItem onClick={this.clickedAsc}>Ascending</DropdownItem>
+      <DropdownItem divider/>
+      <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
+      </DropdownMenu>
+      </Dropdown>
+      <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+      <Button color="primary" onClick={this.clickedReset}>Reset</Button>
+      </Row>
+      {isloading ? <Spinner/> : trow}
+      <br/>
+      <Row className="justify-content-center">
+      <Pages pagedata={{pagecount: this.state.pagecount, url: "/trailspage= ", cpage: this.state.cpage}}/>
+      </Row>
+      <Tpopup
+          text='Close Me'
+          isOpen={this.state.showPopup}
+          toggle={this.togglePopup.bind(this)}
+          submit={this.submitFilter}
+        />
+      </Container>
+      </div>
+    );
   }
 }

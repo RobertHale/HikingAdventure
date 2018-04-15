@@ -30,8 +30,8 @@ export default class Photos extends React.Component {
       sortBy: 0,
       direction: 0,
       sortEnum: {NONE:0, LON:1, LAT:2, NAME:3},
-      showAttribute: ["", "Longitude", "Latitude", "Name"],
       sortList: ["", "lon", "lat", "name"],
+      showAttribute: ["", "Longitude", "Latitude", "Name"],
       dirEnum: {ASC:0, DESC:1},
       dirList: ["asc", "desc"],
       showPopup: false,
@@ -46,8 +46,8 @@ export default class Photos extends React.Component {
     this.submitFilter = this.submitFilter.bind(this);
     this.clickedLongitude = this.clickedLongitude.bind(this);
     this.clickedLatitude = this.clickedLatitude.bind(this);
-    this.clickedName = this.clickedName.bind(this);
     this.clickedReset = this.clickedReset.bind(this);
+    this.clickedName = this.clickedName.bind(this);
     this.clickedDesc= this.clickedDesc.bind(this);
     this.clickedAsc= this.clickedAsc.bind(this);
   }
@@ -122,23 +122,6 @@ export default class Photos extends React.Component {
   }
 
   componentDidMount(){
-      // var url = 'http://127.0.0.1:5000/api/resorts?page=';
-      var pagenumber = this.props.match.params.page;
-      var temp;
-      if(pagenumber == null){
-        pagenumber = 1
-      }
-      else{
-        temp = pagenumber.split(" ");
-        pagenumber = temp[1];
-        pagenumber = parseInt(pagenumber, 10);
-      }
-      //console.log(pagenumber);
-      var fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
-      fetchfrom += pagenumber;
-      //console.log(fetchfrom);
-
-      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
     this.setState({loading: true});
     // var url = 'http://hikingadventures.me/api/resorts?page=';
     var pagenumber = this.props.match.params.page;
@@ -160,35 +143,6 @@ export default class Photos extends React.Component {
   componentWillUnmount(){
       // <Link to="/resorts/10">press me </Link>
       //console.log("We unmounted Resorts");
-    }
-
-
-    sort(field, dir){
-        var pagenumber = this.props.match.params.page;
-        var temp;
-        if(pagenumber == null){
-          pagenumber = 1
-        }
-        else{
-          temp = pagenumber.split(" ");
-          pagenumber = temp[1];
-          pagenumber = parseInt(pagenumber, 10);
-        }
-        var url = "http://127.0.0.1:5000/api/photos?q=";
-        url += "{\"order_by\":[";
-        if (field != this.state.sortEnum.NONE) {
-          url += "{\"field\":\"" + this.state.sortList[field] + "\"";
-          url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
-        }
-
-        url += "]";
-        if(!(this.state.filter === "")) url += "," + this.state.filter;
-        url += "}";
-        url += "&page="
-        url += pagenumber
-        $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
-
-    }
   }
 
   sort(field, dir){
@@ -209,20 +163,13 @@ export default class Photos extends React.Component {
       url += "{\"field\":\"" + this.state.sortList[field] + "\"";
       url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
     }
+
     url += "]";
     if(!(this.state.filter === "")) url += "," + this.state.filter;
     url += "}";
     url += "&page="
     url += pagenumber
     $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
-  }
-
-  clickedReset(){
-    this.setState({sortBy: this.state.sortEnum.NONE});
-    this.setState({showSorting: this.state.sortEnum.NONE});
-    this.setState({direction: this.state.sortEnum.ASC});
-    this.setState({showDirection: this.state.sortEnum.ASC, filter:""}, () =>
-    this.sort(this.state.sortEnum.NONE, this.state.direction));
   }
 
   clickedLongitude(){
@@ -240,50 +187,23 @@ export default class Photos extends React.Component {
     this.sort(this.state.sortEnum.NAME, this.state.direction));
   }
 
+  clickedReset(){
+    this.setState({sortBy: this.state.sortEnum.NONE});
+    this.setState({showSorting: this.state.sortEnum.NONE});
+    this.setState({direction: this.state.sortEnum.ASC});
+    this.setState({showDirection: this.state.sortEnum.ASC, filter:""}, () =>
+    this.sort(this.state.sortEnum.NONE, this.state.direction));
+  }
+
   clickedDesc(){
     this.setState({direction: this.state.dirEnum.DESC, showDirection: this.state.dirEnum.DESC}, () =>
     this.sort(this.state.sortBy, this.state.dirEnum.DESC));
   }
 
-    render () {
-      let prow;
-      if(this.state.presorts){
-        prow = this.state.presorts.map(currentc => {
-          return(
-            <PhotoRow key={currentc[0].id} data = {currentc} />
-          );
-        })
-      }
-      return(
-        <div>
-        <NavBar/>
-        <Container>
-        <Row>
-        <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle color="primary" caret>
-          Sort by: {this.state.showAttribute[this.state.showSorting]}
-        </DropdownToggle>
-        <DropdownMenu>
-          <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
-          <DropdownItem divider/>
-          <DropdownItem onClick={this.clickedLongitude}>Longitude</DropdownItem>
-          <DropdownItem divider/>
-          <DropdownItem onClick={this.clickedLatitude}>Latitude</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-        <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
-        <DropdownToggle color="primary" caret>
-        Direction: {this.state.dirList[this.state.showDirection]}
-        </DropdownToggle>
-        <DropdownMenu>
-        <DropdownItem onClick={this.clickedAsc}>Ascending</DropdownItem>
-        <DropdownItem divider/>
-        <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
-        </DropdownMenu>
-        </Dropdown>
-        <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
-        <Button color="primary" onClick={this.clickedReset}>Reset</Button>
-        </Row>
+  clickedAsc(){
+    this.setState({direction: this.state.dirEnum.ASC, showDirection: this.state.dirEnum.ASC}, () =>
+    this.sort(this.state.sortBy, this.state.dirEnum.ASC));
+  }
 
   render () {
     let prow;
@@ -302,7 +222,7 @@ export default class Photos extends React.Component {
       <Row>
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
       <DropdownToggle color="primary" caret>
-        Sort by: {this.state.sortList[this.state.showSorting]}
+        Sort by: {this.state.showAttribute[this.state.showSorting]}
       </DropdownToggle>
       <DropdownMenu>
         <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
@@ -323,6 +243,7 @@ export default class Photos extends React.Component {
       </DropdownMenu>
       </Dropdown>
       <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+      <Button color="primary" onClick={this.clickedReset}>Reset</Button>
       </Row>
       {isloading ? <Spinner/> : prow}
       <br/>
