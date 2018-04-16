@@ -58,12 +58,14 @@ export default class Rpopup extends React.Component {
   }
   submitFilter(){
     let filter = "\"filters\":[";
+    let filtMap = [];
     let notFirst = false;
     if (Rpopup.checkAndNotifyNumber(this.state.lifts, "lifts", 0, 40)) {
       if(!notFirst){
         notFirst = true;
       }
       filter += "{\"name\":\"lifts\",\"op\":\">=\",\"val\":" + this.state.lifts + "}";
+      filtMap.push("Lifts >= " + this.state.lifts);
     }
     if (Rpopup.checkAndNotifyNumber(this.state.runs, "runs", 0, 200)) {
       if(notFirst){
@@ -72,6 +74,7 @@ export default class Rpopup extends React.Component {
         notFirst = true;
       }
       filter += "{\"name\":\"runs\",\"op\":\">=\",\"val\":" + this.state.runs + "}";
+      filtMap.push("Runs >= " + this.state.runs);
     }
     if (Rpopup.checkAndNotifyNumber(this.state.elev, "elevation", 0, 5000)) {
       if(notFirst){
@@ -80,6 +83,7 @@ export default class Rpopup extends React.Component {
         notFirst = true;
       }
       filter += "{\"name\":\"elev\",\"op\":\">=\",\"val\":" + this.state.elev + "}";
+      filtMap.push("Elevation >= " + this.state.elev);
     }
     if (Rpopup.checkAndNotifyNumber(this.state.stars, "rating", 0, 5)) {
       if(notFirst){
@@ -88,6 +92,7 @@ export default class Rpopup extends React.Component {
         notFirst = true;
       }
       filter += "{\"name\":\"yelprating\",\"op\":\">=\",\"val\":" + this.state.stars + "}";
+      filtMap.push("Rating >= " + this.state.stars + " stars");
     }
     // noinspection JSBitwiseOperatorUsage
     if (Rpopup.checkAndNotifyNumber(this.state.lat, "latitude", 0, 180) & Rpopup.checkAndNotifyNumber(this.state.lon, "longitude", -180, 0)) {
@@ -97,9 +102,11 @@ export default class Rpopup extends React.Component {
       filter += "{\"name\":\"lat\",\"op\":\"like\",\"val\":" + this.state.lat + "}";
       filter += ",";
       filter += "{\"name\":\"lon\",\"op\":\"like\",\"val\":" + this.state.lon + "}";
+      filtMap.push("Lat = " + this.state.lat);
+      filtMap.push("Lon = " + this.state.lon);
     }
     filter += "]";
-    this.props.submit(filter);
+    this.props.submit(filter, filtMap);
     this.props.toggle();
   }
 

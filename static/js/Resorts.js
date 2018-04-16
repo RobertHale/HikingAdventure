@@ -5,7 +5,11 @@ import {
   Button,
   Row,
   Container,
-  Dropdown, DropdownToggle, DropdownMenu, DropdownItem
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Alert
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import ResortRow from "./ResortRow";
@@ -35,6 +39,7 @@ export default class Resorts extends React.Component {
       showSorting: 0,
       showDirection: 0,
       filter: "",
+      filtMap: [],
       loading: true
     };
     this.toggle = this.toggle.bind(this);
@@ -66,9 +71,11 @@ export default class Resorts extends React.Component {
     });
   }
 
-  submitFilter(filter){
+  submitFilter(filter, filtMap){
     this.setState({
-      filter: filter
+      filter: filter,
+      filtMap: filtMap,
+      cpage: 1
     }, () => {
       this.sort(this.state.sortBy, this.state.direction);
     });
@@ -206,19 +213,29 @@ export default class Resorts extends React.Component {
     this.sort(this.state.sortBy, this.state.dirEnum.ASC));
   }
   clickedReset(){
-    this.setState({sortBy: this.state.sortEnum.NONE, showSorting: this.state.sortEnum.NONE, direction: this.state.sortEnum.ASC, showDirection: this.state.sortEnum.ASC, filter:""}, () =>
+    this.setState({sortBy: this.state.sortEnum.NONE, showSorting: this.state.sortEnum.NONE, direction: this.state.sortEnum.ASC, showDirection: this.state.sortEnum.ASC, filter:"", filtMap:[]}, () =>
     this.sort(this.state.sortEnum.NONE, this.state.direction));
   }
 
   render () {
     let rrow;
+    let filters;
     let isloading = this.state.loading;
     if(this.state.presorts){
       rrow = this.state.presorts.map(currentc => {
         return(
           <ResortRow key={currentc[0].id} data={currentc} />
         );
-      })
+      });
+    }
+    if(this.state.filtMap.length !== 0){
+      filters = this.state.filtMap.map(cFilter => {
+        return(
+            <Alert color={"sec"}>
+              {cFilter}
+            </Alert>
+        );
+      });
     }
     return(
       <div>
@@ -255,6 +272,8 @@ export default class Resorts extends React.Component {
       </Dropdown>
       <Button color="prim" onClick={this.togglePopup.bind(this)}>Filter</Button>
       <Button color="prim" onClick={this.clickedReset}>Reset</Button>
+      {this.state.filtMap.length !== 0 ? <Alert color={"prim"}>{"Filters: "}{filters}</Alert> : ""}
+      {/*{filters}*/}
       </Row>
       {isloading ? <Spinner/> : rrow}
       <br/>
