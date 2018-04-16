@@ -4,7 +4,10 @@ import {
   Button,
   Row,
   Container,
-  Dropdown, DropdownToggle, DropdownMenu, DropdownItem
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import TrailRow from "./TrailRow";
@@ -94,7 +97,7 @@ export default class Trails extends React.Component {
 
   componentWillReceiveProps(nextProps){
     this.setState({loading: true});
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     let pagenumber = nextProps.match.params.page;
     let temp;
     if(pagenumber == null){
@@ -121,51 +124,50 @@ export default class Trails extends React.Component {
 
   componentDidMount(){
     this.setState({loading: true});
-    var pagenumber = this.props.match.params.page;
-    var temp;
+    let pagenumber = this.props.match.params.page;
+    let temp;
     if(pagenumber == null){
-        pagenumber = 1
-      }
-      else{
-        temp = pagenumber.split(" ");
-        pagenumber = temp[1];
-        pagenumber = parseInt(pagenumber, 10);
-      }
-      let fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
-      fetchfrom += pagenumber;
-      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+      pagenumber = 1
     }
+    else{
+      temp = pagenumber.split(" ");
+      pagenumber = temp[1];
+      pagenumber = parseInt(pagenumber, 10);
+    }
+    let fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
+    fetchfrom += pagenumber;
+    $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+  }
 
   componentWillUnmount(){
     // Testing purposes
   }
 
   sort(field, dir){
-      this.setState({loading: true});
-      var temp;
-      var pagenumber = this.props.match.params.page;
-      if(pagenumber == null){
-        pagenumber = 1
-      }
-      else{
-        temp = pagenumber.split(" ");
-        pagenumber = temp[1];
-        pagenumber = parseInt(pagenumber, 10);
-      }
-      var url = "http://127.0.0.1:5000/api/trails?q=";
-      url += "{\"order_by\":[";
-      if (field != this.state.sortEnum.NONE) {
-        url += "{\"field\":\"" + this.state.sortList[field] + "\"";
-        url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
-      }
-      url += "]";
-      if(!(this.state.filter === "")) url += "," + this.state.filter;
-      url += "}";
-      url += "&page=";
-      url += pagenumber;
-      //console.log(url);
-      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
-
+    this.setState({loading: true});
+    let temp;
+    let pagenumber = this.props.match.params.page;
+    if(pagenumber == null){
+      pagenumber = 1
+    }
+    else{
+      temp = pagenumber.split(" ");
+      pagenumber = temp[1];
+      pagenumber = parseInt(pagenumber, 10);
+    }
+    let url = "http://127.0.0.1:5000/api/trails?q=";
+    url += "{\"order_by\":[";
+    if (field != this.state.sortEnum.NONE) {
+      url += "{\"field\":\"" + this.state.sortList[field] + "\"";
+      url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
+    }
+    url += "]";
+    if(!(this.state.filter === "")) url += "," + this.state.filter;
+    url += "}";
+    url += "&page=";
+    url += pagenumber;
+    //console.log(url);
+    $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
 
   clickedAscent(){

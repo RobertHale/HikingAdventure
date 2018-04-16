@@ -61,9 +61,8 @@
 }
 
 iframe {
-  background: url(../assets/pcman.gif) center center;
-  background-repeat: no-repeat;
- }
+	background: url(../assets/pcman.gif) no-repeat center center;
+}
 
 .title-text {
 	text-decoration: underline;
@@ -80,6 +79,7 @@ iframe {
 	height:auto;
 }
 
+span{ width: 110px;}
 h3	{ color: white;}
 h4	{ color: white;}
 h6	{ color: white;}

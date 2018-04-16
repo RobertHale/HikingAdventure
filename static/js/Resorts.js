@@ -94,11 +94,9 @@ export default class Resorts extends React.Component {
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
     this.setState({loading: true});
-    window.scrollTo(0, 0)
-    var id = ("\"id\"");
-    var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
-    var pagenumber = nextProps.match.params.page;
-    var temp;
+    window.scrollTo(0, 0);
+    let pagenumber = nextProps.match.params.page;
+    let temp;
     if(pagenumber == null){
       pagenumber = 1
     }
@@ -122,33 +120,9 @@ export default class Resorts extends React.Component {
   }
 
   componentDidMount(){
-      this.setState({loading: true});
-      var pagenumber = this.props.match.params.page;
-      var id = ("\"id\"");
-      var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
-      var temp;
-      if(pagenumber == null){
-        pagenumber = 1
-      }
-      else{
-        temp = pagenumber.split(" ");
-        pagenumber = temp[1];
-        pagenumber = parseInt(pagenumber, 10);
-      }
-
-      let fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
-      fetchfrom += pagenumber;
-      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
-  }
-
-  componentWillUnmount(){
-      //Testing purposes
-  }
-
-  sort(sort, dir){
     this.setState({loading: true});
-    var pagenumber = this.props.match.params.page;
-    var temp;
+    let pagenumber = this.props.match.params.page;
+    let temp;
     if(pagenumber == null){
       pagenumber = 1
     }
@@ -157,7 +131,28 @@ export default class Resorts extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var url = "http://127.0.0.1:5000/api/resorts?q=";
+    let fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
+    fetchfrom += pagenumber;
+    $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+  }
+
+  componentWillUnmount(){
+      //Testing purposes
+  }
+
+  sort(sort, dir){
+    this.setState({loading: true});
+    let pagenumber = this.props.match.params.page;
+    let temp;
+    if(pagenumber == null){
+      pagenumber = 1
+    }
+    else{
+      temp = pagenumber.split(" ");
+      pagenumber = temp[1];
+      pagenumber = parseInt(pagenumber, 10);
+    }
+    let url = "http://127.0.0.1:5000/api/resorts?q=";
     url += "{\"order_by\":[";
     if (sort != this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[sort] + "\"";
@@ -165,58 +160,50 @@ export default class Resorts extends React.Component {
     }
     url += "]";
     if(!(this.state.filter === "")) url += "," + this.state.filter;
-      url += "}";
-      url += "&page="
-      url += pagenumber
-      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    url += "}";
+    url += "&page=";
+    url += pagenumber;
+    $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
 
   clickedLift(){
-    this.setState({sortBy: this.state.sortEnum.LIFTS});
-    this.setState({showSorting: this.state.sortEnum.LIFTS});
-    this.sort(this.state.sortEnum.LIFTS, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.LIFTS, showSorting: this.state.sortEnum.LIFTS}, () =>
+    this.sort(this.state.sortEnum.LIFTS, this.state.direction));
   }
 
   clickedElev(){
-    this.setState({sortBy: this.state.sortEnum.ELEV});
-    this.setState({showSorting: this.state.sortEnum.ELEV});
-    this.sort(this.state.sortEnum.ELEV, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.ELEV, showSorting: this.state.sortEnum.ELEV}, () =>
+    this.sort(this.state.sortEnum.ELEV, this.state.direction));
   }
 
   clickedName(){
-    this.setState({sortBy: this.state.sortEnum.NAME});
-    this.setState({showSorting: this.state.sortEnum.NAME});
-    this.sort(this.state.sortEnum.NAME, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.NAME, showSorting: this.state.sortEnum.NAME}, () =>
+    this.sort(this.state.sortEnum.NAME, this.state.direction));
   }
 
   clickedStars(){
-    this.setState({sortBy: this.state.sortEnum.STARS});
-    this.setState({showSorting: this.state.sortEnum.STARS});
-    this.sort(this.state.sortEnum.STARS, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.STARS, showSorting: this.state.sortEnum.STARS}, () =>
+    this.sort(this.state.sortEnum.STARS, this.state.direction));
   }
 
   clickedRuns(){
-    this.setState({sortBy: this.state.sortEnum.RUNS});
-    this.setState({showSorting: this.state.sortEnum.RUNS});
-    this.sort(this.state.sortEnum.RUNS, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.RUNS, showSorting: this.state.sortEnum.RUNS}, () =>
+    this.sort(this.state.sortEnum.RUNS, this.state.direction));
   }
 
   clickedReview(){
-    this.setState({sortBy: this.state.sortEnum.REVIEW});
-    this.setState({showSorting: this.state.sortEnum.REVIEW});
-    this.sort(this.state.sortEnum.REVIEW, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.REVIEW, showSorting: this.state.sortEnum.REVIEW}, () =>
+    this.sort(this.state.sortEnum.REVIEW, this.state.direction));
   }
 
   clickedDesc(){
-    this.setState({direction: this.state.dirEnum.DESC});
-    this.setState({showDirection: this.state.dirEnum.DESC});
-    this.sort(this.state.sortBy, this.state.dirEnum.DESC);
+    this.setState({direction: this.state.dirEnum.DESC, showDirection: this.state.dirEnum.DESC}, () =>
+    this.sort(this.state.sortBy, this.state.dirEnum.DESC));
   }
 
   clickedAsc(){
-    this.setState({direction: this.state.dirEnum.ASC});
-    this.setState({showDirection: this.state.dirEnum.ASC});
-    this.sort(this.state.sortBy, this.state.dirEnum.ASC);
+    this.setState({direction: this.state.dirEnum.ASC, showDirection: this.state.dirEnum.ASC}, () =>
+    this.sort(this.state.sortBy, this.state.dirEnum.ASC));
   }
   clickedReset(){
     this.setState({sortBy: this.state.sortEnum.NONE, showSorting: this.state.sortEnum.NONE, direction: this.state.sortEnum.ASC, showDirection: this.state.sortEnum.ASC, filter:""}, () =>
