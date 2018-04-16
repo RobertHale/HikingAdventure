@@ -2,10 +2,47 @@
 
 FILES1 :=						\
     tests.py					\
-    dbtests.py					\	
-    .travis.yml					\
+    dbtests.py					\
+    .travis.yml
 
-tests: tests.py
+tests: selenium mocha backend postman
+
+selenium:
+	@echo "#################################\nSelenium Tests:"
+	@cd ./tests;	\
+	python guitests.py;
+	@echo "#################################"
+
+mocha:
+	@echo "#################################\nMocha Tests:"
+	@cd ./static;	\
+	npm test;	
+	@echo "#################################"
+
+backend:
+	@echo "#################################\nBackend Tests:"
+	@echo "#####Scraper tests"
+	@cd ./tests;	\
+	python tests.py;
+	@echo "#####Database tests"
+	@cd ./tests;	\
+	python dbtests.py;
+	@echo "#################################"
+
+postman:
+	@echo "#################################\nPostman Tests:"
+
+issues:
+
+stories:
+
+github:
+
+website:
+
+report:
+
+apidoc:
 
 all:
 
