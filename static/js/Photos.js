@@ -31,6 +31,7 @@ export default class Photos extends React.Component {
       direction: 0,
       sortEnum: {NONE:0, LON:1, LAT:2, NAME:3},
       sortList: ["", "lon", "lat", "name"],
+      showAttribute: ["", "Longitude", "Latitude", "Name"],
       dirEnum: {ASC:0, DESC:1},
       dirList: ["asc", "desc"],
       showPopup: false,
@@ -45,6 +46,7 @@ export default class Photos extends React.Component {
     this.submitFilter = this.submitFilter.bind(this);
     this.clickedLongitude = this.clickedLongitude.bind(this);
     this.clickedLatitude = this.clickedLatitude.bind(this);
+    this.clickedReset = this.clickedReset.bind(this);
     this.clickedName = this.clickedName.bind(this);
     this.clickedDesc= this.clickedDesc.bind(this);
     this.clickedAsc= this.clickedAsc.bind(this);
@@ -185,6 +187,11 @@ export default class Photos extends React.Component {
     this.sort(this.state.sortEnum.NAME, this.state.direction));
   }
 
+  clickedReset(){
+    this.setState({sortBy: this.state.sortEnum.NONE, showSorting: this.state.sortEnum.NONE, direction: this.state.sortEnum.ASC, showDirection: this.state.sortEnum.ASC, filter:""}, () =>
+    this.sort(this.state.sortEnum.NONE, this.state.direction));
+  }
+
   clickedDesc(){
     this.setState({direction: this.state.dirEnum.DESC, showDirection: this.state.dirEnum.DESC}, () =>
     this.sort(this.state.sortBy, this.state.dirEnum.DESC));
@@ -212,7 +219,7 @@ export default class Photos extends React.Component {
       <Row>
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
       <DropdownToggle color="primary" caret>
-        Sort by: {this.state.sortList[this.state.showSorting]}
+        Sort by: {this.state.showAttribute[this.state.showSorting]}
       </DropdownToggle>
       <DropdownMenu>
         <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
@@ -233,6 +240,7 @@ export default class Photos extends React.Component {
       </DropdownMenu>
       </Dropdown>
       <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+      <Button color="primary" onClick={this.clickedReset}>Reset</Button>
       </Row>
       {isloading ? <Spinner/> : prow}
       <br/>

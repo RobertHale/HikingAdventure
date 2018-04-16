@@ -31,6 +31,7 @@ export default class Trails extends React.Component {
       direction: 0,
       sortEnum: {NONE:0, ASCENT:1, DESCENT:2, NAME:3, STARS:4, DIFFICULTY:5, LENGTH:6},
       sortList: ["", "ascent", "descent", "name", "stars", "difficulty", "length"],
+      showAttribute: ["", "Ascent", "Descent", "Name", "Stars", "Difficulty", "Length"],
       dirEnum: {ASC:0, DESC:1},
       dirList: ["asc", "desc"],
       showPopup: false,
@@ -50,6 +51,7 @@ export default class Trails extends React.Component {
     this.clickedStars = this.clickedStars.bind(this);
     this.clickedDiff = this.clickedDiff.bind(this);
     this.clickedLength = this.clickedLength.bind(this);
+    this.clickedReset = this.clickedReset.bind(this);
     this.clickedDesc= this.clickedDesc.bind(this);
     this.clickedAsc= this.clickedAsc.bind(this);
   }
@@ -200,6 +202,10 @@ export default class Trails extends React.Component {
     this.setState({sortBy: this.state.sortEnum.LENGTH, showSort: this.state.sortEnum.LENGTH}, () =>
     this.sort(this.state.sortEnum.LENGTH, this.state.direction));
   }
+  clickedReset(){
+    this.setState({sortBy: this.state.sortEnum.NONE, showSort: this.state.sortEnum.NONE, direction: this.state.sortEnum.ASC, showDirection: this.state.sortEnum.ASC, filter:""}, () =>
+    this.sort(this.state.sortEnum.NONE, this.state.direction));
+  }
 
   clickedDesc(){
     this.setState({direction: this.state.dirEnum.DESC, showDirection: this.state.dirEnum.DESC});
@@ -228,7 +234,7 @@ export default class Trails extends React.Component {
       <Row>
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
       <DropdownToggle color="primary" caret>
-        Sort by: {this.state.sortList[this.state.showSort]}
+        Sort by: {this.state.showAttribute[this.state.showSort]}
       </DropdownToggle>
       <DropdownMenu>
         <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
@@ -255,6 +261,7 @@ export default class Trails extends React.Component {
       </DropdownMenu>
       </Dropdown>
       <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+      <Button color="primary" onClick={this.clickedReset}>Reset</Button>
       </Row>
       {isloading ? <Spinner/> : trow}
       <br/>
