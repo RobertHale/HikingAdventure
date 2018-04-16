@@ -32,6 +32,7 @@ export default class Resorts extends React.Component {
       direction: 0,
       sortEnum: {NONE:0, LIFTS:1, ELEV:2, NAME:3, STARS:4, RUNS:5, REVIEW:6},
       sortList: ["", "lifts", "elev", "name", "yelprating", "runs", "reviewcount"],
+      showAttribute: ["", "Lifts", "Elevation", "Name", "Yelp Rating", "Runs", "Review Count"],
       dirEnum: {ASC:0, DESC:1},
       dirList: ["asc", "desc"],
       showPopup: false,
@@ -52,6 +53,7 @@ export default class Resorts extends React.Component {
     this.clickedStars = this.clickedStars.bind(this);
     this.clickedRuns = this.clickedRuns.bind(this);
     this.clickedReview = this.clickedReview.bind(this);
+    this.clickedReset = this.clickedReset.bind(this);
     this.clickedDesc= this.clickedDesc.bind(this);
     this.clickedAsc= this.clickedAsc.bind(this);
   }
@@ -221,6 +223,10 @@ export default class Resorts extends React.Component {
     this.setState({showDirection: this.state.dirEnum.ASC});
     this.sort(this.state.sortBy, this.state.dirEnum.ASC);
   }
+  clickedReset(){
+    this.setState({sortBy: this.state.sortEnum.NONE, showSorting: this.state.sortEnum.NONE, direction: this.state.sortEnum.ASC, showDirection: this.state.sortEnum.ASC, filter:""}, () =>
+    this.sort(this.state.sortEnum.NONE, this.state.direction));
+  }
 
   render () {
     let rrow;
@@ -239,7 +245,7 @@ export default class Resorts extends React.Component {
       <Row>
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
       <DropdownToggle color="primary" caret>
-        Sort by: {this.state.sortList[this.state.showSorting]}
+        Sort by: {this.state.showAttribute[this.state.showSorting]}
       </DropdownToggle>
       <DropdownMenu>
         <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
@@ -266,6 +272,7 @@ export default class Resorts extends React.Component {
       </DropdownMenu>
       </Dropdown>
       <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+      <Button color="primary" onClick={this.clickedReset}>Reset</Button>
       </Row>
       {isloading ? <Spinner/> : rrow}
       <br/>
