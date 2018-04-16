@@ -38,14 +38,17 @@ export default class Tpopup extends React.Component {
   }
   submitFilter(){
     let filter = "\"filters\":[";
+    let filtMap = [];
       // noinspection JSBitwiseOperatorUsage
     if (Tpopup.checkAndNotifyNumber(this.state.lat, "latitude", 0, 180) & Tpopup.checkAndNotifyNumber(this.state.lon, "longitude", -180, 0)) {
       filter += "{\"name\":\"lat\",\"op\":\"like\",\"val\":" + this.state.lat + "}";
       filter += ",";
       filter += "{\"name\":\"lon\",\"op\":\"like\",\"val\":" + this.state.lon + "}";
+      filtMap.push("Lat = " + this.state.lat);
+      filtMap.push("Lon = " + this.state.lon);
     }
     filter += "]";
-    this.props.submit(filter);
+    this.props.submit(filter, filtMap);
     this.props.toggle();  
   }
 

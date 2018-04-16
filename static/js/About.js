@@ -137,7 +137,7 @@ export default class About extends React.Component {
           this.setState({
             totalissues: issueCount,
             totaltests: 97,
-        githubcont: gitgroup
+            githubcont: gitgroup
           });
       var nextPage = this.parseLinkString(jqXHR.getResponseHeader('Link'));
       if(nextPage.next){
@@ -259,7 +259,7 @@ export default class About extends React.Component {
 
       <Row>
       <Col lg="4" md="4" sm="4">
-      <img className="profile-picture img-thumbnail equal-img" src="https://i.imgur.com/F5Y7b3M.jpg"/>
+      <img className="profile-picture img-thumbnail equal-img" src="https://i.imgur.com/6EY7d4x.jpg?1"/>
       <p className="text-center">
         <b>{"Adolfo Lopez"}</b>
       </p>

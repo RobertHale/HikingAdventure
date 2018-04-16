@@ -101,12 +101,14 @@ export default class Tpopup extends React.Component {
   }
   submitFilter(){
     let filter = "\"filters\":[";
+    let filtMap = [];
     let notFirst = false;
     if (Tpopup.checkAndNotifyNumber(this.state.len, "length", 0, 101)) {
       if(!notFirst){
         notFirst = true;
       }
       filter += "{\"name\":\"length\",\"op\":\">=\",\"val\":" + this.state.len + "}";
+      filtMap.push("Length >= " + this.state.len);
     }
     if (!(this.state.diff === "")) {
       if(notFirst){
@@ -115,6 +117,7 @@ export default class Tpopup extends React.Component {
         notFirst = true;
       }
       filter += "{\"name\":\"difficulty\",\"op\":\"eq\",\"val\":\"" + this.state.diff + "\"}";
+      filtMap.push("Difficulty = " + this.state.diff);
     }
     if (Tpopup.checkAndNotifyNumber(this.state.asc, "ascent", 0, 12500)) {
       if(notFirst){
@@ -123,6 +126,7 @@ export default class Tpopup extends React.Component {
         notFirst = true;
       }
       filter += "{\"name\":\"ascent\",\"op\":\">=\",\"val\":" + this.state.asc + "}";
+      filtMap.push("Ascent >= " + this.state.asc);
     }
     if (Tpopup.checkAndNotifyNumber(this.state.desc, "descent", -12500, 0)) {
       if(notFirst){
@@ -131,6 +135,7 @@ export default class Tpopup extends React.Component {
         notFirst = true;
       }
       filter += "{\"name\":\"descent\",\"op\":\"<=\",\"val\":" + this.state.desc + "}";
+      filtMap.push("Descent >= " + this.state.desc);
     }
     if (Tpopup.checkAndNotifyNumber(this.state.stars, "rating", 0, 5)) {
       if(notFirst){
@@ -139,6 +144,7 @@ export default class Tpopup extends React.Component {
         notFirst = true;
       }
       filter += "{\"name\":\"stars\",\"op\":\">=\",\"val\":" + this.state.stars + "}";
+      filtMap.push("Rating >= " + this.state.stars + " stars");
     }
     // noinspection JSBitwiseOperatorUsage
     if (Tpopup.checkAndNotifyNumber(this.state.lat, "latitude", 0, 180) & Tpopup.checkAndNotifyNumber(this.state.lon, "longitude", -180, 0)) {
@@ -148,9 +154,11 @@ export default class Tpopup extends React.Component {
       filter += "{\"name\":\"lat\",\"op\":\"like\",\"val\":" + this.state.lat + "}";
       filter += ",";
       filter += "{\"name\":\"lon\",\"op\":\"like\",\"val\":" + this.state.lon + "}";
+      filtMap.push("Lat >= " + this.state.lat);
+      filtMap.push("Lon >= " + this.state.lon);
     }
     filter += "]";
-    this.props.submit(filter);
+    this.props.submit(filter, filtMap);
     this.props.toggle();
   }
 

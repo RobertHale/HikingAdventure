@@ -273,7 +273,6 @@ export default class Resorts extends React.Component {
       <Button color="prim" onClick={this.togglePopup.bind(this)}>Filter</Button>
       <Button color="prim" onClick={this.clickedReset}>Reset</Button>
       {this.state.filtMap.length !== 0 ? <Alert color={"prim"}>{"Filters: "}{filters}</Alert> : ""}
-      {/*{filters}*/}
       </Row>
       {isloading ? <Spinner/> : rrow}
       <br/>
