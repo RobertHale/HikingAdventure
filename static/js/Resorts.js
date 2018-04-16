@@ -224,10 +224,7 @@ export default class Resorts extends React.Component {
     this.sort(this.state.sortBy, this.state.dirEnum.ASC);
   }
   clickedReset(){
-    this.setState({sortBy: this.state.sortEnum.NONE});
-    this.setState({showSorting: this.state.sortEnum.NONE});
-    this.setState({direction: this.state.sortEnum.ASC});
-    this.setState({showDirection: this.state.sortEnum.ASC, filter:""}, () =>
+    this.setState({sortBy: this.state.sortEnum.NONE, showSorting: this.state.sortEnum.NONE, direction: this.state.sortEnum.ASC, showDirection: this.state.sortEnum.ASC, filter:""}, () =>
     this.sort(this.state.sortEnum.NONE, this.state.direction));
   }
 
