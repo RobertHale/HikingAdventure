@@ -204,7 +204,7 @@ export default class ResortInstance extends React.Component {
               <div className="card-block">
                 <h2 style={titles} className="card-title">Nearby Trails:</h2>
                 <nav>
-                <ul>
+                <ul className="resort-scroll">
                 {this.state.trails}
                 </ul>
                 </nav>
@@ -217,7 +217,7 @@ export default class ResortInstance extends React.Component {
               <div className="card-block">
                 <h2 style={titles} className="card-title">Photos:</h2>
                 <nav>
-                <ul>
+                <ul className="resort-scroll">
                 {this.state.photos}
                 </ul>
                 </nav>
