@@ -106,7 +106,7 @@ export default class Photos extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    let url = "http://127.0.0.1:5000/api/photos?q={";
+    let url = "http://hikingadventures.me/api/photos?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy !=  0) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
@@ -134,7 +134,7 @@ export default class Photos extends React.Component {
       pagenumber = parseInt(pagenumber, 10);
     }
     //console.log(pagenumber);
-    let fetchfrom = "http://127.0.0.1:5000/api/photos?page=";
+    let fetchfrom = "http://hikingadventures.me/api/photos?page=";
     fetchfrom += pagenumber;
     //console.log(fetchfrom);
     $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
@@ -156,7 +156,7 @@ export default class Photos extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    let url = "http://127.0.0.1:5000/api/photos?q=";
+    let url = "http://hikingadventures.me/api/photos?q=";
     url += "{\"order_by\":[";
     if (field != this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[field] + "\"";

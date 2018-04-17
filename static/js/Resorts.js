@@ -112,7 +112,7 @@ export default class Resorts extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    let url = "http://127.0.0.1:5000/api/resorts?q={";
+    let url = "http://hikingadventures.me/api/resorts?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy != this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
@@ -138,7 +138,7 @@ export default class Resorts extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    let fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
+    let fetchfrom = "http://hikingadventures.me/api/resorts?page=";
     fetchfrom += pagenumber;
     $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
@@ -159,7 +159,7 @@ export default class Resorts extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    let url = "http://127.0.0.1:5000/api/resorts?q=";
+    let url = "http://hikingadventures.me/api/resorts?q=";
     url += "{\"order_by\":[";
     if (sort != this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[sort] + "\"";
