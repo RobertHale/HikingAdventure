@@ -53,7 +53,7 @@ export default class App extends React.Component {
     var lastPart = url.split("/").pop();
     trailid = lastPart;
 
-    var fetchfrom = "http://127.0.0.1:5000/api/trails/" + lastPart
+    var fetchfrom = "http://hikingadventures.me/api/trails/" + lastPart
 
 
     $.getJSON(fetchfrom)
@@ -104,7 +104,7 @@ export default class App extends React.Component {
           };
           let list = results.objects.map((resorts)=>{
             return (
-              <a style = {pad} className="btn btn-primary" href={"http://127.0.0.1:5000/resorts/" + resorts.id}>{resorts.name}</a>
+              <a style = {pad} className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
 
             )
 
@@ -222,7 +222,7 @@ export default class App extends React.Component {
             <h2 style={center} className="card-title">Photos:</h2>
             <ul>
             <li>
-            <a style={pad} id="photo" className="btn btn-primary" href={"http://127.0.0.1:5000/photos/" + this.state.trailid}>{this.state.name} Photos</a>
+            <a style={pad} id="photo" className="btn btn-primary" href={"http://hikingadventures.me/photos/" + this.state.trailid}>{this.state.name} Photos</a>
             </li>
             </ul>
           </div>

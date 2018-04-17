@@ -112,7 +112,7 @@ export default class Trails extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    let url = "http://127.0.0.1:5000/api/trails?q={";
+    let url = "http://hikingadventures.me/api/trails?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy !=  0) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
@@ -138,7 +138,7 @@ export default class Trails extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    let fetchfrom = "http://127.0.0.1:5000/api/trails?page=";
+    let fetchfrom = "http://hikingadventures.me/api/trails?page=";
     fetchfrom += pagenumber;
     $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
@@ -159,7 +159,7 @@ export default class Trails extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    let url = "http://127.0.0.1:5000/api/trails?q=";
+    let url = "http://hikingadventures.me/api/trails?q=";
     url += "{\"order_by\":[";
     if (field != this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[field] + "\"";
