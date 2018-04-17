@@ -1,6 +1,9 @@
+import sys
+sys.path.insert(0, '../database')
 from models import Resort, Trail, Photo
 from xml.etree import ElementTree
 import fetch
+import json
 
 """
 " service class for the scraper.
@@ -62,7 +65,8 @@ def getResort(id):
     except IndexError:
         res.reviewcount = 0
     try:
-        youtubedata = fetch.fetchJSON('https://www.googleapis.com/youtube/v3/search?q=' + res.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+        youtubedata = fetch.fetchJSON(
+            'https://www.googleapis.com/youtube/v3/search?q=' + res.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
         res.youtubeid = youtubedata['items'][0]['id']['videoId']
     except ValueError:
         res.youtubeid = None
@@ -103,14 +107,14 @@ def getTrails(lon, lat, cnt, resort, trails):
             trail.descent = t['descent'] if 'descent' in t else None
             try:
                 youtubedata = fetch.fetchJSON(
-                    'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+                    'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + ' trail' + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
                 trail.youtubeid = youtubedata['items'][0]['id']['videoId']
             except ValueError:
                 trail.youtubeid = None
             except IndexError:
                 trail.youtubeid = None
             trails[t['id']] = trail
-        resort.trails.append(trail)
+        resort.trails.append(trails[t['id']])
     return trails
 
 
@@ -147,7 +151,7 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photos):
             trail.descent = t['descent'] if 'descent' in t else None
             try:
                 youtubedata = fetch.fetchJSON(
-                    'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
+                    'https://www.googleapis.com/youtube/v3/search?q=' + trail.name + ' trail' + '&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o')
                 trail.youtubeid = youtubedata['items'][0]['id']['videoId']
             except ValueError:
                 trail.youtubeid = None
@@ -155,11 +159,29 @@ def getTrailsAndPhotos(lon, lat, cnt, resort, trails, photos):
                 trail.youtubeid = None
             trails[t['id']] = trail
             if 'imgMedium' in t and t['imgMedium'] != "":
-                photo = Photo(id = trail.id, name=trail.name + " photo",
-                          lat=trail.lat, lon=trail.lon)
+                photo = Photo(id=trail.id, name=trail.name + " photo",
+                              lat=trail.lat, lon=trail.lon)
                 photo.url = t['imgMedium']
                 photos[t['imgMedium']] = photo
                 photo.trail = trails[t['id']]
+                photo.content = getPhotoContents(photo.url)
         resort.trails.append(trails[t['id']])
         resort.photos += trails[t['id']].photos
     return trails, photos
+
+
+def getPhotoContents(purl):
+    data = {"requests": [{"image": {"source": {"imageUri": purl}}, "features": [{"type": "LABEL_DETECTION", "maxResults": 10}]}]}
+    url = "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o"
+    r = fetch.fetchPost(url, json.dumps(data))
+    labels = []
+    if 'labelAnnotations' in r['responses'][0]:
+        for label in r['responses'][0]['labelAnnotations']:
+            labels.append(label['description'])
+    else:
+        print(r['responses'][0])
+    return ",".join(labels)
+
+
+if __name__ == "__main__":
+    print(getPhotoContents("https://cdn-files.apstatic.com/hike/7000128_medium_1417582072.jpg"))
