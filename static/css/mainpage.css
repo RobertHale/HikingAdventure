@@ -44,13 +44,56 @@
   color: white;
   margin: 5px 5px 5px 5px;
 }
+.btn-prim{
+	margin: 10px 5px 0;
+	background-color: #473c8b;
+	border: 1px solid #2E2E2E;
+	color: white;
+	height: 38px;
+}
+.btn-prim:focus {
+	box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .5);
+}
 .btn-primary{
-	margin-top: 10px;
-	margin-right: 10px;
+	background-color: #473c8b;
+	border: 1px solid #2E2E2E;
+	color: white;
+}
+.alert{
+	margin: 10px 5px 0;
+}
+.alert-prim{
+	background-color: #473c8b;
+	border: 1px solid #2E2E2E;
+	color: white;
+	width: auto;
+	padding: 6px 12px;
+}
+.alert-sec{
+	background-color: #7d7d7d;
+	border: 1px solid #2E2E2E;
+	color: white;
+	display: inline;
+	padding: 2px 6px;
+}
+
+iframe {
+	background: url(../assets/pcman.gif) no-repeat center center;
 }
 
 .title-text {
 	text-decoration: underline;
+}
+.input-group-text{
+	background-color: #2E2E2E;
+	border: 1px solid #473c8b;
+	color: white;
+	text-align: center;
+}
+
+.equal-img{
+	width:100%;
+	height:auto;
 }
 
 .resort-scroll {
@@ -59,6 +102,8 @@
 	overflow:hidden;
 	overflow-y:scroll;
 }
+
+span{ width: 110px;}
 
 h3	{ color: white;}
 h4	{ color: white;}

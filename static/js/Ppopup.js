@@ -7,7 +7,7 @@ export default class Tpopup extends React.Component {
     this.state = {
       lat: "",
       lon: ""
-    }
+    };
     this.handleLatChange = this.handleLatChange.bind(this);
     this.handleLonChange = this.handleLonChange.bind(this);
     this.submitFilter    = this.submitFilter.bind(this);
@@ -18,15 +18,37 @@ export default class Tpopup extends React.Component {
   handleLonChange(e) {
     this.setState({lon: e.target.value});
   }
+  static checkAndNotifyNumber(number, name, min, max){
+    if (number === ""){
+      return false;
+    }
+    if (isNaN(number)){
+      alert("Please provide a number for " + name);
+      return false;
+    }
+    if (number < min){
+      alert("Please provide a number greater than " + min + " for " + name);
+      return false;
+    }
+    if (number > max){
+      alert("Please provide a number less than " + max + " for " + name);
+      return false;
+    }
+    return true;
+  }
   submitFilter(){
-    var filter = "\"filters\":[";
-    if (!(this.state.lat === "") && !(this.state.lon === "") && !isNaN(this.state.lat) && !isNaN(this.state.lon)) {
+    let filter = "\"filters\":[";
+    let filtMap = [];
+      // noinspection JSBitwiseOperatorUsage
+    if (Tpopup.checkAndNotifyNumber(this.state.lat, "latitude", 0, 180) & Tpopup.checkAndNotifyNumber(this.state.lon, "longitude", -180, 0)) {
       filter += "{\"name\":\"lat\",\"op\":\"like\",\"val\":" + this.state.lat + "}";
       filter += ",";
       filter += "{\"name\":\"lon\",\"op\":\"like\",\"val\":" + this.state.lon + "}";
+      filtMap.push("Lat = " + this.state.lat);
+      filtMap.push("Lon = " + this.state.lon);
     }
     filter += "]";
-    this.props.submit(filter);
+    this.props.submit(filter, filtMap);
     this.props.toggle();  
   }
 
@@ -41,11 +63,11 @@ export default class Tpopup extends React.Component {
         <ModalBody className='popup'>
           <InputGroup>
             <InputGroupAddon className="form-text" addonType="prepend">Lat:</InputGroupAddon>
-            <Input placeholder="latitude"
+            <Input placeholder="Latitude"
                 value={this.state.lat}
                 onChange={this.handleLatChange}/>
             <InputGroupAddon className="form-text" addonType="prepend">Lon:</InputGroupAddon>
-            <Input placeholder="longitude"
+            <Input placeholder="Longitude"
                 value={this.state.lon}
                 onChange={this.handleLonChange}/>
           </InputGroup>
