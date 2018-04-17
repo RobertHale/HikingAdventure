@@ -96,7 +96,15 @@ iframe {
 	height:auto;
 }
 
+.resort-scroll {
+	height:200px;
+	width:100%;
+	overflow:hidden;
+	overflow-y:scroll;
+}
+
 span{ width: 110px;}
+
 h3	{ color: white;}
 h4	{ color: white;}
 h6	{ color: white;}
