@@ -1,7 +1,8 @@
 import sys
 
-sys.path.insert(0, './database')
+sys.path.insert(0, '/home/ubuntu/flaskapp/database')
 from flask import Flask, render_template, Response
+from flask_cors import CORS
 from database import db_session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -11,6 +12,7 @@ import requests
 
 app = Flask(__name__)
 app.config['DEBUG'] = False
+CORS(app)
 
 engine = create_engine('mysql://HikingDev:HikingDev1@hadbinstance.cw0u5qkvowfz.us-east-1.rds.amazonaws.com/hikingdb?charset=utf8mb4')
 Session = sessionmaker(bind=engine, autocommit=False, autoflush=False)

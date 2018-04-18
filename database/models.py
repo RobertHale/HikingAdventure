@@ -103,7 +103,7 @@ class Photo(Base):
 	name = Column(String(500))
 	lat			= Column(Float)
 	lon 		= Column(Float)
-	
+	content     = Column(String(500))
 	trail = relationship('Trail', back_populates='photos', uselist=False, cascade_backrefs=False)
 	resorts = relationship('Resort', secondary='resort_photo_junc', back_populates='photos')
 	

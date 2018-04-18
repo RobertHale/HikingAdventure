@@ -165,7 +165,7 @@ class ScrapServiceTests(TestCase):
         # validation
         fetch.fetchJSON.assert_any_call(
             'https://www.hikingproject.com/data/get-trails?lat=None&lon=None&maxDistance=10&maxResults=1&sort=distance&key=200217902-4d9f4e11973eb6aa502e868e55361062')
-        fetch.fetchJSON.assert_any_call("https://www.googleapis.com/youtube/v3/search?q=name&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o")
+        fetch.fetchJSON.assert_any_call("https://www.googleapis.com/youtube/v3/search?q=name trail&part=snippet&type=video&maxResults=25&key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o")
         trailcontentequal(self, res[1], trail)
         self.assertEqual(len(resort.trails), 1)
 
