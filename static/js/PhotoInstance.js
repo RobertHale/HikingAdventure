@@ -16,7 +16,9 @@ import {
   Container,
   Pagination,
   PaginationItem,
-  PaginationLink
+  PaginationLink,
+  ListGroup,
+  ListGroupItem
 } from 'reactstrap';
 export default class App extends React.Component {
   constructor(){
@@ -27,9 +29,9 @@ export default class App extends React.Component {
       lat: "",
       lon: "",
       trailid: "",
-      list: 0
-
-    }
+      list: 0,
+      contents: ""
+    };
     this.grabdata = this.grabdata.bind(this);
   }
 
@@ -40,115 +42,129 @@ export default class App extends React.Component {
 
 
   grabdata() {
-    var n = 'ffjjffj';
-    var u = '';
-    var lat = '';
-    var lon = '';
-    var trailid = '';
-
-    var url = window.location.href;
-    var lastPart = url.split("/").pop();
-
-    var fetchfrom = "http://hikingadventures.me/api/photos/" + lastPart
-
+    let url = window.location.href;
+    let lastPart = url.split("/").pop();
+    let fetchfrom = "http://hikingadventures.me/api/photos/" + lastPart;
 
     $.getJSON(fetchfrom)
       .then(results => {
-        n = results.name;
-        u = results.url;
-        lat = results.lat;
-        lon = results.lon;
-        trailid = results.trailid;
-
         this.setState({
-          name: n,
-          url: u,
-          lat: lat,
-          lon: lon,
-          trailid: trailid
-
-
+          name: results.name,
+          url: results.url,
+          lat: results.lat,
+          lon: results.lon,
+          trailid: results.trailid,
+          contents: results.content
         });
-
       });
-
-
-
-      var fetchresort = fetchfrom + "/resorts";
-
-      $.getJSON(fetchresort)
-        .then(results => {
-          var pad = {
-            margin: '0px 5px 10px 0px'
-          };
-          let list = results.objects.map((resorts)=>{
-            return (
-              <li>
-                <a style={pad} className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
-              </li>
-            )
-
-          })
-
-          this.setState({
-            list:list
-
-
-          });
-
-
-
-        });
-
-
-
-
-
+    let fetchresort = fetchfrom + "/resorts";
+    $.getJSON(fetchresort).then(results => {
+      let list = results.objects.map((resorts)=>{
+        return (
+          <li>
+            <a className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
+          </li>
+        )
+      });
+      this.setState({
+        list:list
+      });
+    });
   }
 
   render () {
-
-    var titles = {
+    let titles = {
       color:'white',
     };
-
-    var center = {
+    let center = {
       color: 'white',
       textAlign:'center'
     };
+    let contentList1 = [];
+    let contentList2 = [];
+    let arr = this.state.contents.split(",");
+    console.log(arr.length);
+    for (let i = 0; i < 5; i++) {
+      if(arr.length > i){
+        contentList1.push(
+            <ListGroupItem>
+                {arr[i]}
+            </ListGroupItem>
+        );
+      }
+      if (arr.length > i+5){
+        contentList2.push(
+            <ListGroupItem>
+                {arr[i+5]}
+            </ListGroupItem>
+        );
+      }
+    }
     return (
       <div>
       <NavBar/>
       <Container>
       <Row>
-      <h1 id="name">{this.state.name}</h1><br></br>
+      <h1 id="name">{this.state.name}</h1><br/>
       </Row>
-
       <Row>
-      <Col lg="5" sm="10">
+      <Col lg="6" sm="12">
       <Card className="mt-4">
-      <img width="450" height="450" src={this.state.url} />
+      <img height={500} src={this.state.url} />
       </Card>
       </Col>
-
-
-      <Col lg="5" sm="10">
+      <Col lg="6" sm="12">
       <Card className="mt-4">
-      <iframe width="600" height="450" src={"https://www.google.com/maps/embed/v1/view?key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o&center=" + this.state.lat + "," + this.state.lon + "&zoom=18&maptype=satellite"}></iframe>
+      <iframe height={500} src={"https://www.google.com/maps/embed/v1/view?key=AIzaSyDRwflQaI1Zq5bqKVQJ2YBDHb7l7oD1L2o&center=" + this.state.lat + "," + this.state.lon + "&zoom=18&maptype=satellite"}/>
       </Card>
       </Col>
       </Row>
-
+      <Row>
+      <Col lg="4">
+      <Card className="mt-4">
+      <CardBody>
+      <h2 style={titles}>Contents of photo:</h2>
+      <ListGroup>
+      {contentList1}
+      </ListGroup>
+      </CardBody>
+      </Card>
+      </Col>
+      <Col lg="4">
+      <Card className="mt-4">
+      <CardBody>
+      <h2 style={titles}>Contents of photo:</h2>
+      <ListGroup>
+      {contentList2}
+      </ListGroup>
+      </CardBody>
+      </Card>
+      </Col>
+      <Col lg="4">
+      <Card className="mt-4">
+      <CardBody>
+      <h2 style={titles}>Location:</h2>
+      <h4 style={titles}>Latitude:</h4>
+      <h6 style={titles}>{this.state.lat}</h6>
+      <h4 style={titles}>Longitude:</h4>
+      <h6 style={titles}>{this.state.lat}</h6>
+      </CardBody>
+      </Card>
+      </Col>
+      </Row>
       <Row>
       <div className="col-lg-6">
       <Card className="mt-4">
       <CardBody>
       <h2 style={titles}>Link to Trail:</h2>
-      <a id="photo" className="btn btn-primary" href={"http://hikingadventures.me/trails/" + this.state.trailid}>{this.state.name}</a>
+      <ul>
+      <li>
+      <a className="btn btn-primary" href={"http://hikingadventures.me/trails/" + this.state.trailid}>{this.state.name}</a>
+      </li>
+      </ul>
       </CardBody>
       </Card>
       </div>
-
       <div className="col-lg-6">
       <Card className="mt-4">
       <CardBody>
@@ -159,9 +175,6 @@ export default class App extends React.Component {
       </CardBody>
       </Card>
       </div>
-
-
-
       </Row>
       </Container>
       </div>
