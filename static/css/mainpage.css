@@ -90,6 +90,13 @@ iframe {
 	color: white;
 	text-align: center;
 }
+.list-group-item{
+	background-color: #2E2E2E;
+	width: auto;
+}
+.list-group{
+	margin: 23px 0 0 0;
+}
 
 .equal-img{
 	width:100%;
