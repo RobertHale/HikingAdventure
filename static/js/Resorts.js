@@ -4,12 +4,12 @@ import ReactDOM from "react-dom";
 import {
   Button,
   Row,
-  Col,
   Container,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Dropdown, DropdownToggle, DropdownMenu, DropdownItem
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Alert
 } from 'reactstrap';
 import { Link } from "react-router-dom";
 import ResortRow from "./ResortRow";
@@ -32,14 +32,16 @@ export default class Resorts extends React.Component {
       direction: 0,
       sortEnum: {NONE:0, LIFTS:1, ELEV:2, NAME:3, STARS:4, RUNS:5, REVIEW:6},
       sortList: ["", "lifts", "elev", "name", "yelprating", "runs", "reviewcount"],
+      showAttribute: ["", "Lifts", "Elevation", "Name", "Yelp Rating", "Runs", "Review Count"],
       dirEnum: {ASC:0, DESC:1},
       dirList: ["asc", "desc"],
       showPopup: false,
       showSorting: 0,
       showDirection: 0,
       filter: "",
+      filtMap: [],
       loading: true
-    }
+    };
     this.toggle = this.toggle.bind(this);
     this.pairup = this.pairup.bind(this);
 
@@ -52,6 +54,7 @@ export default class Resorts extends React.Component {
     this.clickedStars = this.clickedStars.bind(this);
     this.clickedRuns = this.clickedRuns.bind(this);
     this.clickedReview = this.clickedReview.bind(this);
+    this.clickedReset = this.clickedReset.bind(this);
     this.clickedDesc= this.clickedDesc.bind(this);
     this.clickedAsc= this.clickedAsc.bind(this);
   }
@@ -68,20 +71,22 @@ export default class Resorts extends React.Component {
     });
   }
 
-  submitFilter(filter){
+  submitFilter(filter, filtMap){
     this.setState({
-      filter: filter
+      filter: filter,
+      filtMap: filtMap,
+      cpage: 1
     }, () => {
       this.sort(this.state.sortBy, this.state.direction);
     });
   }
 
   pairup(fetchedResorts, resultcount, pagenumber){
-    var s = 2;
-    var b = 0;
-    var e = fetchedResorts.length;
-    var mimic = fetchedResorts;
-    var paired = [];
+    let s = 2;
+    let b = 0;
+    let e = fetchedResorts.length;
+    let mimic = fetchedResorts;
+    let paired = [];
     for(b, e; b < e; b += s){
       paired.push(mimic.slice(b, b+s));
     }
@@ -96,11 +101,9 @@ export default class Resorts extends React.Component {
   //For now we use temporary information
   componentWillReceiveProps(nextProps){
     this.setState({loading: true});
-    window.scrollTo(0, 0)
-    var id = ("\"id\"");
-    var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
-    var pagenumber = nextProps.match.params.page;
-    var temp;
+    window.scrollTo(0, 0);
+    let pagenumber = nextProps.match.params.page;
+    let temp;
     if(pagenumber == null){
       pagenumber = 1
     }
@@ -109,14 +112,13 @@ export default class Resorts extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    //http://127.0.0.1:5000/api/resorts?page=
-    var url = "http://127.0.0.1:5000/api/resorts?q={";
+    let url = "http://hikingadventures.me/api/resorts?q={";
     url += "\"order_by\":[";
     if (this.state.sortBy != this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
       url += ",\"direction\":\"" + this.state.dirList[this.state.direction] + "\"}";
     }
-    url += "]"
+    url += "]";
     if(!(this.state.filter === "")) url += "," + this.state.filter;
     url += "}";
     url += "&page=";
@@ -125,33 +127,9 @@ export default class Resorts extends React.Component {
   }
 
   componentDidMount(){
-      this.setState({loading: true});
-      var pagenumber = this.props.match.params.page;
-      var id = ("\"id\"");
-      var dir = ("\"" + this.state.dirList[this.state.showDirection] + "\"");
-      var temp;
-      if(pagenumber == null){
-        pagenumber = 1
-      }
-      else{
-        temp = pagenumber.split(" ");
-        pagenumber = temp[1];
-        pagenumber = parseInt(pagenumber, 10);
-      }
-
-      var fetchfrom = "http://127.0.0.1:5000/api/resorts?page=";
-      fetchfrom += pagenumber;
-      $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
-  }
-
-  componentWillUnmount(){
-      //Testing purposes
-  }
-
-  sort(sort, dir){
     this.setState({loading: true});
-    var pagenumber = this.props.match.params.page;
-    var temp;
+    let pagenumber = this.props.match.params.page;
+    let temp;
     if(pagenumber == null){
       pagenumber = 1
     }
@@ -160,7 +138,28 @@ export default class Resorts extends React.Component {
       pagenumber = temp[1];
       pagenumber = parseInt(pagenumber, 10);
     }
-    var url = "http://127.0.0.1:5000/api/resorts?q=";
+    let fetchfrom = "http://hikingadventures.me/api/resorts?page=";
+    fetchfrom += pagenumber;
+    $.getJSON(fetchfrom).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+  }
+
+  componentWillUnmount(){
+      //Testing purposes
+  }
+
+  sort(sort, dir){
+    this.setState({loading: true});
+    let pagenumber = this.props.match.params.page;
+    let temp;
+    if(pagenumber == null){
+      pagenumber = 1
+    }
+    else{
+      temp = pagenumber.split(" ");
+      pagenumber = temp[1];
+      pagenumber = parseInt(pagenumber, 10);
+    }
+    let url = "http://hikingadventures.me/api/resorts?q=";
     url += "{\"order_by\":[";
     if (sort != this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[sort] + "\"";
@@ -168,69 +167,75 @@ export default class Resorts extends React.Component {
     }
     url += "]";
     if(!(this.state.filter === "")) url += "," + this.state.filter;
-      url += "}";
-      url += "&page="
-      url += pagenumber
-      $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
+    url += "}";
+    url += "&page=";
+    url += pagenumber;
+    $.getJSON(url).then(results => {this.pairup(results.objects, results.num_results, pagenumber)});
   }
 
   clickedLift(){
-    this.setState({sortBy: this.state.sortEnum.LIFTS});
-    this.setState({showSorting: this.state.sortEnum.LIFTS});
-    this.sort(this.state.sortEnum.LIFTS, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.LIFTS, showSorting: this.state.sortEnum.LIFTS}, () =>
+    this.sort(this.state.sortEnum.LIFTS, this.state.direction));
   }
 
   clickedElev(){
-    this.setState({sortBy: this.state.sortEnum.ELEV});
-    this.setState({showSorting: this.state.sortEnum.ELEV});
-    this.sort(this.state.sortEnum.ELEV, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.ELEV, showSorting: this.state.sortEnum.ELEV}, () =>
+    this.sort(this.state.sortEnum.ELEV, this.state.direction));
   }
 
   clickedName(){
-    this.setState({sortBy: this.state.sortEnum.NAME});
-    this.setState({showSorting: this.state.sortEnum.NAME});
-    this.sort(this.state.sortEnum.NAME, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.NAME, showSorting: this.state.sortEnum.NAME}, () =>
+    this.sort(this.state.sortEnum.NAME, this.state.direction));
   }
 
   clickedStars(){
-    this.setState({sortBy: this.state.sortEnum.STARS});
-    this.setState({showSorting: this.state.sortEnum.STARS});
-    this.sort(this.state.sortEnum.STARS, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.STARS, showSorting: this.state.sortEnum.STARS}, () =>
+    this.sort(this.state.sortEnum.STARS, this.state.direction));
   }
 
   clickedRuns(){
-    this.setState({sortBy: this.state.sortEnum.RUNS});
-    this.setState({showSorting: this.state.sortEnum.RUNS});
-    this.sort(this.state.sortEnum.RUNS, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.RUNS, showSorting: this.state.sortEnum.RUNS}, () =>
+    this.sort(this.state.sortEnum.RUNS, this.state.direction));
   }
 
   clickedReview(){
-    this.setState({sortBy: this.state.sortEnum.REVIEW});
-    this.setState({showSorting: this.state.sortEnum.REVIEW});
-    this.sort(this.state.sortEnum.REVIEW, this.state.direction);
+    this.setState({sortBy: this.state.sortEnum.REVIEW, showSorting: this.state.sortEnum.REVIEW}, () =>
+    this.sort(this.state.sortEnum.REVIEW, this.state.direction));
   }
 
   clickedDesc(){
-    this.setState({direction: this.state.dirEnum.DESC});
-    this.setState({showDirection: this.state.dirEnum.DESC});
-    this.sort(this.state.sortBy, this.state.dirEnum.DESC);
+    this.setState({direction: this.state.dirEnum.DESC, showDirection: this.state.dirEnum.DESC}, () =>
+    this.sort(this.state.sortBy, this.state.dirEnum.DESC));
   }
 
   clickedAsc(){
-    this.setState({direction: this.state.dirEnum.ASC});
-    this.setState({showDirection: this.state.dirEnum.ASC});
-    this.sort(this.state.sortBy, this.state.dirEnum.ASC);
+    this.setState({direction: this.state.dirEnum.ASC, showDirection: this.state.dirEnum.ASC}, () =>
+    this.sort(this.state.sortBy, this.state.dirEnum.ASC));
+  }
+  clickedReset(){
+    this.setState({sortBy: this.state.sortEnum.NONE, showSorting: this.state.sortEnum.NONE, direction: this.state.sortEnum.ASC, showDirection: this.state.sortEnum.ASC, filter:"", filtMap:[]}, () =>
+    this.sort(this.state.sortEnum.NONE, this.state.direction));
   }
 
   render () {
     let rrow;
+    let filters;
     let isloading = this.state.loading;
     if(this.state.presorts){
       rrow = this.state.presorts.map(currentc => {
         return(
           <ResortRow key={currentc[0].id} data={currentc} />
         );
-      })
+      });
+    }
+    if(this.state.filtMap.length !== 0){
+      filters = this.state.filtMap.map(cFilter => {
+        return(
+            <Alert color={"sec"}>
+              {cFilter}
+            </Alert>
+        );
+      });
     }
     return(
       <div>
@@ -238,8 +243,8 @@ export default class Resorts extends React.Component {
       <Container>
       <Row>
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-      <DropdownToggle color="primary" caret>
-        Sort by: {this.state.sortList[this.state.showSorting]}
+      <DropdownToggle color="prim" caret>
+        Sort by: {this.state.showAttribute[this.state.showSorting]}
       </DropdownToggle>
       <DropdownMenu>
         <DropdownItem onClick={this.clickedName}>Name</DropdownItem>
@@ -256,7 +261,7 @@ export default class Resorts extends React.Component {
       </DropdownMenu>
       </Dropdown>
       <Dropdown isOpen={this.state.btnDropup} toggle={() => { this.setState({ btnDropup: !this.state.btnDropup}); }}>
-      <DropdownToggle color="primary" caret>
+      <DropdownToggle color="prim" caret>
       Direction: {this.state.dirList[this.state.showDirection]}
       </DropdownToggle>
       <DropdownMenu>
@@ -265,7 +270,9 @@ export default class Resorts extends React.Component {
       <DropdownItem onClick={this.clickedDesc}>Descending</DropdownItem>
       </DropdownMenu>
       </Dropdown>
-      <Button color="primary" onClick={this.togglePopup.bind(this)}>Filter</Button>
+      <Button color="prim" onClick={this.togglePopup.bind(this)}>Filter</Button>
+      <Button color="prim" onClick={this.clickedReset}>Reset</Button>
+      {this.state.filtMap.length !== 0 ? <Alert color={"prim"}>{"Filters: "}{filters}</Alert> : ""}
       </Row>
       {isloading ? <Spinner/> : rrow}
       <br/>
