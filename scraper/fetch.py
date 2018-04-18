@@ -29,8 +29,6 @@ def fetchYelpJSON(url):
 def fetchPost(url, data):
     r = requests.post(url, data=data, headers={"Content-Type": "application/json"})
     if r.status_code is not 200:
-        print(data)
-        print(r.content)
         raise ValueError
     return r.json()
 
