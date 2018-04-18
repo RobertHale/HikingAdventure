@@ -104,7 +104,7 @@ export default class App extends React.Component {
           };
           let list = results.objects.map((resorts)=>{
             return (
-              <a style = {pad} className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
+              <a className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
 
             )
 
@@ -222,7 +222,7 @@ export default class App extends React.Component {
             <h2 style={center} className="card-title">Photos:</h2>
             <ul>
             <li>
-            <a style={pad} id="photo" className="btn btn-primary" href={"http://hikingadventures.me/photos/" + this.state.trailid}>{this.state.name} Photos</a>
+            <a id="photo" className="btn btn-primary" href={"http://hikingadventures.me/photos/" + this.state.trailid}>{this.state.name} Photos</a>
             </li>
             </ul>
           </div>
