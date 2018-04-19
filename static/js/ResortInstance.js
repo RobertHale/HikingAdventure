@@ -136,7 +136,8 @@ export default class ResortInstance extends React.Component {
 
     var left = {
       color: 'white',
-      textAlign:'left'
+      textAlign:'left',
+      display: 'inline'
     };
 
     var cardpad = {
@@ -161,39 +162,41 @@ export default class ResortInstance extends React.Component {
             <div className="card-block">
               <ul>
                 <li>
-                  <h2 style={left} id="latitude" className="card-title">
-                    Latitude: {this.state.lat}
-                  </h2>
+                  <h2 style={left} id="latitude" className="card-title">Latitude:</h2>
+                  <h4 style={left}> {this.state.lat} </h4>
                 </li>
+                <br/>
                 <li>
-                  <h2 style={left} id="longitude" className="card-title">
-                    Longitude: {this.state.lon}
-                  </h2>
+                  <h2 style={left} id="longitude" className="card-title">Longitude:</h2>
+                    <h4 style={left}> {this.state.lon} </h4>
                 </li>
+                <br/>
                 <li>
-                  <h2 style={left} id="elev" className="card-title">
-                    Elevation at Peak (meters): {this.state.elevation}
-                  </h2>
+                  <h2 style={left} id="elev" className="card-title">Elevation at Peak (meters):</h2>
+                    <h4 style={left}> {this.state.elevation} </h4>
                 </li>
+                <br/>
                 <li>
-                  <h2 style={left} id="runs" className="card-title">
-                    Total Ski Runs: {this.state.runs}
-                  </h2>
+                  <h2 style={left} id="runs" className="card-title">Total Ski Runs:</h2>
+                    <h4 style={left}> {this.state.runs} </h4>
                 </li>
+                <br/>
                 <li>
-                  <h2 style={left} id="lifts" className="card-title">
-                    Total Lifts: {this.state.lifts}
-                  </h2>
+                  <h2 style={left} id="lifts" className="card-title">Total Lifts:</h2>
+                    <h4 style={left}> {this.state.lifts} </h4>
                 </li>
+                <br/>
                 <li>
-                  <h2 style={left} id="review" className="card-title">
-                    Reviews: {this.state.yelp} Stars from {this.state.reviews} Reviews
-                  </h2>
+                  <h2 style={left} id="review" className="card-title"></h2>
+                    <h4 style={left}> {this.state.yelp} Stars from {this.state.reviews} Reviews </h4>
+                </li>
+                <br/>
+                <li>
+                  <form id="web_link" action={this.state.website}>
+                      <input type="submit" className="btn btn-primary" value="Website" />
+                  </form>
                 </li>
               </ul>
-              <form id="web_link" action={this.state.website}>
-                  <input type="submit" className="btn btn-primary" value="Website" />
-              </form>
             </div>
           </div>
         </div>
