@@ -30,7 +30,8 @@ export default class App extends React.Component {
       lon: "",
       trailid: "",
       list: 0,
-      contents: ""
+      contents: "",
+      url: ""
     };
     this.grabdata = this.grabdata.bind(this);
   }
@@ -54,7 +55,8 @@ export default class App extends React.Component {
           lat: results.lat,
           lon: results.lon,
           trailid: results.trailid,
-          contents: results.content
+          contents: results.content,
+          url: results.url
         });
       });
     let fetchresort = fetchfrom + "/resorts";
@@ -148,6 +150,10 @@ export default class App extends React.Component {
       <h6 style={titles}>{this.state.lat}</h6>
       <h4 style={titles}>Longitude:</h4>
       <h6 style={titles}>{this.state.lat}</h6>
+      </CardBody>
+      <CardBody>
+      <h2 style={titles}>Link to Picture:</h2>
+      <a className="btn btn-primary" href={this.state.url}>{this.state.name}</a>
       </CardBody>
       </Card>
       </Col>

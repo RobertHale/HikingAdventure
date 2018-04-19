@@ -24,17 +24,13 @@ export default class App extends React.Component {
       list: 0,
       trailid: 0,
       dummy: 0
-
-
     }
     this.grabdata = this.grabdata.bind(this);
   }
 
-
   componentDidMount(){
     this.grabdata();
   }
-
 
   grabdata() {
     var i = 0;
@@ -86,17 +82,9 @@ export default class App extends React.Component {
           sum: sum,
           vid: vid,
           trailid: trailid
-
         });
-
       });
-
-
-
       var fetchresort = fetchfrom + "/resorts";
-
-
-
       $.getJSON(fetchresort)
         .then(results => {
           var pad = {
@@ -105,25 +93,15 @@ export default class App extends React.Component {
           let list = results.objects.map((resorts)=>{
             return (
               <a className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
-
             )
-
           })
-
           this.setState({
             list:list
           });
         });
-
-
-
-
-
-
   }
 
   render () {
-
     var titles = {
       color:'white',
       textAlign: 'center'
@@ -158,13 +136,9 @@ export default class App extends React.Component {
           <br></br>
   			</div>
   		</div>
-
-
-
       <div className="row justify-content-center">
         <div id="main" className="col-lg-6">
           <div style={cardpad} className="card cardbg">
-
             <div className="card-block">
             <h2 style={titles} className="card-title">Description:</h2>
               <ul>
@@ -191,17 +165,19 @@ export default class App extends React.Component {
                     Description: {this.state.sum}
                   </h2>
                 </li>
+                <li>
+                  <h2 style={left} id="description" className="card-title">
+                    <a id="photo" className="btn btn-primary" href={"https://www.youtube.com/watch?v=" + this.state.vid}> Video Link</a>
+                  </h2>
+                </li>
               </ul>
             </div>
           </div>
         </div>
-
         <div className="col-lg-6">
-        <iframe  width="538" height="400" src={"https://www.youtube.com/embed/" + this.state.vid} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
+        <iframe  width="538" height="460" src={"https://www.youtube.com/embed/" + this.state.vid} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
         </div>
-
         </div>
-
       <div className="row">
       <div className="col-lg-6">
         <div style={cardpad} className="card cardbg h-10">
@@ -215,7 +191,6 @@ export default class App extends React.Component {
           </div>
         </div>
       </div>
-
       <div className="col-lg-6">
         <div style={cardpad} className="card cardbg h-10">
           <div className="card-block">
@@ -229,7 +204,6 @@ export default class App extends React.Component {
         </div>
       </div>
       </div>
-
         </Container>
       </div>
     );
