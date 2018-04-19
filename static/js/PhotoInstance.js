@@ -120,27 +120,21 @@ export default class App extends React.Component {
       </Col>
       </Row>
       <Row>
-      <Col lg="4">
+      <Col lg="6">
       <Card className="mt-4">
       <CardBody>
       <h2 style={titles}>Contents of photo:</h2>
       <ListGroup>
+      <ul className="resort-scroll">
       {contentList1}
-      </ListGroup>
-      </CardBody>
-      </Card>
-      </Col>
-      <Col lg="4">
-      <Card className="mt-4">
-      <CardBody>
-      <h2 style={titles}>Contents of photo:</h2>
-      <ListGroup>
       {contentList2}
+      </ul>
       </ListGroup>
       </CardBody>
       </Card>
       </Col>
-      <Col lg="4">
+
+      <Col lg="6">
       <Card className="mt-4">
       <CardBody>
       <h2 style={titles}>Location:</h2>
