@@ -166,6 +166,7 @@ export default class App extends React.Component {
                   <h2 style={left} id="description" className="card-title">Description:</h2>
                     <h4 style={left}> {this.state.sum} </h4>
                 </li>
+                <br/>
                 <li>
                   <h2 style={left} id="description" className="card-title">
                     <a id="photo" className="btn btn-primary" href={"https://www.youtube.com/watch?v=" + this.state.vid}> Video Link</a>
@@ -176,7 +177,7 @@ export default class App extends React.Component {
           </div>
         </div>
         <div className="col-lg-6">
-        <iframe  width="538" height="460" src={"https://www.youtube.com/embed/" + this.state.vid} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
+        <iframe  width="538" height="440" src={"https://www.youtube.com/embed/" + this.state.vid} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
         </div>
         </div>
       <div className="row">
