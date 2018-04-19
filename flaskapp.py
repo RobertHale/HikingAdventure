@@ -33,6 +33,7 @@ manager.create_api(Photo, methods=['GET'], exclude_columns=['trails', 'resorts']
 def catch_all(path):
     print("here")
     day = ['rover', 'red']
+    engine.dispose()
     return render_template('./indexreact.html', day=day)
 
 

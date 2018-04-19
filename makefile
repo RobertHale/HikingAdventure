@@ -82,21 +82,8 @@ backend:
 
 postman:
 	@echo "#################################\nPostman Tests:"
-	@cd ./tests;	\
-	newman run HikingAdventure.postman_collection.json;
+	@newman run HikingAdventure.postman_collection.json
 	@echo "#################################"
-
-issues:
-
-stories:
-
-github:
-
-website:
-
-report:
-
-apidoc:
 
 all:
 
