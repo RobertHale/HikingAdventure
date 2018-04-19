@@ -136,7 +136,8 @@ export default class App extends React.Component {
 
     var left = {
       color: 'white',
-      textAlign:'left'
+      textAlign:'left',
+      display: 'inline'
     };
 
     var pad = {
@@ -169,27 +170,27 @@ export default class App extends React.Component {
             <h2 style={titles} className="card-title">Description:</h2>
               <ul>
                 <li>
-                  <h2 style={left} id="difficulty" className="card-title">
-                    Difficulty: {this.state.difficulty}
-                  </h2>
+                  <h2 style={left} id="difficulty" className="card-title">Difficulty:</h2>
+                  <h4 style={left}> {this.state.difficulty} </h4>
                 </li>
+                <br/>
                 <li>
-                  <h2 style={left} id="length" className="card-title">
-                    Length: {this.state.length} miles
-                  </h2>
+                  <h2 style={left} id="length" className="card-title">Length:</h2>
+                    <h4 style={left}> {this.state.length} miles </h4>
                 </li>
+                <br/>
                 <li>
-                  <h2 style={left} id="elev" className="card-title">
-                    Elevation: {this.state.elevation}
+                  <h2 style={left} id="elev" className="card-title">Elevation:</h2>
+                    <h4 style={left}> {this.state.elevation}
                     <var style={titles} id="ascent">{this.state.ascent} foot ascent</var>
               			<br></br>
               			<var style={titles} id="descent">{this.state.descent} foot descent</var>
-                  </h2>
+                    </h4>
                 </li>
+                <br/>
                 <li>
-                  <h2 style={left} id="description" className="card-title">
-                    Description: {this.state.sum}
-                  </h2>
+                  <h2 style={left} id="description" className="card-title">Description:</h2>
+                    <h4 style={left}> {this.state.sum} </h4>
                 </li>
               </ul>
             </div>
