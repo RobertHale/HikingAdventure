@@ -1,11 +1,8 @@
 // App.jsx
 import React from "react";
 import {
-  Button,
   Row,
-  Col,
-  Card
- } from 'reactstrap';
+  Col} from 'reactstrap';
 import $ from 'jquery';
 import NavBar from "./Navbar";
 
@@ -49,13 +46,13 @@ export default class About extends React.Component {
       totalcommits: "",
       totalissues: "",
       totaltests: ""
-    }
+    };
     this.changemessage = this.changemessage.bind(this);
     this.grabgitstats = this.grabgitstats.bind(this);
 	this.getIssuesRecursive = this.getIssuesRecursive.bind(this);
   }
   grabgitstats(){
-    var totalc = 0;
+    let totalc = 0;
     let gitgroup =
     [{"RobertHale":{
         "commits": 0,
@@ -88,7 +85,6 @@ export default class About extends React.Component {
         "tests": 14
       }
     }];
-    var filler = [];
     let currentperson = '';
     $.getJSON('https://api.github.com/repos/RobertHale/HikingAdventure/stats/contributors').then(results => {
       results.map(individual => {
@@ -102,18 +98,15 @@ export default class About extends React.Component {
         githubcont: gitgroup
       });
     });
-	$.getJSON('https://api.github.com/repos/RobertHale/HikingAdventure/issues?state=all&per_page=100', function (results, textStatus, jqXHR){
-  });
-  var issueCount = 0;
+  const issueCount = 0;
   this.getIssuesRecursive('https://api.github.com/repos/RobertHale/HikingAdventure/issues?state=all&per_page=100&page=1', gitgroup, issueCount);
-  
   }
 
-  parseLinkString(links){
+  static parseLinkString(links){
     let str = links;
     let next = str.search('next');
     let nextExists = false;
-    if(next != -1){
+    if(next !== -1){
       nextExists = true;
       str = str.substring(0,next);
       str = str.substring(str.lastIndexOf('<')+1, str.lastIndexOf('>'));
@@ -139,7 +132,7 @@ export default class About extends React.Component {
             totaltests: 97,
             githubcont: gitgroup
           });
-      var nextPage = this.parseLinkString(jqXHR.getResponseHeader('Link'));
+      const nextPage = About.parseLinkString(jqXHR.getResponseHeader('Link'));
       if(nextPage.next){
         this.getIssuesRecursive(nextPage.page, gitgroup, issueCount);
       }

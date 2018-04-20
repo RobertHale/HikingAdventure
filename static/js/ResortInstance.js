@@ -1,15 +1,9 @@
 // App.jsx
 import React from   "react";
-import Card from    "./card";
-import Cards from   "./cards";
 import $ from 'jquery';
 import NavBar from "./Navbar";
 import {
-  Container,
-  Row,
-  Col,
-  Table
-} from 'reactstrap';
+  Container} from 'reactstrap';
 export default class ResortInstance extends React.Component {
   constructor(){
     super();
@@ -35,73 +29,44 @@ export default class ResortInstance extends React.Component {
     this.grabdata();
   }
   grabdata() {
-    var n = '';
-    var e = 0;
-    var r = 0;
-    var l = 0;
-    var rev = 0;
-    var lat = 0;
-    var lon = 0;
-    var y = 0;
-    var w = '';
-    var m = '';
-    var p = 0;
-    var pn = '';
-    var t = 0;
-    var tn = '';
-
-    var url = window.location.href;
-    var lastPart = url.split("/").pop();
-
-    var fetchfrom = "http://hikingadventures.me/api/resorts/" + lastPart;
-
-    var fetchPhotos = "http://hikingadventures.me/api/resorts/" + lastPart + "/photos?results_per_page=25";
-
-    var fetchTrails = "http://hikingadventures.me/api/resorts/" + lastPart + "/trails?results_per_page=25";
-
-    console.log(fetchfrom)
+    const url = window.location.href;
+    const lastPart = url.split("/").pop();
+    const fetchfrom = "http://hikingadventures.me/api/resorts/" + lastPart;
+    const fetchPhotos = "http://hikingadventures.me/api/resorts/" + lastPart + "/photos?results_per_page=25";
+    const fetchTrails = "http://hikingadventures.me/api/resorts/" + lastPart + "/trails?results_per_page=25";
+    console.log(fetchfrom);
 
     $.getJSON(fetchfrom)
       .then(results => {
-        n = results.name;
-        e = results.elev;
-        r = results.runs;
-        l = results.lifts;
-        rev = results.reviewcount;
-        lat = results.lat;
-        lon = results.lon;
-        y = results.yelprating;
-        w = results.website;
-        m = results.mapurl;
 
         this.setState({
-          name: n,
-          elevation: e,
-          runs: r,
-          lifts: l,
-          reviews: rev,
-          lat: lat,
-          lon: lon,
-          yelp: y,
-          website: w,
-          map: m
+          name: results.name,
+          elevation: results.elev,
+          runs: results.runs,
+          lifts: results.lifts,
+          reviews: results.reviewcount,
+          lat: results.lat,
+          lon: results.lon,
+          yelp: results.yelprating,
+          website: results.website,
+          map: results.mapurl
         });
       });
 
       $.getJSON(fetchPhotos)
         .then(results => {
 
-          var pad = {
-            margin: '0px 5px 10px 0px'
-          };
+            const pad = {
+                margin: '0px 5px 10px 0px'
+            };
 
-          let photos = results.objects.map((photo)=>{
+            let photos = results.objects.map((photo)=>{
             return(
               <li>
                 <a style={pad} className="btn btn-primary" href={"/photos/"+photo.id}>{photo.name}</a>
               </li>
             )
-          })
+          });
           this.setState({
             photos: photos
           });
@@ -110,17 +75,17 @@ export default class ResortInstance extends React.Component {
         $.getJSON(fetchTrails)
           .then(results => {
 
-            var pad = {
-              margin: '0px 5px 10px 0px'
-            };
+              const pad = {
+                  margin: '0px 5px 10px 0px'
+              };
 
-            let trails = results.objects.map((trail)=>{
+              let trails = results.objects.map((trail)=>{
               return(
                 <li>
                   <a style={pad} className="btn btn-primary" href={"/trails/"+trail.id}>{trail.name}</a>
                 </li>
               )
-            })
+            });
             this.setState({
               trails: trails
             });
@@ -129,29 +94,29 @@ export default class ResortInstance extends React.Component {
 
   render () {
 
-    var titles = {
-      color:'white',
-      textAlign: 'center'
-    };
+      const titles = {
+          color: 'white',
+          textAlign: 'center'
+      };
 
-    var left = {
-      color: 'white',
-      textAlign:'left',
-      display: 'inline'
-    };
+      const left = {
+          color: 'white',
+          textAlign: 'left',
+          display: 'inline'
+      };
 
-    var cardpad = {
-      margin: '0px 0px 10px 0px'
-    };
+      const cardpad = {
+          margin: '0px 0px 10px 0px'
+      };
 
-    return (
+      return (
       <div>
       <NavBar/>
       <Container>
       <div id="title" className="row align-items-center">
   			<div className="col-12">
   				<h1 style={titles} id="name">{this.state.name}</h1>
-          <br></br>
+          <br/>
   			</div>
   		</div>
 

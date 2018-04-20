@@ -1,15 +1,9 @@
 // App.jsx
 import React from   "react";
-import Card from    "./card";
-import Cards from   "./cards";
 import NavBar from "./Navbar";
 import $ from 'jquery';
 import {
-  Container,
-  Row,
-  Col,
-  Table
-} from 'reactstrap';
+  Container} from 'reactstrap';
 export default class App extends React.Component {
   constructor(){
     super();
@@ -24,7 +18,7 @@ export default class App extends React.Component {
       list: 0,
       trailid: 0,
       dummy: 0
-    }
+    };
     this.grabdata = this.grabdata.bind(this);
   }
 
@@ -33,68 +27,50 @@ export default class App extends React.Component {
   }
 
   grabdata() {
-    var i = 0;
-    var n = 'ffjjffj';
-    var d = '';
-    var l = 0;
-    var a = 0;
-    var descent = 0;
-    var sum = '';
-    var vid = '';
-    var resortid = {};
-    var resortname = '';
-    var trailid = 0;
-
-    var url = window.location.href;
-    var lastPart = url.split("/").pop();
+    let trailid = 0;
+    const url = window.location.href;
+    const lastPart = url.split("/").pop();
     trailid = lastPart;
 
-    var fetchfrom = "http://hikingadventures.me/api/trails/" + lastPart
+    const fetchfrom = "http://hikingadventures.me/api/trails/" + lastPart;
 
 
     $.getJSON(fetchfrom)
       .then(results => {
-        n = results.name;
-        d = results.difficulty;
-        l = results.length;
-        a = results.ascent;
-        descent = results.descent;
-        sum = results.summary;
-        vid = results.youtubeid;
-
-        if (d == "greenBlue") {
+        let d = results.difficulty;
+        if (d === "greenBlue") {
           d = "Easy/Intermediate";
         }
 
-        if (d == "blue") {
+        if (d === "blue") {
           d = "Intermediate";
         }
 
-        if (d == "green") {
+        if (d === "green") {
           d = "Easy";
         }
         this.setState({
-          name: n,
+          name: results.name,
           difficulty: d,
-          length: l,
-          ascent: a,
-          descent: descent,
-          sum: sum,
-          vid: vid,
+          length: results.length,
+          ascent: results.ascent,
+          descent: results.descent,
+          sum: results.summary,
+          vid: results.youtubeid,
           trailid: trailid
         });
       });
-      var fetchresort = fetchfrom + "/resorts";
-      $.getJSON(fetchresort)
+    const fetchresort = fetchfrom + "/resorts";
+    $.getJSON(fetchresort)
         .then(results => {
-          var pad = {
+          const pad = {
             margin: '0px 0px 10px 0px',
           };
           let list = results.objects.map((resorts)=>{
             return (
               <a className="btn btn-primary" href={"http://hikingadventures.me/resorts/" + resorts.id}>{resorts.name}</a>
             )
-          })
+          });
           this.setState({
             list:list
           });
@@ -102,27 +78,27 @@ export default class App extends React.Component {
   }
 
   render () {
-    var titles = {
-      color:'white',
+    const titles = {
+      color: 'white',
       textAlign: 'center'
     };
 
-    var center = {
+    const center = {
       color: 'white',
-      textAlign:'center'
+      textAlign: 'center'
     };
 
-    var left = {
+    const left = {
       color: 'white',
-      textAlign:'left',
+      textAlign: 'left',
       display: 'inline'
     };
 
-    var pad = {
+    const pad = {
       padding: '5px 5px 5px 5px'
     };
 
-    var cardpad = {
+    const cardpad = {
       margin: '0px 0px 10px 0px'
     };
 
@@ -134,7 +110,7 @@ export default class App extends React.Component {
       <div id="title" className="row align-items-center">
   			<div className="col-12">
   				<h1 style={titles} id="name">{this.state.name}</h1>
-          <br></br>
+          <br/>
   			</div>
   		</div>
       <div className="row justify-content-center">

@@ -1,20 +1,10 @@
 // Card instance of Resort
 import React from "react";
 import {
-  Button,
   Card,
-  CardImg,
-  CardText,
   CardBody,
   CardTitle,
-  CardSubtitle,
-  Row,
-  Col,
-  Container,
-  Pagination,
-  PaginationItem,
-  PaginationLink
-} from 'reactstrap';
+  Col} from 'reactstrap';
 import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 
@@ -33,13 +23,13 @@ export default class TrailCard extends React.Component {
       if(this.props.trail.youtubeid != null){
         video = "http://www.youtube.com/embed/" + this.props.trail.youtubeid;
       }
-      if((this.props.trail.summary).length != 0){
+      if((this.props.trail.summary).length !== 0){
         summary = this.props.trail.summary;
       }
-      if((this.props.trail.difficulty).length != 0){
+      if((this.props.trail.difficulty).length !== 0){
         difficulty = this.props.trail.difficulty;
       }
-      if((this.props.trail.length).length != 0){
+      if((this.props.trail.length).length !== 0){
         length = this.props.trail.length;
       }
     }
