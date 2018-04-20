@@ -375,7 +375,7 @@ class InstanceLinks(unittest.TestCase):
         photos_page = driver.find_element_by_link_text("Photos")
         photos_page.click()
         driver.find_element_by_link_text("North Tenmile Creek photo").click()
-        driver.find_element_by_link_text("North Tenmile Creek photo").click()
+        driver.find_element_by_link_text("North Tenmile Creek").click()
         self.assertEqual("http://hikingadventures.me/trails/7000032", driver.current_url)
         driver.back()
         driver.find_element_by_link_text("Frisco Adventure Park").click()

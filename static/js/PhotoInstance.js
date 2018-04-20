@@ -1,22 +1,13 @@
 // App.jsx
 import React from   "react";
-import Cards from   "./cards";
 import $ from 'jquery';
 import NavBar from "./Navbar";
 import {
-  Button,
   Card,
-  CardImg,
-  CardText,
   CardBody,
-  CardTitle,
-  CardSubtitle,
   Row,
   Col,
   Container,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   ListGroup,
   ListGroupItem
 } from 'reactstrap';
@@ -25,7 +16,6 @@ export default class App extends React.Component {
     super();
     this.state = {
       name: "",
-      url: "",
       lat: "",
       lon: "",
       trailid: "",
@@ -51,7 +41,6 @@ export default class App extends React.Component {
       .then(results => {
         this.setState({
           name: results.name,
-          url: results.url,
           lat: results.lat,
           lon: results.lon,
           trailid: results.trailid,
@@ -159,7 +148,7 @@ export default class App extends React.Component {
       <h2 style={titles}>Link to Trail:</h2>
       <ul>
       <li>
-      <a className="btn btn-primary" href={"http://hikingadventures.me/trails/" + this.state.trailid}>{this.state.name}</a>
+      <a className="btn btn-primary" href={"http://hikingadventures.me/trails/" + this.state.trailid}>{this.state.name.substring(0, this.state.name.length - 6)}</a>
       </li>
       </ul>
       </CardBody>

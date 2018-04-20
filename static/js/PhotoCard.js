@@ -1,20 +1,11 @@
 // Card instance of Resort
 import React from "react";
 import {
-  Button,
   Card,
   CardImg,
-  CardText,
   CardBody,
   CardTitle,
-  CardSubtitle,
-  Row,
-  Col,
-  Container,
-  Pagination,
-  PaginationItem,
-  PaginationLink
-} from 'reactstrap';
+  Col} from 'reactstrap';
 import { Link } from "react-router-dom";
 import Highlighter from "react-highlight-words";
 
