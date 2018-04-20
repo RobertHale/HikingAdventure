@@ -9,7 +9,7 @@ FILES1 :=						\
 
 GithubID = RobertHale
 RepoName = HikingAdventure
-SHA      = f1adb9320de543abecc0a1923e21bb0aa4e411c4
+SHA      = ef1513bd686afdb55bcff8fef5d391219151f5aa
 
 githubid:
 	@echo "${GithubID}"
