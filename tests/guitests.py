@@ -14,7 +14,7 @@ import unittest, time, re
 class Main_Nav_Bar(unittest.TestCase):
 
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -52,7 +52,7 @@ class Main_Nav_Bar(unittest.TestCase):
 #tests navbar on resort
 class ResortNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -124,7 +124,7 @@ class ResortNavBar(unittest.TestCase):
 #tests nav bar on trail
 class TrailNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(60)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -194,7 +194,7 @@ class TrailNavBar(unittest.TestCase):
 #tests nav bar on photo
 class PhotoNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(60)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -262,7 +262,7 @@ class PhotoNavBar(unittest.TestCase):
 #tests nav bar on about page
 class AboutNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -314,7 +314,7 @@ class AboutNavBar(unittest.TestCase):
 #tests links on instances (all done at one time)
 class InstanceLinks(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -410,7 +410,7 @@ class InstanceLinks(unittest.TestCase):
 #all done at one time
 class TestSortBy(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -478,7 +478,7 @@ class TestSortBy(unittest.TestCase):
 #all done at one time
 class TestSearch(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -540,7 +540,7 @@ class TestSearch(unittest.TestCase):
 #all done at one time
 class testFilter(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -602,7 +602,7 @@ class testFilter(unittest.TestCase):
 
 class Reset(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
