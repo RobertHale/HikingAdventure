@@ -25,22 +25,26 @@
 # Backend unit testing:
 * Tests the validity of our scraper against valid and invalid input
 * Tests the robustness of the database against various forms of access
+
 *Let's give it a try*
 
 ---
 
 # Frontend testing:
+
 #### Mocha Tests
 * Tests ReactJS code for correctness and validity
+
 #### Selenium Tests
 * Verifies that frontend is working properly in production
 * Verifies that our UI works properly under many situations
+
 *Let's give it a try*
 
 ---
 
 # Postman Testing:
-* Used to functionality of API
+* Used to test functionality of API
 * Verifies that API handles both valid and invalid input properly
 
 ---
