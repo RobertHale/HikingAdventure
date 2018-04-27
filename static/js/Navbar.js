@@ -8,10 +8,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   Button,
   Form,
   FormGroup,
@@ -40,9 +36,9 @@ class NavBar extends React.Component {
     this.setState({sInput: e.target.value});
   }
   submitSearch(e){
-    e.preventDefault()
+    e.preventDefault();
     //console.log(this.state.sInput);
-    var destination = this.state.sInput;
+    const destination = this.state.sInput;
     this.props.history.push("/search/" + destination);
   }
 

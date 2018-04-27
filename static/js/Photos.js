@@ -7,7 +7,6 @@ import {
   Dropdown, DropdownToggle, DropdownMenu, DropdownItem,
   Alert
 } from 'reactstrap';
-import { Link } from "react-router-dom";
 import PhotoRow from "./PhotoRow";
 import Ppopup from "./Ppopup";
 import NavBar from "./Navbar";
@@ -108,7 +107,7 @@ export default class Photos extends React.Component {
     }
     let url = "http://hikingadventures.me/api/photos?q={";
     url += "\"order_by\":[";
-    if (this.state.sortBy !=  0) {
+    if (this.state.sortBy !==  0) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
       url += ",\"direction\":\"" + this.state.dirList[this.state.direction] + "\"}";
     }
@@ -158,7 +157,7 @@ export default class Photos extends React.Component {
     }
     let url = "http://hikingadventures.me/api/photos?q=";
     url += "{\"order_by\":[";
-    if (field != this.state.sortEnum.NONE) {
+    if (field !== this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[field] + "\"";
       url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
     }

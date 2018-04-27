@@ -178,8 +178,6 @@ def getPhotoContents(purl):
     if 'labelAnnotations' in r['responses'][0]:
         for label in r['responses'][0]['labelAnnotations']:
             labels.append(label['description'])
-    else:
-        print(r['responses'][0])
     return ",".join(labels)
 
 

@@ -14,7 +14,7 @@ import unittest, time, re
 class Main_Nav_Bar(unittest.TestCase):
 
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -26,26 +26,21 @@ class Main_Nav_Bar(unittest.TestCase):
         resorts_page = driver.find_element_by_link_text("Resorts")
         resorts_page.click()
         self.assertEqual("http://hikingadventures.me/resorts", driver.current_url)
+        driver.back()
 
-
-    def test_nav_trails(self):
-        driver = self.driver
-        driver.get("http://hikingadventures.me")
+        #tests trails link
         trails_page = driver.find_element_by_link_text("Trails")
         trails_page.click()
         self.assertEqual("http://hikingadventures.me/trails", driver.current_url)
+        driver.back()
 
-
-    def test_nav_photos(self):
-        driver = self.driver
-        driver.get("http://hikingadventures.me")
+        #tests photos link
         photos_page = driver.find_element_by_link_text("Photos")
         photos_page.click()
         self.assertEqual("http://hikingadventures.me/photos", driver.current_url)
+        driver.back()
 
-    def test_nav_about(self):
-        driver = self.driver
-        driver.get("http://hikingadventures.me")
+        #tests about link
         about_page = driver.find_element_by_link_text("About")
         about_page.click()
         self.assertEqual("http://hikingadventures.me/about", driver.current_url)
@@ -57,7 +52,7 @@ class Main_Nav_Bar(unittest.TestCase):
 #tests navbar on resort
 class ResortNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -129,7 +124,7 @@ class ResortNavBar(unittest.TestCase):
 #tests nav bar on trail
 class TrailNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(60)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -199,7 +194,7 @@ class TrailNavBar(unittest.TestCase):
 #tests nav bar on photo
 class PhotoNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(60)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -239,8 +234,6 @@ class PhotoNavBar(unittest.TestCase):
         self.assertEqual("http://hikingadventures.me/about", driver.current_url)
         driver.back()
 
-
-
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException as e: return False
@@ -266,12 +259,10 @@ class PhotoNavBar(unittest.TestCase):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
-
-
 #tests nav bar on about page
 class AboutNavBar(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -320,11 +311,10 @@ class AboutNavBar(unittest.TestCase):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
-
-#tests links on resort instances(might be faulty)
-class ResortInstanceLinks(unittest.TestCase):
+#tests links on instances (all done at one time)
+class InstanceLinks(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -370,45 +360,9 @@ class ResortInstanceLinks(unittest.TestCase):
         driver.find_element_by_link_text("Treasure Falls Trail photo").click()
         self.assertEqual("http://hikingadventures.me/photos/7032099", driver.current_url)
 
-    def is_element_present(self, how, what):
-        try: self.driver.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
-        return True
-
-    def is_alert_present(self):
-        try: self.driver.switch_to_alert()
-        except NoAlertPresentException as e: return False
-        return True
-
-    def close_alert_and_get_its_text(self):
-        try:
-            alert = self.driver.switch_to_alert()
-            alert_text = alert.text
-            if self.accept_next_alert:
-                alert.accept()
-            else:
-                alert.dismiss()
-            return alert_text
-        finally: self.accept_next_alert = True
-
-    def tearDown(self):
-        self.driver.quit()
-        self.assertEqual([], self.verificationErrors)
-
-
-#tests links in trail instance
-class TrailInstanceLinks(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
-        self.driver.implicitly_wait(30)
-        self.base_url = "https://www.katalon.com/"
-        self.verificationErrors = []
-        self.accept_next_alert = True
-
-    def test_trail_instance_links(self):
-        driver = self.driver
-        driver.get("http://hikingadventures.me/")
-        driver.find_element_by_link_text("Trails").click()
+        #test trail links
+        trails_page = driver.find_element_by_link_text("Trails")
+        trails_page.click()
         driver.find_element_by_link_text("North Tenmile Creek").click()
         driver.find_element_by_link_text("Frisco Adventure Park").click()
         self.assertEqual("http://hikingadventures.me/resorts/4904", driver.current_url)
@@ -417,48 +371,11 @@ class TrailInstanceLinks(unittest.TestCase):
         self.assertEqual("http://hikingadventures.me/photos/7000032", driver.current_url)
         driver.back()
 
-    def is_element_present(self, how, what):
-        try: self.driver.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
-        return True
-
-    def is_alert_present(self):
-        try: self.driver.switch_to_alert()
-        except NoAlertPresentException as e: return False
-        return True
-
-    def close_alert_and_get_its_text(self):
-        try:
-            alert = self.driver.switch_to_alert()
-            alert_text = alert.text
-            if self.accept_next_alert:
-                alert.accept()
-            else:
-                alert.dismiss()
-            return alert_text
-        finally: self.accept_next_alert = True
-
-    def tearDown(self):
-        self.driver.quit()
-        self.assertEqual([], self.verificationErrors)
-
-
-
-#tests links in photo instance
-class PhotoInstanceLinks(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
-        self.driver.implicitly_wait(30)
-        self.base_url = "https://www.katalon.com/"
-        self.verificationErrors = []
-        self.accept_next_alert = True
-
-    def test_photo_instance_links(self):
-        driver = self.driver
-        driver.get("http://hikingadventures.me/")
-        driver.find_element_by_link_text("Photos").click()
+        #test photo links
+        photos_page = driver.find_element_by_link_text("Photos")
+        photos_page.click()
         driver.find_element_by_link_text("North Tenmile Creek photo").click()
-        driver.find_element_by_link_text("North Tenmile Creek photo").click()
+        driver.find_element_by_link_text("North Tenmile Creek").click()
         self.assertEqual("http://hikingadventures.me/trails/7000032", driver.current_url)
         driver.back()
         driver.find_element_by_link_text("Frisco Adventure Park").click()
@@ -490,76 +407,28 @@ class PhotoInstanceLinks(unittest.TestCase):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
-
-
-
-
-#_______________________________________________________________________________
-
-#new (works)
-class TestSortByResorts(unittest.TestCase):
+#all done at one time
+class TestSortBy(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
 
-    def test_sort_by_resorts(self):
+    def test_sort_by(self):
         driver = self.driver
         driver.get("http://hikingadventures.me/resorts")
         driver.find_element_by_xpath("(//button[@type='button'])[2]").click()
-        time.sleep(5)
         driver.find_element_by_xpath("(//button[@type='button'])[3]").click()
-        time.sleep(5)
         driver.find_element_by_xpath("(//button[@type='button'])[9]").click()
         driver.find_element_by_xpath("(//button[@type='button'])[11]").click()
-        time.sleep(5)
-        driver.find_element_by_link_text("3").click()
-        driver.find_element_by_xpath("//div[@id='content']/div/div/div[2]/div[7]/div/ul/li[2]").click()
-        time.sleep(5)
-        driver.find_element_by_xpath("(//button[@type='button'])[9]").click()
-        driver.find_element_by_xpath("(//button[@type='button'])[10]").click()
+        driver.find_element_by_link_text(u"»").click()
+        self.assertEqual("http://hikingadventures.me/resortspage=%202", driver.current_url)
 
-    def is_element_present(self, how, what):
-        try: self.driver.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
-        return True
-
-    def is_alert_present(self):
-        try: self.driver.switch_to_alert()
-        except NoAlertPresentException as e: return False
-        return True
-
-    def close_alert_and_get_its_text(self):
-        try:
-            alert = self.driver.switch_to_alert()
-            alert_text = alert.text
-            if self.accept_next_alert:
-                alert.accept()
-            else:
-                alert.dismiss()
-            return alert_text
-        finally: self.accept_next_alert = True
-
-    def tearDown(self):
-        self.driver.quit()
-        self.assertEqual([], self.verificationErrors)
-
-
-
-class TestSortByTrails(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
-        self.driver.implicitly_wait(30)
-        self.base_url = "https://www.katalon.com/"
-        self.verificationErrors = []
-        self.accept_next_alert = True
-
-    def test_sort_by_trails(self):
-        driver = self.driver
-        driver.get("http://hikingadventures.me/trails")
-        time.sleep(5)
+        #tests sort for trails
+        trails_page = driver.find_element_by_link_text("Trails")
+        trails_page.click()
         driver.find_element_by_xpath("(//button[@type='button'])[2]").click()
         time.sleep(5)
         driver.find_element_by_xpath("(//button[@type='button'])[3]").click()
@@ -569,45 +438,9 @@ class TestSortByTrails(unittest.TestCase):
         time.sleep(5)
         driver.find_element_by_link_text("3").click()
 
-    def is_element_present(self, how, what):
-        try: self.driver.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
-        return True
-
-    def is_alert_present(self):
-        try: self.driver.switch_to_alert()
-        except NoAlertPresentException as e: return False
-        return True
-
-    def close_alert_and_get_its_text(self):
-        try:
-            alert = self.driver.switch_to_alert()
-            alert_text = alert.text
-            if self.accept_next_alert:
-                alert.accept()
-            else:
-                alert.dismiss()
-            return alert_text
-        finally: self.accept_next_alert = True
-
-    def tearDown(self):
-        self.driver.quit()
-        self.assertEqual([], self.verificationErrors)
-
-
-
-class TestSortByPhotos(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
-        self.driver.implicitly_wait(30)
-        self.base_url = "https://www.katalon.com/"
-        self.verificationErrors = []
-        self.accept_next_alert = True
-
-    def test_sort_by_photos(self):
-        driver = self.driver
-        driver.get("http://hikingadventures.me/photos")
-        time.sleep(5)
+        #tests sort for photos_page
+        photos_page = driver.find_element_by_link_text("Photos")
+        photos_page.click()
         driver.find_element_by_xpath("(//button[@type='button'])[2]").click()
         driver.find_element_by_xpath("(//button[@type='button'])[3]").click()
         time.sleep(5)
@@ -642,11 +475,10 @@ class TestSortByPhotos(unittest.TestCase):
         self.assertEqual([], self.verificationErrors)
 
 
-
-
+#all done at one time
 class TestSearch(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
@@ -661,18 +493,18 @@ class TestSearch(unittest.TestCase):
         time.sleep(2)
         self.assertEqual("http://hikingadventures.me/search/b", driver.current_url)
 
-    def test_trails_search(self):
-        driver = self.driver
-        driver.get("http://hikingadventures.me/trails")
+        #tests trail search
+        trails_page = driver.find_element_by_link_text("Trails")
+        trails_page.click()
         driver.find_element_by_class_name("mr-sm-2").send_keys("n")
         time.sleep(2)
         driver.find_element_by_xpath("//button[@type='submit']").click()
         time.sleep(2)
         self.assertEqual("http://hikingadventures.me/search/n", driver.current_url)
 
-    def test_photos_search(self):
-        driver = self.driver
-        driver.get("http://hikingadventures.me/photos")
+        #tests photo search
+        photos_page = driver.find_element_by_link_text("Photos")
+        photos_page.click()
         driver.find_element_by_class_name("mr-sm-2").send_keys("s")
         time.sleep(2)
         driver.find_element_by_xpath("//button[@type='submit']").click()
@@ -705,15 +537,16 @@ class TestSearch(unittest.TestCase):
         self.assertEqual([], self.verificationErrors)
 
 
+#all done at one time
 class testFilter(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Firefox(executable_path="./geckodriver.exe")
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.katalon.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
 
-    def test_(self):
+    def test_filter(self):
         driver = self.driver
         driver.get("http://hikingadventures.me/resorts")
         driver.find_element_by_xpath("(//button[@type='button'])[12]").click()
@@ -722,8 +555,25 @@ class testFilter(unittest.TestCase):
         time.sleep(2)
         driver.find_element_by_xpath("(//button[@type='button'])[14]").click()
         time.sleep(2)
-        driver.find_element_by_xpath("(//button[@type='button'])[15]").click()
+
+        #test trail filter
+        trails_page = driver.find_element_by_link_text("Trails")
+        trails_page.click()
+        driver.find_element_by_xpath("(//button[@type='button'])[12]").click()
+        driver.find_element_by_xpath("(//input[@value=''])[2]").click()
+        driver.find_element_by_class_name("form-control").send_keys("16")
         time.sleep(2)
+        driver.find_element_by_xpath("(//button[@type='button'])[14]").click()
+        time.sleep(2)
+
+        #test photo filter
+        photos_page = driver.find_element_by_link_text("Photos")
+        photos_page.click()
+        driver.find_element_by_xpath("(//button[@type='button'])[9]").click()
+        driver.find_element_by_xpath("(//input[@value=''])[2]").click()
+        driver.find_element_by_class_name("form-control").send_keys("39.5759")
+        time.sleep(2)
+        driver.find_element_by_xpath("(//button[@type='button'])[12]").click()
 
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
@@ -750,5 +600,58 @@ class testFilter(unittest.TestCase):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
 
+class Reset(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Firefox(executable_path="./geckodriver")
+        self.driver.implicitly_wait(30)
+        self.base_url = "https://www.katalon.com/"
+        self.verificationErrors = []
+        self.accept_next_alert = True
+
+    def test_reset(self):
+        driver = self.driver
+        driver.get("http://hikingadventures.me/resorts")
+        time.sleep(2)
+        driver.find_element_by_xpath("(//button[@type='button'])[2]").click()
+        driver.find_element_by_xpath("(//button[@type='button'])[3]").click()
+        time.sleep(2)
+        driver.find_element_by_xpath("(//button[@type='button'])[13]").click()
+        driver.find_element_by_link_text("Trails").click()
+        time.sleep(2)
+        driver.find_element_by_xpath("(//button[@type='button'])[2]").click()
+        driver.find_element_by_xpath("(//button[@type='button'])[3]").click()
+        time.sleep(2)
+        driver.find_element_by_xpath("(//button[@type='button'])[13]").click()
+        driver.find_element_by_link_text("Photos").click()
+        time.sleep(2)
+        driver.find_element_by_xpath("(//button[@type='button'])[2]").click()
+        driver.find_element_by_xpath("(//button[@type='button'])[3]").click()
+        time.sleep(2)
+        driver.find_element_by_xpath("(//button[@type='button'])[10]").click()
+
+    def is_element_present(self, how, what):
+        try: self.driver.find_element(by=how, value=what)
+        except NoSuchElementException as e: return False
+        return True
+
+    def is_alert_present(self):
+        try: self.driver.switch_to_alert()
+        except NoAlertPresentException as e: return False
+        return True
+
+    def close_alert_and_get_its_text(self):
+        try:
+            alert = self.driver.switch_to_alert()
+            alert_text = alert.text
+            if self.accept_next_alert:
+                alert.accept()
+            else:
+                alert.dismiss()
+            return alert_text
+        finally: self.accept_next_alert = True
+
+    def tearDown(self):
+        self.driver.quit()
+        self.assertEqual([], self.verificationErrors)
 if __name__ == "__main__":
     unittest.main()

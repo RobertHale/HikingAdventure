@@ -1,6 +1,5 @@
 // App.jsx
 import React from   "react";
-import Card from    "./card";
 import Cards from   "./cards";
 export default class App extends React.Component {
   constructor(){

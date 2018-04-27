@@ -294,7 +294,6 @@ export default class Resorts extends React.Component {
 =======
 // Load all resorts in our database, 12 in each page
 import React from "react";
-import ReactDOM from "react-dom";
 import {
   Button,
   Row,
@@ -305,7 +304,6 @@ import {
   DropdownItem,
   Alert
 } from 'reactstrap';
-import { Link } from "react-router-dom";
 import ResortRow from "./ResortRow";
 import Rpopup from "./Rpopup";
 import NavBar from "./Navbar";
@@ -408,7 +406,7 @@ export default class Resorts extends React.Component {
     }
     let url = "http://hikingadventures.me/api/resorts?q={";
     url += "\"order_by\":[";
-    if (this.state.sortBy != this.state.sortEnum.NONE) {
+    if (this.state.sortBy !== this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[this.state.sortBy] + "\"";
       url += ",\"direction\":\"" + this.state.dirList[this.state.direction] + "\"}";
     }
@@ -455,7 +453,7 @@ export default class Resorts extends React.Component {
     }
     let url = "http://hikingadventures.me/api/resorts?q=";
     url += "{\"order_by\":[";
-    if (sort != this.state.sortEnum.NONE) {
+    if (sort !== this.state.sortEnum.NONE) {
       url += "{\"field\":\"" + this.state.sortList[sort] + "\"";
       url += ",\"direction\":\"" + this.state.dirList[dir] + "\"}";
     }

@@ -1,22 +1,13 @@
 // App.jsx
 import React from   "react";
-import Cards from   "./cards";
 import $ from 'jquery';
 import NavBar from "./Navbar";
 import {
-  Button,
   Card,
-  CardImg,
-  CardText,
   CardBody,
-  CardTitle,
-  CardSubtitle,
   Row,
   Col,
   Container,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   ListGroup,
   ListGroupItem
 } from 'reactstrap';
@@ -25,12 +16,12 @@ export default class App extends React.Component {
     super();
     this.state = {
       name: "",
-      url: "",
       lat: "",
       lon: "",
       trailid: "",
       list: 0,
-      contents: ""
+      contents: "",
+      url: ""
     };
     this.grabdata = this.grabdata.bind(this);
   }
@@ -50,11 +41,11 @@ export default class App extends React.Component {
       .then(results => {
         this.setState({
           name: results.name,
-          url: results.url,
           lat: results.lat,
           lon: results.lon,
           trailid: results.trailid,
-          contents: results.content
+          contents: results.content,
+          url: results.url
         });
       });
     let fetchresort = fetchfrom + "/resorts";
@@ -120,27 +111,21 @@ export default class App extends React.Component {
       </Col>
       </Row>
       <Row>
-      <Col lg="4">
+      <Col lg="6">
       <Card className="mt-4">
       <CardBody>
       <h2 style={titles}>Contents of photo:</h2>
       <ListGroup>
+      <ul className="resort-scroll">
       {contentList1}
-      </ListGroup>
-      </CardBody>
-      </Card>
-      </Col>
-      <Col lg="4">
-      <Card className="mt-4">
-      <CardBody>
-      <h2 style={titles}>Contents of photo:</h2>
-      <ListGroup>
       {contentList2}
+      </ul>
       </ListGroup>
       </CardBody>
       </Card>
       </Col>
-      <Col lg="4">
+
+      <Col lg="6">
       <Card className="mt-4">
       <CardBody>
       <h2 style={titles}>Location:</h2>
@@ -148,6 +133,10 @@ export default class App extends React.Component {
       <h6 style={titles}>{this.state.lat}</h6>
       <h4 style={titles}>Longitude:</h4>
       <h6 style={titles}>{this.state.lat}</h6>
+      </CardBody>
+      <CardBody>
+      <h2 style={titles}>Link to Picture:</h2>
+      <a className="btn btn-primary" href={this.state.url}>{this.state.name}</a>
       </CardBody>
       </Card>
       </Col>
@@ -159,7 +148,7 @@ export default class App extends React.Component {
       <h2 style={titles}>Link to Trail:</h2>
       <ul>
       <li>
-      <a className="btn btn-primary" href={"http://hikingadventures.me/trails/" + this.state.trailid}>{this.state.name}</a>
+      <a className="btn btn-primary" href={"http://hikingadventures.me/trails/" + this.state.trailid}>{this.state.name.substring(0, this.state.name.length - 6)}</a>
       </li>
       </ul>
       </CardBody>

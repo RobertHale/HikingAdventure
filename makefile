@@ -1,9 +1,60 @@
 .DEFAULT_GOAL := all
 
+.PHONY: backend
+
 FILES1 :=						\
     tests.py					\
     dbtests.py					\
     .travis.yml
+
+GithubID = RobertHale
+RepoName = HikingAdventure
+SHA      = ef1513bd686afdb55bcff8fef5d391219151f5aa
+
+githubid:
+	@echo "${GithubID}"
+
+reponame:
+	@echo "${RepoName}"
+
+sha:
+	@echo "${SHA}"
+
+# make github   - prints link to github repo
+github:
+	@echo "http://www.github.com/${GithubID}/${RepoName}"
+
+# make issues   - prints link to current phase's issues
+issues:
+	@echo "http://www.github.com/${GithubID}/${RepoName}/issues"
+
+# make stories  - prints link to current phase's stories
+stories:
+	@echo "https://www.github.com/${GithubID}/${RepoName}/projects/7"
+
+# make uml      - prints link to uml diagram
+uml:
+	@echo "http://www.github.com/${GithubID}/${RepoName}/blob/${SHA}/hikingdb.png"
+
+# make website  - prints link to a website
+website:
+	@echo "http://hikingadventures.me/"
+
+# make report   - prints link to technical report
+report:
+	@echo "http://${GithubID}.gitbooks.io/report/"
+
+# make apidoc   - prints link to api documentation
+apidoc:
+	@echo "http://${GithubID}.gitbooks.io/api/"
+
+# make self     - prints link to self critique
+self:
+	@echo "http://${GithubID}.gitbooks.io/report/self-critique.html"
+
+# make other    - prints link to other critique
+other:
+	@echo "http://${GithubID}.gitbooks.io/report/other-critique.html"
 
 tests: selenium mocha backend postman
 
@@ -31,18 +82,8 @@ backend:
 
 postman:
 	@echo "#################################\nPostman Tests:"
-
-issues:
-
-stories:
-
-github:
-
-website:
-
-report:
-
-apidoc:
+	@newman run HikingAdventure.postman_collection.json
+	@echo "#################################"
 
 all:
 
