@@ -10,9 +10,9 @@
 
 # Meet our members!
 * Robert Hale
-* David Castillo
+* David Castilla
 * Adolfo Lopez
-* Vamis Ponakala
+* Vamsi Ponakala
 * Victor Yang
 * Alex Dai
 
@@ -40,6 +40,10 @@
 * Verifies that our UI works properly under many situations
 
 *Let's give it a try*
+
++++
+
+![mochatestdata](./pitchimages/mocha1.png)
 
 ---
 
