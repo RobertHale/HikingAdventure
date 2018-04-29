@@ -1,11 +1,6 @@
 # Hiking Adventures
 *Presented to you by: SWEat Victory*
 
-+++
-
-# This is a slide below the title
-## Isn't this great!
-
 ---
 
 # Meet our members!
@@ -26,7 +21,10 @@
 * Tests the validity of our scraper against valid and invalid input
 * Tests the robustness of the database against various forms of access
 
-*Let's give it a try*
++++
+
+# Backend Tests
+![backendtestdata](./pitchimages/backend.PNG)
 
 ---
 
@@ -39,17 +37,26 @@
 * Verifies that frontend is working properly in production
 * Verifies that our UI works properly under many situations
 
-*Let's give it a try*
++++
+
+# Mocha Tests
+![mochatestdata](./pitchimages/mocha.PNG)
 
 +++
 
-![mochatestdata](./pitchimages/mocha1.png)
+# Selenium Tests
+![seleniumtestdata](./pitchimages/selenium.PNG)
 
 ---
 
 # Postman Testing:
 * Used to test functionality of API
 * Verifies that API handles both valid and invalid input properly
+
++++
+
+# Postman Tests
+![postmantestdata](./pitchimages/postman.PNG)
 
 ---
 
