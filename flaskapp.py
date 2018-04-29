@@ -28,6 +28,10 @@ manager.create_api(Resort, methods=['GET'], exclude_columns=['trails', 'photos']
 manager.create_api(Trail, methods=['GET'], exclude_columns=['resorts', 'photos'])
 manager.create_api(Photo, methods=['GET'], exclude_columns=['trails', 'resorts'])
 
+@app.route('/visualization')
+def vis():
+	return render_template('./index.html')
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):

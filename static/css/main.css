@@ -1,0 +1,46 @@
+body {
+    background-color: #473c8b;
+    stroke: darkgray;
+    fill: darkgray;
+}
+path {
+    stroke: steelblue;
+    stroke-width: 3px;
+}
+rect {
+    stroke-width: 2px;
+}
+#chart {
+    height: 360px;
+    position: relative;
+    width: 360px;
+}
+.legend {
+    font-size: 12px;
+}
+.x.axis text {
+    stroke: darkgray;
+}
+.x.axis line {
+    stroke: darkgray;
+}
+.x.axis .minor {
+    stroke-opacity: .5;
+    stroke: darkgray;
+}
+.x.axis path{
+    stroke: darkgray;
+}
+.y.axis line, .y.axis path {
+    fill: none;
+    stroke: darkgray;
+}
+.y.axis text {
+    stroke: darkgray;
+}
+.bar {
+    fill: #2e2e2e;
+}
+.bar:hover {
+    fill: brown;
+}
