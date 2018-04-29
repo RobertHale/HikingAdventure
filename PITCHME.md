@@ -61,18 +61,61 @@
 ---
 
 # A little self reflection:
-* What did we do well?
-* What did we learn?
-* What can we do better?
-* What puzzles us?
+
++++
+
+[//] # Victor
+# What did we do well?
+* Worked with customers to make sure website was appealing to them
+* Testing our code often
+
++++
+
+[//] # Vamis
+# What did we learn?
+* The importance of refactoring
+* The importance of proper communication between front and back end
+
++++
+
+[//] # Adolfo
+# What can we do better?
+* More thorough testing
+* Clean up the UI to make it more beautiful
+
++++
+
+[//] # Robert
+# What puzzles us?
+* Flask-restless
+* YouTube video loading
 
 ---
 
+[//] # Alex
 # Our thoughts as a customer:
-* What did they do well?
-* What did we learn from their website?
-* What can they do better?
-* What puzzles us about their website?
+
++++
+
+# What did they do well?
+* Beautiful Website with a very user friendly UI
+* Many media options for each modal
+
++++
+
+# What did we learn from their website?
+* The importance of UI in making a site inviting
+* How to better incorporate media into all modals
+
++++
+
+# What can they do better?
+* Better formatting of text
+
++++
+
+# What puzzles us about their website?
+* Filtering and their API
 
 ---
 
