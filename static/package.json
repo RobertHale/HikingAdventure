@@ -47,7 +47,7 @@
     "webpack-cli": "^2.0.9"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "react-highlight-words": "^0.11.0",
     "react-highlighter": "^0.4.2",
     "react-syntax-highlighter": "^7.0.2"
